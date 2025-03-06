@@ -3,3 +3,4 @@
 Display |  Name   | Github Profile | Portfolio 
 --------|:-------:|:--------------:|:---------:
 ![](https://via.placeholder.com/100.png?text=Photo) | Carlton | [Github](https://github.com/Carlton369) | [Portfolio](docs/team/johndoe.md)
+![](https://via.placeholder.com/100.png?text=Photo) | Ching Whee | [Github](https://github.com/ChingWhee) | [Portfolio](docs/team/johndoe.md)
