@@ -24,4 +24,5 @@ public class Ingredient {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
 }
