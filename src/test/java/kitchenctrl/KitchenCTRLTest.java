@@ -1,4 +1,4 @@
-package KitchenCTRL;
+package kitchenctrl;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
