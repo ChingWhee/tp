@@ -67,4 +67,3 @@ public abstract class Catalogue<T> {
         }
     }
 }
-
