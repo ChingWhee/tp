@@ -1,8 +1,8 @@
-package seedu.duke;
+package ui;
 
 import java.util.Scanner;
 
-public class Duke {
+public class KitchenCTRL {
     /**
      * Main entry-point for the java.duke.Duke application.
      */
