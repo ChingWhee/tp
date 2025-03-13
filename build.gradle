@@ -29,11 +29,11 @@ test {
 }
 
 application {
-    mainClass.set("ui.KitchenCTRL")
+    mainClass.set("KitchenCTRL")
 }
 
 shadowJar {
-    archiveBaseName.set("duke")
+    archiveBaseName.set("KitchenCTRL")
     archiveClassifier.set("")
 }
 
