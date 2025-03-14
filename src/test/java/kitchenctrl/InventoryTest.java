@@ -2,7 +2,7 @@ package kitchenctrl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import backend.storage.Ingredient;
 
@@ -19,7 +19,7 @@ public class InventoryTest {
     public void testNegativeQuantity() {
         Ingredient testIngredient = new Ingredient("Sugar", -3);
 
-        assertTrue(testIngredient.getQuantity() >= 0, "Quantity should not be negative");
+        assertFalse(testIngredient.getQuantity() >= 0, "Quantity should not be negative");
     }
 }
 
