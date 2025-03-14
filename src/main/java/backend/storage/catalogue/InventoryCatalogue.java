@@ -1,4 +1,4 @@
-package Catalogue;
+package backend.storage.catalogue;
 
 import backend.storage.Ingredient;
 
