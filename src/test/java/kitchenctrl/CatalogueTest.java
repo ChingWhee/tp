@@ -1,11 +1,12 @@
 package kitchenctrl;
 
-import backend.storage.catalogue.*;
+import backend.storage.catalogue.InventoryCatalogue;
+import backend.storage.catalogue.RecipeCatalogue;
+import backend.storage.catalogue.ShoppingCatalogue;
 import backend.storage.Ingredient;
 import backend.storage.Recipe;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
