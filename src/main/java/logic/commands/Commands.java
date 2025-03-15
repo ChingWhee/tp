@@ -46,7 +46,7 @@ public class Commands {
     * @paramin recipe
     * @paramout arraylist of missing ingredients and quantity
      */
-    public static ArrayList<Ingredient> getMissingIngredientsForRecipe(IngredientCatalogue inventory, Recipe targetRecipe) {
+    public static ArrayList<Ingredient> getMissingIngredients(IngredientCatalogue inventory, Recipe targetRecipe) {
         ArrayList<Ingredient> missingIngredients = new ArrayList<>();
         ArrayList<Ingredient> inventoryItems = inventory.getItems();
         ArrayList<Ingredient> targetRecipeIngredients = targetRecipe.getItems();
