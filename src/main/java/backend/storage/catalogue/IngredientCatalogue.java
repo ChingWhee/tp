@@ -13,9 +13,6 @@ import ui.inputparser.InputParser;
  * and search for items while handling similar and duplicate entries.
  */
 public class IngredientCatalogue extends Catalogue<Ingredient> {
-    private static final int FIRST_ITEM_INDEX = 0;
-    private static final int SINGLE_MATCH = 1;
-
     /**
      * Constructs an empty inventory catalogue.
      */
@@ -44,6 +41,20 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
     }
 
     /**
+     * Checks if an existing ingredient matches exactly with the new ingredient.
+     *
+     * @param existingIngredient The existing ingredient in the inventory.
+     * @param newIngredient The new ingredient being added.
+     * @return {@code true} if the names match exactly, {@code false} otherwise.
+     */
+    private boolean isExactMatchFound(Ingredient existingIngredient, Ingredient newIngredient) {
+        String existingIngredientName = existingIngredient.getIngredientName();
+        String newIngredientName = newIngredient.getIngredientName();
+
+        return existingIngredientName.equalsIgnoreCase(newIngredientName);
+    }
+
+    /**
      * Adds an ingredient to the inventory. If a similar ingredient exists,
      * prompts the user to either add as a new item or increase the quantity of an existing one.
      *
@@ -68,7 +79,7 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         }
 
         // Case 3: Multiple similar ingredients found, prompt user to choose an action
-        int choice = InputParser.getUserChoiceForAdd(similarIngredient, ingredient);
+        int choice = InputParser.getUserChoiceForAddIngredient(similarIngredient, ingredient);
 
         if (choice == 0) {
             // User chose to add the new ingredient as a separate entry
@@ -90,20 +101,6 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
     private void addIngredient(Ingredient ingredient) {
         items.add(ingredient);
         System.out.println(ingredient.getIngredientName() + " added to inventory.");
-    }
-    
-    /**
-     * Checks if an existing ingredient matches exactly with the new ingredient.
-     *
-     * @param existingIngredient The existing ingredient in the inventory.
-     * @param newIngredient The new ingredient being added.
-     * @return {@code true} if the names match exactly, {@code false} otherwise.
-     */
-    private boolean isExactMatchFound(Ingredient existingIngredient, Ingredient newIngredient) {
-        String existingIngredientName = existingIngredient.getIngredientName();
-        String newIngredientName = newIngredient.getIngredientName();
-
-        return existingIngredientName.equalsIgnoreCase(newIngredientName);
     }
 
     /**
@@ -141,11 +138,11 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         }
 
         // Case 3: Multiple similar ingredients found, prompt user to choose an action
-        int choice = InputParser.getUserChoiceForDelete(similarIngredient, ingredient);
+        int choice = InputParser.getUserChoiceForDeleteIngredient(similarIngredient, ingredient);
 
         if (choice > 0 && choice <= similarIngredient.size()) {
             // User selected an existing ingredient, decrease its quantity
-            increaseQuantity(similarIngredient.get(choice - 1), ingredient);
+            decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
         } else {
             // User provided an invalid input, cancel the operation
             System.out.println("Operation canceled.");

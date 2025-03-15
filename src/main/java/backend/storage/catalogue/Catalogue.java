@@ -10,6 +10,8 @@ import java.util.ArrayList;
  * @param <T> The type of item stored in the catalogue.
  */
 public abstract class Catalogue<T> {
+    protected static final int FIRST_ITEM_INDEX = 0;
+    protected static final int SINGLE_MATCH = 1;
     protected ArrayList<T> items;
 
     /**
