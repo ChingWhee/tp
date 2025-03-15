@@ -25,4 +25,21 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
+    public void addQuantity(int quantity) { this.quantity += quantity; }
+
+    public void subtractQuantity(int quantity) { this.quantity -= quantity; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ingredient other = (Ingredient) o;
+        return this.ingredientName.equals(other.ingredientName);
+    }
+
+    @Override
+    public String toString() {
+        return ingredientName + " (" + quantity + ")";
+    }
 }
