@@ -3,6 +3,8 @@ import model.Ingredient;
 import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
+import ui.inputparser.Parser;
+import ui.inputparser.Ui;
 
 import java.util.Scanner;
 
@@ -10,6 +12,7 @@ import java.util.Scanner;
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
     static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
+
     /**
      * Main entry-point for the java.duke.Duke application.
      */
@@ -40,8 +43,19 @@ public class KitchenCTRL {
         System.out.println(logo);
         System.out.println("Welcome to kitchenCTRL!");
 
+
+
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+        Command command;
+        do {
+            String userCommandText = Ui.getUserCommand();
+            command = new Parser().parseCommand(userCommandText);
+            CommandResult result = command.execute(ingredientCatalogue);
+            Ui.showResultToUser(result);
+
+        } while (true);
+
         // cwTest();
         // carltonTest();
     }
