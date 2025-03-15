@@ -1,6 +1,5 @@
 package kitchenctrl;
 
-import commands.AddIngredientCommand;
 import commands.ByeCommand;
 import commands.Command;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,11 @@ import ui.inputparser.Parser;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class ParserTest {
     private Parser parser;
