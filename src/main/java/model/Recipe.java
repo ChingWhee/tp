@@ -1,6 +1,6 @@
-package backend.storage;
+package model;
 
-import backend.storage.catalogue.Catalogue;
+import model.catalogue.Catalogue;
 public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
 
