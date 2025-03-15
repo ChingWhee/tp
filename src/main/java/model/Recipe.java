@@ -14,12 +14,12 @@ public class Recipe extends Catalogue<Ingredient> {
 
     @Override
     public void addItem(Ingredient ingredient) {
-
+        items.add(ingredient);
     }
 
     @Override
     public void deleteItem(Ingredient ingredient) {
-
+        items.remove(ingredient);
     }
 
     @Override

@@ -24,6 +24,11 @@ public class Ingredient {
     }
 
     @Override
+    public int hashCode() {
+        return ingredientName.toLowerCase().hashCode();
+    }
+
+    @Override
     public String toString() {
         return ingredientName + " (" + quantity + ")";
     }

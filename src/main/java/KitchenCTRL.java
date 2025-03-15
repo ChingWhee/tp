@@ -1,7 +1,10 @@
+import logic.commands.Commands;
 import model.Ingredient;
+import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -41,6 +44,7 @@ public class KitchenCTRL {
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
         // cwTest();
+        carltonTest();
     }
 
     public static void cwTest() {
@@ -56,5 +60,24 @@ public class KitchenCTRL {
         ingredientCatalogue.addItem(sugar);
         ingredientCatalogue.deleteItem(sugar2);
         ingredientCatalogue.displayItems();
+    }
+
+    public static void carltonTest() {
+        IngredientCatalogue inventory = new IngredientCatalogue();
+        inventory.addItem(new Ingredient("White sugar", 50));
+        inventory.addItem(new Ingredient("Egg", 3));
+
+
+        Recipe recipe = new Recipe();
+        recipe.addItem(new Ingredient("Egg", 3));
+        recipe.addItem(new Ingredient("Flour", 100));
+
+        recipe.addItem(new Ingredient("White sugar", 50));
+
+        System.out.println(recipe);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("PRINTING MISSING");
+        ArrayList<Ingredient> missing = Commands.getMissingIngredients(inventory,recipe);
+        System.out.println("missing" + missing);
     }
 }
