@@ -48,6 +48,8 @@ public class KitchenCTRL {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+        System.out.flush();
+
         Command command;
         boolean done = false;
         do {
