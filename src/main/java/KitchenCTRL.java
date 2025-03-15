@@ -1,8 +1,16 @@
+import logic.commands.Commands;
+import model.Ingredient;
+import model.Recipe;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.RecipeCatalogue;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 public class KitchenCTRL {
+    static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
+    static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
     /**
      * Main entry-point for the java.duke.Duke application.
      */
@@ -35,6 +43,41 @@ public class KitchenCTRL {
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+        // cwTest();
+        carltonTest();
+    }
 
+    public static void cwTest() {
+        Ingredient egg = new Ingredient("Egg", 2);
+        Ingredient whiteSugar = new Ingredient("White sugar", 2);
+        Ingredient brownSugar = new Ingredient("Brown sugar", 2);
+        Ingredient sugar = new Ingredient("Sugar", 2);
+        Ingredient sugar2 = new Ingredient("Sugar", 2);
+
+        ingredientCatalogue.addItem(egg);
+        ingredientCatalogue.addItem(whiteSugar);
+        ingredientCatalogue.addItem(brownSugar);
+        ingredientCatalogue.addItem(sugar);
+        ingredientCatalogue.deleteItem(sugar2);
+        ingredientCatalogue.displayItems();
+    }
+
+    public static void carltonTest() {
+        IngredientCatalogue inventory = new IngredientCatalogue();
+        inventory.addItem(new Ingredient("White sugar", 50));
+        inventory.addItem(new Ingredient("Egg", 3));
+
+
+        Recipe recipe = new Recipe();
+        recipe.addItem(new Ingredient("Egg", 3));
+        recipe.addItem(new Ingredient("Flour", 100));
+
+        recipe.addItem(new Ingredient("White sugar", 50));
+
+        System.out.println(recipe);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("PRINTING MISSING");
+        ArrayList<Ingredient> missing = Commands.getMissingIngredients(inventory,recipe);
+        System.out.println("missing" + missing);
     }
 }
