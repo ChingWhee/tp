@@ -18,8 +18,9 @@ public class Recipe extends Catalogue<Ingredient> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+
+        if (o == null || getClass() != o.getClass()) { return false; }
 
         Recipe other = (Recipe) o;
         return this.recipeName.equals(other.recipeName);
