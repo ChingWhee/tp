@@ -1,6 +1,12 @@
+import backend.storage.Ingredient;
+import backend.storage.catalogue.IngredientCatalogue;
+import backend.storage.catalogue.RecipeCatalogue;
+
 import java.util.Scanner;
 
 public class KitchenCTRL {
+    static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
+    static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
     /**
      * Main entry-point for the java.duke.Duke application.
      */
@@ -30,7 +36,21 @@ public class KitchenCTRL {
         System.out.println("Welcome to kitchenCTRL!");
         System.out.println(logo);
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
+        cwTest();
+    }
+
+    public static void cwTest() {
+        Ingredient egg = new Ingredient("Egg", 2);
+        Ingredient whiteSugar = new Ingredient("White sugar", 2);
+        Ingredient brownSugar = new Ingredient("Brown sugar", 2);
+        Ingredient sugar = new Ingredient("Sugar", 2);
+        Ingredient sugar2 = new Ingredient("Sugar", 2);
+
+        ingredientCatalogue.addItem(egg);
+        ingredientCatalogue.addItem(whiteSugar);
+        ingredientCatalogue.addItem(brownSugar);
+        ingredientCatalogue.addItem(sugar);
+        ingredientCatalogue.deleteItem(sugar2);
+        ingredientCatalogue.displayItems();
     }
 }

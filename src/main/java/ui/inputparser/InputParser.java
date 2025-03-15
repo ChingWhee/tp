@@ -10,14 +10,9 @@ import java.util.Scanner;
  * Handles user input parsing for selecting items when adding or deleting ingredients in the inventory.
  */
 public class InputParser {
-    static Scanner scanner;
+    static Scanner scanner = new Scanner(System.in);;
 
-    /**
-     * Constructs an InputParser instance with a scanner for user input.
-     */
-    InputParser() {
-        scanner = new Scanner(System.in);
-    }
+    InputParser() {}
 
     /**
      * Asks the user what to do when adding an ingredient that has similar items in the inventory.
