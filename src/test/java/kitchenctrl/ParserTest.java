@@ -36,7 +36,7 @@ class ParserTest {
             parser.parseCommand("addingredient sugar -5"); // Should trigger assertion
         });
 
-        assertTrue(thrown.getMessage().contains("Ingredient quantity must be greater than zero")); // Expect assertion message
+        assertTrue(thrown.getMessage().contains("Ingredient quantity must be greater than zero"));
     }
 
 
