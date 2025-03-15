@@ -8,10 +8,13 @@ import model.catalogue.IngredientCatalogue;
 public abstract class Command {
     public Command(String args) {}
     public Command() {}
+
+    public CommandResult execute() // Ensure this method exists
+    {
+        return null;
+    }
+
     public CommandResult execute(IngredientCatalogue inventory) {
         throw new UnsupportedOperationException("override me");
     };
-
-
-
 }
