@@ -1,4 +1,6 @@
+
 import java.util.Scanner;
+
 
 public class KitchenCTRL {
     /**
@@ -27,10 +29,12 @@ public class KitchenCTRL {
                      \\|                    `-._.-'   | | | | | |   ( (-(-(-( )
                                                      `-' `-' `-'    `-`-`-`-'
                 """;
-        System.out.println("Welcome to kitchenCTRL!");
+
         System.out.println(logo);
+        System.out.println("Welcome to kitchenCTRL!");
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+
     }
 }

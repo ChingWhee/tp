@@ -5,6 +5,8 @@ public class Recipe extends Catalogue<Ingredient> {
     public Recipe() {
         super();
     }
+
+
 }
 
 
