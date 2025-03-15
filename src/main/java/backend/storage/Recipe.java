@@ -8,19 +8,29 @@ public class Recipe extends Catalogue<Ingredient> {
         super();
     }
 
-    public String getRecipeName() { return recipeName; }
+    public String getRecipeName() {
+        return recipeName;
+    }
 
     @Override
-    public void addItem(Ingredient ingredient) {}
+    public void addItem(Ingredient ingredient) {
+
+    }
 
     @Override
-    public void deleteItem(Ingredient ingredient) {}
+    public void deleteItem(Ingredient ingredient) {
+
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true; }
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) { return false; }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Recipe other = (Recipe) o;
         return this.recipeName.equals(other.recipeName);

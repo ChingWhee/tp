@@ -11,9 +11,13 @@ public class Ingredient {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) { return true; }
+        if (this == obj) {
+            return true;
+        }
 
-        if (obj == null || getClass() != obj.getClass()) { return false; }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
         Ingredient that = (Ingredient) obj;
         return ingredientName.equalsIgnoreCase(that.ingredientName); // Case-insensitive comparison
@@ -40,7 +44,11 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
-    public void addQuantity(int quantity) { this.quantity += quantity; }
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
 
-    public void subtractQuantity(int quantity) { this.quantity -= quantity; }
+    public void subtractQuantity(int quantity) {
+        this.quantity -= quantity;
+    }
 }
