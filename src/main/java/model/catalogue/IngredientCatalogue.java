@@ -17,7 +17,7 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * Constructs an empty inventory catalogue.
      */
     public IngredientCatalogue() {
-        super();
+        super("Ingredient_Catalogue");
     }
 
     /**

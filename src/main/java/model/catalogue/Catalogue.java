@@ -13,12 +13,14 @@ public abstract class Catalogue<T> {
     protected static final int FIRST_ITEM_INDEX = 0;
     protected static final int SINGLE_MATCH = 1;
     protected ArrayList<T> items;
+    protected CatalogueContentManager contentManager;
 
     /**
      * Constructs an empty catalogue.
      */
-    public Catalogue() {
+    public Catalogue(String catalogueName) {
         this.items = new ArrayList<>();
+        this.contentManager = new CatalogueContentManager(catalogueName);
     }
 
     /**

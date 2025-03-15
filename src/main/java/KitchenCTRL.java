@@ -4,15 +4,15 @@ import model.catalogue.RecipeCatalogue;
 
 import java.util.Scanner;
 
-
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
     static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
+
     /**
      * Main entry-point for the java.duke.Duke application.
      */
     public static void main(String[] args) {
-        String logo = """
+        final String LOGO = """
                    .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
                   <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
                    )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
@@ -35,12 +35,12 @@ public class KitchenCTRL {
                                                      `-' `-' `-'    `-`-`-`-'
                 """;
 
-        System.out.println(logo);
-        System.out.println("Welcome to kitchenCTRL!");
+        System.out.println(LOGO);
+        System.out.println("Welcome to KitchenCTRL!");
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
-        // cwTest();
+        cwTest();
     }
 
     public static void cwTest() {

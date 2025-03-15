@@ -5,7 +5,7 @@ public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
 
     public Recipe() {
-        super();
+        super("Recipe");
     }
 
     public String getRecipeName() {
