@@ -44,7 +44,7 @@ public class KitchenCTRL {
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
         // cwTest();
-        // carltonTest();
+        carltonTest();
     }
 
     public static void cwTest() {
@@ -66,18 +66,18 @@ public class KitchenCTRL {
         IngredientCatalogue inventory = new IngredientCatalogue();
         inventory.addItem(new Ingredient("White sugar", 50));
         inventory.addItem(new Ingredient("Egg", 3));
-
+        inventory.addItem(new Ingredient("Flour", 50));
 
         Recipe recipe = new Recipe();
-        recipe.addItem(new Ingredient("Egg", 3));
-        recipe.addItem(new Ingredient("Flour", 100));
+        recipe.addItem(new Ingredient("White sugar", 20));
+        recipe.addItem(new Ingredient("Egg", 1));
+        recipe.addItem(new Ingredient("Flour", 10));
 
-        recipe.addItem(new Ingredient("White sugar", 50));
 
         System.out.println(recipe);
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("PRINTING MISSING");
-        ArrayList<Ingredient> missing = Commands.getMissingIngredients(inventory,recipe);
-        System.out.println("missing" + missing);
+        Commands.cookRecipe(inventory, recipe);
+        inventory.displayItems();
     }
 }
