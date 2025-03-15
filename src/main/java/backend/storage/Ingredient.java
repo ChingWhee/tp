@@ -11,8 +11,8 @@ public class Ingredient {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) { return true; }
+        if (obj == null || getClass() != obj.getClass()) { return false; }
         Ingredient that = (Ingredient) obj;
         return ingredientName.equalsIgnoreCase(that.ingredientName); // Case-insensitive comparison
     }
