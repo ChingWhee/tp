@@ -44,7 +44,7 @@ public class KitchenCTRL {
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
         // cwTest();
-        carltonTest();
+        // carltonTest();
     }
 
     public static void cwTest() {
