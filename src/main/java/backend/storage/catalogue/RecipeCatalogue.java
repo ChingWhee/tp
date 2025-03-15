@@ -1,6 +1,5 @@
 package backend.storage.catalogue;
 
-import backend.storage.Ingredient;
 import backend.storage.Recipe;
 import ui.inputparser.InputParser;
 

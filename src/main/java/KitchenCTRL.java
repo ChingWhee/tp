@@ -3,9 +3,6 @@ import backend.storage.catalogue.IngredientCatalogue;
 import backend.storage.catalogue.RecipeCatalogue;
 
 
-import java.util.Scanner;
-
-
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
     static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
