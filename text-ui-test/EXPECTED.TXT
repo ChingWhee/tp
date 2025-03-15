@@ -1,4 +1,3 @@
-Welcome to kitchenCTRL!
    .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
   <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
    )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
@@ -20,4 +19,5 @@ Welcome to kitchenCTRL!
      \|                    `-._.-'   | | | | | |   ( (-(-(-( )
                                      `-' `-' `-'    `-`-`-`-'
 
+Welcome to kitchenCTRL!
 Hello James Gosling
