@@ -4,7 +4,6 @@ import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -44,7 +43,7 @@ public class KitchenCTRL {
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
         // cwTest();
-        carltonTest();
+        // carltonTest();
     }
 
     public static void cwTest() {
