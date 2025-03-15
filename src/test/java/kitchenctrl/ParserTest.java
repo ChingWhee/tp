@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ui.inputparser.Parser;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,20 +31,14 @@ class ParserTest {
 
     @Test
     void testParseCommand_addIngredientInvalidQuantity() {
-        // Capture system output
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+        // Expect an AssertionError when the quantity is invalid (negative or zero)
+        AssertionError thrown = assertThrows(AssertionError.class, () -> {
+            parser.parseCommand("addingredient sugar -5"); // Should trigger assertion
+        });
 
-        // Execute command that should print an error
-        parser.parseCommand("addingredient sugar five");
-
-        // Restore System.out
-        System.setOut(System.out);
-
-        // Convert output stream to string and verify it contains expected error message
-        String output = outputStream.toString().trim();
-        assertTrue(output.contains("Quantity must be a valid integer!")); // Expect printed output
+        assertTrue(thrown.getMessage().contains("Ingredient quantity must be greater than zero")); // Expect assertion message
     }
+
 
     @Test
     void testParseCommand_bye() {
