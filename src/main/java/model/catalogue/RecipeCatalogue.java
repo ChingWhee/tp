@@ -1,6 +1,6 @@
-package backend.storage.catalogue;
+package model.catalogue;
 
-import backend.storage.Recipe;
+import model.Recipe;
 import ui.inputparser.InputParser;
 
 import java.util.ArrayList;

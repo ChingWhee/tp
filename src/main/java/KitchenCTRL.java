@@ -1,6 +1,6 @@
-import backend.storage.Ingredient;
-import backend.storage.catalogue.IngredientCatalogue;
-import backend.storage.catalogue.RecipeCatalogue;
+import model.Ingredient;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.RecipeCatalogue;
 
 import java.util.Scanner;
 

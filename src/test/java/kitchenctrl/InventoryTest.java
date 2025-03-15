@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import backend.storage.Ingredient;
+import model.Ingredient;
 
 public class InventoryTest {
     @Test

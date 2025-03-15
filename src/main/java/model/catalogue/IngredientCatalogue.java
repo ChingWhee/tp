@@ -1,6 +1,6 @@
-package backend.storage.catalogue;
+package model.catalogue;
 
-import backend.storage.Ingredient;
+import model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;

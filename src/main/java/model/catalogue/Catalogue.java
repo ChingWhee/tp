@@ -1,4 +1,4 @@
-package backend.storage.catalogue;
+package model.catalogue;
 
 import java.util.ArrayList;
 

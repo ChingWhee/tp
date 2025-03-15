@@ -1,7 +1,7 @@
 package ui.inputparser;
 
-import backend.storage.Ingredient;
-import backend.storage.Recipe;
+import model.Ingredient;
+import model.Recipe;
 
 import java.util.ArrayList;
 import java.util.Scanner;

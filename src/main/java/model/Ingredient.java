@@ -1,4 +1,4 @@
-package backend.storage;
+package model;
 
 public class Ingredient {
     private String ingredientName;

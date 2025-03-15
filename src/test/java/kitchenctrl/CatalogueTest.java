@@ -1,9 +1,9 @@
 package kitchenctrl;
 
-import backend.storage.catalogue.IngredientCatalogue;
-import backend.storage.catalogue.RecipeCatalogue;
-import backend.storage.Ingredient;
-import backend.storage.Recipe;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.RecipeCatalogue;
+import model.Ingredient;
+import model.Recipe;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
