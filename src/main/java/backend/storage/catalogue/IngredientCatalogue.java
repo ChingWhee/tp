@@ -110,7 +110,15 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param newIngredient The new ingredient being added, increasing to the quantity.
      */
     private void increaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
+        int initialQuantity = existingIngredient.getQuantity();
+        int increaseQuantity = newIngredient.getQuantity();
+
         existingIngredient.addQuantity(newIngredient.getQuantity());
+
+        System.out.println(existingIngredient.getIngredientName() + ": " +
+                "Initial quantity = " + initialQuantity + ", " +
+                "Added = " + increaseQuantity + ", " +
+                "Total = " + existingIngredient.getQuantity());
     }
 
     /**
@@ -167,6 +175,18 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param newIngredient The ingredient being removed or decreased in quantity.
      */
     public void decreaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
+        int initialQuantity = existingIngredient.getQuantity();
+        int decreaseQuantity = newIngredient.getQuantity();
+
         existingIngredient.subtractQuantity(newIngredient.getQuantity());
+
+        System.out.println(existingIngredient.getIngredientName() + ": " +
+                "Initial quantity = " + initialQuantity + ", " +
+                "Subtracted = " + decreaseQuantity + ", " +
+                "Remaining = " + existingIngredient.getQuantity());
+
+        if (existingIngredient.getQuantity() <= 0) {
+            removeIngredient(existingIngredient);
+        }
     }
 }
