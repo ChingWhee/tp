@@ -14,8 +14,8 @@ public class AddIngredientCommand extends Command {
 
     @Override
     public CommandResult execute(IngredientCatalogue inventory) {
-        Ingredient ToAdd = new Ingredient(name, quantity);
-        inventory.addItem(ToAdd);
+        Ingredient toAdd = new Ingredient(name, quantity);
+        inventory.addItem(toAdd);
         return new CommandResult("Ingredient added");
     }
 }

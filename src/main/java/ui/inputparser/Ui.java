@@ -14,6 +14,10 @@ public class Ui {
      */
     public static String getUserCommand() {
         System.out.print("Enter command: ");
+        if (!scanner.hasNextLine()) { // Prevents NoSuchElementException
+            System.out.println("No input detected. Exiting...");
+            return "";  // Return empty string instead of blocking
+        }
         return scanner.nextLine().trim();
     }
 
