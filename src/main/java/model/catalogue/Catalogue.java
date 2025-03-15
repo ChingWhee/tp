@@ -13,6 +13,7 @@ public abstract class Catalogue<T> {
     protected static final int FIRST_ITEM_INDEX = 0;
     protected static final int SINGLE_MATCH = 1;
     protected ArrayList<T> items;
+    protected String catalogueName;
     protected CatalogueContentManager contentManager;
 
     /**
@@ -20,6 +21,7 @@ public abstract class Catalogue<T> {
      */
     public Catalogue(String catalogueName) {
         this.items = new ArrayList<>();
+        this.catalogueName = catalogueName;
         this.contentManager = new CatalogueContentManager(catalogueName);
     }
 
@@ -72,5 +74,21 @@ public abstract class Catalogue<T> {
         for (int i = 0; i < items.size(); i++) {
             System.out.println((i + 1) + ". " + items.get(i));
         }
+    }
+
+    /**
+     * Retrieves all items in the catalogue as a formatted string.
+     *
+     * @return A string representation of all items in the catalogue.
+     */
+    public String getCatalogueContent() {
+        if (items.isEmpty()) {
+            return "No items found.";
+        }
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            content.append(items.get(i).toString()).append("\n");
+        }
+        return content.toString();
     }
 }
