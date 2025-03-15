@@ -8,6 +8,8 @@ public class Recipe extends Catalogue<Ingredient> {
         super();
     }
 
+    public String getRecipeName() { return recipeName; }
+
     @Override
     public void addItem(Ingredient ingredient) {}
 
