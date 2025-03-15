@@ -2,6 +2,8 @@ import backend.storage.Ingredient;
 import backend.storage.catalogue.IngredientCatalogue;
 import backend.storage.catalogue.RecipeCatalogue;
 
+import java.util.Scanner;
+
 
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
@@ -36,7 +38,9 @@ public class KitchenCTRL {
         System.out.println(logo);
         System.out.println("Welcome to kitchenCTRL!");
 
-        cwTest();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Hello " + in.nextLine());
+        // cwTest();
     }
 
     public static void cwTest() {
