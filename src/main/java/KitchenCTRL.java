@@ -2,7 +2,9 @@ import backend.storage.Ingredient;
 import backend.storage.catalogue.IngredientCatalogue;
 import backend.storage.catalogue.RecipeCatalogue;
 
+
 import java.util.Scanner;
+
 
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
@@ -33,8 +35,9 @@ public class KitchenCTRL {
                      \\|                    `-._.-'   | | | | | |   ( (-(-(-( )
                                                      `-' `-' `-'    `-`-`-`-'
                 """;
-        System.out.println("Welcome to kitchenCTRL!");
+
         System.out.println(logo);
+        System.out.println("Welcome to kitchenCTRL!");
 
         cwTest();
     }
