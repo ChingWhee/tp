@@ -4,6 +4,9 @@ import model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import ui.inputparser.InputParser;
@@ -16,8 +19,31 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
     /**
      * Constructs an empty inventory catalogue.
      */
+
     public IngredientCatalogue() {
-        super();
+        super("Ingredient_Catalogue");
+        List<String> rawContent = contentManager.loadRawCatalogueContent();
+        loadCatalogue(rawContent);
+    }
+
+    private void loadCatalogue(List<String> lines) {
+        if (lines.isEmpty()) {
+            return;
+        }
+
+        for (String line : lines) {
+            String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
+            if (parts.length == 2) {
+                try {
+                    String itemName = parts[0].trim();
+                    int quantity = Integer.parseInt(parts[1].trim());
+                    Ingredient i = new Ingredient(itemName, quantity);
+                    addItem(i);
+                } catch (NumberFormatException e) {
+                    System.err.println("Skipping invalid entry: " + line);
+                }
+            }
+        }
     }
 
     /**
@@ -100,6 +126,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      */
     private void addIngredient(Ingredient ingredient) {
         items.add(ingredient);
+
+        contentManager.saveCatalogue(getCatalogueContent());
+
         System.out.println(ingredient.getIngredientName() + " added to inventory.");
     }
 
@@ -114,6 +143,8 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         int increaseQuantity = newIngredient.getQuantity();
 
         existingIngredient.addQuantity(newIngredient.getQuantity());
+
+        contentManager.saveCatalogue(getCatalogueContent());
 
         System.out.println(existingIngredient.getIngredientName() + ": " +
                 "Initial quantity = " + initialQuantity + ", " +
@@ -164,6 +195,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      */
     private void removeIngredient(Ingredient ingredient) {
         items.remove(ingredient);
+
+        contentManager.saveCatalogue(getCatalogueContent());
+
         System.out.println(ingredient.getIngredientName() + " removed from inventory.");
     }
 
@@ -188,5 +222,7 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         if (existingIngredient.getQuantity() <= 0) {
             removeIngredient(existingIngredient);
         }
+
+        contentManager.saveCatalogue(getCatalogueContent());
     }
 }

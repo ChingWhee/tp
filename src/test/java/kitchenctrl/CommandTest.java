@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 
 public class CommandTest {
@@ -30,7 +29,7 @@ public class CommandTest {
         ArrayList<Ingredient> missingIngredients = Commands.getMissingIngredients(testInventory, targetRecipe);
         ArrayList<Ingredient> expectedMissing = new ArrayList<>();
         expectedMissing.add(new Ingredient("Milk", 50));
-        assertNotSame(missingIngredients, expectedMissing);
+        assertEquals(missingIngredients, expectedMissing);
     }
 
     @Test
@@ -67,4 +66,34 @@ public class CommandTest {
         assertEquals(missingIngredients, expectedMissing, "Should return True as 300 Milk is missing");
     }
 
+    public boolean areIngredientsEqual(Ingredient ingredient1, Ingredient ingredient2) {
+        return ingredient1.getIngredientName().equals(ingredient2.getIngredientName()) &&
+                ingredient1.getQuantity() == ingredient2.getQuantity();
+    }
+
+    @Test
+    public void cookRecipeTest(){
+        IngredientCatalogue testInventory = new IngredientCatalogue();
+        Commands.addIngredient( testInventory, "Milk", 300);
+        Commands.addIngredient( testInventory, "Flour", 1000);
+        Commands.addIngredient( testInventory, "Eggs", 5);
+
+        Recipe recipe = new Recipe();
+        recipe.addItem(new Ingredient("Milk", 200));
+        recipe.addItem(new Ingredient("Flour", 300));
+        recipe.addItem(new Ingredient("Eggs", 2));
+
+        Commands.cookRecipe(testInventory, recipe);
+
+        IngredientCatalogue expectedInventoryAfterCook = new IngredientCatalogue();
+        expectedInventoryAfterCook.addItem(new Ingredient("Milk", 100));
+        expectedInventoryAfterCook.addItem(new Ingredient("Flour", 700));
+        expectedInventoryAfterCook.addItem(new Ingredient("Eggs", 3));
+
+        for (int i = 0; i < expectedInventoryAfterCook.getItems().size(); i++) {
+            Ingredient expected = expectedInventoryAfterCook.getItems().get(i);
+            Ingredient actual = testInventory.getItems().get(i);
+            assertTrue(areIngredientsEqual(expected, actual), "should be equal in name and quantity");
+        }
+    }
 }
