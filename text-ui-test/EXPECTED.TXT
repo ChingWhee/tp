@@ -20,4 +20,8 @@
                                      `-' `-' `-'    `-`-`-`-'
 
 Welcome to kitchenCTRL!
-Hello James Gosling
+James Gosling
+Enter command:
+s added to inventory.
+Ingredient added
+Enter command:

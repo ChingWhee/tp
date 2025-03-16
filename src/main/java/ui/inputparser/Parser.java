@@ -1,6 +1,7 @@
 package ui.inputparser;
 
 import commands.AddIngredientCommand;
+import commands.ByeCommand;
 import commands.Command;
 
 public class Parser {
@@ -11,10 +12,12 @@ public class Parser {
         String args = (commands.length > 1) ? commands[1] : "";
 
         switch (command) {
-            case "addingredient":
-                return prepareAddIngredient(args);
-            default:
-                throw new IllegalArgumentException("Unknown command: " + command);
+        case "addingredient":
+            return prepareAddIngredient(args);
+        case "bye":
+            return new ByeCommand();
+        default:
+            throw new IllegalArgumentException("Unknown command: " + command);
 
         }
     }
