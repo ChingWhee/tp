@@ -65,4 +65,21 @@ public class Commands {
         }
         return missingIngredients;
     }
+
+    public static void cookRecipe(IngredientCatalogue inventory, Recipe recipeToCook) {
+        ArrayList<Ingredient> missingIngredients = getMissingIngredients(inventory, recipeToCook);
+        if (!missingIngredients.isEmpty()) {
+            return;
+        }
+
+        ArrayList<Ingredient> inventoryItems = inventory.getItems();
+        ArrayList<Ingredient> ingredientsToCook = recipeToCook.getItems();
+
+        for (Ingredient requiredIngredient : ingredientsToCook) {
+            int index = inventoryItems.indexOf(requiredIngredient);
+            Ingredient ingredientInInventory = inventoryItems.get(index);
+            ingredientInInventory.subtractQuantity(requiredIngredient.getQuantity());
+        }
+
+    }
 }
