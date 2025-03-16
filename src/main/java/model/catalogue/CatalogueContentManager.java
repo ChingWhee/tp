@@ -50,7 +50,7 @@ public class CatalogueContentManager {
             checkFileExistence();
 
             // Write content to file
-            Files.writeString(filePath, content + "\n", StandardOpenOption.WRITE);
+            Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
             System.out.println("Data written to file.");
         } catch (Exception e) {
             System.err.println("Error handling file: " + e.getMessage());
