@@ -35,9 +35,11 @@ public class CatalogueContentManager {
             }
 
             if (lines == null || lines.isEmpty()) {
-                throw new Exception("No ingredients found");
+                System.out.println("No ingredients found.");
+                return;
             }
 
+            assert lines != null;
             for (String line : lines) {
                 String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
                 if (parts.length == 2) {

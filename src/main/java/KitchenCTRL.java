@@ -1,16 +1,9 @@
 import logic.commands.Commands;
 
-import commands.ByeCommand;
-import commands.Command;
-import commands.CommandResult;
-
 import model.Ingredient;
 import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
-
-import ui.inputparser.Parser;
-import ui.inputparser.Ui;
 
 import java.util.Scanner;
 
@@ -55,22 +48,22 @@ public class KitchenCTRL {
 
         ingredientCatalogue.loadCatalogue();
 
-        Command command;
-        boolean done = false;
-        do {
-            String userCommandText = Ui.getUserCommand();
-            command = new Parser().parseCommand(userCommandText);
-            if (command instanceof ByeCommand) {
-                CommandResult result = command.execute();
-                done = true;
-            } else {
-                CommandResult result = command.execute(ingredientCatalogue);
-                Ui.showResultToUser(result);
-            }
-        } while (!done);
+        // Command command;
+        // boolean done = false;
+        // do {
+        //     String userCommandText = Ui.getUserCommand();
+        //     command = new Parser().parseCommand(userCommandText);
+        //     if (command instanceof ByeCommand) {
+        //         CommandResult result = command.execute();
+        //         done = true;
+        //     } else {
+        //         CommandResult result = command.execute(ingredientCatalogue);
+        //         Ui.showResultToUser(result);
+        //     }
+        // } while (!done);
 
         cwTest();
-        carltonTest();
+        // carltonTest();
     }
 
     public static void cwTest() {

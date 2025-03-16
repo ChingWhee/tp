@@ -16,4 +16,6 @@ java -jar %jarloc% < ..\..\text-ui-test\input.txt > ..\..\text-ui-test\ACTUAL.TX
 
 cd ..\..\text-ui-test
 
+rmdir /s /q "..\data"
+
 FC ACTUAL.TXT EXPECTED.TXT >NUL && ECHO Test passed! || Echo Test failed!
