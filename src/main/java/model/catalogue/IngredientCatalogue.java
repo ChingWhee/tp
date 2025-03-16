@@ -4,7 +4,9 @@ import model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import ui.inputparser.InputParser;
@@ -21,11 +23,25 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
     public IngredientCatalogue() {
         super("Ingredient_Catalogue");
         List<String> rawContent = contentManager.loadRawCatalogueContent();
-        if (rawContent.isEmpty()) {
+        loadCatalogue(rawContent);
+    }
+
+    private void loadCatalogue(List<String> lines) {
+        if (lines.isEmpty()) {
             return;
-        } else {
-            for (String line : rawContent) {
-                System.out.println(line);
+        }
+
+        for (String line : lines) {
+            String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
+            if (parts.length == 2) {
+                try {
+                    String itemName = parts[0].trim();
+                    int quantity = Integer.parseInt(parts[1].trim());
+                    Ingredient i = new Ingredient(itemName, quantity);
+                    addItem(i);
+                } catch (NumberFormatException e) {
+                    System.err.println("Skipping invalid entry: " + line);
+                }
             }
         }
     }

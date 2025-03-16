@@ -28,13 +28,6 @@ public class CatalogueContentManager {
 
             if (Files.exists(filePath)) {
                 List<String> lines = Files.readAllLines(filePath);
-//                for (String line : lines) {
-//                    String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
-//                    if (parts.length == 2) {
-//                        String itemName = parts[0].trim();
-//                        int quantity = Integer.parseInt(parts[1].trim());
-//                    }
-//                }
                 System.out.println("Catalogue loaded from file.");
                 return lines;
             }
