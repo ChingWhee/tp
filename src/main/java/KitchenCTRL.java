@@ -1,9 +1,13 @@
-import commands.ByeCommand;
+import logic.commands.Commands;
+
 import commands.Command;
 import commands.CommandResult;
+
 import model.Ingredient;
+import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
+
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
 
@@ -65,6 +69,7 @@ public class KitchenCTRL {
         } while (!done);
 
         // cwTest();
+        // carltonTest();
     }
 
     public static void cwTest() {
@@ -80,5 +85,24 @@ public class KitchenCTRL {
         ingredientCatalogue.addItem(sugar);
         ingredientCatalogue.deleteItem(sugar2);
         ingredientCatalogue.displayItems();
+    }
+
+    public static void carltonTest() {
+        IngredientCatalogue inventory = new IngredientCatalogue();
+        inventory.addItem(new Ingredient("White sugar", 50));
+        inventory.addItem(new Ingredient("Egg", 3));
+        inventory.addItem(new Ingredient("Flour", 50));
+
+        Recipe recipe = new Recipe();
+        recipe.addItem(new Ingredient("White sugar", 20));
+        recipe.addItem(new Ingredient("Egg", 1));
+        recipe.addItem(new Ingredient("Flour", 10));
+
+
+        System.out.println(recipe);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("PRINTING MISSING");
+        Commands.cookRecipe(inventory, recipe);
+        inventory.displayItems();
     }
 }
