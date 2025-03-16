@@ -11,7 +11,9 @@ import java.util.List;
 import model.Ingredient;
 
 public class CatalogueContentManager {
+    @SuppressWarnings("checkstyle:MemberName")
     final String DIRECTORY_NAME = "data";
+    @SuppressWarnings("checkstyle:MemberName")
     final Path BASE_PATH = Paths.get(DIRECTORY_NAME);
 
     String fileName;
@@ -22,20 +24,38 @@ public class CatalogueContentManager {
         filePath = BASE_PATH.resolve(fileName);
     }
 
-    public List<String> loadRawCatalogueContent() {
+    public void loadCatalogue(IngredientCatalogue catalogue) {
         try {
             checkDirectoryExistence();
 
+            List<String> lines = null;
             if (Files.exists(filePath)) {
-                List<String> lines = Files.readAllLines(filePath);
+                lines = Files.readAllLines(filePath);
                 System.out.println("Catalogue loaded from file.");
-                return lines;
+            }
+
+            if (lines == null || lines.isEmpty()) {
+                throw new Exception("No ingredients found");
+            }
+
+            for (String line : lines) {
+                String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
+                if (parts.length == 2) {
+                    try {
+                        String itemName = parts[0].trim();
+                        int quantity = Integer.parseInt(parts[1].trim());
+                        Ingredient i = new Ingredient(itemName, quantity);
+                        catalogue.addItem(i);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Skipping invalid entry: " + line);
+                    }
+                }
             }
         } catch (Exception e) {
-            System.err.println("Error loading file: " + e.getMessage());
+            System.err.println("Error loading file. Msg: " + e.getMessage());
         }
-        return null;
     }
+
 
     public void saveCatalogue(String content) {
         try {
@@ -46,7 +66,7 @@ public class CatalogueContentManager {
             Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
             System.out.println("Data written to file.");
         } catch (Exception e) {
-            System.err.println("Error handling file: " + e.getMessage());
+            System.err.println("Error writing file. Msg: " + e.getMessage());
         }
     }
 

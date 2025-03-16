@@ -48,12 +48,12 @@ public class KitchenCTRL {
         System.out.println(LOGO);
         System.out.println("Welcome to KitchenCTRL!");
 
-
-
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
 
         System.out.flush();
+
+        ingredientCatalogue.loadCatalogue();
 
         Command command;
         boolean done = false;
@@ -70,7 +70,7 @@ public class KitchenCTRL {
         } while (!done);
 
         cwTest();
-        // carltonTest();
+        carltonTest();
     }
 
     public static void cwTest() {
