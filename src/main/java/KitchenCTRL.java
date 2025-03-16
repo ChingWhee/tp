@@ -1,5 +1,6 @@
 import logic.commands.Commands;
 
+import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
 
@@ -13,7 +14,6 @@ import ui.inputparser.Ui;
 
 import java.util.Scanner;
 
-
 public class KitchenCTRL {
     static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
     static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
@@ -22,7 +22,7 @@ public class KitchenCTRL {
      * Main entry-point for the java.duke.Duke application.
      */
     public static void main(String[] args) {
-        String logo = """
+        final String LOGO = """
                    .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
                   <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
                    )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
@@ -45,13 +45,14 @@ public class KitchenCTRL {
                                                      `-' `-' `-'    `-`-`-`-'
                 """;
 
-        System.out.println(logo);
-        System.out.println("Welcome to kitchenCTRL!");
+        System.out.println(LOGO);
+        System.out.println("Welcome to KitchenCTRL!");
 
 
 
         Scanner in = new Scanner(System.in);
         System.out.println("Hello " + in.nextLine());
+
         System.out.flush();
 
         Command command;
@@ -68,7 +69,7 @@ public class KitchenCTRL {
             }
         } while (!done);
 
-        // cwTest();
+        cwTest();
         // carltonTest();
     }
 

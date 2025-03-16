@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class RecipeCatalogue extends Catalogue<Recipe> {
     public RecipeCatalogue() {
-        super();
+        super("Recipe_Catalogue");
     }
 
     public ArrayList<Recipe> searchSimilarRecipe(Recipe recipe) {
