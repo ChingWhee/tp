@@ -14,8 +14,7 @@ public abstract class Command {
 
     }
 
-    public CommandResult execute() // Ensure this method exists
-    {
+    public CommandResult execute() { // Ensure this method exists
         return null;
     }
 
