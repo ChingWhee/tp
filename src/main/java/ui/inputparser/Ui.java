@@ -8,7 +8,7 @@ public class Ui {
     private static final Scanner scanner = new Scanner(System.in);
 
     public void showWelcomeMessage() {
-        final String LOGO = """
+        final String logo = """
                    .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
                   <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
                    )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
@@ -31,7 +31,7 @@ public class Ui {
                                                      `-' `-' `-'    `-`-`-`-'
                 """;
 
-        System.out.println(LOGO);
+        System.out.println(logo);
         System.out.println("Welcome to KitchenCTRL!");
         System.out.flush();
     }

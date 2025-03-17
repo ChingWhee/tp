@@ -14,7 +14,6 @@ import storage.CatalogueContentManager;
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
 
-import java.util.Scanner;
 
 public class KitchenCTRL {
     private IngredientCatalogue inventoryCatalogue;
@@ -78,12 +77,6 @@ public class KitchenCTRL {
             }
         } while (!done);
     }
-
-//    String userCommandText = ui.getUserCommand();
-//    command = new Parser().parseCommand(userCommandText);
-//    CommandResult result = executeCommand(command);
-//    recordResult(result);
-//    ui.showResultToUser(result);
 
     private void exit() {
         ui.showGoodbyeMessage();

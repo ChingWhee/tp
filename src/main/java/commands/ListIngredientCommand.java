@@ -1,6 +1,5 @@
 package commands;
 
-import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 
 public class ListIngredientCommand extends Command {

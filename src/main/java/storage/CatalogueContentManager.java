@@ -13,8 +13,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class CatalogueContentManager {
-    final String DIRECTORY_NAME = "data";
-    final Path BASE_PATH = Paths.get(DIRECTORY_NAME);
+    final String directoryName = "data";
+    final Path basePath = Paths.get(directoryName);
 
     String inventoryFileName;
     Path inventoryFilePath;
@@ -27,7 +27,7 @@ public class CatalogueContentManager {
 
     public IngredientCatalogue loadIngredientCatalogue(String catalogueName) {
         inventoryFileName = catalogueName + ".txt";
-        inventoryFilePath = BASE_PATH.resolve(inventoryFileName);
+        inventoryFilePath = basePath.resolve(inventoryFileName);
 
         List<String> lines = loadRawCatalogueContent(inventoryFilePath);
         IngredientCatalogue storageInventory = new IngredientCatalogue();
@@ -54,7 +54,7 @@ public class CatalogueContentManager {
 
     public RecipeCatalogue loadRecipeCatalogue(String catalogueName) {
         recipeFileName = catalogueName + ".txt";
-        recipeFilePath = BASE_PATH.resolve(inventoryFileName);
+        recipeFilePath = basePath.resolve(inventoryFileName);
 
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
         RecipeCatalogue storageRecipe = new RecipeCatalogue();
@@ -78,7 +78,7 @@ public class CatalogueContentManager {
 
     public IngredientCatalogue loadShoppingCatalogue(String catalogueName) {
         shoppingFileName = catalogueName + ".txt";
-        shoppingFilePath = BASE_PATH.resolve(inventoryFileName);
+        shoppingFilePath = basePath.resolve(inventoryFileName);
 
         List<String> lines = loadRawCatalogueContent(inventoryFilePath);
         IngredientCatalogue storageInventory = new IngredientCatalogue();
@@ -133,8 +133,8 @@ public class CatalogueContentManager {
 
     private void checkDirectoryExistence() throws IOException {
         // Ensure the directory exists
-        if (!Files.exists(BASE_PATH)) {
-            Files.createDirectories(BASE_PATH);
+        if (!Files.exists(basePath)) {
+            Files.createDirectories(basePath);
             // System.out.println("Directory created: " + BASE_PATH.toAbsolutePath());
         }
     }

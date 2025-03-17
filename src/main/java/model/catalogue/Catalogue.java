@@ -1,7 +1,6 @@
 package model.catalogue;
 
 import commands.CommandResult;
-import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
 
