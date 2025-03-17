@@ -17,6 +17,8 @@ public class Parser {
             return prepareAddIngredient(args);
         case "deleteingredient":
             return prepareDeleteIngredient(args);
+        case "listinventory":
+            return listInventory();
         case "bye":
             return new ByeCommand();
         default:
@@ -62,6 +64,10 @@ public class Parser {
         }
 
         return new DeleteIngredientCommand(name, quantity);
+    }
+
+    private Command listInventory() {
+        return new ListIngredientCommand();
     }
 }
 

@@ -47,7 +47,6 @@ public class KitchenCTRL {
             this.inventoryCatalogue = contentManager.loadIngredientCatalogue("inventory_catalogue");
             this.recipeCatalogue = contentManager.loadRecipeCatalogue("recipe_catalogue");
             this.shoppingCatalogue = contentManager.loadShoppingCatalogue("shopping_catalogue");
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -58,6 +57,7 @@ public class KitchenCTRL {
         boolean done = false;
         do {
             String userCommandText = Ui.getUserCommand();
+
             try {
                 command = new Parser().parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
@@ -65,6 +65,7 @@ public class KitchenCTRL {
                 continue;
             }
 
+            // Only have inventory catalogue for now
             if (command instanceof ByeCommand) {
                 CommandResult result = command.execute();
                 done = true;
@@ -74,6 +75,12 @@ public class KitchenCTRL {
             }
         } while (!done);
     }
+
+//    String userCommandText = ui.getUserCommand();
+//    command = new Parser().parseCommand(userCommandText);
+//    CommandResult result = executeCommand(command);
+//    recordResult(result);
+//    ui.showResultToUser(result);
 
     private void exit() {
         ui.showGoodbyeMessage();
@@ -96,6 +103,6 @@ public class KitchenCTRL {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.println("PRINTING MISSING");
         Commands.cookRecipe(inventory, recipe);
-        inventory.displayItems();
+        inventory.listItems();
     }
 }
