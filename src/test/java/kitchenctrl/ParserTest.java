@@ -24,7 +24,7 @@ class ParserTest {
 
     @Test
     void testParseCommand_addIngredientInvalidFormat() {
-        ArrayIndexOutOfBoundsException thrown = assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             parser.parseCommand("addingredient sugar"); // Missing quantity
         });
     }

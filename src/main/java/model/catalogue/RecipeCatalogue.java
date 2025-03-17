@@ -1,5 +1,6 @@
 package model.catalogue;
 
+import commands.CommandResult;
 import model.Recipe;
 import ui.inputparser.InputParser;
 
@@ -11,9 +12,7 @@ import java.util.stream.Collectors;
  * Manages the ingredients in a recipe
  */
 public class RecipeCatalogue extends Catalogue<Recipe> {
-    public RecipeCatalogue() {
-        super("Recipe_Catalogue");
-    }
+    public RecipeCatalogue() {}
 
     public ArrayList<Recipe> searchSimilarRecipe(Recipe recipe) {
         String recipeName = recipe.getRecipeName();
@@ -37,14 +36,14 @@ public class RecipeCatalogue extends Catalogue<Recipe> {
     }
 
     @Override
-    public void addItem(Recipe recipe) {
+    public CommandResult addItem(Recipe recipe) {
         // Search for similar recipe in the inventory
         ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
 
         // Case 1: No similar recipe found, add the new recipe directly
         if (similarRecipe.isEmpty()) {
             addRecipe(recipe);
-            return;
+            return null;
         }
 
         // Case 2: Multiple similar recipes found, prompt user to choose an action
@@ -57,6 +56,7 @@ public class RecipeCatalogue extends Catalogue<Recipe> {
             // User provided an invalid input, cancel the operation
             System.out.println("Operation canceled.");
         }
+        return null;
     }
 
     private void addRecipe(Recipe recipe) {
@@ -65,21 +65,21 @@ public class RecipeCatalogue extends Catalogue<Recipe> {
     }
 
     @Override
-    public void deleteItem(Recipe recipe) {
+    public CommandResult deleteItem(Recipe recipe) {
         // Search for similar recipe in the inventory
         ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
 
         // Case 1: No similar ingredient found, inform the user
         if (similarRecipe.isEmpty()) {
             System.out.println(recipe.getRecipeName() + " does not exist in the recipe.");
-            return;
+            return null;
         }
 
         // Case 2: Only one similar recipe exists, check if it's an exact match
         if (similarRecipe.size() == SINGLE_MATCH &&
                 isExactMatchFound(similarRecipe.get(FIRST_ITEM_INDEX), recipe)) {
             removeRecipe(recipe);
-            return;
+            return null;
         }
 
         // Case 3: Multiple similar recipes found, prompt user to choose an action
@@ -92,6 +92,7 @@ public class RecipeCatalogue extends Catalogue<Recipe> {
             // User provided an invalid input, cancel the operation
             System.out.println("Operation canceled.");
         }
+        return null;
     }
 
     private void removeRecipe(Recipe recipe) {

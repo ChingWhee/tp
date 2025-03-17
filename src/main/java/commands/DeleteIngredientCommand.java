@@ -3,11 +3,11 @@ package commands;
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 
-public class AddIngredientCommand extends Command {
+public class DeleteIngredientCommand extends Command {
     private final String name;
     private final int quantity;
 
-    public AddIngredientCommand(String name, int quantity) {
+    public DeleteIngredientCommand(String name, int quantity) {
         assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
         assert quantity > 0 : "Ingredient quantity must be greater than zero";
 
@@ -19,7 +19,7 @@ public class AddIngredientCommand extends Command {
     public CommandResult execute(IngredientCatalogue inventory) {
         assert inventory != null : "IngredientCatalogue must not be null";
 
-        Ingredient toAdd = new Ingredient(name, quantity);
-        return inventory.addItem(toAdd);
+        Ingredient toDelete = new Ingredient(name, quantity);
+        return inventory.deleteItem(toDelete);
     }
 }

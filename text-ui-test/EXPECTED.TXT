@@ -19,9 +19,7 @@
      \|                    `-._.-'   | | | | | |   ( (-(-(-( )
                                      `-' `-' `-'    `-`-`-`-'
 
-Welcome to kitchenCTRL!
-James Gosling
-Enter command:
-s added to inventory.
-Ingredient added
-Enter command:
+Welcome to KitchenCTRL!
+Enter command: Unknown command: james
+Enter command: egg added to inventory.
+Enter command: Goodbye, see you soon!
