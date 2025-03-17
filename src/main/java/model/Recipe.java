@@ -4,9 +4,7 @@ import model.catalogue.Catalogue;
 public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
 
-    public Recipe() {
-        super("Recipe");
-    }
+    public Recipe() { }
 
     public String getRecipeName() {
         return recipeName;

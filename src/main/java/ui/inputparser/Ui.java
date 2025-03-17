@@ -36,6 +36,10 @@ public class Ui {
         System.out.flush();
     }
 
+    public void showGoodbyeMessage() {
+        System.out.println("Goodbye, see you soon!");
+    }
+
     /**
      * Reads the user input command from the console.
      * @return the raw command string entered by the user.
@@ -57,5 +61,4 @@ public class Ui {
     public static void showResultToUser(CommandResult result) {
         System.out.println(result.feedbackToUser);
     }
-
 }

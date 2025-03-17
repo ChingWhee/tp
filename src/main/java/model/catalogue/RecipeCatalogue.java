@@ -11,9 +11,7 @@ import java.util.stream.Collectors;
  * Manages the ingredients in a recipe
  */
 public class RecipeCatalogue extends Catalogue<Recipe> {
-    public RecipeCatalogue() {
-        super("Recipe_Catalogue");
-    }
+    public RecipeCatalogue() {}
 
     public ArrayList<Recipe> searchSimilarRecipe(Recipe recipe) {
         String recipeName = recipe.getRecipeName();

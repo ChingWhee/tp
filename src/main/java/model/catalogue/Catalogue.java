@@ -1,5 +1,7 @@
 package model.catalogue;
 
+import storage.CatalogueContentManager;
+
 import java.util.ArrayList;
 
 /**
@@ -13,16 +15,16 @@ public abstract class Catalogue<T> {
     protected static final int FIRST_ITEM_INDEX = 0;
     protected static final int SINGLE_MATCH = 1;
     protected ArrayList<T> items;
-    protected String catalogueName;
-    protected CatalogueContentManager contentManager;
 
     /**
      * Constructs an empty catalogue.
      */
-    public Catalogue(String catalogueName) {
+    public Catalogue() {
         this.items = new ArrayList<>();
-        this.catalogueName = catalogueName;
-        this.contentManager = new CatalogueContentManager(catalogueName);
+    }
+
+    public Catalogue(ArrayList<T> items) {
+        this.items = items;
     }
 
     /**
