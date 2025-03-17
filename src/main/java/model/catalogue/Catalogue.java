@@ -1,5 +1,6 @@
 package model.catalogue;
 
+import commands.CommandResult;
 import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
@@ -32,14 +33,14 @@ public abstract class Catalogue<T> {
      *
      * @param item The item to be added.
      */
-    public abstract void addItem(T item);
+    public abstract CommandResult addItem(T item);
 
     /**
      * Deletes an item from the catalogue.
      *
      * @param item The item to be removed.
      */
-    public abstract void deleteItem(T item);
+    public abstract CommandResult deleteItem(T item);
 
     /**
      * Updates an existing item in the catalogue by replacing it with a new version.
@@ -68,14 +69,17 @@ public abstract class Catalogue<T> {
      * Displays all items in the catalogue in a numbered list format.
      * If the catalogue is empty, a message is displayed instead.
      */
-    public void displayItems() {
+    public CommandResult listItems() {
         if (items.isEmpty()) {
-            System.out.println("No items found.");
-            return;
+            return new CommandResult("No items found.");
         }
+
+        StringBuilder result = new StringBuilder("Inventory List:\n");
         for (int i = 0; i < items.size(); i++) {
-            System.out.println((i + 1) + ". " + items.get(i));
+            result.append(i + 1).append(". ").append(items.get(i)).append("\n");
         }
+
+        return new CommandResult(result.toString().trim());
     }
 
     /**

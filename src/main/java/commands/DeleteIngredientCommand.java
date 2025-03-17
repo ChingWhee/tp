@@ -20,7 +20,6 @@ public class DeleteIngredientCommand extends Command {
         assert inventory != null : "IngredientCatalogue must not be null";
 
         Ingredient toDelete = new Ingredient(name, quantity);
-        inventory.deleteItem(toDelete);
-        return new CommandResult("Ingredient deleted");
+        return inventory.deleteItem(toDelete);
     }
 }

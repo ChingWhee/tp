@@ -20,7 +20,6 @@ public class AddIngredientCommand extends Command {
         assert inventory != null : "IngredientCatalogue must not be null";
 
         Ingredient toAdd = new Ingredient(name, quantity);
-        inventory.addItem(toAdd);
-        return new CommandResult("Ingredient added");
+        return inventory.addItem(toAdd);
     }
 }
