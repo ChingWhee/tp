@@ -9,83 +9,75 @@ import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.RecipeCatalogue;
 
+import storage.CatalogueContentManager;
+
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
 
 import java.util.Scanner;
 
 public class KitchenCTRL {
-    static IngredientCatalogue ingredientCatalogue = new IngredientCatalogue();
-    static RecipeCatalogue recipeCatalogue = new RecipeCatalogue();
+    private IngredientCatalogue inventoryCatalogue;
+    private RecipeCatalogue recipeCatalogue;
+    private IngredientCatalogue shoppingCatalogue;
+
+    private Ui ui;
 
     /**
      * Main entry-point for the java.duke.Duke application.
      */
     public static void main(String[] args) {
-        final String LOGO = """
-                   .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
-                  <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
-                   )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
-                   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
-                   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
-                  <___|  <___|  <___|   |\\|  | |  | | |  | |      |  |     |  |  |__|
-                   }  |   || |   =  |   | |  | |  `-|-'  | |      |  |     |  |  |   L
-                   }  |   || |   =  |   | |  | |   /A\\   | |      |  |     |  |  |   J
-                   }  |   || |   =  |   |/   | |   |H|   | |      |  |     |  |  |    L
-                   }  |   || |   =  |        | |   |H|   | |     _|__|_    |  |  |    J
-                   }  |   || |   =  |        | |   |H|   | |    | |   |    |  |  | A   L
-                   }  |   || |   =  |        | |   \\V/   | |    | |   |     \\ |  | H   J
-                   }  |   FF |   =  |        | |    "    | |    | \\   |      ,Y  | H A  L
-                   }  |   LL |    = |       _F J_       _F J_   \\  `--|       |  | H H  J
-                   }  |   LL |     \\|     /       \\   /       \\  `.___|       |  | H H A L
-                   }  |   \\\\ |           J         L |  _   _  |              |  | H H U J
-                   }  |    \\\\|           J         F | | | | | |             /   | U ".-'
-                    } |     \\|            \\       /  | | | | | |    .-.-.-.-/    |_.-'
-                     \\|                    `-._.-'   | | | | | |   ( (-(-(-( )
-                                                     `-' `-' `-'    `-`-`-`-'
-                """;
+        new KitchenCTRL().run();
+    }
 
-        System.out.println(LOGO);
-        System.out.println("Welcome to KitchenCTRL!");
+    /** Runs the program until termination.  */
+    public void run() {
+        start();
+        runCommandLoopUntilExitCommand();
+        exit();
+    }
 
+    private void start() {
+        try {
+            this.ui = new Ui();
+            ui.showWelcomeMessage();
 
+            CatalogueContentManager contentManager = new CatalogueContentManager();
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
+            this.inventoryCatalogue = contentManager.loadIngredientCatalogue("inventory_catalogue");
+            this.recipeCatalogue = contentManager.loadRecipeCatalogue("recipe_catalogue");
+            this.shoppingCatalogue = contentManager.loadShoppingCatalogue("shopping_catalogue");
 
-        System.out.flush();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void runCommandLoopUntilExitCommand() {
         Command command;
         boolean done = false;
         do {
             String userCommandText = Ui.getUserCommand();
-            command = new Parser().parseCommand(userCommandText);
+            try {
+                command = new Parser().parseCommand(userCommandText);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
+
             if (command instanceof ByeCommand) {
                 CommandResult result = command.execute();
                 done = true;
             } else {
-                CommandResult result = command.execute(ingredientCatalogue);
+                CommandResult result = command.execute(inventoryCatalogue);
                 Ui.showResultToUser(result);
             }
         } while (!done);
-
-        cwTest();
-        // carltonTest();
     }
 
-    public static void cwTest() {
-        Ingredient egg = new Ingredient("Egg", 2);
-        Ingredient whiteSugar = new Ingredient("White sugar", 2);
-        Ingredient brownSugar = new Ingredient("Brown sugar", 2);
-        Ingredient sugar = new Ingredient("Sugar", 2);
-        Ingredient sugar2 = new Ingredient("Sugar", 2);
-
-        ingredientCatalogue.addItem(egg);
-        ingredientCatalogue.addItem(whiteSugar);
-        ingredientCatalogue.addItem(brownSugar);
-        ingredientCatalogue.addItem(sugar);
-        ingredientCatalogue.deleteItem(sugar2);
-        ingredientCatalogue.displayItems();
+    private void exit() {
+        ui.showGoodbyeMessage();
+        System.exit(0);
     }
 
     public static void carltonTest() {
