@@ -21,6 +21,8 @@ public class KitchenCTRL {
     private RecipeCatalogue recipeCatalogue;
     private IngredientCatalogue shoppingCatalogue;
 
+    private CatalogueContentManager contentManager;
+
     private Ui ui;
 
     /**
@@ -42,7 +44,7 @@ public class KitchenCTRL {
             this.ui = new Ui();
             ui.showWelcomeMessage();
 
-            CatalogueContentManager contentManager = new CatalogueContentManager();
+            contentManager = new CatalogueContentManager();
 
             this.inventoryCatalogue = contentManager.loadIngredientCatalogue("inventory_catalogue");
             this.recipeCatalogue = contentManager.loadRecipeCatalogue("recipe_catalogue");
@@ -72,6 +74,7 @@ public class KitchenCTRL {
             } else {
                 CommandResult result = command.execute(inventoryCatalogue);
                 Ui.showResultToUser(result);
+                contentManager.saveInventoryCatalogue(inventoryCatalogue.getCatalogueContent());
             }
         } while (!done);
     }

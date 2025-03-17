@@ -109,7 +109,7 @@ public class CatalogueContentManager {
 
             if (Files.exists(filePath)) {
                 List<String> lines = Files.readAllLines(filePath);
-                System.out.println("Catalogue loaded from file.");
+                // System.out.println("Catalogue loaded from file.");
                 return lines;
             }
         } catch (Exception e) {
@@ -118,14 +118,14 @@ public class CatalogueContentManager {
         return null;
     }
 
-    public void saveCatalogue(String content) {
+    public void saveInventoryCatalogue(String content) {
         try {
             checkDirectoryExistence();
-            checkFileExistence();
+            checkInventoryFileExistence();
 
             // Write content to file
-            Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
-            System.out.println("Data written to file.");
+            Files.writeString(inventoryFilePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
+            // System.out.println("Data written to file.");
         } catch (Exception e) {
             System.err.println("Error handling file: " + e.getMessage());
         }
@@ -135,15 +135,15 @@ public class CatalogueContentManager {
         // Ensure the directory exists
         if (!Files.exists(BASE_PATH)) {
             Files.createDirectories(BASE_PATH);
-            System.out.println("Directory created: " + BASE_PATH.toAbsolutePath());
+            // System.out.println("Directory created: " + BASE_PATH.toAbsolutePath());
         }
     }
 
-    private void checkFileExistence() throws IOException {
+    private void checkInventoryFileExistence() throws IOException {
         // Ensure the file exists
-        if (!Files.exists(filePath)) {
-            Files.createFile(filePath);
-            System.out.println("File created: " + filePath.toAbsolutePath());
+        if (!Files.exists(inventoryFilePath)) {
+            Files.createFile(inventoryFilePath);
+            // System.out.println("File created: " + inventoryFilePath.toAbsolutePath());
         }
     }
 }

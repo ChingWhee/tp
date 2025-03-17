@@ -4,6 +4,7 @@ import commands.AddIngredientCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.DeleteIngredientCommand;
+import commands.ListIngredientCommand;
 
 public class Parser {
     public Command parseCommand(String userInput) {
