@@ -20,34 +20,6 @@
                                      `-' `-' `-'    `-`-`-`-'
 
 Welcome to KitchenCTRL!
-James Gosling
-Hello James Gosling
-No ingredients found.
-File created: C:\Users\happy\OneDrive\Documents\IntelliJ Projects\tp\data\Ingredient_Catalogue.txt
-Data written to file.
-Egg added to inventory.
-Data written to file.
-White sugar added to inventory.
-Data written to file.
-Brown sugar added to inventory.
-Similar items found in inventory for: Sugar
-Type '0' to add this as a new item.
-Select an existing item to increase its quantity:
-Type '1' to update: White sugar (2)
-Type '2' to update: Brown sugar (2)
-Type '-1' to cancel this action.
-Enter your choice: 1
-Data written to file.
-White sugar: Initial quantity = 2, Added = 2, Total = 4
-Similar items found in inventory for: Sugar
-Select an existing item to decrease its quantity:
-Type '1' to update: White sugar (4)
-Type '2' to update: Brown sugar (2)
-Type '-1' to cancel this action.
-Enter your choice: 2
-Brown sugar: Initial quantity = 2, Subtracted = 2, Remaining = 0
-Data written to file.
-Brown sugar removed from inventory.
-Data written to file.
-1. Egg (2)
-2. White sugar (4)
+Enter command: Unknown command: james
+Enter command: egg added to inventory.
+Enter command: Goodbye, see you soon!

@@ -1,42 +1,108 @@
-# User Guide
+# KitchenCTRL User Guide
 
 ## Introduction
 
-{Give a product intro}
+KitchenCTRL is a command-line application designed to manage an inventory of ingredients and recipes. Users can add, delete, and list ingredients, as well as manage recipes efficiently.
 
 ## Quick Start
 
-{Give steps to get started quickly}
-
 1. Ensure that you have Java 17 or above installed.
-1. Down the latest version of `Duke` from [here](http://link.to/duke).
+1. Down the latest version of `KitchenCTRL` from [here](https://github.com/AY2425S2-CS2113-T13-1/tp).
 
-## Features 
+## Features
 
-{Give detailed description of each feature}
+- Add, delete, and list ingredients in the inventory.
 
-### Adding a todo: `todo`
-Adds a new item to the list of todo items.
+- Add and delete recipes.
 
-Format: `todo n/TODO_NAME d/DEADLINE`
+- Handle ingredient quantities.
 
-* The `DEADLINE` can be in a natural language format.
-* The `TODO_NAME` cannot contain punctuation.  
+- Manage shopping lists.
 
-Example of usage: 
+- Load and save inventory and recipe catalogues.
 
-`todo n/Write the rest of the User Guide d/next week`
+## User Commands
 
-`todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
+### Adding an Ingredient: `add ingredient`
+Adds a new ingredient to the inventory.
 
-## FAQ
+Format:
+`add ingredient [name] [quantity]`
+- If a similar ingredient exists, the system will prompt for confirmation.
 
-**Q**: How do I transfer my data to another computer? 
+Example of usage:
 
-**A**: {your answer here}
+`add ingredient Sugar 2`
+Adds 2 units of sugar to the inventory.
 
-## Command Summary
+### Deleting an Ingredient: `delete ingredient`
+Removes an ingredient from the inventory.
 
-{Give a 'cheat sheet' of ui.commands here}
+Format:
+`delete ingredient [name] [quantity]`
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+Example of usage:
+
+`delete ingredient Sugar 1`
+Removes 1 unit of sugar from the inventory.
+
+### Listing Ingredients: `list ingredients`
+Displays all ingredients currently stored in the inventory.
+
+Format:
+`list ingredients`
+
+### Adding a Recipe: `add recipe`
+Creates a new recipe in the system.
+
+Format:
+`add recipe [recipe_name]`
+- The system will prompt for the required ingredients.
+
+Example Usage:
+`add recipe ChocolateCake`
+
+### Deleting a Recipe: `delete recipe`
+Removes a recipe from the catalogue.
+
+Format:
+`delete recipe [recipe_name]`
+
+Example Usage:
+`delete recipe ChocolateCake`
+Deletes the recipe for "ChocolateCake" from the system.
+
+### Exiting the Application: `bye`
+Terminates the program and saves the current state.
+
+Format:
+`bye`
+
+## System Behavior
+### Handling Similar Items
+- If an ingredient with a similar name exists in the inventory, the system prompts the user to either:
+    - Add as a new item.
+    - Update an existing item.
+    - Cancel the action.
+### Error Handling
+- If invalid input is entered, the system will prompt the user to enter a valid option.
+- Commands must follow the exact format; otherwise, an error message will be displayed.
+
+## Developer Notes
+### Core Components
+- `InputParser`: Handles user input and choice validation.
+- `KitchenCTRL`: Main application logic, including initialization and command execution.
+- `Command`: Base class for commands like `AddIngredientCommand`, `DeleteIngredientCommand`, and `ByeCommand`.
+- `IngredientCatalogue`: Manages the inventory of ingredients.
+- `RecipeCatalogue`: Stores and manages recipes.
+- `CatalogueContentManager`: Handles loading and saving data.
+### Adding New Commands
+To add a new command:
+- Create a new class extending `Command`.
+- Implement the `execute()` method.
+- Register the command in `Parser`.
+
+## Conclusion
+KitchenCTRL provides a structured way to manage kitchen inventory and recipes. By following the commands outlined, users can efficiently maintain their ingredient stocks and meal planning.
+
+For any issues, refer to error messages or consult the developer documentation.

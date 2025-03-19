@@ -1,25 +1,26 @@
 package model;
 
+import commands.CommandResult;
 import model.catalogue.Catalogue;
 public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
 
-    public Recipe() {
-        super("Recipe");
-    }
+    public Recipe() { }
 
     public String getRecipeName() {
         return recipeName;
     }
 
     @Override
-    public void addItem(Ingredient ingredient) {
+    public CommandResult addItem(Ingredient ingredient) {
         items.add(ingredient);
+        return null;
     }
 
     @Override
-    public void deleteItem(Ingredient ingredient) {
+    public CommandResult deleteItem(Ingredient ingredient) {
         items.remove(ingredient);
+        return null;
     }
 
     @Override
