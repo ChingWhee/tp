@@ -28,7 +28,7 @@ public class CatalogueContentManager {
     public IngredientCatalogue loadIngredientCatalogue() {
         inventoryFilePath = basePath.resolve(inventoryFileName);
 
-        return loadConsumablesCatalogue(shoppingFilePath);
+        return loadConsumablesCatalogue(inventoryFilePath);
     }
 
     public IngredientCatalogue loadShoppingCatalogue() {
@@ -86,6 +86,10 @@ public class CatalogueContentManager {
     }
 
     public List<String> loadRawCatalogueContent(Path filePath) {
+        if (filePath == null) {
+            System.err.println("Error: File path is null.");
+            return null;
+        }
         try {
             checkDirectoryExistence();
 
@@ -103,9 +107,7 @@ public class CatalogueContentManager {
             checkDirectoryExistence();
             checkInventoryFileExistence();
 
-            // Write content to file
             Files.writeString(inventoryFilePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
-            // System.out.println("Data written to file.");
         } catch (Exception e) {
             System.err.println("Error handling file: " + e.getMessage());
         }
@@ -120,10 +122,12 @@ public class CatalogueContentManager {
     }
 
     private void checkInventoryFileExistence() throws IOException {
-        // Ensure the file exists
+        if (inventoryFilePath == null) {  // ✅ Ensure it is initialized
+            inventoryFilePath = basePath.resolve(inventoryFileName);
+        }
+
         if (!Files.exists(inventoryFilePath)) {
             Files.createFile(inventoryFilePath);
-            // System.out.println("File created: " + inventoryFilePath.toAbsolutePath());
         }
     }
 }
