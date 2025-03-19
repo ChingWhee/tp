@@ -122,7 +122,7 @@ public class CatalogueContentManager {
     }
 
     private void checkInventoryFileExistence() throws IOException {
-        if (inventoryFilePath == null) {  // ✅ Ensure it is initialized
+        if (inventoryFilePath == null) {
             inventoryFilePath = basePath.resolve(inventoryFileName);
         }
 
