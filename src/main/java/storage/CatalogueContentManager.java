@@ -23,17 +23,20 @@ public class CatalogueContentManager {
     String recipeFileName = "recipe_catalogue.txt";
     Path recipeFilePath;
 
-    public CatalogueContentManager() {}
+    public CatalogueContentManager() {
+    }
 
     public IngredientCatalogue loadIngredientCatalogue() {
         inventoryFilePath = basePath.resolve(inventoryFileName);
 
+        assert inventoryFilePath.toFile().exists();
         return loadConsumablesCatalogue(inventoryFilePath);
     }
 
     public IngredientCatalogue loadShoppingCatalogue() {
         shoppingFilePath = basePath.resolve(shoppingFileName);
 
+        assert shoppingFilePath.toFile().exists();
         return loadConsumablesCatalogue(shoppingFilePath);
     }
 
@@ -65,6 +68,7 @@ public class CatalogueContentManager {
     public RecipeCatalogue loadRecipeCatalogue() {
         recipeFilePath = basePath.resolve(recipeFileName);
 
+        assert recipeFilePath.toFile().exists();
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
         RecipeCatalogue storageRecipe = new RecipeCatalogue();
 
