@@ -40,7 +40,7 @@ public class KitchenCTRL {
 
     private void start() {
         try {
-            /** Initialization */
+            // Initialization
             this.ui = new Ui();
             ui.showWelcomeMessage();
 
