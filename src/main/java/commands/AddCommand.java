@@ -6,18 +6,27 @@ import model.Recipe;
 import model.catalogue.*;
 
 /**
- * A command to add an ingredient to the ingredient catalogue.
+ * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
+ * based on the current {@code ScreenState}.
+ *
+ * <p>This command supports:
+ * <ul>
+ *     <li>Adding {@code Ingredient} to {@code InventoryCatalogue}</li>
+ *     <li>Adding {@code Ingredient} to {@code ShoppingCatalogue}</li>
+ *     <li>Adding a new {@code Recipe} to {@code RecipeCatalogue}</li>
+ * </ul>
  */
 public class AddCommand extends Command {
     private final String name;
     private final int quantity;
 
     /**
-     * Constructs an AddIngredientCommand with the specified ingredient name and quantity.
+     * Constructs an {@code AddCommand} with the specified screen context, item name, and quantity.
      *
-     * @param name     The name of the ingredient to add. Must not be null or empty.
-     * @param quantity The quantity of the ingredient to add. Must be greater than zero.
-     * @throws AssertionError if the name is null or empty, or if the quantity is not greater than zero.
+     * @param screen   The screen state representing the active catalogue (INVENTORY, SHOPPING, or RECIPE).
+     * @param name     The name of the ingredient or recipe to add.
+     * @param quantity The quantity of the ingredient to add. Ignored for recipes.
+     * @throws AssertionError if {@code name} is null/empty, or {@code quantity} is not positive.
      */
     public AddCommand(ScreenState screen, String name, int quantity) {
         super(screen);
@@ -28,6 +37,12 @@ public class AddCommand extends Command {
         this.quantity = quantity;
     }
 
+    /**
+     * Executes the add operation by determining the correct catalogue type based on runtime type checking.
+     *
+     * @param catalogue The catalogue to add the item to.
+     * @return A {@code CommandResult} indicating success or failure with feedback for the user.
+     */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
