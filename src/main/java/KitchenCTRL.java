@@ -1,13 +1,13 @@
+import commands.ByeCommand;
+import commands.CommandResult;
+import controller.ScreenState;
 import logic.commands.Commands;
 
-import commands.ByeCommand;
 import commands.Command;
-import commands.CommandResult;
 
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.IngredientCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.*;
 
 import storage.CatalogueContentManager;
 
@@ -21,20 +21,20 @@ import ui.inputparser.Ui;
  */
 public class KitchenCTRL {
     // Catalogue storing ingredients in the inventory
-    private IngredientCatalogue inventoryCatalogue;
+    private InventoryCatalogue inventoryCatalogue;
 
     // Catalogue storing recipes
     private RecipeCatalogue recipeCatalogue;
 
     // Catalogue storing shopping list ingredients
-    private IngredientCatalogue shoppingCatalogue;
-    private RecipeCatalogue recipeCatalogue;
+    private ShoppingCatalogue shoppingCatalogue;
 
     // Manages loading and saving of catalogue data
     private CatalogueContentManager contentManager;
 
-    // User interface for interaction with the user
     private Ui ui;
+    private Parser parser;
+    private ScreenState currentScreen = ScreenState.WELCOME;
 
     /**
      * Main entry-point for the KitchenCTRL application.
@@ -65,13 +65,15 @@ public class KitchenCTRL {
         try {
             // Initialization
             this.ui = new Ui();
-            ui.showWelcomeMessage();
 
+            parser = new Parser();
             contentManager = new CatalogueContentManager();
 
-            this.inventoryCatalogue = contentManager.loadIngredientCatalogue();
+            this.inventoryCatalogue = contentManager.loadInventoryCatalogue();
             this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
             this.recipeCatalogue = contentManager.loadRecipeCatalogue();
+
+            ui.showInitMessage();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -83,28 +85,39 @@ public class KitchenCTRL {
      * results to the user.
      */
     private void runCommandLoopUntilExitCommand() {
+        ScreenState currentScreen = ScreenState.WELCOME;
         Command command;
-        boolean done = false;
-        do {
-            String userCommandText = Ui.getUserCommand();
 
+        do {
+            ui.showScreenPrompt(currentScreen);
+
+            String userCommandText = ui.getUserCommand();
             try {
-                command = new Parser().parseCommand(userCommandText);
+                command = new Parser().parseCommand(currentScreen, userCommandText);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
+            };
+
+            Catalogue<?> catalogue = getCatalogueByScreen(currentScreen);
+            CommandResult result;
+
+            if (catalogue == null) {
+                result = command.execute();
+            } else {
+                result = command.execute(catalogue);
             }
 
-            // Only have inventory catalogue for now
             if (command instanceof ByeCommand) {
-                CommandResult result = command.execute();
-                done = true;
-            } else {
-                CommandResult result = command.execute(inventoryCatalogue);
-                Ui.showResultToUser(result);
-                contentManager.saveInventoryCatalogue(inventoryCatalogue.getCatalogueContent());
+                break;
             }
-        } while (!done);
+
+            ui.showResultToUser(result);
+
+            if (result.isScreenSwitch()) {
+                currentScreen = result.getNewScreen();
+            }
+        } while (true);
     }
 
     /**
@@ -114,6 +127,15 @@ public class KitchenCTRL {
     private void exit() {
         ui.showGoodbyeMessage();
         System.exit(0);
+    }
+
+    private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
+        return switch (screen) {
+            case INVENTORY -> inventoryCatalogue;
+            case SHOPPING -> shoppingCatalogue;
+            case RECIPE -> recipeCatalogue;
+            default -> null; // For WELCOME, or throw if needed
+        };
     }
 
     public static void carltonTest() {
