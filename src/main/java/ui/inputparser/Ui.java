@@ -133,7 +133,9 @@ public class Ui {
         System.out.println("Goodbye, see you soon!");
     }
 
-    public void showInvalidCommandMessage() { System.out.println("Invalid command!"); }
+    public void showInvalidCommandMessage() {
+        System.out.println("Invalid command!");
+    }
 
     /**
      * Reads the user input command from the console.

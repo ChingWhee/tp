@@ -33,8 +33,7 @@ public class ListCommand extends Command {
      * method to list its items.
      *
      * @param catalogue The catalogue from which items will be listed.
-     * @return A {@code CommandResult} containing the formatted list of items,
-     * or an error message if the catalogue type is unsupported.
+     * @return A {@code CommandResult} containing the formatted list of items.
      * @throws AssertionError if the catalogue is {@code null}.
      */
     @Override
