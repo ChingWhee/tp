@@ -14,30 +14,52 @@ import storage.CatalogueContentManager;
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
 
-
+/**
+ * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
+ * It initializes the catalogues, manages user interaction through the UI, and handles command execution
+ * using a command loop.
+ */
 public class KitchenCTRL {
+    // Catalogue storing ingredients in the inventory
     private IngredientCatalogue inventoryCatalogue;
+
+    // Catalogue storing recipes
     private RecipeCatalogue recipeCatalogue;
+
+    // Catalogue storing shopping list ingredients
     private IngredientCatalogue shoppingCatalogue;
 
+    // Manages loading and saving of catalogue data
     private CatalogueContentManager contentManager;
 
+    // User interface for interaction with the user
     private Ui ui;
 
     /**
-     * Main entry-point for the java.duke.Duke application.
+     * Main entry-point for the KitchenCTRL application.
+     *
+     * @param args Command-line arguments passed during application startup (not used).
      */
     public static void main(String[] args) {
         new KitchenCTRL().run();
     }
 
-    /** Runs the program until termination.  */
+    /**
+     * Runs the kitchen management program, initializing components and processing commands
+     * until the user exits.
+     */
     public void run() {
         start();
         runCommandLoopUntilExitCommand();
         exit();
     }
 
+    /**
+     * Initializes the application components such as UI, catalogues, and data manager.
+     * Loads data from persistent storage into respective catalogues.
+     *
+     * @throws RuntimeException if there is an error during initialization or loading data.
+     */
     private void start() {
         try {
             this.ui = new Ui();
@@ -53,6 +75,11 @@ public class KitchenCTRL {
         }
     }
 
+    /**
+     * Continuously reads and processes user commands until an exit command is issued.
+     * Executes commands using the current state of the inventory catalogue and displays
+     * results to the user.
+     */
     private void runCommandLoopUntilExitCommand() {
         Command command;
         boolean done = false;
@@ -78,6 +105,10 @@ public class KitchenCTRL {
         } while (!done);
     }
 
+    /**
+     * Cleans up and performs any final actions required before the program terminates.
+     * (Currently a placeholder, can be expanded if needed.)
+     */
     private void exit() {
         ui.showGoodbyeMessage();
         System.exit(0);
