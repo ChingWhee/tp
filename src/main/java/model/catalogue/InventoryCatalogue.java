@@ -5,5 +5,7 @@ package model.catalogue;
  * the inventory
  */
 public class InventoryCatalogue extends IngredientCatalogue {
-    public InventoryCatalogue() {}
+    public InventoryCatalogue() {
+
+    }
 }

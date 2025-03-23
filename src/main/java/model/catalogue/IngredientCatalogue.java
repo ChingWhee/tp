@@ -18,7 +18,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * Constructs an empty inventory catalogue.
      */
 
-    public IngredientCatalogue() {}
+    public IngredientCatalogue() {
+
+    }
 
     /**
      * Searches for similar items in the inventory based on keyword matching.
