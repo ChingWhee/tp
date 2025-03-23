@@ -33,8 +33,11 @@ public class Ui {
                 """;
 
         System.out.println(logo);
-        System.out.println("Welcome to KitchenCTRL!");
         System.out.flush();
+    }
+
+    public void showDivider() {
+        System.out.println("==========================================================");
     }
 
     public void showScreenPrompt(ScreenState screen) {
@@ -72,6 +75,7 @@ public class Ui {
         System.out.println("- add [item] [qty] → Add ingredients to inventory");
         System.out.println("- delete [item] [qty] → Remove ingredients from inventory");
         System.out.println("- back → Return to the main screen");
+        System.out.println("- bye → Exit the program");
     }
 
     private void showShoppingMessage() {
@@ -81,6 +85,7 @@ public class Ui {
         System.out.println("- add [item] [qty] → Add ingredients to shopping list");
         System.out.println("- delete [item] [qty] → Remove ingredients from shopping list");
         System.out.println("- back → Return to the main screen");
+        System.out.println("- bye → Exit the program");
     }
 
     private void showRecipeMessage() {
@@ -90,6 +95,7 @@ public class Ui {
         System.out.println("- add [name] → Add a new recipe");
         System.out.println("- delete [name] → Delete a recipe");
         System.out.println("- back → Return to the main screen");
+        System.out.println("- bye → Exit the program");
     }
 
     public void showGoodbyeMessage() {
@@ -117,6 +123,8 @@ public class Ui {
      * @param result The CommandResult containing feedback for the user.
      */
     public void showResultToUser(CommandResult result) {
-        System.out.println(result.getFeedbackToUser());
+        if (result.getFeedbackToUser() != null) {
+            System.out.println(result.getFeedbackToUser());
+        }
     }
 }

@@ -1,9 +1,6 @@
-import commands.ByeCommand;
-import commands.CommandResult;
+import commands.*;
 import controller.ScreenState;
 import logic.commands.Commands;
-
-import commands.Command;
 
 import model.Ingredient;
 import model.Recipe;
@@ -29,12 +26,8 @@ public class KitchenCTRL {
     // Catalogue storing shopping list ingredients
     private ShoppingCatalogue shoppingCatalogue;
 
-    // Manages loading and saving of catalogue data
-    private CatalogueContentManager contentManager;
-
     private Ui ui;
     private Parser parser;
-    private ScreenState currentScreen = ScreenState.WELCOME;
 
     /**
      * Main entry-point for the KitchenCTRL application.
@@ -67,7 +60,8 @@ public class KitchenCTRL {
             this.ui = new Ui();
 
             parser = new Parser();
-            contentManager = new CatalogueContentManager();
+            // Manages loading and saving of catalogue data
+            CatalogueContentManager contentManager = new CatalogueContentManager();
 
             this.inventoryCatalogue = contentManager.loadInventoryCatalogue();
             this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
@@ -80,55 +74,74 @@ public class KitchenCTRL {
     }
 
     /**
-     * Continuously reads and processes user commands until an exit command is issued.
-     * Executes commands using the current state of the inventory catalogue and displays
-     * results to the user.
+     * The main loop that:
+     * - Displays the appropriate prompt
+     * - Reads and parses user commands
+     * - Executes commands against the correct catalogue
+     * - Displays results
+     * - Handles screen transitions and exit condition
      */
     private void runCommandLoopUntilExitCommand() {
         ScreenState currentScreen = ScreenState.WELCOME;
         Command command;
 
         do {
+            // Show prompt based on current screen
             ui.showScreenPrompt(currentScreen);
 
+            // Read user input
             String userCommandText = ui.getUserCommand();
+
+            // Parse input into a Command
             try {
-                command = new Parser().parseCommand(currentScreen, userCommandText);
+                command = parser.parseCommand(currentScreen, userCommandText);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
             };
 
-            Catalogue<?> catalogue = getCatalogueByScreen(currentScreen);
-            CommandResult result;
-
-            if (catalogue == null) {
-                result = command.execute();
-            } else {
-                result = command.execute(catalogue);
-            }
-
+            // Exit if it's a ByeCommand
             if (command instanceof ByeCommand) {
                 break;
             }
 
-            ui.showResultToUser(result);
-
-            if (result.isScreenSwitch()) {
+            CommandResult result;
+            // Switch screen if required by result
+            if (command instanceof BackCommand || command instanceof GoToCommand) {
+                result = command.execute();
                 currentScreen = result.getNewScreen();
+                ui.showDivider();
+                continue;
             }
+
+            // Get the relevant catalogue for the current screen
+            Catalogue<?> catalogue = getCatalogueByScreen(currentScreen);
+
+            // Execute the command and get result
+            result = (catalogue == null)
+                    ? command.execute() // e.g., welcome screen or global commands
+                    : command.execute(catalogue); // inventory/shopping/recipe screens
+
+            // Display result to the user
+            ui.showResultToUser(result);
+            ui.showDivider();
         } while (true);
     }
 
     /**
      * Cleans up and performs any final actions required before the program terminates.
-     * (Currently a placeholder, can be expanded if needed.)
      */
     private void exit() {
         ui.showGoodbyeMessage();
         System.exit(0);
     }
 
+    /**
+     * Returns the appropriate catalogue based on the current screen.
+     *
+     * @param screen The current screen state.
+     * @return The corresponding catalogue, or null if screen has no catalogue (e.g., WELCOME).
+     */
     private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
             case INVENTORY -> inventoryCatalogue;

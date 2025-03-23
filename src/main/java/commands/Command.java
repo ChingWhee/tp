@@ -7,7 +7,7 @@ import model.catalogue.Catalogue;
  * Represents an abstract command that can be executed.
  */
 public abstract class Command {
-    private ScreenState screen = null;
+    ScreenState screen = null;
 
     public Command() {
 
@@ -30,6 +30,6 @@ public abstract class Command {
      * Subclasses should override and cast as needed.
      */
     public CommandResult execute(Catalogue<?> catalogue) {
-        throw new UnsupportedOperationException("This command must override execute(Catalogue<?> catalogue).");
+        throw new UnsupportedOperationException("override me");
     }
 }

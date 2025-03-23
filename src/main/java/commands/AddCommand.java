@@ -2,7 +2,8 @@ package commands;
 
 import controller.ScreenState;
 import model.Ingredient;
-import model.catalogue.IngredientCatalogue;
+import model.Recipe;
+import model.catalogue.*;
 
 /**
  * A command to add an ingredient to the ingredient catalogue.
@@ -27,18 +28,20 @@ public class AddCommand extends Command {
         this.quantity = quantity;
     }
 
-    /**
-     * Executes the command to add the specified ingredient to the ingredient catalogue.
-     *
-     * @param inventory The ingredient catalogue to which the ingredient will be added. Must not be null.
-     * @return The result of executing the command.
-     * @throws AssertionError if the inventory is null.
-     */
     @Override
-    public CommandResult execute(IngredientCatalogue inventory) {
-        assert inventory != null : "IngredientCatalogue must not be null";
-
-        Ingredient toAdd = new Ingredient(name, quantity);
-        return inventory.addItem(toAdd);
+    public CommandResult execute(Catalogue<?> catalogue) {
+        assert catalogue != null : "Catalogue must not be null";
+        if (catalogue instanceof InventoryCatalogue inventory) {
+            Ingredient newIngredient = new Ingredient(name, quantity);
+            return inventory.addItem(newIngredient);
+        } else if (catalogue instanceof ShoppingCatalogue shopping) {
+            Ingredient newIngredient = new Ingredient(name, quantity);
+            return shopping.addItem(newIngredient);
+        } else if (catalogue instanceof RecipeCatalogue recipe) {
+            Recipe newRecipe = new Recipe();
+            return recipe.addItem(newRecipe);
+        } else {
+            return new CommandResult("Unsupported catalogue for AddCommand.", null);
+        }
     }
 }

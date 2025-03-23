@@ -20,6 +20,10 @@ public class CommandResult {
         this(feedbackToUser, null);
     }
 
+    public CommandResult(ScreenState newScreen) {
+        this(null, newScreen);
+    }
+
     /**
      * Constructs a CommandResult with full control.
      *

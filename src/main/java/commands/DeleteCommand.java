@@ -2,7 +2,8 @@ package commands;
 
 import controller.ScreenState;
 import model.Ingredient;
-import model.catalogue.IngredientCatalogue;
+import model.Recipe;
+import model.catalogue.*;
 
 /**
  * Represents a command to delete an ingredient from the inventory.
@@ -39,10 +40,19 @@ public class DeleteCommand extends Command {
      * @throws IllegalArgumentException if the inventory is null
      */
     @Override
-    public CommandResult execute(IngredientCatalogue inventory) {
-        assert inventory != null : "IngredientCatalogue must not be null";
-
-        Ingredient toDelete = new Ingredient(name, quantity);
-        return inventory.deleteItem(toDelete);
+    public CommandResult execute(Catalogue<?> catalogue) {
+        assert catalogue != null : "Catalogue must not be null";
+        if (catalogue instanceof InventoryCatalogue inventory) {
+            Ingredient newIngredient = new Ingredient(name, quantity);
+            return inventory.deleteItem(newIngredient);
+        } else if (catalogue instanceof ShoppingCatalogue shopping) {
+            Ingredient newIngredient = new Ingredient(name, quantity);
+            return shopping.deleteItem(newIngredient);
+        } else if (catalogue instanceof RecipeCatalogue recipe) {
+            Recipe newRecipe = new Recipe();
+            return recipe.deleteItem(newRecipe);
+        } else {
+            return new CommandResult("Unsupported catalogue for DeleteCommand.");
+        }
     }
 }

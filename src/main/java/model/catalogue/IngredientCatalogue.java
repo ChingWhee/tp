@@ -187,7 +187,7 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
 
         if (existingIngredient.getQuantity() <= 0) {
             CommandResult removalResult = removeIngredient(existingIngredient);
-            return new CommandResult(calculations + "\n" + removalResult.feedbackToUser);
+            return new CommandResult(calculations + "\n" + removalResult.getFeedbackToUser());
         }
 
         return new CommandResult(calculations);
