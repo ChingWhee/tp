@@ -28,6 +28,7 @@ public class KitchenCTRL {
 
     // Catalogue storing shopping list ingredients
     private IngredientCatalogue shoppingCatalogue;
+    private RecipeCatalogue recipeCatalogue;
 
     // Manages loading and saving of catalogue data
     private CatalogueContentManager contentManager;
@@ -62,14 +63,15 @@ public class KitchenCTRL {
      */
     private void start() {
         try {
+            // Initialization
             this.ui = new Ui();
             ui.showWelcomeMessage();
 
             contentManager = new CatalogueContentManager();
 
-            this.inventoryCatalogue = contentManager.loadIngredientCatalogue("inventory_catalogue");
-            this.recipeCatalogue = contentManager.loadRecipeCatalogue("recipe_catalogue");
-            this.shoppingCatalogue = contentManager.loadShoppingCatalogue("shopping_catalogue");
+            this.inventoryCatalogue = contentManager.loadIngredientCatalogue();
+            this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
+            this.recipeCatalogue = contentManager.loadRecipeCatalogue();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

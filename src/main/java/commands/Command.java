@@ -20,5 +20,5 @@ public abstract class Command {
 
     public CommandResult execute(IngredientCatalogue inventory) {
         throw new UnsupportedOperationException("override me");
-    };
+    }
 }
