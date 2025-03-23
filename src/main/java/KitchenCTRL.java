@@ -1,10 +1,18 @@
-import commands.*;
+import commands.GoToCommand;
+import commands.BackCommand;
+import commands.ByeCommand;
+import commands.Command;
+import commands.CommandResult;
 import controller.ScreenState;
 import logic.commands.Commands;
 
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.*;
+import model.catalogue.Catalogue;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.InventoryCatalogue;
+import model.catalogue.RecipeCatalogue;
+import model.catalogue.ShoppingCatalogue;
 
 import storage.CatalogueContentManager;
 
@@ -144,10 +152,10 @@ public class KitchenCTRL {
      */
     private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
-            case INVENTORY -> inventoryCatalogue;
-            case SHOPPING -> shoppingCatalogue;
-            case RECIPE -> recipeCatalogue;
-            default -> null; // For WELCOME, or throw if needed
+        case INVENTORY -> inventoryCatalogue;
+        case SHOPPING -> shoppingCatalogue;
+        case RECIPE -> recipeCatalogue;
+        default -> null; // For WELCOME, or throw if needed
         };
     }
 
