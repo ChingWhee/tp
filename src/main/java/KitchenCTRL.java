@@ -106,7 +106,7 @@ public class KitchenCTRL {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
-            };
+            }
 
             // Exit if it's a ByeCommand
             if (command instanceof ByeCommand) {

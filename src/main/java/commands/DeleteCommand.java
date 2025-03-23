@@ -3,24 +3,33 @@ package commands;
 import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.*;
+import model.catalogue.Catalogue;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.InventoryCatalogue;
+import model.catalogue.RecipeCatalogue;
+import model.catalogue.ShoppingCatalogue;
 
 /**
- * Represents a command to delete an ingredient from the inventory.
- * The command will attempt to remove a specified quantity of the ingredient
- * from the {@link IngredientCatalogue}.
+ * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue.
+ * <p>
+ * Depending on the active {@link ScreenState}, the command removes:
+ * <ul>
+ *     <li>A specified quantity of an ingredient from the {@link InventoryCatalogue}</li>
+ *     <li>A specified quantity of an ingredient from the {@link ShoppingCatalogue}</li>
+ *     <li>A recipe (by name) from the {@link RecipeCatalogue}</li>
+ * </ul>
  */
 public class DeleteCommand extends Command {
-
     private final String name;
     private final int quantity;
 
     /**
-     * Constructs a {@code DeleteIngredientCommand} with the specified ingredient name and quantity.
+     * Constructs a {@code DeleteCommand} with the specified name and quantity.
      *
-     * @param name the name of the ingredient to be deleted
-     * @param quantity the quantity of the ingredient to be deleted
-     * @throws IllegalArgumentException if the name is null, empty, or if the quantity is less than or equal to zero
+     * @param screen   The current screen context where the delete command is issued.
+     * @param name     The name of the item to be deleted (ingredient or recipe).
+     * @param quantity The quantity to be removed (used only for ingredients).
+     * @throws AssertionError if the name is null/empty or quantity is non-positive.
      */
     public DeleteCommand(ScreenState screen, String name, int quantity) {
         super(screen);
@@ -32,12 +41,10 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * Executes the delete command by attempting to remove the ingredient with the specified quantity
-     * from the {@code IngredientCatalogue}.
+     * Executes the delete operation based on the type of catalogue.
      *
-     * @param inventory the {@link IngredientCatalogue} from which the ingredient should be deleted
-     * @return a {@link CommandResult} indicating the outcome of the deletion
-     * @throws IllegalArgumentException if the inventory is null
+     * @param catalogue The target catalogue from which the item should be deleted.
+     * @return A {@code CommandResult} indicating the outcome of the deletion.
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {

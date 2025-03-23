@@ -3,7 +3,10 @@ package commands;
 import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.*;
+import model.catalogue.Catalogue;
+import model.catalogue.InventoryCatalogue;
+import model.catalogue.RecipeCatalogue;
+import model.catalogue.ShoppingCatalogue;
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
