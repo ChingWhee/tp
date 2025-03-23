@@ -1,5 +1,6 @@
 package commands;
 
+import controller.ScreenState;
 import model.catalogue.IngredientCatalogue;
 
 /**
@@ -7,7 +8,10 @@ import model.catalogue.IngredientCatalogue;
  * The command will retrieve and display the list of items from the
  * {@link IngredientCatalogue}.
  */
-public class ListIngredientCommand extends Command {
+public class ListCommand extends Command {
+    public ListCommand(ScreenState screen) {
+        super(screen);
+    }
 
     /**
      * Executes the list command by retrieving all ingredients from the

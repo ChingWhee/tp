@@ -1,12 +1,13 @@
 package commands;
 
+import controller.ScreenState;
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 
 /**
  * A command to add an ingredient to the ingredient catalogue.
  */
-public class AddIngredientCommand extends Command {
+public class AddCommand extends Command {
     private final String name;
     private final int quantity;
 
@@ -17,7 +18,8 @@ public class AddIngredientCommand extends Command {
      * @param quantity The quantity of the ingredient to add. Must be greater than zero.
      * @throws AssertionError if the name is null or empty, or if the quantity is not greater than zero.
      */
-    public AddIngredientCommand(String name, int quantity) {
+    public AddCommand(ScreenState screen, String name, int quantity) {
+        super(screen);
         assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
         assert quantity > 0 : "Ingredient quantity must be greater than zero";
 

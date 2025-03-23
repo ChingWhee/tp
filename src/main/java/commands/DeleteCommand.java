@@ -1,5 +1,6 @@
 package commands;
 
+import controller.ScreenState;
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 
@@ -8,7 +9,7 @@ import model.catalogue.IngredientCatalogue;
  * The command will attempt to remove a specified quantity of the ingredient
  * from the {@link IngredientCatalogue}.
  */
-public class DeleteIngredientCommand extends Command {
+public class DeleteCommand extends Command {
 
     private final String name;
     private final int quantity;
@@ -20,7 +21,8 @@ public class DeleteIngredientCommand extends Command {
      * @param quantity the quantity of the ingredient to be deleted
      * @throws IllegalArgumentException if the name is null, empty, or if the quantity is less than or equal to zero
      */
-    public DeleteIngredientCommand(String name, int quantity) {
+    public DeleteCommand(ScreenState screen, String name, int quantity) {
+        super(screen);
         assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
         assert quantity > 0 : "Ingredient quantity must be greater than zero";
 
