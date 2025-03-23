@@ -31,7 +31,7 @@ jobs:
           java-package: jdk+fx
 
       - name: Build and check with Gradle
-        run: ./gradlew -x check
+        run: ./gradlew check -x test
 
 #      - name: Install dos2unix
 #        run: sudo apt-get install dos2unix

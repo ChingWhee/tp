@@ -11,7 +11,10 @@ import commands.GoToCommand;
 import controller.ScreenState;
 
 /**
- * Parses user input and returns the appropriate Command based on the current screen state.
+ * The {@code Parser} class is responsible for interpreting user input and
+ * returning the appropriate {@code Command} object based on the current screen context.
+ * It delegates command creation logic depending on whether the user is in the WELCOME,
+ * INVENTORY, SHOPPING, or RECIPE screen.
  */
 public class Parser {
     /**
@@ -57,6 +60,7 @@ public class Parser {
     /**
      * Parses commands specific to the inventory screen.
      *
+     * @param screen  The current screen state (INVENTORY).
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
      * @return A Command object for the inventory action.
@@ -76,6 +80,7 @@ public class Parser {
     /**
      * Parses commands specific to the shopping screen.
      *
+     * @param screen  The current screen state (SHOPPING).
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
      * @return A Command object for the shopping action.
@@ -95,6 +100,7 @@ public class Parser {
     /**
      * Parses commands specific to the recipe screen.
      *
+     * @param screen  The current screen state (RECIPE).
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
      * @return A Command object for the recipe action.
@@ -112,8 +118,9 @@ public class Parser {
     }
 
     /**
-     * Prepares an AddCommand by parsing name and quantity from input.
+     * Parses arguments to create an {@code AddCommand}.
      *
+     * @param screen The screen context to determine target catalogue.
      * @param args Input arguments in the format: &lt;name&gt; &lt;quantity&gt;
      * @return An AddCommand with the given name and quantity.
      * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
@@ -138,8 +145,9 @@ public class Parser {
     }
 
     /**
-     * Prepares a DeleteCommand by parsing name and quantity from input.
+     * Parses arguments to create a {@code DeleteCommand}.
      *
+     * @param screen The screen context to determine target catalogue.
      * @param args Input arguments in the format: &lt;name&gt; &lt;quantity&gt;
      * @return A DeleteCommand with the given name and quantity.
      * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
@@ -164,31 +172,38 @@ public class Parser {
     }
 
     /**
-     * Prepares a ListCommand to list catalogue contents.
+     * Creates a {@code ListCommand} for listing contents of the current catalogue.
      *
-     * @return A new ListCommand.
+     * @param screen The screen context.
+     * @return A {@code ListCommand} for the appropriate catalogue.
      */
     private Command prepareList(ScreenState screen) {
         return new ListCommand(screen);
     }
 
     /**
-     * Prepares a BackCommand to return to the welcome screen.
+     * Creates a {@code BackCommand} to return to the WELCOME screen.
      *
-     * @return A new BackCommand.
+     * @return A new {@code BackCommand}.
      */
     private Command prepareBack() {
         return new BackCommand();
     }
 
+    /**
+     * Creates a {@code GoToCommand} to switch to the given screen.
+     *
+     * @param screen The target screen to switch to.
+     * @return A {@code GoToCommand} that navigates to the selected screen.
+     */
     private Command prepareGoto(ScreenState screen) {
         return new GoToCommand(screen);
     }
 
     /**
-     * Prepares a ByeCommand to exit the program.
+     * Creates a {@code ByeCommand} to terminate the program.
      *
-     * @return A new ByeCommand.
+     * @return A new {@code ByeCommand}.
      */
     private Command prepareBye() {
         return new ByeCommand();
