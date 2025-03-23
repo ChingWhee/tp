@@ -4,7 +4,6 @@ import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
 import model.catalogue.Catalogue;
-import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
 import model.catalogue.RecipeCatalogue;
 import model.catalogue.ShoppingCatalogue;

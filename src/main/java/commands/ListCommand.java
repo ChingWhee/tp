@@ -2,7 +2,6 @@ package commands;
 
 import controller.ScreenState;
 import model.catalogue.Catalogue;
-import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
 import model.catalogue.RecipeCatalogue;
 import model.catalogue.ShoppingCatalogue;
@@ -34,7 +33,8 @@ public class ListCommand extends Command {
      * method to list its items.
      *
      * @param catalogue The catalogue from which items will be listed.
-     * @return A {@code CommandResult} containing the formatted list of items, or an error message if the catalogue type is unsupported.
+     * @return A {@code CommandResult} containing the formatted list of items,
+     * or an error message if the catalogue type is unsupported.
      * @throws AssertionError if the catalogue is {@code null}.
      */
     @Override
