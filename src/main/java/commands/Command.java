@@ -13,10 +13,6 @@ public abstract class Command {
 
     }
 
-    public Command(String args) {
-
-    }
-
     public Command(ScreenState screen) {
         this.screen = screen;
     }
