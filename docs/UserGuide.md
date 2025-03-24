@@ -24,6 +24,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
   - [Adding or deleting similar ingredients](#adding-or-deleting-similar-ingredients)
 - [Data Storage](#-data-storage)
 - [Coming Soon](#coming-soon)
+- [Command Summary](#command-summary)
 - [Conclusion](#conclusion)
 
 ---
@@ -229,6 +230,23 @@ To add a new command:
 - Register the command in `Parser`.
 
 --- 
+
+## Command Summary
+
+| Command                | Format                                      | Description |
+|------------------------|---------------------------------------------|-------------|
+| **Switch to Inventory** | `inventory`                                | Navigate to the inventory screen. |
+| **Switch to Shopping**  | `shopping`                                 | Navigate to the shopping list screen. |
+| **Switch to Recipe**    | `recipe`                                   | Navigate to the recipe management screen. |
+| **Switch to Main Menu** | `back`                                     | Return to the main menu from any sub-screen. |
+| **Exit the Program**    | `bye`                                      | Close the application. |
+| **Add Ingredient**      | `add [name] [quantity]`                    | Add an ingredient to the inventory or shopping list. |
+| **Delete Ingredient**   | `delete [name] [quantity]`                 | Remove an ingredient from the inventory or shopping list. |
+| **List Ingredients**    | `list`                                     | Show all ingredients in the inventory or shopping list. |
+| **Add Recipe**         | `add [recipe_name]`                        | Create a new recipe entry. |
+| **Delete Recipe**      | `delete [recipe_name]`                     | Remove a recipe from the system. |
+
+---
 
 ## Conclusion
 KitchenCTRL provides a structured way to manage kitchen inventory and recipes. By following the commands outlined, users can efficiently maintain their ingredient stocks and meal planning.
