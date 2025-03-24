@@ -23,10 +23,6 @@ public abstract class Catalogue<T> {
         this.items = new ArrayList<>();
     }
 
-    public Catalogue(ArrayList<T> items) {
-        this.items = items;
-    }
-
     /**
      * Adds an item to the catalogue.
      *

@@ -4,7 +4,6 @@ package commands;
  * A command that signifies the termination of the program.
  */
 public class ByeCommand extends Command {
-
     /**
      * Constructs a ByeCommand instance.
      */

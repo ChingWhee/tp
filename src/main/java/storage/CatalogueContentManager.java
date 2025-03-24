@@ -2,7 +2,9 @@ package storage;
 
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
+import model.catalogue.InventoryCatalogue;
 import model.catalogue.RecipeCatalogue;
+import model.catalogue.ShoppingCatalogue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CatalogueContentManager {
     String directoryName = "data";
@@ -24,28 +27,29 @@ public class CatalogueContentManager {
     Path recipeFilePath;
 
     public CatalogueContentManager() {
+
     }
 
-    public IngredientCatalogue loadIngredientCatalogue() {
+    public InventoryCatalogue loadInventoryCatalogue() {
         inventoryFilePath = basePath.resolve(inventoryFileName);
 
         assert inventoryFilePath.toFile().exists();
-        return loadConsumablesCatalogue(inventoryFilePath);
+        return loadConsumablesCatalogue(inventoryFilePath, InventoryCatalogue::new);
     }
 
-    public IngredientCatalogue loadShoppingCatalogue() {
+    public ShoppingCatalogue loadShoppingCatalogue() {
         shoppingFilePath = basePath.resolve(shoppingFileName);
 
         assert shoppingFilePath.toFile().exists();
-        return loadConsumablesCatalogue(shoppingFilePath);
+        return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
     }
 
-    public IngredientCatalogue loadConsumablesCatalogue(Path filePath) {
+    public  <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
-        IngredientCatalogue storageInventory = new IngredientCatalogue();
+        T ingredientCatalogue = catalogue.get();
 
         if (lines == null || lines.isEmpty()) {
-            return storageInventory;
+            return ingredientCatalogue;
         }
 
         for (String line : lines) {
@@ -55,13 +59,13 @@ public class CatalogueContentManager {
                     String itemName = parts[0].trim();
                     int quantity = Integer.parseInt(parts[1].trim());
                     Ingredient i = new Ingredient(itemName, quantity);
-                    storageInventory.addItem(i);
+                    ingredientCatalogue.addItem(i);
                 } catch (NumberFormatException e) {
                     System.err.println("Skipping invalid entry: " + line);
                 }
             }
         }
-        return storageInventory;
+        return ingredientCatalogue;
     }
 
     // TODO: Define the text format for Recipe.
@@ -118,10 +122,8 @@ public class CatalogueContentManager {
     }
 
     private void checkDirectoryExistence() throws IOException {
-        // Ensure the directory exists
         if (!Files.exists(basePath)) {
             Files.createDirectories(basePath);
-            // System.out.println("Directory created: " + BASE_PATH.toAbsolutePath());
         }
     }
 
