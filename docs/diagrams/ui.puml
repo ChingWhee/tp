@@ -1,0 +1,8 @@
+@startuml
+class Ui {
+    +showInitMessage()
+    +showScreenPrompt(ScreenState screen)
+    +showResultToUser(CommandResult result)
+    +getUserCommand(): String
+}
+@enduml

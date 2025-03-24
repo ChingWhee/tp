@@ -1,0 +1,42 @@
+@startuml
+package "model" {
+    class Ingredient {
+        -String ingredientName
+        -int quantity
+        +getIngredientName(): String
+        +getQuantity(): int
+        +addQuantity(int quantity)
+        +subtractQuantity(int quantity)
+    }
+
+    class Recipe {
+        -String recipeName
+        +getRecipeName(): String
+        +addItem(Ingredient ingredient): CommandResult
+        +deleteItem(Ingredient ingredient): CommandResult
+    }
+
+    package "catalogue" {
+        abstract class Catalogue<T> {
+            -ArrayList<T> items
+            +addItem(T item): CommandResult
+            +deleteItem(T item): CommandResult
+            +listItems(): CommandResult
+        }
+
+        class IngredientCatalogue extends Catalogue<Ingredient> {
+            +searchSimilarIngredient(Ingredient ingredient): ArrayList<Ingredient>
+            +addItem(Ingredient ingredient): CommandResult
+            +deleteItem(Ingredient ingredient): CommandResult
+        }
+
+        class InventoryCatalogue extends IngredientCatalogue
+        class ShoppingCatalogue extends IngredientCatalogue
+        class RecipeCatalogue extends Catalogue<Recipe> {
+            +searchSimilarRecipe(Recipe recipe): ArrayList<Recipe>
+            +addItem(Recipe recipe): CommandResult
+            +deleteItem(Recipe recipe): CommandResult
+        }
+    }
+}
+@enduml
