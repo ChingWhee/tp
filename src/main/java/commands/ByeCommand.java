@@ -1,5 +1,7 @@
 package commands;
 
+import storage.CatalogueContentManager;
+
 /**
  * A command that signifies the termination of the program.
  */
@@ -8,6 +10,11 @@ public class ByeCommand extends Command {
      * Constructs a ByeCommand instance.
      */
     public ByeCommand() {
+        // If user terminates the program gracefully, the program will save everything.
+        CatalogueContentManager contentManager = new CatalogueContentManager();
+        contentManager.saveToFile("InventoryCatalogue");
+        contentManager.saveToFile("ShoppingCatalogue");
+        contentManager.saveToFile("RecipeBook");
     }
 
     /**

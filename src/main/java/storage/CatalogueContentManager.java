@@ -30,6 +30,7 @@ public class CatalogueContentManager {
 
     }
 
+    // TODO: Combine similar methods into one method
     public InventoryCatalogue loadInventoryCatalogue() throws IOException {
         inventoryFilePath = basePath.resolve(inventoryFileName);
         checkDirectoryExistence();
@@ -119,13 +120,30 @@ public class CatalogueContentManager {
         return null;
     }
 
-    public void saveInventoryCatalogue(String content) {
+    public void saveToFile(String catalogueName) {
         try {
+            Path filePath = null;
+            switch (catalogueName) {
+            case "InventoryCatalogue":
+                filePath = inventoryFilePath;
+                break;
+            case "ShoppingCatalogue":
+                filePath = shoppingFilePath;
+                break;
+            case "RecipeBook":
+                filePath = recipeFilePath;
+                break;
+            default:
+            }
+
             // Check the existence again in case the directory or file was deleted
             checkDirectoryExistence();
-            checkFileExistence(inventoryFilePath);
+            checkFileExistence(filePath);
 
-            Files.writeString(inventoryFilePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
+            String content = ""; // Dummy code for the time being
+
+            assert filePath != null;
+            Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Exception e) {
             System.err.println("Error handling file: " + e.getMessage());
         }
