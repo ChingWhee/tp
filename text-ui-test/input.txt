@@ -1,3 +1,1 @@
-James Gosling
-addingredient s 1
 bye

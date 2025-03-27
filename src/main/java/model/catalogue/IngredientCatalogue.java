@@ -1,12 +1,10 @@
 package model.catalogue;
 
+import commands.CommandResult;
 import model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import ui.inputparser.InputParser;
@@ -21,29 +19,7 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      */
 
     public IngredientCatalogue() {
-        super("Ingredient_Catalogue");
-        List<String> rawContent = contentManager.loadRawCatalogueContent();
-        loadCatalogue(rawContent);
-    }
 
-    private void loadCatalogue(List<String> lines) {
-        if (lines.isEmpty()) {
-            return;
-        }
-
-        for (String line : lines) {
-            String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
-            if (parts.length == 2) {
-                try {
-                    String itemName = parts[0].trim();
-                    int quantity = Integer.parseInt(parts[1].trim());
-                    Ingredient i = new Ingredient(itemName, quantity);
-                    addItem(i);
-                } catch (NumberFormatException e) {
-                    System.err.println("Skipping invalid entry: " + line);
-                }
-            }
-        }
     }
 
     /**
@@ -87,21 +63,19 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param ingredient The ingredient to be added.
      */
     @Override
-    public void addItem(Ingredient ingredient) {
+    public CommandResult addItem(Ingredient ingredient) {
         // Search for similar ingredients in the inventory
         ArrayList<Ingredient> similarIngredient = searchSimilarIngredient(ingredient);
 
         // Case 1: No similar ingredient found, add the new ingredient directly
         if (similarIngredient.isEmpty()) {
-            addIngredient(ingredient);
-            return;
+            return addIngredient(ingredient);
         }
 
         // Case 2: Only one similar ingredient exists, check if it's an exact match
         if (similarIngredient.size() == SINGLE_MATCH &&
                 isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
-            increaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
-            return;
+            return increaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
         }
 
         // Case 3: Multiple similar ingredients found, prompt user to choose an action
@@ -109,14 +83,14 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
 
         if (choice == 0) {
             // User chose to add the new ingredient as a separate entry
-            addIngredient(ingredient);
+            return addIngredient(ingredient);
         } else if (choice > 0 && choice <= similarIngredient.size()) {
             // User selected an existing ingredient, increase its quantity
-            increaseQuantity(similarIngredient.get(choice - 1), ingredient);
-        } else {
-            // User provided an invalid input, cancel the operation
-            System.out.println("Operation canceled.");
+            return increaseQuantity(similarIngredient.get(choice - 1), ingredient);
         }
+
+        // User provided an invalid input, cancel the operation
+        return new CommandResult("Operation canceled.");
     }
 
     /**
@@ -124,12 +98,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      *
      * @param ingredient The ingredient to add.
      */
-    private void addIngredient(Ingredient ingredient) {
+    private CommandResult addIngredient(Ingredient ingredient) {
         items.add(ingredient);
-
-        contentManager.saveCatalogue(getCatalogueContent());
-
-        System.out.println(ingredient.getIngredientName() + " added to inventory.");
+        return new CommandResult(ingredient.getIngredientName() + " added to inventory.");
     }
 
     /**
@@ -138,15 +109,13 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param existingIngredient The existing ingredient in the inventory.
      * @param newIngredient The new ingredient being added, increasing to the quantity.
      */
-    private void increaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
+    private CommandResult increaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
         int initialQuantity = existingIngredient.getQuantity();
         int increaseQuantity = newIngredient.getQuantity();
 
         existingIngredient.addQuantity(newIngredient.getQuantity());
 
-        contentManager.saveCatalogue(getCatalogueContent());
-
-        System.out.println(existingIngredient.getIngredientName() + ": " +
+        return new CommandResult(existingIngredient.getIngredientName() + ": " +
                 "Initial quantity = " + initialQuantity + ", " +
                 "Added = " + increaseQuantity + ", " +
                 "Total = " + existingIngredient.getQuantity());
@@ -159,21 +128,20 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param ingredient The ingredient to delete.
      */
     @Override
-    public void deleteItem(Ingredient ingredient) {
+    public CommandResult deleteItem(Ingredient ingredient) {
         // Search for similar ingredients in the inventory
         ArrayList<Ingredient> similarIngredient = searchSimilarIngredient(ingredient);
 
         // Case 1: No similar ingredient found, inform the user
         if (similarIngredient.isEmpty()) {
-            System.out.println(ingredient.getIngredientName() + " does not exist in the inventory.");
-            return;
+            return new CommandResult(ingredient.getIngredientName()
+                    + " does not exist in the inventory.");
         }
 
         // Case 2: Only one similar ingredient exists, check if it's an exact match
         if (similarIngredient.size() == SINGLE_MATCH &&
                 isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
-            decreaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
-            return;
+            return decreaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
         }
 
         // Case 3: Multiple similar ingredients found, prompt user to choose an action
@@ -181,11 +149,11 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
 
         if (choice > 0 && choice <= similarIngredient.size()) {
             // User selected an existing ingredient, decrease its quantity
-            decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
-        } else {
-            // User provided an invalid input, cancel the operation
-            System.out.println("Operation canceled.");
+            return decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
         }
+
+        // User provided an invalid input, cancel the operation
+        return new CommandResult("Operation canceled.");
     }
 
     /**
@@ -193,12 +161,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      *
      * @param ingredient The ingredient to remove.
      */
-    private void removeIngredient(Ingredient ingredient) {
+    private CommandResult removeIngredient(Ingredient ingredient) {
         items.remove(ingredient);
-
-        contentManager.saveCatalogue(getCatalogueContent());
-
-        System.out.println(ingredient.getIngredientName() + " removed from inventory.");
+        return new CommandResult(ingredient.getIngredientName() + " removed from inventory.");
     }
 
     /**
@@ -208,21 +173,23 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
      * @param existingIngredient The existing ingredient in the inventory.
      * @param newIngredient The ingredient being removed or decreased in quantity.
      */
-    public void decreaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
+    public CommandResult decreaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
         int initialQuantity = existingIngredient.getQuantity();
         int decreaseQuantity = newIngredient.getQuantity();
 
         existingIngredient.subtractQuantity(newIngredient.getQuantity());
 
-        System.out.println(existingIngredient.getIngredientName() + ": " +
+        // Create the calculation message
+        String calculations = existingIngredient.getIngredientName() + ": " +
                 "Initial quantity = " + initialQuantity + ", " +
                 "Subtracted = " + decreaseQuantity + ", " +
-                "Remaining = " + existingIngredient.getQuantity());
+                "Remaining = " + existingIngredient.getQuantity();
 
         if (existingIngredient.getQuantity() <= 0) {
-            removeIngredient(existingIngredient);
+            CommandResult removalResult = removeIngredient(existingIngredient);
+            return new CommandResult(calculations + "\n" + removalResult.getFeedbackToUser());
         }
 
-        contentManager.saveCatalogue(getCatalogueContent());
+        return new CommandResult(calculations);
     }
 }

@@ -1,0 +1,10 @@
+@startuml
+package "storage" {
+    class CatalogueContentManager {
+        +loadInventoryCatalogue(): InventoryCatalogue
+        +loadShoppingCatalogue(): ShoppingCatalogue
+        +loadRecipeCatalogue(): RecipeCatalogue
+        +saveInventoryCatalogue(String content)
+    }
+}
+@enduml

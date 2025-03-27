@@ -89,6 +89,15 @@ public class InputParser {
         }
     }
 
+    /**
+     * Prompts the user when a recipe being added is similar to existing ones.
+     *
+     * @param similarRecipe List of recipes with similar names.
+     * @param newRecipe     The recipe the user is trying to add.
+     * @return Integer representing the user's choice:
+     *         - 0: Add as new recipe.
+     *         - -1: Cancel the operation.
+     */
     public static int getUserChoiceForAddRecipe(ArrayList<Recipe> similarRecipe, Recipe newRecipe) {
         System.out.println("Similar items found in recipe list for: " + newRecipe.getRecipeName());
 
@@ -117,6 +126,15 @@ public class InputParser {
         }
     }
 
+    /**
+     * Prompts the user to select which similar recipe to delete.
+     *
+     * @param similarRecipe List of similar recipes found in the recipe catalogue.
+     * @param newRecipe     The recipe name the user is attempting to delete.
+     * @return Integer representing the user's choice:
+     *         - 1...n: Delete the selected recipe.
+     *         - -1: Cancel the operation.
+     */
     public static int getUserChoiceForDeleteRecipe(ArrayList<Recipe> similarRecipe, Recipe newRecipe) {
         System.out.println("Similar items found in recipe list for: " + newRecipe.getRecipeName());
 

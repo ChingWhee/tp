@@ -1,0 +1,21 @@
+@startuml
+package "commands" {
+    class Command {
+        +execute(): CommandResult
+        +execute(Catalogue<?> catalogue): CommandResult
+    }
+    Command <|-- AddCommand
+    Command <|-- BackCommand
+    Command <|-- ByeCommand
+    Command <|-- DeleteCommand
+    Command <|-- GoToCommand
+    Command <|-- ListCommand
+    CommandResult --> ScreenState
+}
+
+package "ui.inputparser" {
+    class Parser {
+        +parseCommand(ScreenState screen, String userInput): Command
+    }
+}
+@enduml
