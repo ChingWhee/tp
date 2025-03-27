@@ -3,7 +3,7 @@ package commands;
 import controller.ScreenState;
 import model.catalogue.Catalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 /**
@@ -13,7 +13,7 @@ import model.catalogue.ShoppingCatalogue;
  * <ul>
  *     <li>Ingredients in the {@link InventoryCatalogue}</li>
  *     <li>Ingredients in the {@link ShoppingCatalogue}</li>
- *     <li>Recipes in the {@link RecipeCatalogue}</li>
+ *     <li>Recipes in the {@link RecipeBook}</li>
  * </ul>
  */
 public class ListCommand extends Command {
@@ -43,7 +43,7 @@ public class ListCommand extends Command {
             return inventory.listItems();
         } else if (catalogue instanceof ShoppingCatalogue shopping) {
             return shopping.listItems();
-        } else if (catalogue instanceof RecipeCatalogue recipe) {
+        } else if (catalogue instanceof RecipeBook recipe) {
             return recipe.listItems();
         } else {
             return new CommandResult("Unsupported catalogue for AddCommand.", null);
