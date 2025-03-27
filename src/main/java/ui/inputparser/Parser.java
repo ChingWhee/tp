@@ -86,16 +86,16 @@ public class Parser {
      * @return A Command object for the shopping action.
      * @throws IllegalArgumentException If the command is unknown or malformed.
      */
-    private Command parseShoppingCommand(ScreenState screen, String command, String args) {
-        return switch (command) {
-        case "add" -> prepareAdd(screen, args);
-        case "delete" -> prepareDelete(screen, args);
-        case "list" -> prepareList(screen);
-        case "back" -> prepareBack();
-        case "bye" -> prepareBye();
-        default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
-        };
-    }
+    //    private Command parseShoppingCommand(ScreenState screen, String command, String args) {
+    //        return switch (command) {
+    //        case "add" -> prepareAdd(screen, args);
+    //        case "delete" -> prepareDelete(screen, args);
+    //        case "list" -> prepareList(screen);
+    //        case "back" -> prepareBack();
+    //        case "bye" -> prepareBye();
+    //        default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
+    //        };
+    //    }
 
     /**
      * Parses commands specific to the recipe screen.
