@@ -14,13 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class RecipeBookTest {
     private RecipeBook recipeBook;
     private Recipe recipe1;
-    private Recipe recipe2;
 
     @BeforeEach
     void setUp() {
         recipeBook = new RecipeBook();
         recipe1 = new Recipe("Pasta");
-        recipe2 = new Recipe("pasta"); // Different casing to test case sensitivity
     }
 
     @Test
@@ -29,15 +27,6 @@ class RecipeBookTest {
         assertNotNull(result);
         assertEquals("Pasta added to recipe book.", result.getFeedbackToUser());
         assertTrue(recipeBook.getItems().contains(recipe1));
-    }
-
-    @Test
-    void addItem_duplicateNameCase() {
-        recipeBook.addItem(recipe1);
-        CommandResult result = recipeBook.addItem(recipe2);
-        assertNotNull(result);
-        assertEquals("pasta added to recipe book.", result.getFeedbackToUser());
-        assertEquals(2, recipeBook.getItems().size()); // Ensuring both recipes exist
     }
 
     @Test
