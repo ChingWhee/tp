@@ -83,7 +83,7 @@ public class Ui {
         System.out.println("What would you like to do today? Available commands:");
         System.out.println("- inventory → View and manage your inventory");
         System.out.println("- recipe → View and manage your recipes");
-        System.out.println("- shopping → View and manage your shopping list");
+//        System.out.println("- shopping → View and manage your shopping list");
         System.out.println("- bye → Exit the program");
     }
 
