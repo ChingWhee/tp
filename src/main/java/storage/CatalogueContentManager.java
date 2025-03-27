@@ -3,7 +3,7 @@ package storage;
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 import java.io.IOException;
@@ -75,7 +75,7 @@ public class CatalogueContentManager {
     }
 
     // TODO: Define the text format for Recipe.
-    public RecipeCatalogue loadRecipeCatalogue() throws IOException {
+    public RecipeBook loadRecipeBook() throws IOException {
         recipeFilePath = basePath.resolve(recipeFileName);
         checkDirectoryExistence();
         checkFileExistence(recipeFilePath);
@@ -83,7 +83,7 @@ public class CatalogueContentManager {
         assert recipeFilePath.toFile().exists();
 
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
-        RecipeCatalogue storageRecipe = new RecipeCatalogue();
+        RecipeBook storageRecipe = new RecipeBook();
 
         if (lines == null || lines.isEmpty()) {
             return storageRecipe;

@@ -8,11 +8,12 @@ import logic.commands.Commands;
 
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.Catalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
 import model.catalogue.ShoppingCatalogue;
+import model.catalogue.Catalogue;
+
 
 import storage.CatalogueContentManager;
 
@@ -29,7 +30,7 @@ public class KitchenCTRL {
     private InventoryCatalogue inventoryCatalogue;
 
     // Catalogue storing recipes
-    private RecipeCatalogue recipeCatalogue;
+    private RecipeBook recipeBook;
 
     // Catalogue storing shopping list ingredients
     private ShoppingCatalogue shoppingCatalogue;
@@ -73,7 +74,7 @@ public class KitchenCTRL {
 
             this.inventoryCatalogue = contentManager.loadInventoryCatalogue();
             this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
-            this.recipeCatalogue = contentManager.loadRecipeCatalogue();
+            this.recipeBook = contentManager.loadRecipeBook();
 
             ui.showInitMessage();
         } catch (Exception e) {
@@ -154,7 +155,7 @@ public class KitchenCTRL {
         return switch (screen) {
         case INVENTORY -> inventoryCatalogue;
         case SHOPPING -> shoppingCatalogue;
-        case RECIPE -> recipeCatalogue;
+        case RECIPE -> recipeBook;
         default -> null; // For WELCOME, or throw if needed
         };
     }
