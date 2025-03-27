@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import logic.commands.Commands;
 import model.Ingredient;
 
-
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

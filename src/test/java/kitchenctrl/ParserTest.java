@@ -14,7 +14,10 @@ import controller.ScreenState;
 import org.junit.jupiter.api.Test;
 import ui.inputparser.Parser;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParserTest {
     private final Parser parser = new Parser();
@@ -128,68 +131,68 @@ class ParserTest {
     }
 
     // --- SHOPPING SCREEN COMMANDS ---
-//    @Test
-//    public void testShoppingCommand_valid() {
-//        Command command = parser.parseCommand(ScreenState.SHOPPING, "add apple 5");
-//        assertInstanceOf(AddCommand.class, command);
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_delete_valid() {
-//        Command command = parser.parseCommand(ScreenState.SHOPPING, "delete sugar 2");
-//        assertInstanceOf(DeleteCommand.class, command);
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_list() {
-//        Command command = parser.parseCommand(ScreenState.SHOPPING, "list");
-//        assertInstanceOf(ListCommand.class, command);
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_back() {
-//        Command command = parser.parseCommand(ScreenState.SHOPPING, "back");
-//        assertInstanceOf(BackCommand.class, command);
-//
-//        CommandResult result = command.execute();
-//        assertEquals(ScreenState.WELCOME, result.getNewScreen());
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_bye() {
-//        Command command = parser.parseCommand(ScreenState.SHOPPING, "bye");
-//        assertInstanceOf(ByeCommand.class, command);
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_invalidFormat() {
-//        assertThrows(IllegalArgumentException.class, () ->
-//                parser.parseCommand(ScreenState.SHOPPING, "aaaaaaaa"));
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_add_invalidFormat() {
-//        assertThrows(IllegalArgumentException.class, () ->
-//                parser.parseCommand(ScreenState.SHOPPING, "add milk"));
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_add_invalidQuantity() {
-//        assertThrows(IllegalArgumentException.class, () ->
-//                parser.parseCommand(ScreenState.SHOPPING, "add milk two"));
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_delete_invalidFormat() {
-//        assertThrows(IllegalArgumentException.class, () ->
-//                parser.parseCommand(ScreenState.SHOPPING, "delete milk"));
-//    }
-//
-//    @Test
-//    public void testShoppingCommand_delete_invalidQuantity() {
-//        assertThrows(IllegalArgumentException.class, () ->
-//                parser.parseCommand(ScreenState.SHOPPING, "delete milk two"));
-//    }
+    //    @Test
+    //    public void testShoppingCommand_valid() {
+    //        Command command = parser.parseCommand(ScreenState.SHOPPING, "add apple 5");
+    //        assertInstanceOf(AddCommand.class, command);
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_delete_valid() {
+    //        Command command = parser.parseCommand(ScreenState.SHOPPING, "delete sugar 2");
+    //        assertInstanceOf(DeleteCommand.class, command);
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_list() {
+    //        Command command = parser.parseCommand(ScreenState.SHOPPING, "list");
+    //        assertInstanceOf(ListCommand.class, command);
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_back() {
+    //        Command command = parser.parseCommand(ScreenState.SHOPPING, "back");
+    //        assertInstanceOf(BackCommand.class, command);
+    //
+    //        CommandResult result = command.execute();
+    //        assertEquals(ScreenState.WELCOME, result.getNewScreen());
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_bye() {
+    //        Command command = parser.parseCommand(ScreenState.SHOPPING, "bye");
+    //        assertInstanceOf(ByeCommand.class, command);
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_invalidFormat() {
+    //        assertThrows(IllegalArgumentException.class, () ->
+    //                parser.parseCommand(ScreenState.SHOPPING, "aaaaaaaa"));
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_add_invalidFormat() {
+    //        assertThrows(IllegalArgumentException.class, () ->
+    //                parser.parseCommand(ScreenState.SHOPPING, "add milk"));
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_add_invalidQuantity() {
+    //        assertThrows(IllegalArgumentException.class, () ->
+    //                parser.parseCommand(ScreenState.SHOPPING, "add milk two"));
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_delete_invalidFormat() {
+    //        assertThrows(IllegalArgumentException.class, () ->
+    //                parser.parseCommand(ScreenState.SHOPPING, "delete milk"));
+    //    }
+    //
+    //    @Test
+    //    public void testShoppingCommand_delete_invalidQuantity() {
+    //        assertThrows(IllegalArgumentException.class, () ->
+    //                parser.parseCommand(ScreenState.SHOPPING, "delete milk two"));
+    //    }
     // --- RECIPE SCREEN COMMANDS ---
 
     @Test
