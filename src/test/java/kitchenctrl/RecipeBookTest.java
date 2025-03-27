@@ -24,7 +24,7 @@ class RecipeBookTest {
     }
 
     @Test
-    void testAddItem_NewRecipe() {
+    void addItem_newRecipe() {
         CommandResult result = recipeBook.addItem(recipe1);
         assertNotNull(result);
         assertEquals("Pasta added to recipe book.", result.getFeedbackToUser());
@@ -32,7 +32,7 @@ class RecipeBookTest {
     }
 
     @Test
-    void testAddItem_DuplicateNameDifferentCase() {
+    void addItem_duplicateNameCase() {
         recipeBook.addItem(recipe1);
         CommandResult result = recipeBook.addItem(recipe2);
         assertNotNull(result);
@@ -41,7 +41,7 @@ class RecipeBookTest {
     }
 
     @Test
-    void testDeleteItem_ExistingRecipe() {
+    void deleteItem_existingRecipe() {
         recipeBook.addItem(recipe1);
         CommandResult result = recipeBook.deleteItem(recipe1);
         assertNotNull(result);
@@ -50,14 +50,14 @@ class RecipeBookTest {
     }
 
     @Test
-    void testDeleteItem_NonExistentRecipe() {
+    void deleteItem_nonExistentRecipe() {
         CommandResult result = recipeBook.deleteItem(recipe1);
         assertNotNull(result);
         assertEquals("Pasta does not exist in the recipe book.", result.getFeedbackToUser());
     }
 
     @Test
-    void testEditItem_ExistingRecipe() {
+    void editItem_existingRecipe() {
         recipeBook.addItem(recipe1);
         Recipe updatedRecipe = new Recipe("Spaghetti");
         CommandResult result = recipeBook.editItem(recipe1, updatedRecipe);
@@ -68,7 +68,7 @@ class RecipeBookTest {
     }
 
     @Test
-    void testEditItem_NonExistentRecipe() {
+    void editItem_nonExistentRecipe() {
         Recipe updatedRecipe = new Recipe("Spaghetti");
         CommandResult result = recipeBook.editItem(recipe1, updatedRecipe);
         assertNotNull(result);
@@ -76,14 +76,14 @@ class RecipeBookTest {
     }
 
     @Test
-    void testListItems_EmptyBook() {
+    void listItems_emptyBook() {
         CommandResult result = recipeBook.listItems();
         assertNotNull(result);
         assertEquals("No recipes found.", result.getFeedbackToUser());
     }
 
     @Test
-    void testListItems_WithRecipes() {
+    void listItems_withRecipes() {
         recipeBook.addItem(recipe1);
         recipeBook.addItem(new Recipe("Pizza"));
         CommandResult result = recipeBook.listItems();

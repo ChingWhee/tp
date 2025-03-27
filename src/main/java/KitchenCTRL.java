@@ -8,8 +8,12 @@ import logic.commands.Commands;
 
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.*;
 import model.catalogue.RecipeBook;
+import model.catalogue.IngredientCatalogue;
+import model.catalogue.InventoryCatalogue;
+import model.catalogue.ShoppingCatalogue;
+import model.catalogue.Catalogue;
+
 
 import storage.CatalogueContentManager;
 
