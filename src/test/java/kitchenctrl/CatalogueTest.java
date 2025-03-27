@@ -1,7 +1,7 @@
 package kitchenctrl;
 
 import model.catalogue.IngredientCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.Ingredient;
 import model.Recipe;
 
@@ -14,11 +14,11 @@ class CatalogueTest {
     @Test
     public void testCatalogueInitialization() {
         IngredientCatalogue testInventoryCatalogue = new IngredientCatalogue() {};
-        RecipeCatalogue testRecipeCatalogue = new RecipeCatalogue() {};
+        RecipeBook testRecipeBook = new RecipeBook() {};
         ArrayList<Ingredient> expectedIngredients = new ArrayList<>();
         ArrayList<Recipe> expectedRecipes = new ArrayList<>();
 
         assertEquals(expectedIngredients, testInventoryCatalogue.getItems());
-        assertEquals(expectedRecipes, testRecipeCatalogue.getItems());
+        assertEquals(expectedRecipes, testRecipeBook.getItems());
     }
 }

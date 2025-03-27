@@ -5,7 +5,7 @@ import model.Ingredient;
 import model.Recipe;
 import model.catalogue.Catalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 /**
@@ -55,7 +55,7 @@ public class AddCommand extends Command {
         } else if (catalogue instanceof ShoppingCatalogue shopping) {
             Ingredient newIngredient = new Ingredient(name, quantity);
             return shopping.addItem(newIngredient);
-        } else if (catalogue instanceof RecipeCatalogue recipe) {
+        } else if (catalogue instanceof RecipeBook recipe) {
             Recipe newRecipe = new Recipe();
             return recipe.addItem(newRecipe);
         } else {

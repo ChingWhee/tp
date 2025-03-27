@@ -5,7 +5,7 @@ import model.Ingredient;
 import model.Recipe;
 import model.catalogue.Catalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 /**
@@ -15,7 +15,7 @@ import model.catalogue.ShoppingCatalogue;
  * <ul>
  *     <li>A specified quantity of an ingredient from the {@link InventoryCatalogue}</li>
  *     <li>A specified quantity of an ingredient from the {@link ShoppingCatalogue}</li>
- *     <li>A recipe (by name) from the {@link RecipeCatalogue}</li>
+ *     <li>A recipe (by name) from the {@link RecipeBook}</li>
  * </ul>
  */
 public class DeleteCommand extends Command {
@@ -54,7 +54,7 @@ public class DeleteCommand extends Command {
         } else if (catalogue instanceof ShoppingCatalogue shopping) {
             Ingredient newIngredient = new Ingredient(name, quantity);
             return shopping.deleteItem(newIngredient);
-        } else if (catalogue instanceof RecipeCatalogue recipe) {
+        } else if (catalogue instanceof RecipeBook recipe) {
             Recipe newRecipe = new Recipe();
             return recipe.deleteItem(newRecipe);
         } else {

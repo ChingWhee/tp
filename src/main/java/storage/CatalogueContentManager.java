@@ -3,7 +3,7 @@ package storage;
 import model.Ingredient;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 import java.io.IOException;
@@ -33,14 +33,14 @@ public class CatalogueContentManager {
     public InventoryCatalogue loadInventoryCatalogue() {
         inventoryFilePath = basePath.resolve(inventoryFileName);
 
-        assert inventoryFilePath.toFile().exists();
+        //assert inventoryFilePath.toFile().exists();
         return loadConsumablesCatalogue(inventoryFilePath, InventoryCatalogue::new);
     }
 
     public ShoppingCatalogue loadShoppingCatalogue() {
         shoppingFilePath = basePath.resolve(shoppingFileName);
 
-        assert shoppingFilePath.toFile().exists();
+        //assert shoppingFilePath.toFile().exists();
         return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
     }
 
@@ -69,12 +69,12 @@ public class CatalogueContentManager {
     }
 
     // TODO: Define the text format for Recipe.
-    public RecipeCatalogue loadRecipeCatalogue() {
+    public RecipeBook loadRecipeBook() {
         recipeFilePath = basePath.resolve(recipeFileName);
 
-        assert recipeFilePath.toFile().exists();
+        //assert recipeFilePath.toFile().exists();
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
-        RecipeCatalogue storageRecipe = new RecipeCatalogue();
+        RecipeBook storageRecipe = new RecipeBook();
 
         if (lines == null || lines.isEmpty()) {
             return storageRecipe;

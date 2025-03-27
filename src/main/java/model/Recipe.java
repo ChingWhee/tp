@@ -7,8 +7,9 @@ public class Recipe extends Catalogue<Ingredient> {
 
     public Recipe() { }
 
-    public Recipe(String name) {
-        recipeName = name;
+
+    public Recipe(String recipeName) {
+        this.recipeName = recipeName;
     }
 
     public String getRecipeName() {
