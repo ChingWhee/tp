@@ -34,7 +34,7 @@ public class Parser {
         return switch (screen) {
         case WELCOME -> parseWelcomeCommand(command);
         case INVENTORY -> parseInventoryCommand(screen, command, args);
-//        case SHOPPING -> parseShoppingCommand(screen, command, args);
+        // case SHOPPING -> parseShoppingCommand(screen, command, args);
         case RECIPE -> parseRecipeCommand(screen, command, args);
         default -> throw new IllegalArgumentException("Unrecognized screen state.");
         };
@@ -50,7 +50,7 @@ public class Parser {
     private Command parseWelcomeCommand(String command) {
         return switch (command) {
         case "inventory" -> prepareGoto(ScreenState.INVENTORY);
-//        case "shopping" -> prepareGoto(ScreenState.SHOPPING);
+        // case "shopping" -> prepareGoto(ScreenState.SHOPPING);
         case "recipe" -> prepareGoto(ScreenState.RECIPE);
         case "bye" -> prepareBye();
         default -> throw new IllegalArgumentException("Unknown command in welcome screen.");

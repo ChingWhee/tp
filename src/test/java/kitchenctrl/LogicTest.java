@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class CommandTest {
+public class LogicTest {
     @Test
     public void insufficientIngredients() {
         IngredientCatalogue testInventory = new IngredientCatalogue();

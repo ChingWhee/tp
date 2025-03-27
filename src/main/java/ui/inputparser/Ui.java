@@ -3,6 +3,7 @@ package ui.inputparser;
 import commands.CommandResult;
 import controller.ScreenState;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 /**
@@ -11,7 +12,17 @@ import java.util.Scanner;
  */
 public class Ui {
     // Scanner to read user input from console
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner;
+
+    // Production constructor
+    public Ui() {
+        this(System.in);
+    }
+
+    // Testable constructor
+    public Ui(InputStream inStream) {
+        scanner = new Scanner(inStream);
+    }
 
     /**
      * Displays the ASCII logo upon program launch.
@@ -83,7 +94,7 @@ public class Ui {
         System.out.println("What would you like to do today? Available commands:");
         System.out.println("- inventory → View and manage your inventory");
         System.out.println("- recipe → View and manage your recipes");
-//        System.out.println("- shopping → View and manage your shopping list");
+        // System.out.println("- shopping → View and manage your shopping list");
         System.out.println("- bye → Exit the program");
     }
 
@@ -131,10 +142,6 @@ public class Ui {
      */
     public void showGoodbyeMessage() {
         System.out.println("Goodbye, see you soon!");
-    }
-
-    public void showInvalidCommandMessage() {
-        System.out.println("Invalid command!");
     }
 
     /**
