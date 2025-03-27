@@ -77,15 +77,15 @@ public class Parser {
         };
     }
 
-    /**
-     * Parses commands specific to the shopping screen.
-     *
-     * @param screen  The current screen state (SHOPPING).
-     * @param command The command keyword (add, delete, list, back).
-     * @param args Arguments passed with the command.
-     * @return A Command object for the shopping action.
-     * @throws IllegalArgumentException If the command is unknown or malformed.
-     */
+    //    /**
+    //     * Parses commands specific to the shopping screen.
+    //     *
+    //     * @param screen  The current screen state (SHOPPING).
+    //     * @param command The command keyword (add, delete, list, back).
+    //     * @param args Arguments passed with the command.
+    //     * @return A Command object for the shopping action.
+    //     * @throws IllegalArgumentException If the command is unknown or malformed.
+    //     */
     //    private Command parseShoppingCommand(ScreenState screen, String command, String args) {
     //        return switch (command) {
     //        case "add" -> prepareAdd(screen, args);
