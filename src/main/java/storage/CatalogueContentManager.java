@@ -30,17 +30,23 @@ public class CatalogueContentManager {
 
     }
 
-    public InventoryCatalogue loadInventoryCatalogue() {
+    public InventoryCatalogue loadInventoryCatalogue() throws IOException {
         inventoryFilePath = basePath.resolve(inventoryFileName);
+        checkDirectoryExistence();
+        checkFileExistence(inventoryFilePath);
 
         assert inventoryFilePath.toFile().exists();
+
         return loadConsumablesCatalogue(inventoryFilePath, InventoryCatalogue::new);
     }
 
-    public ShoppingCatalogue loadShoppingCatalogue() {
+    public ShoppingCatalogue loadShoppingCatalogue() throws IOException {
         shoppingFilePath = basePath.resolve(shoppingFileName);
+        checkDirectoryExistence();
+        checkFileExistence(shoppingFilePath);
 
         assert shoppingFilePath.toFile().exists();
+
         return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
     }
 
@@ -69,10 +75,13 @@ public class CatalogueContentManager {
     }
 
     // TODO: Define the text format for Recipe.
-    public RecipeCatalogue loadRecipeCatalogue() {
+    public RecipeCatalogue loadRecipeCatalogue() throws IOException {
         recipeFilePath = basePath.resolve(recipeFileName);
+        checkDirectoryExistence();
+        checkFileExistence(recipeFilePath);
 
         assert recipeFilePath.toFile().exists();
+
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
         RecipeCatalogue storageRecipe = new RecipeCatalogue();
 
@@ -112,8 +121,9 @@ public class CatalogueContentManager {
 
     public void saveInventoryCatalogue(String content) {
         try {
+            // Check the existence again in case the directory or file was deleted
             checkDirectoryExistence();
-            checkInventoryFileExistence();
+            checkFileExistence(inventoryFilePath);
 
             Files.writeString(inventoryFilePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Exception e) {
@@ -127,13 +137,9 @@ public class CatalogueContentManager {
         }
     }
 
-    private void checkInventoryFileExistence() throws IOException {
-        if (inventoryFilePath == null) {
-            inventoryFilePath = basePath.resolve(inventoryFileName);
-        }
-
-        if (!Files.exists(inventoryFilePath)) {
-            Files.createFile(inventoryFilePath);
+    private void checkFileExistence(Path filePath) throws IOException {
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
         }
     }
 }
