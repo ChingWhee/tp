@@ -3,8 +3,6 @@ import commands.BackCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
-import controller.ScreenState;
-import logic.commands.Commands;
 
 import model.Ingredient;
 import model.Recipe;
@@ -14,11 +12,16 @@ import model.catalogue.InventoryCatalogue;
 import model.catalogue.ShoppingCatalogue;
 import model.catalogue.Catalogue;
 
+import ui.inputparser.Parser;
+import ui.inputparser.Ui;
+
+import controller.ScreenState;
+
+import logic.commands.Commands;
 
 import storage.CatalogueContentManager;
 
-import ui.inputparser.Parser;
-import ui.inputparser.Ui;
+import java.util.ArrayList;
 
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
@@ -27,13 +30,13 @@ import ui.inputparser.Ui;
  */
 public class KitchenCTRL {
     // Catalogue storing ingredients in the inventory
-    private InventoryCatalogue inventoryCatalogue;
+    private static InventoryCatalogue inventoryCatalogue;
 
     // Catalogue storing recipes
-    private RecipeBook recipeBook;
+    private static RecipeBook recipeBook;
 
     // Catalogue storing shopping list ingredients
-    private ShoppingCatalogue shoppingCatalogue;
+    private static ShoppingCatalogue shoppingCatalogue;
 
     private Ui ui;
     private Parser parser;
@@ -72,9 +75,9 @@ public class KitchenCTRL {
             // Manages loading and saving of catalogue data
             CatalogueContentManager contentManager = new CatalogueContentManager();
 
-            this.inventoryCatalogue = contentManager.loadInventoryCatalogue();
-            this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
-            this.recipeBook = contentManager.loadRecipeBook();
+            inventoryCatalogue = contentManager.loadInventoryCatalogue();
+            shoppingCatalogue = contentManager.loadShoppingCatalogue();
+            recipeBook = contentManager.loadRecipeBook();
 
             ui.showInitMessage();
         } catch (Exception e) {
@@ -158,6 +161,14 @@ public class KitchenCTRL {
         case RECIPE -> recipeBook;
         default -> null; // For WELCOME, or throw if needed
         };
+    }
+
+    public static ArrayList<Catalogue<?>> getAllCatalogues() {
+        ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
+        catalogues.add(inventoryCatalogue);
+        catalogues.add(shoppingCatalogue);
+        catalogues.add(recipeBook);
+        return catalogues;
     }
 
     public static void carltonTest() {
