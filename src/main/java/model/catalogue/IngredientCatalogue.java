@@ -15,7 +15,7 @@ import ui.inputparser.InputParser;
  */
 public class IngredientCatalogue extends Catalogue<Ingredient> {
 
-    private final String NAME = "InventoryCatalogue";
+    private String name = "InventoryCatalogue";
 
     /**
      * Constructs an empty inventory catalogue.
@@ -196,6 +196,6 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
     }
 
     public String getName() {
-        return NAME;
+        return name;
     }
 }

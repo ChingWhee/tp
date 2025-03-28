@@ -5,13 +5,13 @@ package model.catalogue;
  */
 public class ShoppingCatalogue extends IngredientCatalogue {
 
-    private final String NAME = "ShoppingCatalogue";
+    private String name = "ShoppingCatalogue";
 
     public ShoppingCatalogue() {
 
     }
 
     public String getName() {
-        return NAME;
+        return name;
     }
 }
