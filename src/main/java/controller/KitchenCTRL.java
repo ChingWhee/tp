@@ -1,3 +1,5 @@
+package controller;
+
 import commands.GoToCommand;
 import commands.BackCommand;
 import commands.ByeCommand;
@@ -14,8 +16,6 @@ import model.catalogue.Catalogue;
 
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
-
-import controller.ScreenState;
 
 import logic.commands.Commands;
 

@@ -1,6 +1,9 @@
 package storage;
 
 import model.Ingredient;
+
+import model.catalogue.Catalogue;
+
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
 import model.catalogue.RecipeBook;
@@ -17,14 +20,14 @@ import java.util.function.Supplier;
 
 public class CatalogueContentManager {
     String directoryName = "data";
-    Path basePath = Paths.get(directoryName);
-
     String inventoryFileName = "inventory_catalogue.txt";
-    Path inventoryFilePath;
     String shoppingFileName = "shopping_catalogue.txt";
-    Path shoppingFilePath;
     String recipeFileName = "recipe_catalogue.txt";
-    Path recipeFilePath;
+
+    Path basePath = Paths.get(directoryName);
+    Path inventoryFilePath = basePath.resolve(inventoryFileName);
+    Path shoppingFilePath = basePath.resolve(shoppingFileName);
+    Path recipeFilePath = basePath.resolve(recipeFileName);
 
     public CatalogueContentManager() {
 
@@ -32,7 +35,6 @@ public class CatalogueContentManager {
 
     // TODO: Combine similar methods into one method
     public InventoryCatalogue loadInventoryCatalogue() throws IOException {
-        inventoryFilePath = basePath.resolve(inventoryFileName);
         checkDirectoryExistence();
         checkFileExistence(inventoryFilePath);
 
@@ -42,7 +44,6 @@ public class CatalogueContentManager {
     }
 
     public ShoppingCatalogue loadShoppingCatalogue() throws IOException {
-        shoppingFilePath = basePath.resolve(shoppingFileName);
         checkDirectoryExistence();
         checkFileExistence(shoppingFilePath);
 
@@ -51,7 +52,7 @@ public class CatalogueContentManager {
         return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
     }
 
-    public  <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
+    public <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
         T ingredientCatalogue = catalogue.get();
 
@@ -77,7 +78,6 @@ public class CatalogueContentManager {
 
     // TODO: Define the text format for Recipe.
     public RecipeBook loadRecipeBook() throws IOException {
-        recipeFilePath = basePath.resolve(recipeFileName);
         checkDirectoryExistence();
         checkFileExistence(recipeFilePath);
 
@@ -120,9 +120,10 @@ public class CatalogueContentManager {
         return null;
     }
 
-    public void saveToFile(String catalogueName) {
+    public void saveToFile(Catalogue catalogue) {
         try {
             Path filePath = null;
+            String catalogueName = catalogue.getName();
             switch (catalogueName) {
             case "InventoryCatalogue":
                 filePath = inventoryFilePath;
@@ -140,7 +141,7 @@ public class CatalogueContentManager {
             checkDirectoryExistence();
             checkFileExistence(filePath);
 
-            String content = ""; // Dummy code for the time being
+            String content = catalogue.getCatalogueContent();
 
             assert filePath != null;
             Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);

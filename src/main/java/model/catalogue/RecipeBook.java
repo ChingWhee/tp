@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  */
 public class RecipeBook extends Catalogue<Recipe> {
 
+    private final String NAME = "RecipeBook";
+
     /**
      * Constructs an empty RecipeBook.
      */
@@ -159,5 +161,9 @@ public class RecipeBook extends Catalogue<Recipe> {
             result.append(i + 1).append(". ").append(items.get(i).getRecipeName()).append("\n");
         }
         return new CommandResult(result.toString().trim());
+    }
+
+    public String getName() {
+        return NAME;
     }
 }
