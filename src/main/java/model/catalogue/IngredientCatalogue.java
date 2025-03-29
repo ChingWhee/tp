@@ -14,10 +14,12 @@ import ui.inputparser.InputParser;
  * and search for items while handling similar and duplicate entries.
  */
 public class IngredientCatalogue extends Catalogue<Ingredient> {
+
+    private String name = "InventoryCatalogue";
+
     /**
      * Constructs an empty inventory catalogue.
      */
-
     public IngredientCatalogue() {
 
     }
@@ -191,5 +193,9 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         }
 
         return new CommandResult(calculations);
+    }
+
+    public String getName() {
+        return name;
     }
 }
