@@ -99,7 +99,7 @@ class UiTest {
         ui.showScreenPrompt(ScreenState.SHOPPING);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You’re now in the SHOPPING LIST screen."));
+        assertTrue(output.contains("You're now in the SHOPPING LIST screen."));
         assertTrue(output.contains("- list → Show all ingredients in shopping list"));
         assertTrue(output.contains("- add [item] [qty] → Add ingredients to shopping list"));
         assertTrue(output.contains("- delete [item] [qty] → Remove ingredients from shopping list"));
@@ -112,7 +112,7 @@ class UiTest {
         ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You’re now in the RECIPE screen."));
+        assertTrue(output.contains("You're now in the RECIPE screen."));
         assertTrue(output.contains("- list → Show all recipes"));
         assertTrue(output.contains("- add [name] → Add a new recipe"));
         assertTrue(output.contains("- delete [name] → Delete a recipe"));

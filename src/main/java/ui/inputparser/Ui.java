@@ -115,7 +115,7 @@ public class Ui {
      * Displays help and commands for the SHOPPING screen.
      */
     private void showShoppingMessage() {
-        System.out.println("You’re now in the SHOPPING LIST screen.");
+        System.out.println("You're now in the SHOPPING LIST screen.");
         System.out.println("Time to get those groceries! Available commands:");
         System.out.println("- list → Show all ingredients in shopping list");
         System.out.println("- add [item] [qty] → Add ingredients to shopping list");
@@ -128,7 +128,7 @@ public class Ui {
      * Displays help and commands for the RECIPE screen.
      */
     private void showRecipeMessage() {
-        System.out.println("You’re now in the RECIPE screen.");
+        System.out.println("You're now in the RECIPE screen.");
         System.out.println("What would you like to make today? Available commands:");
         System.out.println("- list → Show all recipes");
         System.out.println("- add [name] → Add a new recipe");
