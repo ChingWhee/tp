@@ -84,12 +84,21 @@ public abstract class Catalogue<T> {
      */
     public String getCatalogueContent() {
         if (items.isEmpty()) {
-            return "No items found.";
+            return "";
         }
         StringBuilder content = new StringBuilder();
-        for (int i = 0; i < items.size(); i++) {
-            content.append(items.get(i).toString()).append("\n");
+        for (T item : items) {
+            content.append(item.toString()).append("\n");
         }
         return content.toString();
+    }
+
+    /**
+     * Retrieves the name of the catalogue.
+     *
+     * @return The name of the catalogue.
+     */
+    public String getName() {
+        return null;
     }
 }
