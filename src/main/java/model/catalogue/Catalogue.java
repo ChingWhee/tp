@@ -98,9 +98,7 @@ public abstract class Catalogue<T> {
      *
      * @return The name of the catalogue.
      */
-    public String getName() {
-        return null;
-    }
+    public abstract String getType();
 
     /**
      * Abstract method to be implemented by subclasses to get an item by name.

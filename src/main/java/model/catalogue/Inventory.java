@@ -203,4 +203,8 @@ public class Inventory extends Catalogue<Ingredient> {
         return new CommandResult(calculations);
     }
 
+    @Override
+    public String getType(){
+        return "Inventory";
+    }
 }

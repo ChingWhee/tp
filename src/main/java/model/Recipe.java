@@ -52,6 +52,11 @@ public class Recipe extends Catalogue<Ingredient> {
         Recipe other = (Recipe) o;
         return this.recipeName.equals(other.recipeName);
     }
+
+    @Override
+    public String getType(){
+        return "Recipe";
+    }
 }
 
 
