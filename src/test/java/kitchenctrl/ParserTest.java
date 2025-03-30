@@ -26,7 +26,7 @@ class ParserTest {
 
     @Test
     public void testWelcomeCommand_inventory() {
-        Command command = parser.parseCommand(ScreenState.WELCOME, "inventory");
+        Command command = parser.parseCommand("inventory");
         assertInstanceOf(GoToCommand.class, command);
 
         CommandResult result = command.execute();
@@ -36,17 +36,17 @@ class ParserTest {
 
     @Test
     public void testWelcomeCommand_recipe() {
-        Command command = parser.parseCommand(ScreenState.WELCOME, "recipe");
+        Command command = parser.parseCommand("recipe");
         assertInstanceOf(GoToCommand.class, command);
 
         CommandResult result = command.execute();
         assertTrue(result.isScreenSwitch());
-        assertEquals(ScreenState.RECIPE, result.getNewScreen());
+        assertEquals(ScreenState.RECIPEBOOK, result.getNewScreen());
     }
 
     @Test
     public void testWelcomeCommand_bye() {
-        Command command = parser.parseCommand(ScreenState.WELCOME, "bye");
+        Command command = parser.parseCommand("bye");
         assertInstanceOf(ByeCommand.class, command);
 
         CommandResult result = command.execute();
@@ -56,38 +56,38 @@ class ParserTest {
     @Test
     public void testWelcomeCommand_invalid1() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.WELCOME, "unknown"));
+                parser.parseCommand("unknown"));
     }
 
     @Test
     public void testWelcomeCommand_invalid2() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.EXIT, "inventory"));
+                parser.parseCommand("inventory"));
     }
 
     // --- INVENTORY SCREEN COMMANDS ---
 
     @Test
     public void testInventoryCommand_valid() {
-        Command command = parser.parseCommand(ScreenState.INVENTORY, "add apple 5");
+        Command command = parser.parseCommand("add apple 5");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_delete_valid() {
-        Command command = parser.parseCommand(ScreenState.INVENTORY, "delete sugar 2");
+        Command command = parser.parseCommand("delete sugar 2");
         assertInstanceOf(DeleteCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_list() {
-        Command command = parser.parseCommand(ScreenState.INVENTORY, "list");
+        Command command = parser.parseCommand("list");
         assertInstanceOf(ListCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_back() {
-        Command command = parser.parseCommand(ScreenState.INVENTORY, "back");
+        Command command = parser.parseCommand("back");
         assertInstanceOf(BackCommand.class, command);
 
         CommandResult result = command.execute();
@@ -96,38 +96,38 @@ class ParserTest {
 
     @Test
     public void testInventoryCommand_bye() {
-        Command command = parser.parseCommand(ScreenState.INVENTORY, "bye");
+        Command command = parser.parseCommand("bye");
         assertInstanceOf(ByeCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_invalidFormat() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.INVENTORY, "aaaaaaaa"));
+                parser.parseCommand("aaaaaaaa"));
     }
 
     @Test
     public void testInventoryCommand_add_invalidFormat() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.INVENTORY, "add milk"));
+                parser.parseCommand("add milk"));
     }
 
     @Test
     public void testInventoryCommand_add_invalidQuantity() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.INVENTORY, "add milk two"));
+                parser.parseCommand("add milk two"));
     }
 
     @Test
     public void testInventoryCommand_delete_invalidFormat() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.INVENTORY, "delete milk"));
+                parser.parseCommand("delete milk"));
     }
 
     @Test
     public void testInventoryCommand_delete_invalidQuantity() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.INVENTORY, "delete milk two"));
+                parser.parseCommand("delete milk two"));
     }
 
     // --- SHOPPING SCREEN COMMANDS ---
@@ -197,25 +197,25 @@ class ParserTest {
 
     @Test
     public void testRecipeCommand_add_valid() {
-        Command command = parser.parseCommand(ScreenState.RECIPE, "add curry 1");
+        Command command = parser.parseCommand("add curry 1");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_delete_valid() {
-        Command command = parser.parseCommand(ScreenState.RECIPE, "delete curry 1");
+        Command command = parser.parseCommand("delete curry 1");
         assertInstanceOf(DeleteCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_list() {
-        Command command = parser.parseCommand(ScreenState.RECIPE, "list");
+        Command command = parser.parseCommand("list");
         assertInstanceOf(ListCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_back() {
-        Command command = parser.parseCommand(ScreenState.RECIPE, "back");
+        Command command = parser.parseCommand("back");
         assertInstanceOf(BackCommand.class, command);
 
         CommandResult result = command.execute();
@@ -224,14 +224,14 @@ class ParserTest {
 
     @Test
     public void testRecipeCommand_bye() {
-        Command command = parser.parseCommand(ScreenState.RECIPE, "bye");
+        Command command = parser.parseCommand("bye");
         assertInstanceOf(ByeCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_invalid() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.RECIPE, "notarealcommand"));
+                parser.parseCommand("notarealcommand"));
     }
 
     // --- ERROR CASES ---
@@ -239,6 +239,6 @@ class ParserTest {
     @Test
     public void testInvalidScreenState() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand(ScreenState.SHOPPING, "add eggs 2"));
+                parser.parseCommand("add eggs 2"));
     }
 }

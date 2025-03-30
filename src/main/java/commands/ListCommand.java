@@ -1,6 +1,5 @@
 package commands;
 
-import controller.ScreenState;
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
@@ -17,12 +16,8 @@ import model.catalogue.RecipeBook;
 public class ListCommand extends Command {
     /**
      * Constructs a {@code ListCommand} with the specified screen context.
-     *
-     * @param screen The current screen state where this command is invoked.
      */
-    public ListCommand(ScreenState screen) {
-        super(screen);
-    }
+    public ListCommand() {}
 
     /**
      * Executes the list command by retrieving the list of items from the provided catalogue.

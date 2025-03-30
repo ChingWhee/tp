@@ -31,6 +31,12 @@ public class KitchenCTRL {
 
     private Ui ui;
     private Parser parser;
+    private static ScreenState currentScreen = ScreenState.WELCOME;
+
+    public static ScreenState getCurrentScreen() {
+        return currentScreen;
+    }
+
 
     /**
      * Main entry-point for the KitchenCTRL application.
@@ -89,7 +95,6 @@ public class KitchenCTRL {
      * - Handles screen transitions and exit condition
      */
     private void runCommandLoopUntilExitCommand() {
-        ScreenState currentScreen = ScreenState.WELCOME;
         Command command;
 
         do {
@@ -101,7 +106,7 @@ public class KitchenCTRL {
 
             // Parse input into a Command
             try {
-                command = parser.parseCommand(currentScreen, userCommandText);
+                command = parser.parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -152,7 +157,7 @@ public class KitchenCTRL {
     private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
         case INVENTORY -> inventory;
-        case RECIPE -> recipeBook;
+        case RECIPEBOOK -> recipeBook;
         default -> null; // For WELCOME, or throw if needed
         };
     }

@@ -2,7 +2,7 @@ package commands;
 
 import controller.ScreenState;
 import model.Ingredient;
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
@@ -23,13 +23,11 @@ public class DeleteCommand extends Command {
     /**
      * Constructs a {@code DeleteCommand} with the specified name and quantity.
      *
-     * @param screen   The current screen context where the delete command is issued.
      * @param name     The name of the item to be deleted (ingredient or recipe).
      * @param quantity The quantity to be removed (used only for ingredients).
      * @throws AssertionError if the name is null/empty or quantity is non-positive.
      */
-    public DeleteCommand(ScreenState screen, String name, int quantity) {
-        super(screen);
+    public DeleteCommand(String name, int quantity) {
         assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
         assert quantity > 0 : "Ingredient quantity must be greater than zero";
 

@@ -1,9 +1,8 @@
 package commands;
 
 import controller.KitchenCTRL;
-import controller.ScreenState;
 import model.Ingredient;
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.Inventory;
 
 import java.util.ArrayList;
@@ -23,12 +22,11 @@ public class CookRecipeCommand extends Command {
     /**
      * Constructs a {@code CookRecipeCommand} with the specified recipe.
      *
-     * @param screen       The current screen context where the command is issued.
      * @param targetRecipe The recipe to be cooked.
      * @throws AssertionError if the recipeToCook is null.
      */
-    public CookRecipeCommand(ScreenState screen, Recipe targetRecipe) {
-        super(screen);
+    public CookRecipeCommand(Recipe targetRecipe) {
+
         assert targetRecipe != null : "Recipe to cook must not be null";
         this.targetRecipe = targetRecipe;
     }

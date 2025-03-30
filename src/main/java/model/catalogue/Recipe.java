@@ -1,7 +1,8 @@
-package model;
+package model.catalogue;
 
 import commands.CommandResult;
-import model.catalogue.Catalogue;
+import model.Ingredient;
+
 public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
 
