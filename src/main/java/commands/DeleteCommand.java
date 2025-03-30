@@ -1,19 +1,23 @@
 package commands;
 
-import controller.ScreenState;
+import controller.KitchenCTRL;
 import model.Ingredient;
 import model.catalogue.Recipe;
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
+import static controller.ScreenState.*;
+
 /**
- * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue.
- * <p>
- * Depending on the active {@link ScreenState}, the command removes:
+ * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue
+ * based on the current {@code ScreenState}.
+ *
+ * <p>This command supports:
  * <ul>
- *     <li>A specified quantity of an ingredient from the {@link Inventory}</li>
- *     <li>A recipe (by name) from the {@link RecipeBook}</li>
+ *     <li>Deleting {@code Ingredient} from {@code Inventory}</li>
+ *     <li>Deleting a {@code Recipe} from {@code RecipeBook}</li>
+ *     <li>Deleting {@code Ingredient} from a specific {@code Recipe}</li>
  * </ul>
  */
 public class DeleteCommand extends Command {
@@ -21,37 +25,60 @@ public class DeleteCommand extends Command {
     private final int quantity;
 
     /**
-     * Constructs a {@code DeleteCommand} with the specified name and quantity.
+     * Constructs a {@code DeleteCommand} for deleting an ingredient or recipe.
      *
-     * @param name     The name of the item to be deleted (ingredient or recipe).
-     * @param quantity The quantity to be removed (used only for ingredients).
-     * @throws AssertionError if the name is null/empty or quantity is non-positive.
+     * @param name     The name of the item to delete.
+     * @param quantity The quantity of the ingredient to delete (ignored for recipes).
+     * @throws AssertionError if {@code name} is null/empty, or {@code quantity} is non-positive where required.
      */
     public DeleteCommand(String name, int quantity) {
-        assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
-        assert quantity > 0 : "Ingredient quantity must be greater than zero";
+        assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
+        assert KitchenCTRL.getCurrentScreen() == RECIPEBOOK || quantity > 0 : "Quantity must be greater than zero";
 
         this.name = name;
         this.quantity = quantity;
     }
 
+    public DeleteCommand(String name) {
+        assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
+
+        this.name = name;
+        this.quantity = 0; // not used for recipe deletion
+    }
+
     /**
-     * Executes the delete operation based on the type of catalogue.
+     * Executes the delete operation based on the screen context.
      *
-     * @param catalogue The target catalogue from which the item should be deleted.
-     * @return A {@code CommandResult} indicating the outcome of the deletion.
+     * @param catalogue The catalogue from which to delete the item.
+     * @return A {@code CommandResult} describing the outcome.
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
-        if (catalogue instanceof Inventory inventory) {
-            Ingredient newIngredient = new Ingredient(name, quantity);
-            return inventory.deleteItem(newIngredient);
-        } else if (catalogue instanceof RecipeBook recipe) {
-            Recipe newRecipe = new Recipe();
-            return recipe.deleteItem(newRecipe);
-        } else {
-            return new CommandResult("Unsupported catalogue for DeleteCommand.");
-        }
+
+        return switch (KitchenCTRL.getCurrentScreen()) {
+            case INVENTORY -> {
+                if (catalogue instanceof Inventory inventory) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield inventory.deleteItem(ingredient);
+                }
+                yield new CommandResult("Invalid catalogue for inventory operation.", null);
+            }
+            case RECIPEBOOK -> {
+                if (catalogue instanceof RecipeBook recipeBook) {
+                    Recipe recipe = new Recipe(name);
+                    yield recipeBook.deleteItem(recipe);
+                }
+                yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+            }
+            case RECIPE -> {
+                if (catalogue instanceof Recipe recipe) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield recipe.deleteItem(ingredient);
+                }
+                yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            }
+            default -> new CommandResult("Unsupported screen state for DeleteCommand.", null);
+        };
     }
 }

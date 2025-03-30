@@ -166,23 +166,42 @@ public class Parser {
      * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
      */
     private Command prepareDelete(String args) {
-        String[] parts = args.split(" ", 2); // Expecting format: "name quantity"
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
 
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
+        switch (KitchenCTRL.getCurrentScreen()) {
+            case RECIPEBOOK -> {
+                // RECIPEBOOK expects only the recipe name
+                String name = args.trim();
+                if (name.isEmpty()) {
+                    throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
+                }
+                return new DeleteCommand(name); // uses the recipe-only constructor
+            }
+
+            case INVENTORY, RECIPE -> {
+                // INVENTORY and RECIPE expect: delete <name> <quantity>
+                String[] parts = args.split(" ", 2);
+                if (parts.length < 2) {
+                    throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
+                }
+
+                String name = parts[0].trim();
+                int quantity;
+                try {
+                    quantity = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Quantity must be a valid integer!");
+                }
+
+                return new DeleteCommand(name, quantity);
+            }
+
+            default -> throw new IllegalArgumentException(
+                    "Delete command is not supported in screen: " + currentScreenName
+            );
         }
-
-        String name = parts[0].trim();
-        int quantity;
-
-        try {
-            quantity = Integer.parseInt(parts[1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Quantity must be a valid integer!");
-        }
-
-        return new DeleteCommand(name, quantity);
     }
+
 
     /**
      * Creates a {@code ListCommand} for listing contents of the current catalogue.
