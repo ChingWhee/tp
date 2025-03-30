@@ -15,8 +15,6 @@ import ui.inputparser.InputParser;
  */
 public class IngredientCatalogue extends Catalogue<Ingredient> {
 
-    private String name = "InventoryCatalogue";
-
     /**
      * Constructs an empty inventory catalogue.
      */
@@ -42,6 +40,16 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
                     return Arrays.stream(keywordList).allMatch(name::contains);
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Override
+    public Ingredient getItemByName(String name) {
+        for (Ingredient item : items) {
+            if (item.getIngredientName().equalsIgnoreCase(name)) {
+                return item;
+            }
+        }
+        return null; // Not found
     }
 
     /**
@@ -195,7 +203,4 @@ public class IngredientCatalogue extends Catalogue<Ingredient> {
         return new CommandResult(calculations);
     }
 
-    public String getName() {
-        return name;
-    }
 }

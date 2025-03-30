@@ -1,47 +1,92 @@
 package commands;
 
+import controller.KitchenCTRL;
+import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.Catalogue;
 import model.catalogue.IngredientCatalogue;
-import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.Catalogue;
+import model.catalogue.RecipeBook;
 
 import java.util.ArrayList;
 
-import static commands.getMissingIngredientsCommand.getMissingIngredients;
-
+/**
+ * Represents a command to cook a recipe by consuming ingredients from the inventory.
+ * <p>
+ * This command checks if all required ingredients are available in sufficient quantity
+ * and deducts them from the {@link IngredientCatalogue}. If ingredients are missing,
+ * the recipe cannot be cooked.
+ * </p>
+ */
 public class cookRecipeCommand extends Command {
 
-    public cookRecipeCommand() {};
-    public static void cookRecipe(IngredientCatalogue inventory, Recipe recipeToCook) {
-        ArrayList<Ingredient> missingIngredients = getMissingIngredients(inventory, recipeToCook);
+    private final Recipe targetRecipe;
+
+    /**
+     * Constructs a {@code CookRecipeCommand} with the specified recipe.
+     *
+     * @param screen       The current screen context where the command is issued.
+     * @param targetRecipe The recipe to be cooked.
+     * @throws AssertionError if the recipeToCook is null.
+     */
+    public cookRecipeCommand(ScreenState screen, Recipe targetRecipe) {
+        super(screen);
+        assert targetRecipe != null : "Recipe to cook must not be null";
+        this.targetRecipe = targetRecipe;
+    }
+
+    /**
+     * Retrieves the missing ingredients needed to cook the recipe.
+     *
+     * @param inventory The inventory catalogue to check available ingredients.
+     * @return A list of missing ingredients required to cook the recipe.
+     */
+    public ArrayList<Ingredient> getMissingIngredients(IngredientCatalogue inventory) {
+        ArrayList<Ingredient> missingIngredients = new ArrayList<>();
+        ArrayList<Ingredient> inventoryItems = inventory.getItems();
+        ArrayList<Ingredient> recipeIngredients = targetRecipe.getItems();
+
+        for (Ingredient requiredIngredient : recipeIngredients) {
+            if (!inventoryItems.contains(requiredIngredient)) {
+                missingIngredients.add(requiredIngredient);
+            } else {
+                int index = inventoryItems.indexOf(requiredIngredient);
+                Ingredient availableIngredient = inventoryItems.get(index);
+                if (availableIngredient.getQuantity() < requiredIngredient.getQuantity()) {
+                    int shortage = requiredIngredient.getQuantity() - availableIngredient.getQuantity();
+                    missingIngredients.add(new Ingredient(requiredIngredient.getIngredientName(), shortage));
+                }
+            }
+        }
+        return missingIngredients;
+    }
+
+    /**
+     * Attempts to cook the recipe by deducting ingredient quantities from the inventory.
+     *
+     * @param catalogue The inventory catalogue to update.
+     * @return A {@code CommandResult} indicating success or listing missing ingredients.
+     */
+    @Override
+    public CommandResult execute(Catalogue<?> catalogue) {
+
+        IngredientCatalogue inventory = (IngredientCatalogue) catalogue;
+
+        ArrayList<Ingredient> missingIngredients = getMissingIngredients(inventory);
+
         if (!missingIngredients.isEmpty()) {
-            return;
+            return new CommandResult("Missing ingredients: " + missingIngredients);
         }
 
         ArrayList<Ingredient> inventoryItems = inventory.getItems();
-        ArrayList<Ingredient> ingredientsToCook = recipeToCook.getItems();
+        ArrayList<Ingredient> recipeIngredients = targetRecipe.getItems();
 
-        for (Ingredient requiredIngredient : ingredientsToCook) {
+        for (Ingredient requiredIngredient : recipeIngredients) {
             int index = inventoryItems.indexOf(requiredIngredient);
             Ingredient ingredientInInventory = inventoryItems.get(index);
             ingredientInInventory.subtractQuantity(requiredIngredient.getQuantity());
         }
 
-    }
-
-    @Override
-    /**
-     * Executes the command using the provided {@code Catalogue}.
-     * <p>
-     * Subclasses that manipulate data (e.g., inventory or shopping items) should override this method.
-     *
-     * @param catalogue The catalogue relevant to the current screen.
-     * @return The result of the command execution as a {@code CommandResult}.
-     * @throws UnsupportedOperationException If the method is not overridden in the subclass.
-     */
-    public CommandResult execute(InventoryCatalogue inventoryCatalogue) {
-        cookRecipe();
+        return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName());
     }
 }

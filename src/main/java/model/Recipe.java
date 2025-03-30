@@ -28,6 +28,17 @@ public class Recipe extends Catalogue<Ingredient> {
         return null;
     }
 
+    //this is to get the name of an ingredient in the recipe by the name of the ingredient
+    @Override
+    public Ingredient getItemByName(String name) {
+        for (Ingredient ingredient : items) {
+            if (ingredient.getIngredientName().equalsIgnoreCase(name)) {
+                return ingredient;
+            }
+        }
+        return null; // Not found
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
