@@ -1,7 +1,7 @@
 package kitchenctrl;
 
 import commands.CommandResult;
-import commands.cookRecipeCommand;
+import commands.CookRecipeCommand;
 import controller.ScreenState;
 import model.Recipe;
 import model.catalogue.IngredientCatalogue;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static controller.ScreenState.RECIPE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 
 public class LogicTest {
@@ -34,7 +34,7 @@ public class LogicTest {
         targetRecipe.addItem(new Ingredient("Eggs", 2));
         targetRecipe.addItem(new Ingredient("Milk", 300));
 
-        cookRecipeCommand command = new cookRecipeCommand(testScreen, targetRecipe);
+        CookRecipeCommand command = new CookRecipeCommand(testScreen, targetRecipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
         ArrayList<Ingredient> expectedMissing = new ArrayList<>();
         expectedMissing.add(new Ingredient("Milk", 50));
@@ -53,7 +53,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Eggs", 2));
         recipe.addItem(new Ingredient("Milk", 300));
 
-        cookRecipeCommand command = new cookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
 
         assertTrue(missingIngredients.isEmpty(), "There should be enough ingredients");
@@ -70,7 +70,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Milk", 300));
         recipe.addItem(new Ingredient("Eggs", 2));
 
-        cookRecipeCommand command = new cookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
         ArrayList<Ingredient> expectedMissing = new ArrayList<>();
         expectedMissing.add(new Ingredient("Milk", 300));
@@ -89,7 +89,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Flour", 300));
         recipe.addItem(new Ingredient("Eggs", 2));
 
-        cookRecipeCommand command = new cookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
         CommandResult result = command.execute(testInventory);
 
         assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());

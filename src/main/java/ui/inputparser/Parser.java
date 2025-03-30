@@ -5,10 +5,7 @@ import commands.*;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 import model.Recipe;
-import model.catalogue.Catalogue;
 import model.catalogue.RecipeBook;
-
-import java.util.ArrayList;
 
 /**
  * The {@code Parser} class is responsible for interpreting user input and
@@ -227,6 +224,6 @@ public class Parser {
             return null; // Handle error gracefully
         }
 
-        return new cookRecipeCommand(screen, targetRecipe);
+        return new CookRecipeCommand(screen, targetRecipe);
     }
 }

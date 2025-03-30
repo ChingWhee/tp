@@ -1,12 +1,10 @@
 package commands;
 
-import controller.KitchenCTRL;
 import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.Catalogue;
-import model.catalogue.RecipeBook;
 
 import java.util.ArrayList;
 
@@ -18,7 +16,7 @@ import java.util.ArrayList;
  * the recipe cannot be cooked.
  * </p>
  */
-public class cookRecipeCommand extends Command {
+public class CookRecipeCommand extends Command {
 
     private final Recipe targetRecipe;
 
@@ -29,7 +27,7 @@ public class cookRecipeCommand extends Command {
      * @param targetRecipe The recipe to be cooked.
      * @throws AssertionError if the recipeToCook is null.
      */
-    public cookRecipeCommand(ScreenState screen, Recipe targetRecipe) {
+    public CookRecipeCommand(ScreenState screen, Recipe targetRecipe) {
         super(screen);
         assert targetRecipe != null : "Recipe to cook must not be null";
         this.targetRecipe = targetRecipe;

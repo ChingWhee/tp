@@ -6,10 +6,8 @@ import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
 
-import model.Ingredient;
-import model.Recipe;
+
 import model.catalogue.RecipeBook;
-import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
 import model.catalogue.ShoppingCatalogue;
 import model.catalogue.Catalogue;

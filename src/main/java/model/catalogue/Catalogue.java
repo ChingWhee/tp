@@ -1,7 +1,6 @@
 package model.catalogue;
 
 import commands.CommandResult;
-import model.Ingredient;
 
 import java.util.ArrayList;
 
@@ -99,7 +98,9 @@ public abstract class Catalogue<T> {
      *
      * @return The name of the catalogue.
      */
-    public String getName() { return null; }
+    public String getName() {
+        return null;
+    }
 
     /**
      * Abstract method to be implemented by subclasses to get an item by name.
