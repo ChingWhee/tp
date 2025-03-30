@@ -4,7 +4,7 @@ import commands.CommandResult;
 import commands.CookRecipeCommand;
 import controller.ScreenState;
 import model.Recipe;
-import model.catalogue.IngredientCatalogue;
+import model.catalogue.Inventory;
 import model.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 
 public class LogicTest {
-    private IngredientCatalogue testInventory;
+    private Inventory testInventory;
     private ScreenState testScreen;
 
     @BeforeEach
     public void setUp() {
-        testInventory = new IngredientCatalogue();
+        testInventory = new Inventory();
         testScreen = RECIPE;
     }
 

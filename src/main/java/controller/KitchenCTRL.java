@@ -7,10 +7,7 @@ import commands.Command;
 import commands.CommandResult;
 
 
-import model.catalogue.RecipeBook;
-import model.catalogue.InventoryCatalogue;
-import model.catalogue.ShoppingCatalogue;
-import model.catalogue.Catalogue;
+import model.catalogue.*;
 
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
@@ -26,13 +23,10 @@ import java.util.ArrayList;
  */
 public class KitchenCTRL {
     // Catalogue storing ingredients in the inventory
-    private static InventoryCatalogue inventoryCatalogue;
+    private static Inventory inventory;
 
     // Catalogue storing recipes
     private static RecipeBook recipeBook;
-
-    // Catalogue storing shopping list ingredients
-    private static ShoppingCatalogue shoppingCatalogue;
 
     private Ui ui;
     private Parser parser;
@@ -71,8 +65,7 @@ public class KitchenCTRL {
             // Manages loading and saving of catalogue data
             CatalogueContentManager contentManager = new CatalogueContentManager();
 
-            inventoryCatalogue = contentManager.loadInventoryCatalogue();
-            shoppingCatalogue = contentManager.loadShoppingCatalogue();
+            inventory = contentManager.loadInventory();
             recipeBook = contentManager.loadRecipeBook();
 
             ui.showInitMessage();
@@ -152,8 +145,7 @@ public class KitchenCTRL {
      */
     private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
-        case INVENTORY -> inventoryCatalogue;
-        case SHOPPING -> shoppingCatalogue;
+        case INVENTORY -> inventory;
         case RECIPE -> recipeBook;
         default -> null; // For WELCOME, or throw if needed
         };
@@ -163,14 +155,13 @@ public class KitchenCTRL {
         return recipeBook;
     }
 
-    public static InventoryCatalogue getInventoryCatalogue() {
-        return inventoryCatalogue;
+    public static Inventory getInventory() {
+        return inventory;
     }
 
     public static ArrayList<Catalogue<?>> getAllCatalogues() {
         ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
-        catalogues.add(inventoryCatalogue);
-        catalogues.add(shoppingCatalogue);
+        catalogues.add(inventory);
         catalogues.add(recipeBook);
         return catalogues;
     }
