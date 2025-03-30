@@ -1,12 +1,6 @@
 package ui.inputparser;
 
-import commands.Command;
-import commands.AddCommand;
-import commands.BackCommand;
-import commands.DeleteCommand;
-import commands.ListCommand;
-import commands.ByeCommand;
-import commands.GoToCommand;
+import commands.*;
 
 import controller.ScreenState;
 
@@ -113,6 +107,7 @@ public class Parser {
         case "list" -> prepareList(screen);
         case "back" -> prepareBack();
         case "bye" -> new ByeCommand();
+        case "cook" -> prepareCook(args);
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
@@ -207,5 +202,10 @@ public class Parser {
      */
     private Command prepareBye() {
         return new ByeCommand();
+    }
+
+    private Command prepareCook(String args) {
+        //expected args format is name of recipe
+        return new cookRecipeCommand();
     }
 }
