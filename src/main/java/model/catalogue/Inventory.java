@@ -13,12 +13,12 @@ import ui.inputparser.InputParser;
  * Manages an inventory of food ingredients, allowing users to add, delete,
  * and search for items while handling similar and duplicate entries.
  */
-public class IngredientCatalogue extends Catalogue<Ingredient> {
+public class Inventory extends Catalogue<Ingredient> {
 
     /**
      * Constructs an empty inventory catalogue.
      */
-    public IngredientCatalogue() {
+    public Inventory() {
 
     }
 

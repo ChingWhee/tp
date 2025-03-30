@@ -1,6 +1,6 @@
 package kitchenctrl;
 
-import model.catalogue.IngredientCatalogue;
+import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 import model.Ingredient;
 import model.Recipe;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 class CatalogueTest {
     @Test
     public void testCatalogueInitialization() {
-        IngredientCatalogue testInventoryCatalogue = new IngredientCatalogue() {};
+        Inventory testInventoryCatalogue = new Inventory() {};
         RecipeBook testRecipeBook = new RecipeBook() {};
         ArrayList<Ingredient> expectedIngredients = new ArrayList<>();
         ArrayList<Recipe> expectedRecipes = new ArrayList<>();

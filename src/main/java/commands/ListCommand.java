@@ -2,17 +2,15 @@ package commands;
 
 import controller.ScreenState;
 import model.catalogue.Catalogue;
-import model.catalogue.InventoryCatalogue;
+import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
-import model.catalogue.ShoppingCatalogue;
 
 /**
  * Represents a command to list all items in the current catalogue.
  * <p>
  * Depending on the current screen, this command will list:
  * <ul>
- *     <li>Ingredients in the {@link InventoryCatalogue}</li>
- *     <li>Ingredients in the {@link ShoppingCatalogue}</li>
+ *     <li>Ingredients in the {@link Inventory}</li>
  *     <li>Recipes in the {@link RecipeBook}</li>
  * </ul>
  */
@@ -39,10 +37,8 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
-        if (catalogue instanceof InventoryCatalogue inventory) {
+        if (catalogue instanceof Inventory inventory) {
             return inventory.listItems();
-        } else if (catalogue instanceof ShoppingCatalogue shopping) {
-            return shopping.listItems();
         } else if (catalogue instanceof RecipeBook recipe) {
             return recipe.listItems();
         } else {

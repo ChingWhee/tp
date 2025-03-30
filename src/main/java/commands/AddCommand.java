@@ -4,9 +4,8 @@ import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
 import model.catalogue.Catalogue;
-import model.catalogue.InventoryCatalogue;
+import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
-import model.catalogue.ShoppingCatalogue;
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
@@ -14,9 +13,8 @@ import model.catalogue.ShoppingCatalogue;
  *
  * <p>This command supports:
  * <ul>
- *     <li>Adding {@code Ingredient} to {@code InventoryCatalogue}</li>
- *     <li>Adding {@code Ingredient} to {@code ShoppingCatalogue}</li>
- *     <li>Adding a new {@code Recipe} to {@code RecipeCatalogue}</li>
+ *     <li>Adding {@code Ingredient} to {@code Inventory}</li>
+ *     <li>Adding a new {@code Recipe} to {@code RecipeBook}</li>
  * </ul>
  */
 public class AddCommand extends Command {
@@ -49,12 +47,9 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
-        if (catalogue instanceof InventoryCatalogue inventory) {
+        if (catalogue instanceof Inventory inventory) {
             Ingredient newIngredient = new Ingredient(name, quantity);
             return inventory.addItem(newIngredient);
-        } else if (catalogue instanceof ShoppingCatalogue shopping) {
-            Ingredient newIngredient = new Ingredient(name, quantity);
-            return shopping.addItem(newIngredient);
         } else if (catalogue instanceof RecipeBook recipeBook) {
             Recipe newRecipe = new Recipe();
             return recipeBook.addItem(newRecipe);

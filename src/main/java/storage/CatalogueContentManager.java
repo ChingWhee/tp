@@ -4,10 +4,8 @@ import model.Ingredient;
 
 import model.catalogue.Catalogue;
 
-import model.catalogue.IngredientCatalogue;
-import model.catalogue.InventoryCatalogue;
+import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
-import model.catalogue.ShoppingCatalogue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,13 +18,11 @@ import java.util.function.Supplier;
 
 public class CatalogueContentManager {
     String directoryName = "data";
-    String inventoryFileName = "inventory_catalogue.txt";
-    String shoppingFileName = "shopping_catalogue.txt";
-    String recipeFileName = "recipe_catalogue.txt";
+    String inventoryFileName = "inventory.txt";
+    String recipeFileName = "recipe_book.txt";
 
     Path basePath = Paths.get(directoryName);
     Path inventoryFilePath = basePath.resolve(inventoryFileName);
-    Path shoppingFilePath = basePath.resolve(shoppingFileName);
     Path recipeFilePath = basePath.resolve(recipeFileName);
 
     public CatalogueContentManager() {
@@ -34,25 +30,17 @@ public class CatalogueContentManager {
     }
 
     // TODO: Combine similar methods into one method
-    public InventoryCatalogue loadInventoryCatalogue() throws IOException {
+    public Inventory loadInventory() throws IOException {
         checkDirectoryExistence();
         checkFileExistence(inventoryFilePath);
 
         assert inventoryFilePath.toFile().exists();
 
-        return loadConsumablesCatalogue(inventoryFilePath, InventoryCatalogue::new);
+        return loadConsumablesCatalogue(inventoryFilePath, Inventory::new);
     }
 
-    public ShoppingCatalogue loadShoppingCatalogue() throws IOException {
-        checkDirectoryExistence();
-        checkFileExistence(shoppingFilePath);
 
-        assert shoppingFilePath.toFile().exists();
-
-        return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
-    }
-
-    public <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
+    public <T extends Inventory> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
         T ingredientCatalogue = catalogue.get();
 
@@ -125,11 +113,8 @@ public class CatalogueContentManager {
             Path filePath = null;
             String catalogueName = catalogue.getName();
             switch (catalogueName) {
-            case "InventoryCatalogue":
+            case "Inventory":
                 filePath = inventoryFilePath;
-                break;
-            case "ShoppingCatalogue":
-                filePath = shoppingFilePath;
                 break;
             case "RecipeBook":
                 filePath = recipeFilePath;

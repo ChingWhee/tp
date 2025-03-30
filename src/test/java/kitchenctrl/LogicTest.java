@@ -2,9 +2,10 @@ package kitchenctrl;
 
 import commands.CommandResult;
 import commands.CookRecipeCommand;
+import controller.KitchenCTRL;
 import controller.ScreenState;
 import model.Recipe;
-import model.catalogue.IngredientCatalogue;
+import model.catalogue.Inventory;
 import model.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 
 public class LogicTest {
-    private IngredientCatalogue testInventory;
+    private Inventory testInventory;
     private ScreenState testScreen;
 
     @BeforeEach
     public void setUp() {
-        testInventory = new IngredientCatalogue();
+        // Assuming Main is the class containing the getters
+        KitchenCTRL mainApp = new KitchenCTRL();  // Instantiate Main class
+        mainApp.initializeCatalogues();
+        testInventory = KitchenCTRL.getInventory();  // Get inventory from Main class
         testScreen = RECIPE;
     }
 
@@ -91,7 +95,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Eggs", 2));
 
         CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
-        CommandResult result = command.execute(testInventory);
+        CommandResult result = command.execute(); // Pass the inventory
 
         assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());
 

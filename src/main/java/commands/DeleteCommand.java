@@ -4,17 +4,15 @@ import controller.ScreenState;
 import model.Ingredient;
 import model.Recipe;
 import model.catalogue.Catalogue;
-import model.catalogue.InventoryCatalogue;
+import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
-import model.catalogue.ShoppingCatalogue;
 
 /**
  * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue.
  * <p>
  * Depending on the active {@link ScreenState}, the command removes:
  * <ul>
- *     <li>A specified quantity of an ingredient from the {@link InventoryCatalogue}</li>
- *     <li>A specified quantity of an ingredient from the {@link ShoppingCatalogue}</li>
+ *     <li>A specified quantity of an ingredient from the {@link Inventory}</li>
  *     <li>A recipe (by name) from the {@link RecipeBook}</li>
  * </ul>
  */
@@ -48,12 +46,9 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
-        if (catalogue instanceof InventoryCatalogue inventory) {
+        if (catalogue instanceof Inventory inventory) {
             Ingredient newIngredient = new Ingredient(name, quantity);
             return inventory.deleteItem(newIngredient);
-        } else if (catalogue instanceof ShoppingCatalogue shopping) {
-            Ingredient newIngredient = new Ingredient(name, quantity);
-            return shopping.deleteItem(newIngredient);
         } else if (catalogue instanceof RecipeBook recipe) {
             Recipe newRecipe = new Recipe();
             return recipe.deleteItem(newRecipe);
