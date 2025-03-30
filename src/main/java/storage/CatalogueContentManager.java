@@ -1,9 +1,12 @@
 package storage;
 
 import model.Ingredient;
+
+import model.catalogue.Catalogue;
+
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.ShoppingCatalogue;
 
 import java.io.IOException;
@@ -17,34 +20,39 @@ import java.util.function.Supplier;
 
 public class CatalogueContentManager {
     String directoryName = "data";
-    Path basePath = Paths.get(directoryName);
-
     String inventoryFileName = "inventory_catalogue.txt";
-    Path inventoryFilePath;
     String shoppingFileName = "shopping_catalogue.txt";
-    Path shoppingFilePath;
     String recipeFileName = "recipe_catalogue.txt";
-    Path recipeFilePath;
+
+    Path basePath = Paths.get(directoryName);
+    Path inventoryFilePath = basePath.resolve(inventoryFileName);
+    Path shoppingFilePath = basePath.resolve(shoppingFileName);
+    Path recipeFilePath = basePath.resolve(recipeFileName);
 
     public CatalogueContentManager() {
 
     }
 
-    public InventoryCatalogue loadInventoryCatalogue() {
-        inventoryFilePath = basePath.resolve(inventoryFileName);
+    // TODO: Combine similar methods into one method
+    public InventoryCatalogue loadInventoryCatalogue() throws IOException {
+        checkDirectoryExistence();
+        checkFileExistence(inventoryFilePath);
 
         assert inventoryFilePath.toFile().exists();
+
         return loadConsumablesCatalogue(inventoryFilePath, InventoryCatalogue::new);
     }
 
-    public ShoppingCatalogue loadShoppingCatalogue() {
-        shoppingFilePath = basePath.resolve(shoppingFileName);
+    public ShoppingCatalogue loadShoppingCatalogue() throws IOException {
+        checkDirectoryExistence();
+        checkFileExistence(shoppingFilePath);
 
         assert shoppingFilePath.toFile().exists();
+
         return loadConsumablesCatalogue(shoppingFilePath, ShoppingCatalogue::new);
     }
 
-    public  <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
+    public <T extends IngredientCatalogue> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
         T ingredientCatalogue = catalogue.get();
 
@@ -69,12 +77,14 @@ public class CatalogueContentManager {
     }
 
     // TODO: Define the text format for Recipe.
-    public RecipeCatalogue loadRecipeCatalogue() {
-        recipeFilePath = basePath.resolve(recipeFileName);
+    public RecipeBook loadRecipeBook() throws IOException {
+        checkDirectoryExistence();
+        checkFileExistence(recipeFilePath);
 
         assert recipeFilePath.toFile().exists();
+
         List<String> lines = loadRawCatalogueContent(recipeFilePath);
-        RecipeCatalogue storageRecipe = new RecipeCatalogue();
+        RecipeBook storageRecipe = new RecipeBook();
 
         if (lines == null || lines.isEmpty()) {
             return storageRecipe;
@@ -110,12 +120,31 @@ public class CatalogueContentManager {
         return null;
     }
 
-    public void saveInventoryCatalogue(String content) {
+    public void saveToFile(Catalogue catalogue) {
         try {
-            checkDirectoryExistence();
-            checkInventoryFileExistence();
+            Path filePath = null;
+            String catalogueName = catalogue.getName();
+            switch (catalogueName) {
+            case "InventoryCatalogue":
+                filePath = inventoryFilePath;
+                break;
+            case "ShoppingCatalogue":
+                filePath = shoppingFilePath;
+                break;
+            case "RecipeBook":
+                filePath = recipeFilePath;
+                break;
+            default:
+            }
 
-            Files.writeString(inventoryFilePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
+            // Check the existence again in case the directory or file was deleted
+            checkDirectoryExistence();
+            checkFileExistence(filePath);
+
+            String content = catalogue.getCatalogueContent();
+
+            assert filePath != null;
+            Files.writeString(filePath, content + "\n", StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Exception e) {
             System.err.println("Error handling file: " + e.getMessage());
         }
@@ -127,13 +156,9 @@ public class CatalogueContentManager {
         }
     }
 
-    private void checkInventoryFileExistence() throws IOException {
-        if (inventoryFilePath == null) {
-            inventoryFilePath = basePath.resolve(inventoryFileName);
-        }
-
-        if (!Files.exists(inventoryFilePath)) {
-            Files.createFile(inventoryFilePath);
+    private void checkFileExistence(Path filePath) throws IOException {
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
         }
     }
 }

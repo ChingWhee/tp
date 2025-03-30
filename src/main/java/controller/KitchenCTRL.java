@@ -1,23 +1,27 @@
+package controller;
+
 import commands.GoToCommand;
 import commands.BackCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
-import controller.ScreenState;
-import logic.commands.Commands;
 
 import model.Ingredient;
 import model.Recipe;
-import model.catalogue.Catalogue;
+import model.catalogue.RecipeBook;
 import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
-import model.catalogue.RecipeCatalogue;
 import model.catalogue.ShoppingCatalogue;
-
-import storage.CatalogueContentManager;
+import model.catalogue.Catalogue;
 
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
+
+import logic.commands.Commands;
+
+import storage.CatalogueContentManager;
+
+import java.util.ArrayList;
 
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
@@ -26,13 +30,13 @@ import ui.inputparser.Ui;
  */
 public class KitchenCTRL {
     // Catalogue storing ingredients in the inventory
-    private InventoryCatalogue inventoryCatalogue;
+    private static InventoryCatalogue inventoryCatalogue;
 
     // Catalogue storing recipes
-    private RecipeCatalogue recipeCatalogue;
+    private static RecipeBook recipeBook;
 
     // Catalogue storing shopping list ingredients
-    private ShoppingCatalogue shoppingCatalogue;
+    private static ShoppingCatalogue shoppingCatalogue;
 
     private Ui ui;
     private Parser parser;
@@ -71,9 +75,9 @@ public class KitchenCTRL {
             // Manages loading and saving of catalogue data
             CatalogueContentManager contentManager = new CatalogueContentManager();
 
-            this.inventoryCatalogue = contentManager.loadInventoryCatalogue();
-            this.shoppingCatalogue = contentManager.loadShoppingCatalogue();
-            this.recipeCatalogue = contentManager.loadRecipeCatalogue();
+            inventoryCatalogue = contentManager.loadInventoryCatalogue();
+            shoppingCatalogue = contentManager.loadShoppingCatalogue();
+            recipeBook = contentManager.loadRecipeBook();
 
             ui.showInitMessage();
         } catch (Exception e) {
@@ -154,9 +158,17 @@ public class KitchenCTRL {
         return switch (screen) {
         case INVENTORY -> inventoryCatalogue;
         case SHOPPING -> shoppingCatalogue;
-        case RECIPE -> recipeCatalogue;
+        case RECIPE -> recipeBook;
         default -> null; // For WELCOME, or throw if needed
         };
+    }
+
+    public static ArrayList<Catalogue<?>> getAllCatalogues() {
+        ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
+        catalogues.add(inventoryCatalogue);
+        catalogues.add(shoppingCatalogue);
+        catalogues.add(recipeBook);
+        return catalogues;
     }
 
     public static void carltonTest() {
