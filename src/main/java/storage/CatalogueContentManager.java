@@ -111,7 +111,7 @@ public class CatalogueContentManager {
     public void saveToFile(Catalogue catalogue) {
         try {
             Path filePath = null;
-            String catalogueName = catalogue.getName();
+            String catalogueName = catalogue.getType();
             switch (catalogueName) {
             case "Inventory":
                 filePath = inventoryFilePath;

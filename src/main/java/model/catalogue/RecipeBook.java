@@ -179,7 +179,8 @@ public class RecipeBook extends Catalogue<Recipe> {
         return new CommandResult(result.toString().trim());
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getType() {
+        return "RecipeBook";
     }
 }
