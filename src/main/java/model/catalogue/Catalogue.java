@@ -101,4 +101,12 @@ public abstract class Catalogue<T> {
     public String getName() {
         return null;
     }
+
+    /**
+     * Abstract method to be implemented by subclasses to get an item by name.
+     *
+     * @param name The name of the item to find.
+     * @return The matching item if found, otherwise null.
+     */
+    public abstract T getItemByName(String name);
 }

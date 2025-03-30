@@ -50,6 +50,22 @@ public class RecipeBook extends Catalogue<Recipe> {
     }
 
     /**
+     * Finds a recipe by its name.
+     *
+     * @param name The name of the recipe to search for.
+     * @return The Recipe object if found, otherwise null.
+     */
+    @Override
+    public Recipe getItemByName(String name) {
+        for (Recipe item : items) {
+            if (item.getRecipeName().equalsIgnoreCase(name)) {
+                return item;
+            }
+        }
+        return null; // Not found
+    }
+
+    /**
      * Checks if two recipes have the exact same name.
      *
      * @param existingRecipe The existing recipe.

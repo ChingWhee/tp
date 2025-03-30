@@ -55,9 +55,9 @@ public class AddCommand extends Command {
         } else if (catalogue instanceof ShoppingCatalogue shopping) {
             Ingredient newIngredient = new Ingredient(name, quantity);
             return shopping.addItem(newIngredient);
-        } else if (catalogue instanceof RecipeBook recipe) {
+        } else if (catalogue instanceof RecipeBook recipeBook) {
             Recipe newRecipe = new Recipe();
-            return recipe.addItem(newRecipe);
+            return recipeBook.addItem(newRecipe);
         } else {
             return new CommandResult("Unsupported catalogue for AddCommand.", null);
         }

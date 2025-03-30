@@ -6,18 +6,14 @@ import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
 
-import model.Ingredient;
-import model.Recipe;
+
 import model.catalogue.RecipeBook;
-import model.catalogue.IngredientCatalogue;
 import model.catalogue.InventoryCatalogue;
 import model.catalogue.ShoppingCatalogue;
 import model.catalogue.Catalogue;
 
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
-
-import logic.commands.Commands;
 
 import storage.CatalogueContentManager;
 
@@ -163,6 +159,14 @@ public class KitchenCTRL {
         };
     }
 
+    public static RecipeBook getRecipeBook() {
+        return recipeBook;
+    }
+
+    public static InventoryCatalogue getInventoryCatalogue() {
+        return inventoryCatalogue;
+    }
+
     public static ArrayList<Catalogue<?>> getAllCatalogues() {
         ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
         catalogues.add(inventoryCatalogue);
@@ -171,22 +175,4 @@ public class KitchenCTRL {
         return catalogues;
     }
 
-    public static void carltonTest() {
-        IngredientCatalogue inventory = new IngredientCatalogue();
-        inventory.addItem(new Ingredient("White sugar", 50));
-        inventory.addItem(new Ingredient("Egg", 3));
-        inventory.addItem(new Ingredient("Flour", 50));
-
-        Recipe recipe = new Recipe();
-        recipe.addItem(new Ingredient("White sugar", 20));
-        recipe.addItem(new Ingredient("Egg", 1));
-        recipe.addItem(new Ingredient("Flour", 10));
-
-
-        System.out.println(recipe);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("PRINTING MISSING");
-        Commands.cookRecipe(inventory, recipe);
-        inventory.listItems();
-    }
 }
