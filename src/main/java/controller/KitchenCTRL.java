@@ -6,8 +6,9 @@ import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
 
-
-import model.catalogue.*;
+import model.catalogue.Catalogue;
+import model.catalogue.RecipeBook;
+import model.catalogue.Inventory;
 
 import ui.inputparser.Parser;
 import ui.inputparser.Ui;
@@ -50,6 +51,17 @@ public class KitchenCTRL {
         exit();
     }
 
+    //for test cases
+    public void initializeCatalogues() {
+        try {
+            CatalogueContentManager contentManager = new CatalogueContentManager();
+            inventory = contentManager.loadInventory();
+            recipeBook = contentManager.loadRecipeBook();
+        } catch (Exception e) {
+            throw new RuntimeException("Error initializing catalogues", e);
+        }
+    }
+
     /**
      * Initializes the application components such as UI, catalogues, and data manager.
      * Loads data from persistent storage into respective catalogues.
@@ -60,14 +72,8 @@ public class KitchenCTRL {
         try {
             // Initialization
             this.ui = new Ui();
-
             parser = new Parser();
-            // Manages loading and saving of catalogue data
-            CatalogueContentManager contentManager = new CatalogueContentManager();
-
-            inventory = contentManager.loadInventory();
-            recipeBook = contentManager.loadRecipeBook();
-
+            initializeCatalogues();
             ui.showInitMessage();
         } catch (Exception e) {
             throw new RuntimeException(e);

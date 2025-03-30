@@ -2,6 +2,7 @@ package kitchenctrl;
 
 import commands.CommandResult;
 import commands.CookRecipeCommand;
+import controller.KitchenCTRL;
 import controller.ScreenState;
 import model.Recipe;
 import model.catalogue.Inventory;
@@ -20,7 +21,10 @@ public class LogicTest {
 
     @BeforeEach
     public void setUp() {
-        testInventory = new Inventory();
+        // Assuming Main is the class containing the getters
+        KitchenCTRL mainApp = new KitchenCTRL();  // Instantiate Main class
+        mainApp.initializeCatalogues();
+        testInventory = KitchenCTRL.getInventory();  // Get inventory from Main class
         testScreen = RECIPE;
     }
 
@@ -91,7 +95,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Eggs", 2));
 
         CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
-        CommandResult result = command.execute(testInventory);
+        CommandResult result = command.execute(); // Pass the inventory
 
         assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());
 
