@@ -7,6 +7,7 @@ import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
+import static controller.KitchenCTRL.requireActiveRecipe;
 import static controller.ScreenState.*;
 
 /**
@@ -72,6 +73,7 @@ public class DeleteCommand extends Command {
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
             case RECIPE -> {
+                requireActiveRecipe();
                 if (catalogue instanceof Recipe recipe) {
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield recipe.deleteItem(ingredient);

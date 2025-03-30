@@ -2,6 +2,7 @@ package commands;
 
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
 /**
@@ -34,7 +35,9 @@ public class ListCommand extends Command {
         assert catalogue != null : "Catalogue must not be null";
         if (catalogue instanceof Inventory inventory) {
             return inventory.listItems();
-        } else if (catalogue instanceof RecipeBook recipe) {
+        } else if (catalogue instanceof RecipeBook recipeBook) {
+            return recipeBook.listItems();
+        } else if (catalogue instanceof Recipe recipe){
             return recipe.listItems();
         } else {
             return new CommandResult("Unsupported catalogue for AddCommand.", null);

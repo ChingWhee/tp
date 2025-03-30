@@ -1,13 +1,6 @@
 package ui.inputparser;
 
-import commands.ByeCommand;
-import commands.AddCommand;
-import commands.CookRecipeCommand;
-import commands.DeleteCommand;
-import commands.BackCommand;
-import commands.Command;
-import commands.ListCommand;
-import commands.GoToCommand;
+import commands.*;
 
 import controller.KitchenCTRL;
 import controller.ScreenState;
@@ -94,6 +87,7 @@ public class Parser {
         case "back" -> prepareBack();
         case "bye" -> new ByeCommand();
         case "cook" -> prepareCook(args);
+        case "edit" -> new EditRecipeCommand(args);
         default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }

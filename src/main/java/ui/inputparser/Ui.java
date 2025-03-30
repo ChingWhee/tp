@@ -150,6 +150,7 @@ public class Ui {
         System.out.println("- list → Show all recipes");
         System.out.println("- add [name] → Add a new recipe");
         System.out.println("- delete [name] → Delete a recipe");
+        System.out.println("- edit [name] → edit a recipe");
         System.out.println("- back → Return to the main screen");
         System.out.println("- bye → Exit the program");
     }

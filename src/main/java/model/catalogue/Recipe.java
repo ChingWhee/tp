@@ -20,13 +20,13 @@ public class Recipe extends Catalogue<Ingredient> {
     @Override
     public CommandResult addItem(Ingredient ingredient) {
         items.add(ingredient);
-        return null;
+        return new CommandResult(ingredient.getIngredientName() + " added to recipe for " + getRecipeName() + ".");
     }
 
     @Override
     public CommandResult deleteItem(Ingredient ingredient) {
         items.remove(ingredient);
-        return null;
+        return new CommandResult(ingredient.getIngredientName() + " deleted from recipe for " + getRecipeName() + ".");
     }
 
     //this is to get the name of an ingredient in the recipe by the name of the ingredient

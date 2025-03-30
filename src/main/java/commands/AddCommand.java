@@ -7,6 +7,7 @@ import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
+import static controller.KitchenCTRL.requireActiveRecipe;
 import static controller.ScreenState.*;
 
 /**
@@ -53,6 +54,7 @@ public class AddCommand extends Command {
      * @param catalogue The catalogue to add the item to.
      * @return A {@code CommandResult} indicating success or failure with user feedback.
      */
+
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
@@ -73,6 +75,7 @@ public class AddCommand extends Command {
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
             case RECIPE -> {
+                requireActiveRecipe();
                 if (catalogue instanceof Recipe recipe) {
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield recipe.addItem(ingredient);

@@ -1,12 +1,9 @@
 package controller;
 
-import commands.GoToCommand;
-import commands.BackCommand;
-import commands.ByeCommand;
-import commands.Command;
-import commands.CommandResult;
+import commands.*;
 
 import model.catalogue.Catalogue;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 import model.catalogue.Inventory;
 
@@ -35,6 +32,22 @@ public class KitchenCTRL {
 
     public static ScreenState getCurrentScreen() {
         return currentScreen;
+    }
+
+    private static Recipe activeRecipe;
+
+    public static void setActiveRecipe(Recipe recipe) {
+        activeRecipe = recipe;
+    }
+
+    public Recipe getActiveRecipe() {
+        return activeRecipe;
+    }
+
+    public static Recipe requireActiveRecipe() {
+        Recipe r = activeRecipe;
+        if (r == null) throw new IllegalStateException("No recipe is currently selected.");
+        return r;
     }
 
 
@@ -119,7 +132,8 @@ public class KitchenCTRL {
 
             CommandResult result;
             // Switch screen if required by result
-            if (command instanceof BackCommand || command instanceof GoToCommand) {
+            if (command instanceof BackCommand || command instanceof GoToCommand ||
+                    command instanceof EditRecipeCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
                 ui.showDivider();
@@ -132,7 +146,7 @@ public class KitchenCTRL {
             // Execute the command and get result
             result = (catalogue == null)
                     ? command.execute() // e.g., welcome screen or global commands
-                    : command.execute(catalogue); // inventory/shopping/recipe screens
+                    : command.execute(catalogue); // inventory/shopping/active recipe
 
             // Display result to the user
             ui.showResultToUser(result);
@@ -158,6 +172,7 @@ public class KitchenCTRL {
         return switch (screen) {
         case INVENTORY -> inventory;
         case RECIPEBOOK -> recipeBook;
+        case RECIPE -> activeRecipe;
         default -> null; // For WELCOME, or throw if needed
         };
     }
@@ -176,5 +191,4 @@ public class KitchenCTRL {
         catalogues.add(recipeBook);
         return catalogues;
     }
-
 }
