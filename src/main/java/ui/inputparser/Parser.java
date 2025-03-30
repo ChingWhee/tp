@@ -1,14 +1,18 @@
 package ui.inputparser;
 
-import commands.Command;
-import commands.AddCommand;
-import commands.BackCommand;
-import commands.DeleteCommand;
-import commands.ListCommand;
 import commands.ByeCommand;
+import commands.AddCommand;
+import commands.CookRecipeCommand;
+import commands.DeleteCommand;
+import commands.BackCommand;
+import commands.Command;
+import commands.ListCommand;
 import commands.GoToCommand;
 
+import controller.KitchenCTRL;
 import controller.ScreenState;
+import model.Recipe;
+import model.catalogue.RecipeBook;
 
 /**
  * The {@code Parser} class is responsible for interpreting user input and
@@ -113,6 +117,7 @@ public class Parser {
         case "list" -> prepareList(screen);
         case "back" -> prepareBack();
         case "bye" -> new ByeCommand();
+        case "cook" -> prepareCook(screen, args);
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
@@ -207,5 +212,25 @@ public class Parser {
      */
     private Command prepareBye() {
         return new ByeCommand();
+    }
+
+    private Command prepareCook(ScreenState screen, String args) {
+        //expected args format is name of recipe
+        RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
+
+        Recipe targetRecipe;
+
+        try {
+            String targetRecipeName = args.trim();
+            targetRecipe = recipeBook.getItemByName(targetRecipeName);
+            if (targetRecipe == null) {
+                throw new IllegalArgumentException("Recipe not found!");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage()); // Log the error (optional)
+            return null; // Handle error gracefully
+        }
+
+        return new CookRecipeCommand(screen, targetRecipe);
     }
 }
