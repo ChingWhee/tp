@@ -102,13 +102,13 @@ public class Parser {
      */
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
-            case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
-            case "update" -> prepareUpdate(args); // Update quantity of an ingredient
-            case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
-            case "list" -> prepareList();           // List all ingredients in the recipe
-            case "back" -> prepareBack();                 // Go back to recipe book
-            case "bye" -> new ByeCommand();               // Exit program
-            default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
+        case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
+        case "update" -> prepareUpdate(args); // Update quantity of an ingredient
+        case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
+        case "list" -> prepareList();           // List all ingredients in the recipe
+        case "back" -> prepareBack();                 // Go back to recipe book
+        case "bye" -> new ByeCommand();               // Exit program
+        default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
         };
     }
 
@@ -121,33 +121,33 @@ public class Parser {
      */
     private Command prepareAdd(String args) {
         switch (KitchenCTRL.getCurrentScreen()) {
-            case INVENTORY, RECIPE -> {
-                // Expecting: add <ingredientName> <quantity>
-                String[] parts = args.split(" ", 2);
-                if (parts.length < 2) {
-                    throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
-                }
-
-                String name = parts[0].trim();
-                int quantity;
-                try {
-                    quantity = Integer.parseInt(parts[1].trim());
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("Quantity must be a valid integer!");
-                }
-
-                return new AddCommand(name, quantity);
+        case INVENTORY, RECIPE -> {
+            // Expecting: add <ingredientName> <quantity>
+            String[] parts = args.split(" ", 2);
+            if (parts.length < 2) {
+                throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
             }
-            case RECIPEBOOK -> {
-                // Expecting: add <recipeName>
-                String name = args.trim();
-                if (name.isEmpty()) {
-                    throw new IllegalArgumentException("Recipe name cannot be empty!");
-                }
 
-                return new AddCommand(name); // Assume constructor for recipe creation uses only name
+            String name = parts[0].trim();
+            int quantity;
+            try {
+                quantity = Integer.parseInt(parts[1].trim());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Quantity must be a valid integer!");
             }
-            default -> throw new IllegalArgumentException("Unsupported screen for add command.");
+
+            return new AddCommand(name, quantity);
+        }
+        case RECIPEBOOK -> {
+            // Expecting: add <recipeName>
+            String name = args.trim();
+            if (name.isEmpty()) {
+                throw new IllegalArgumentException("Recipe name cannot be empty!");
+            }
+
+            return new AddCommand(name); // Assume constructor for recipe creation uses only name
+        }
+        default -> throw new IllegalArgumentException("Unsupported screen for add command.");
         }
     }
 

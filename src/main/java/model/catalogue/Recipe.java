@@ -36,7 +36,8 @@ public class Recipe extends Catalogue<Ingredient> {
             String currItemName = ingredient.getIngredientName();
             if (itemNameInList.equalsIgnoreCase(currItemName)) {
                 item.setQuantity(ingredient.getQuantity());
-                return new CommandResult(ingredient.getIngredientName() + " quantity updated in " + getRecipeName() + ".");
+                return new CommandResult(ingredient.getIngredientName()
+                        + " quantity updated in " + getRecipeName() + ".");
             }
         }
 

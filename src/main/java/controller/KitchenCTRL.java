@@ -1,7 +1,11 @@
 package controller;
 
-import commands.*;
-
+import commands.BackCommand;
+import commands.ByeCommand;
+import commands.Command;
+import commands.CommandResult;
+import commands.EditRecipeCommand;
+import commands.GoToCommand;
 import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
@@ -46,10 +50,11 @@ public class KitchenCTRL {
 
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
-        if (r == null) throw new IllegalStateException("No recipe is currently selected.");
+        if (r == null) {
+            throw new IllegalStateException("No recipe is currently selected.");
+        }
         return r;
     }
-
 
     /**
      * Main entry-point for the KitchenCTRL application.

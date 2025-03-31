@@ -21,15 +21,15 @@ public class UpdateCommand extends Command {
         assert catalogue != null : "Catalogue must not be null";
 
         return switch (KitchenCTRL.getCurrentScreen()) {
-            case RECIPE -> {
-                requireActiveRecipe();
-                if (catalogue instanceof Recipe recipe) {
-                    Ingredient ingredient = new Ingredient(name, quantity);
-                    yield recipe.updateItem(ingredient);
-                }
-                yield new CommandResult("Invalid catalogue for recipe operation.", null);
+        case RECIPE -> {
+            requireActiveRecipe();
+            if (catalogue instanceof Recipe recipe) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield recipe.updateItem(ingredient);
             }
-            default -> new CommandResult("Unsupported screen state for AddCommand.", null);
+            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+        }
+        default -> new CommandResult("Unsupported screen state for AddCommand.", null);
         };
     }
 }
