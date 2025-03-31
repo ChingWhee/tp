@@ -91,7 +91,7 @@ public class KitchenCTRL {
         try {
             // Initialization
             this.ui = new Ui();
-            parser = new Parser();
+            this.parser = new Parser();
             initializeCatalogues();
             ui.showInitMessage();
         } catch (Exception e) {

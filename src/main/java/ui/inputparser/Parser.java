@@ -72,7 +72,7 @@ public class Parser {
     }
 
     /**
-     * Parses commands specific to the recipe  screen.
+     * Parses commands specific to the recipe screen.
      *
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
@@ -103,7 +103,7 @@ public class Parser {
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
             case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
-            case "update" -> prepareDelete(args); // Update quantity of an ingredient
+            case "update" -> prepareUpdate(args); // Update quantity of an ingredient
             case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
             case "list" -> prepareList();           // List all ingredients in the recipe
             case "back" -> prepareBack();                 // Go back to recipe book
@@ -151,6 +151,29 @@ public class Parser {
         }
     }
 
+    /**
+     * Prepares an UpdateCommand to change the quantity of an ingredient in a recipe.
+     *
+     * @param args The arguments for the update command in the format: <name> <newQuantity>
+     * @return An UpdateCommand with the specified ingredient and new quantity.
+     * @throws IllegalArgumentException If arguments are missing or incorrectly formatted.
+     */
+    private Command prepareUpdate(String args) {
+        String[] parts = args.split(" ", 2);
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Invalid format! Usage: update <ingredientName> <newQuantity>");
+        }
+
+        String name = parts[0].trim();
+        int newQuantity;
+        try {
+            newQuantity = Integer.parseInt(parts[1].trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("New quantity must be a valid integer!");
+        }
+
+        return new UpdateCommand(name, newQuantity);
+    }
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.

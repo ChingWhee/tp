@@ -40,9 +40,9 @@ public class AddCommand extends Command {
         this.name = name;
         this.quantity = quantity;
     }
+
     public AddCommand(String name) {
         assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
-
 
         this.name = name;
         this.quantity = 0;//irrelevant for recipebook screen
