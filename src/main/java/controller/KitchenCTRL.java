@@ -30,12 +30,12 @@ public class KitchenCTRL {
     // Catalogue storing recipes
     private static RecipeBook recipeBook;
 
+    private static ScreenState currentScreen = ScreenState.WELCOME;
+    
+    private static Recipe activeRecipe;
+
     private Ui ui;
     private Parser parser;
-
-    static private ScreenState currentScreen = ScreenState.WELCOME;
-
-    static private Recipe activeRecipe;
 
     public static ScreenState getCurrentScreen() {
         return currentScreen;
