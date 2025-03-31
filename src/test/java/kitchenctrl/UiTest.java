@@ -109,7 +109,7 @@ class UiTest {
 
     @Test
     public void testShowScreenPromptRecipe() {
-        ui.showScreenPrompt(ScreenState.RECIPE);
+        ui.showScreenPrompt(ScreenState.RECIPEBOOK);
         String output = outContent.toString();
 
         assertTrue(output.contains("You’re now in the RECIPE screen."));

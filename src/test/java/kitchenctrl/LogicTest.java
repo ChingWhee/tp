@@ -4,13 +4,13 @@ import commands.CommandResult;
 import commands.CookRecipeCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.Inventory;
 import model.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static controller.ScreenState.RECIPE;
+import static controller.ScreenState.RECIPEBOOK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class LogicTest {
         KitchenCTRL mainApp = new KitchenCTRL();  // Instantiate Main class
         mainApp.initializeCatalogues();
         testInventory = KitchenCTRL.getInventory();  // Get inventory from Main class
-        testScreen = RECIPE;
+        testScreen = RECIPEBOOK;
     }
 
     @Test
@@ -39,7 +39,7 @@ public class LogicTest {
         targetRecipe.addItem(new Ingredient("Eggs", 2));
         targetRecipe.addItem(new Ingredient("Milk", 300));
 
-        CookRecipeCommand command = new CookRecipeCommand(testScreen, targetRecipe);
+        CookRecipeCommand command = new CookRecipeCommand(targetRecipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
         ArrayList<Ingredient> expectedMissing = new ArrayList<>();
         expectedMissing.add(new Ingredient("Milk", 50));
@@ -58,7 +58,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Eggs", 2));
         recipe.addItem(new Ingredient("Milk", 300));
 
-        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
 
         assertTrue(missingIngredients.isEmpty(), "There should be enough ingredients");
@@ -75,7 +75,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Milk", 300));
         recipe.addItem(new Ingredient("Eggs", 2));
 
-        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
         ArrayList<Ingredient> expectedMissing = new ArrayList<>();
         expectedMissing.add(new Ingredient("Milk", 300));
@@ -94,7 +94,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Flour", 300));
         recipe.addItem(new Ingredient("Eggs", 2));
 
-        CookRecipeCommand command = new CookRecipeCommand(testScreen, recipe);
+        CookRecipeCommand command = new CookRecipeCommand(recipe);
         CommandResult result = command.execute(); // Pass the inventory
 
         assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());

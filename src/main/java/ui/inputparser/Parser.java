@@ -1,17 +1,10 @@
 package ui.inputparser;
 
-import commands.ByeCommand;
-import commands.AddCommand;
-import commands.CookRecipeCommand;
-import commands.DeleteCommand;
-import commands.BackCommand;
-import commands.Command;
-import commands.ListCommand;
-import commands.GoToCommand;
+import commands.*;
 
 import controller.KitchenCTRL;
 import controller.ScreenState;
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
 /**
@@ -24,21 +17,21 @@ public class Parser {
     /**
      * Parses a user input string and returns the corresponding Command.
      *
-     * @param screen The current screen state (WELCOME, INVENTORY, SHOPPING, RECIPE).
      * @param userInput The full input entered by the user.
      * @return A Command object representing the user's action.
      * @throws IllegalArgumentException If the command is unrecognized or incorrectly formatted.
      */
-    public Command parseCommand(ScreenState screen, String userInput) {
+    public Command parseCommand(String userInput) {
         String[] commands = userInput.split(" ", 2);
 
         String command = commands[0].toLowerCase();
         String args = (commands.length > 1) ? commands[1] : "";
 
-        return switch (screen) {
+        return switch (KitchenCTRL.getCurrentScreen()) {
         case WELCOME -> parseWelcomeCommand(command);
-        case INVENTORY -> parseInventoryCommand(screen, command, args);
-        case RECIPE -> parseRecipeCommand(screen, command, args);
+        case INVENTORY -> parseInventoryCommand(command, args);
+        case RECIPEBOOK -> parseRecipeBookCommand(command, args);
+        case RECIPE -> parseRecipeCommand(command, args);
         default -> throw new IllegalArgumentException("Unrecognized screen state.");
         };
     }
@@ -53,7 +46,7 @@ public class Parser {
     private Command parseWelcomeCommand(String command) {
         return switch (command) {
         case "inventory" -> prepareGoto(ScreenState.INVENTORY);
-        case "recipe" -> prepareGoto(ScreenState.RECIPE);
+        case "recipe" -> prepareGoto(ScreenState.RECIPEBOOK);
         case "bye" -> prepareBye();
         default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
         };
@@ -62,17 +55,16 @@ public class Parser {
     /**
      * Parses commands specific to the inventory screen.
      *
-     * @param screen  The current screen state (INVENTORY).
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
      * @return A Command object for the inventory action.
      * @throws IllegalArgumentException If the command is unknown or malformed.
      */
-    private Command parseInventoryCommand(ScreenState screen, String command, String args) {
+    private Command parseInventoryCommand(String command, String args) {
         return switch (command) {
-        case "add" -> prepareAdd(screen, args);
-        case "delete" -> prepareDelete(screen, args);
-        case "list" -> prepareList(screen);
+        case "add" -> prepareAdd(args);
+        case "delete" -> prepareDelete(args);
+        case "list" -> prepareList();
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
@@ -80,88 +72,138 @@ public class Parser {
     }
 
     /**
-     * Parses commands specific to the recipe screen.
+     * Parses commands specific to the recipe  screen.
      *
-     * @param screen  The current screen state (RECIPE).
      * @param command The command keyword (add, delete, list, back).
      * @param args Arguments passed with the command.
      * @return A Command object for the recipe action.
      * @throws IllegalArgumentException If the command is unknown or malformed.
      */
-    private Command parseRecipeCommand(ScreenState screen, String command, String args) {
+    private Command parseRecipeBookCommand(String command, String args) {
         return switch (command) {
-        case "add" -> prepareAdd(screen, args);
-        case "delete" -> prepareDelete(screen, args);
-        case "list" -> prepareList(screen);
+        case "add" -> prepareAdd(args);
+        case "delete" -> prepareDelete(args);
+        case "list" -> prepareList();
         case "back" -> prepareBack();
         case "bye" -> new ByeCommand();
-        case "cook" -> prepareCook(screen, args);
-        default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
+        case "cook" -> prepareCook(args);
+        case "edit" -> new EditRecipeCommand(args);
+        default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }
 
     /**
-     * Parses arguments to create an {@code AddCommand}.
+     * Parses commands specific to a selected recipe (ingredient management).
      *
-     * @param screen The screen context to determine target catalogue.
-     * @param args Input arguments in the format: &lt;name&gt; &lt;quantity&gt;
-     * @return An AddCommand with the given name and quantity.
-     * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
+     * @param command The command keyword (add, update, delete, list, back, bye).
+     * @param args Arguments passed with the command.
+     * @return A Command object for the recipe ingredient action.
+     * @throws IllegalArgumentException If the command is unknown or malformed.
      */
-    private Command prepareAdd(ScreenState screen, String args) {
-        String[] parts = args.split(" ", 2); // Expecting format: "name quantity"
-
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
-        }
-
-        String name = parts[0].trim();
-        int quantity;
-
-        try {
-            quantity = Integer.parseInt(parts[1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Quantity must be a valid integer!");
-        }
-
-        return new AddCommand(screen, name, quantity);
+    private Command parseRecipeCommand(String command, String args) {
+        return switch (command) {
+            case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
+            case "update" -> prepareDelete(args); // Update quantity of an ingredient
+            case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
+            case "list" -> prepareList();           // List all ingredients in the recipe
+            case "back" -> prepareBack();                 // Go back to recipe book
+            case "bye" -> new ByeCommand();               // Exit program
+            default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
+        };
     }
+
+    /**
+     * Prepares an AddCommand based on the current screen.
+     *
+     * @param args   The arguments for the add command.
+     * @return An appropriate AddCommand based on context.
+     * @throws IllegalArgumentException If the arguments are invalid.
+     */
+    private Command prepareAdd(String args) {
+        switch (KitchenCTRL.getCurrentScreen()) {
+            case INVENTORY, RECIPE -> {
+                // Expecting: add <ingredientName> <quantity>
+                String[] parts = args.split(" ", 2);
+                if (parts.length < 2) {
+                    throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
+                }
+
+                String name = parts[0].trim();
+                int quantity;
+                try {
+                    quantity = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Quantity must be a valid integer!");
+                }
+
+                return new AddCommand(name, quantity);
+            }
+            case RECIPEBOOK -> {
+                // Expecting: add <recipeName>
+                String name = args.trim();
+                if (name.isEmpty()) {
+                    throw new IllegalArgumentException("Recipe name cannot be empty!");
+                }
+
+                return new AddCommand(name); // Assume constructor for recipe creation uses only name
+            }
+            default -> throw new IllegalArgumentException("Unsupported screen for add command.");
+        }
+    }
+
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.
      *
-     * @param screen The screen context to determine target catalogue.
      * @param args Input arguments in the format: &lt;name&gt; &lt;quantity&gt;
      * @return A DeleteCommand with the given name and quantity.
      * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
      */
-    private Command prepareDelete(ScreenState screen, String args) {
-        String[] parts = args.split(" ", 2); // Expecting format: "name quantity"
+    private Command prepareDelete(String args) {
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
 
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
+        switch (KitchenCTRL.getCurrentScreen()) {
+            case RECIPEBOOK -> {
+                // RECIPEBOOK expects only the recipe name
+                String name = args.trim();
+                if (name.isEmpty()) {
+                    throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
+                }
+                return new DeleteCommand(name); // uses the recipe-only constructor
+            }
+
+            case INVENTORY, RECIPE -> {
+                // INVENTORY and RECIPE expect: delete <name> <quantity>
+                String[] parts = args.split(" ", 2);
+                if (parts.length < 2) {
+                    throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
+                }
+
+                String name = parts[0].trim();
+                int quantity;
+                try {
+                    quantity = Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Quantity must be a valid integer!");
+                }
+
+                return new DeleteCommand(name, quantity);
+            }
+
+            default -> throw new IllegalArgumentException(
+                    "Delete command is not supported in screen: " + currentScreenName
+            );
         }
-
-        String name = parts[0].trim();
-        int quantity;
-
-        try {
-            quantity = Integer.parseInt(parts[1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Quantity must be a valid integer!");
-        }
-
-        return new DeleteCommand(screen, name, quantity);
     }
+
 
     /**
      * Creates a {@code ListCommand} for listing contents of the current catalogue.
      *
-     * @param screen The screen context.
      * @return A {@code ListCommand} for the appropriate catalogue.
      */
-    private Command prepareList(ScreenState screen) {
-        return new ListCommand(screen);
+    private Command prepareList() {
+        return new ListCommand();
     }
 
     /**
@@ -192,7 +234,7 @@ public class Parser {
         return new ByeCommand();
     }
 
-    private Command prepareCook(ScreenState screen, String args) {
+    private Command prepareCook(String args) {
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
@@ -209,6 +251,6 @@ public class Parser {
             return null; // Handle error gracefully
         }
 
-        return new CookRecipeCommand(screen, targetRecipe);
+        return new CookRecipeCommand(targetRecipe);
     }
 }

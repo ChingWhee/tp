@@ -1,6 +1,6 @@
 package kitchenctrl;
 
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 import commands.CommandResult;
 import org.junit.jupiter.api.BeforeEach;
