@@ -1,9 +1,18 @@
 package ui.inputparser;
 
-import commands.*;
-
+import commands.AddCommand;
+import commands.BackCommand;
+import commands.ByeCommand;
+import commands.Command;
+import commands.CookRecipeCommand;
+import commands.DeleteCommand;
+import commands.EditRecipeCommand;
+import commands.GoToCommand;
+import commands.ListCommand;
+import commands.UpdateCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
+
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
@@ -154,7 +163,7 @@ public class Parser {
     /**
      * Prepares an UpdateCommand to change the quantity of an ingredient in a recipe.
      *
-     * @param args The arguments for the update command in the format: <name> <newQuantity>
+     * @param args The arguments for the update command in the format: &lt;name&gt; &lt;newQuantity&gt;
      * @return An UpdateCommand with the specified ingredient and new quantity.
      * @throws IllegalArgumentException If arguments are missing or incorrectly formatted.
      */
@@ -186,36 +195,36 @@ public class Parser {
         String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
 
         switch (KitchenCTRL.getCurrentScreen()) {
-            case RECIPEBOOK -> {
-                // RECIPEBOOK expects only the recipe name
-                String name = args.trim();
-                if (name.isEmpty()) {
-                    throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
-                }
-                return new DeleteCommand(name); // uses the recipe-only constructor
+        case RECIPEBOOK -> {
+            // RECIPEBOOK expects only the recipe name
+            String name = args.trim();
+            if (name.isEmpty()) {
+                throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
+            }
+            return new DeleteCommand(name); // uses the recipe-only constructor
+        }
+
+        case INVENTORY, RECIPE -> {
+            // INVENTORY and RECIPE expect: delete <name> <quantity>
+            String[] parts = args.split(" ", 2);
+            if (parts.length < 2) {
+                throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
             }
 
-            case INVENTORY, RECIPE -> {
-                // INVENTORY and RECIPE expect: delete <name> <quantity>
-                String[] parts = args.split(" ", 2);
-                if (parts.length < 2) {
-                    throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
-                }
-
-                String name = parts[0].trim();
-                int quantity;
-                try {
-                    quantity = Integer.parseInt(parts[1].trim());
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("Quantity must be a valid integer!");
-                }
-
-                return new DeleteCommand(name, quantity);
+            String name = parts[0].trim();
+            int quantity;
+            try {
+                quantity = Integer.parseInt(parts[1].trim());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Quantity must be a valid integer!");
             }
 
-            default -> throw new IllegalArgumentException(
-                    "Delete command is not supported in screen: " + currentScreenName
-            );
+            return new DeleteCommand(name, quantity);
+        }
+
+        default -> throw new IllegalArgumentException(
+                "Delete command is not supported in screen: " + currentScreenName
+        );
         }
     }
 

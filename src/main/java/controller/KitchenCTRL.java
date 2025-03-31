@@ -32,13 +32,14 @@ public class KitchenCTRL {
 
     private Ui ui;
     private Parser parser;
-    private static ScreenState currentScreen = ScreenState.WELCOME;
+
+    static private ScreenState currentScreen = ScreenState.WELCOME;
+
+    static private Recipe activeRecipe;
 
     public static ScreenState getCurrentScreen() {
         return currentScreen;
     }
-
-    private static Recipe activeRecipe;
 
     public static void setActiveRecipe(Recipe recipe) {
         activeRecipe = recipe;

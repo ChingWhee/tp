@@ -8,7 +8,7 @@ import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
 import static controller.KitchenCTRL.requireActiveRecipe;
-import static controller.ScreenState.*;
+import static controller.ScreenState.RECIPEBOOK;
 
 /**
  * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue
