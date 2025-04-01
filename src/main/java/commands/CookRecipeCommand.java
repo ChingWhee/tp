@@ -9,11 +9,10 @@ import java.util.ArrayList;
 
 /**
  * Represents a command to cook a recipe by consuming ingredients from the inventory.
- * <p>
+ *
  * This command checks if all required ingredients are available in sufficient quantity
  * and deducts them from the {@link Inventory}. If ingredients are missing,
  * the recipe cannot be cooked.
- * </p>
  */
 public class CookRecipeCommand extends Command {
 
@@ -60,7 +59,11 @@ public class CookRecipeCommand extends Command {
     /**
      * Attempts to cook the recipe by deducting ingredient quantities from the inventory.
      *
-     * @return A {@code CommandResult} indicating success or listing missing ingredients.
+     * This method first checks if all required ingredients are available in the inventory.
+     * If any ingredient is missing, it returns a {@code CommandResult} listing the missing ingredients.
+     * Otherwise, it deducts the necessary quantities from the inventory and confirms the recipe has been cooked.
+     *
+     * @return A {@code CommandResult} indicating success gor failure with a list of missing ingredients.
      */
     @Override
     public CommandResult execute() {

@@ -111,6 +111,7 @@ public class Ui {
         System.out.println("- find [name] -> Find an ingredient in inventory");
         System.out.println("- add [item] [qty] -> Add ingredients to inventory");
         System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
+        System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
     }
@@ -155,6 +156,7 @@ public class Ui {
         System.out.println("- add [name] -> Add a new recipe");
         System.out.println("- delete [name] -> Delete a recipe");
         System.out.println("- edit [name] -> edit a recipe");
+        System.out.println("- cook [name] -> Cook a recipe, or find missing ingredients to cook it");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
     }

@@ -11,6 +11,7 @@ import commands.ListCommand;
 import commands.BackCommand;
 import commands.GoToCommand;
 import commands.CookRecipeCommand;
+import commands.CookableRecipesCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -78,6 +79,7 @@ public class Parser {
         case "find" -> new FindCommand(args);
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
+        case "available" -> new CookableRecipesCommand();
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
@@ -270,6 +272,16 @@ public class Parser {
         return new ByeCommand();
     }
 
+    /**
+     * Prepares a command to cook a recipe by retrieving it from the recipe book.
+     *
+     * <p>This method looks up the recipe by name from the {@code RecipeBook}. If the recipe exists,
+     * it returns a {@code CookRecipeCommand} to execute the cooking process. If the recipe is not found,
+     * it logs an error message and returns {@code null}.</p>
+     *
+     * @param args The name of the recipe to be cooked. Expected to be a trimmed string.
+     * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
+     */
     private Command prepareCook(String args) {
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
