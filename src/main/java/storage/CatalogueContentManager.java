@@ -21,15 +21,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CatalogueContentManager {
-    String directoryName = "data";
-    String inventoryFileName = "inventory.txt";
-    String recipeBookFileName = "recipe_book.txt";
-    String shoppingCatalogueFileName = "shopping_catalogue.txt";
+    private String directoryName = "data";
+    private String inventoryFileName = "inventory.txt";
+    private String recipeBookFileName = "recipe_book.txt";
+    private String shoppingCatalogueFileName = "shopping_catalogue.txt";
 
-    Path basePath = Paths.get(directoryName);
-    Path inventoryFilePath = basePath.resolve(inventoryFileName);
-    Path recipeBookFilePath = basePath.resolve(recipeBookFileName);
-    Path shoppingCatalogueFilePath = basePath.resolve(shoppingCatalogueFileName);
+    private Path basePath = Paths.get(directoryName);
+    private Path inventoryFilePath = basePath.resolve(inventoryFileName);
+    private Path recipeBookFilePath = basePath.resolve(recipeBookFileName);
+    private Path shoppingCatalogueFilePath = basePath.resolve(shoppingCatalogueFileName);
 
     public CatalogueContentManager() {
 
@@ -177,5 +177,29 @@ public class CatalogueContentManager {
         if (!Files.exists(filePath)) {
             Files.createFile(filePath);
         }
+    }
+
+    public void setBasePath(Path basePath) {
+        this.basePath = basePath;
+    }
+
+    public void setInventoryFilePath(Path inventoryFilePath) {
+        this.inventoryFilePath = inventoryFilePath;
+    }
+
+    public void setRecipeBookFilePath(Path recipeBookFilePath) {
+        this.recipeBookFilePath = recipeBookFilePath;
+    }
+
+    public Path getBasePath() {
+        return basePath;
+    }
+
+    public Path getInventoryFilePath() {
+        return inventoryFilePath;
+    }
+
+    public Path getRecipeBookFilePath() {
+        return recipeBookFilePath;
     }
 }
