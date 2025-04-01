@@ -50,8 +50,12 @@ public class CookableRecipesCommand extends Command {
             boolean canCook = true;
             //check if all the ingredients of the recipe is there
             for (Ingredient requiredIngredient : recipe.getItems()) {
-                Ingredient availableIngredient = findIngredientByName(inventoryItems, requiredIngredient.getIngredientName());
-                if (availableIngredient == null || availableIngredient.getQuantity() < requiredIngredient.getQuantity()) {
+                String requiredIngredientName = requiredIngredient.getIngredientName();
+                int requiredIngredientQuantity = requiredIngredient.getQuantity();
+
+                Ingredient availableIngredient = findIngredientByName(inventoryItems, requiredIngredientName);
+
+                if (availableIngredient == null || availableIngredient.getQuantity() < requiredIngredientQuantity) {
                     canCook = false;
                     break;
                 }
@@ -94,14 +98,15 @@ public class CookableRecipesCommand extends Command {
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
         if (recipeBook == null) {
-            // Return empty list or handle the situation gracefully
-            return new CommandResult("RecipeBook is empty, please add some recipes!"); // Or log a message/return a specific result
+            // return empty message
+            return new CommandResult("RecipeBook is empty, please add some recipes!");
         }
 
         ArrayList<Recipe> cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
         if (cookableRecipes.isEmpty()) {
-            return new CommandResult("No recipes can be cooked with the current inventory. Please get more ingredients!");
+            String feedback = "No recipes can be cooked with the current inventory. Please get more ingredients!";
+            return new CommandResult(feedback);
         }
 
         return new CommandResult("Cookable recipes: " + cookableRecipes);

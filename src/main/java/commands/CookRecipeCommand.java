@@ -2,7 +2,6 @@ package commands;
 
 import controller.KitchenCTRL;
 import model.Ingredient;
-import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.Inventory;
 
@@ -64,7 +63,7 @@ public class CookRecipeCommand extends Command {
      * If any ingredient is missing, it returns a {@code CommandResult} listing the missing ingredients.
      * Otherwise, it deducts the necessary quantities from the inventory and confirms the recipe has been cooked.
      *
-     * @return A {@code CommandResult} indicating success with the recipe name or failure with a list of missing ingredients.
+     * @return A {@code CommandResult} indicating success gor failure with a list of missing ingredients.
      */
     @Override
     public CommandResult execute() {
