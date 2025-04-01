@@ -151,9 +151,9 @@ public class Ui {
         System.out.println("You’re now in the RECIPEBOOK screen.");
         System.out.println("What dish would you like to make today? Available commands:");
         System.out.println("- list -> Show all recipes");
+        System.out.println("- find [name] -> Find a recipe");
         System.out.println("- add [name] -> Add a new recipe");
         System.out.println("- delete [name] -> Delete a recipe");
-        System.out.println("- find [name] -> Find a recipe");
         System.out.println("- edit [name] -> edit a recipe");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");

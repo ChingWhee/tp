@@ -104,7 +104,7 @@ class RecipeBookTest {
         recipeBook.addItem(new Recipe("Pizza"));
         CommandResult result = recipeBook.findItem("Burger");
         assertNotNull(result);
-        assertEquals("No items found containing: Burger", result.getFeedbackToUser());
+        assertEquals("No recipes found containing: Burger", result.getFeedbackToUser());
     }
 
     @Test
