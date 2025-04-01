@@ -11,7 +11,7 @@ KitchenCTRL uses the following tools for development:
 The design and implementation of KitchenCTRL has been broken down into various sections
 - [Architecture](#architecture)
 - [UI Component](#ui-component)
-- [Logic Component](#logic-component)
+- [Commands Component](#commands-component)
 - [Model Component](#model-component)
 - [Storage Component](#storage-component)
 - [Common Classes](#common-classes)
@@ -44,19 +44,19 @@ This class provides methods for showing messages, reading user inputs, and displ
 
 #### Key Methods
 
-| Method                  | Description                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| `showInitMessage`        | Displays the ASCII logo upon startup.                                       |
-| `showDivider`            | Displays a divider line for separating sections in the UI.                  |
-| `showScreenPrompt`       | Displays the appropriate screen prompt based on the current screen state.   |
-| `showWelcomeMessage`     | Displays the welcome message and commands available on the main screen.    |
-| `showInventoryMessage`   | Displays available commands for managing the inventory.                    |
-| `showShoppingMessage`    | Displays available commands for managing the shopping list.                |
-| `showRecipeMessage`      | Displays available commands for managing recipes.                          |
-| `showGoodbyeMessage`     | Displays a goodbye message when exiting the application.                   |
-| `showInvalidCommandMessage` | Displays an error message when an invalid command is entered.             |
-| `getUserCommand`         | Reads and returns the user's command input.                                |
-| `showResultToUser`       | Displays the result of executing a command.                                |
+| Method                      | Description                                                                |
+|-----------------------------|----------------------------------------------------------------------------|
+| `showInitMessage`           | Displays the ASCII logo upon startup.                                      |
+| `showDivider`               | Displays a divider line for separating sections in the UI.                 |
+| `showScreenPrompt`          | Displays the appropriate screen prompt based on the current screen state.  |
+| `showWelcomeMessage`        | Displays the welcome message and commands available on the main screen.    |
+| `showInventoryMessage`      | Displays available commands for managing the inventory.                    |
+| `showShoppingMessage`       | Displays available commands for managing the shopping list.                |
+| `showRecipeMessage`         | Displays available commands for managing recipes.                          |
+| `showGoodbyeMessage`        | Displays a goodbye message when exiting the application.                   |
+| `showInvalidCommandMessage` | Displays an error message when an invalid command is entered.              |
+| `getUserCommand`            | Reads and returns the user's command input.                                |
+| `showResultToUser`          | Displays the result of executing a command.                                |
 
 #### Design Considerations
 
@@ -102,6 +102,11 @@ The commands package provides a structured way to define and execute operations 
 ### Model Component
 ![Model UML diagram](diagrams/model.png)
 
+#### RecipeBook Design
+The `RecipeBook` class inherits from `Catalogue<Recipe>` and manages a list of `Recipe` objects. It provides CRUD functionality and uses `CommandResult` to return operation outcomes.
+
+![RecipeBook Class Diagram](diagrams/recipebook.png)
+
 ### Storage Component
 ![Storage UML diagram](diagrams/storage.png)
 
@@ -111,11 +116,9 @@ The commands package provides a structured way to define and execute operations 
 
 ### Target user profile
 
-**Target user profile**:
-
 * Individuals who prefer lightweight, distraction-free tools over complex mobile apps
-* Users comfortable with typing commands in a terminal (basic command-line experience)
-* People who want a quick and efficient way to track ingredients, manage recipes, and plan shopping lists
+* Users comfortable typing commands in a terminal (basic command-line experience)
+* People who want a quick and efficient way to track ingredients and manage recipes.
 
 ### Value proposition
 
@@ -131,23 +134,31 @@ maximum functionality without the clutter.
 
 ## User Stories
 
-|Version| As a ...  | I want to ... | So that I can ...                                                |
-|--------|-----------|---------------|------------------------------------------------------------------|
-|v1.0| home cook |manage individual ingredients| easily track their quantities and usage in recipes and inventory |
-|v1.0| home cook |want to associate ingredients with recipes and inventory items| track what ingredients I have and what I need for my recipe      |
-|v1.0| home cook |manage my recipes, inventory, and shopping list by adding, deleting, updating, and viewing items| organize my cooking and shopping efficiently                     |
-|v1.0| user      |enter commands into the system| interact with it and perform necessary actions efficiently       |
-|v1.0| user      |save and retrieve data| have accessible and up-to-date information                       |
-|v2.0| user      |find a to-do item by name| locate a to-do without having to go through the entire list      |
+| Version | As a ...  | I want to ...                                                                   | So that I can ...                                                |
+|---------|-----------|---------------------------------------------------------------------------------|------------------------------------------------------------------|
+| v1.0    | home cook | manage individual ingredients                                                   | easily track their quantities and usage in recipes and inventory |
+| v1.0    | home cook | want to associate ingredients with recipes and inventory items                  | track what ingredients I have and what I need for my recipe      |
+| v1.0    | home cook | manage my inventory by adding, deleting, and viewing items                      | organize my cooking efficiently                                  |
+| v1.0    | user      | enter commands into the system                                                  | interact with it and perform necessary actions efficiently       |
+| v1.0    | user      | save and retrieve data                                                          | have accessible and up-to-date information                       |
+| v2.0    | home cook | manage my recipes by adding, deleting, modifying and viewing ingredients needed | organize my recipes efficiently                                  |
+| v2.0    | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes | organize my book of recipes efficiently                          |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+GiT is able to handle large amounts of data, stored in /data/inventory.txt and /data/recipe_book.txt.
+GiT should be easy for a new user to grasp, and allow experienced users to use different functionalities quickly.
 
 ## Glossary
 
-* *glossary item* - Definition
+Java - Object-oriented programming language used to create KitchenCTRL.
+Command Line Interface - Text-based user interface to allow users to interact with KitchenCTRL.
+
 
 ## Instructions for manual testing
 
-{Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+First, testers can install KitchenCTRL by following these instructions:
+
+Ensure that you have Java 17 or above installed.
+Down the latest version of KitchenCTRL from [here](https://github.com/AY2425S2-CS2113-T13-1/tp/releases).
+Open a command terminal, cd into the folder where the JAR file is and use java -jar tp.jar to run KitchenCTRL.
