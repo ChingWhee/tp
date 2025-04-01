@@ -26,6 +26,7 @@ class ParserTest {
 
     @Test
     public void testWelcomeCommand_inventory() {
+        KitchenCTRL.setCurrentScreen(ScreenState.WELCOME);
         Command command = parser.parseCommand("inventory");
         assertInstanceOf(GoToCommand.class, command);
 
@@ -36,6 +37,7 @@ class ParserTest {
 
     @Test
     public void testWelcomeCommand_recipe() {
+        KitchenCTRL.setCurrentScreen(ScreenState.WELCOME);
         Command command = parser.parseCommand("recipe");
         assertInstanceOf(GoToCommand.class, command);
 
@@ -62,7 +64,7 @@ class ParserTest {
     @Test
     public void testWelcomeCommand_invalid2() {
         assertThrows(IllegalArgumentException.class, () ->
-                parser.parseCommand("inventory"));
+                parser.parseCommand("hey there"));
     }
 
     // --- INVENTORY SCREEN COMMANDS ---

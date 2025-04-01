@@ -194,6 +194,6 @@ public class RecipeBook extends Catalogue<Recipe> {
 
     @Override
     public String getType() {
-        return "Rec ipeBook";
+        return "RecipeBook";
     }
 }
