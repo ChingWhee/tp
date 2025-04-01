@@ -76,8 +76,28 @@ It allows the user to interact with the system in an intuitive way, providing cl
 
 
 
-### Logic Component
+### Commands Component
 ![Logic UML diagram](diagrams/logic.png)
+
+The commands package is responsible for encapsulating user actions and system operations as individual command classes. Each command represents a specific operation that the application can perform, such as modifying data, navigating between screens, or executing specific tasks.
+
+All commands in this package inherit from a common parent class, typically named Command. This design ensures consistency and reusability across the application by enforcing a standard structure for all commands.
+
+Key Features of the commands Package
+Encapsulation: Each command encapsulates a single operation or behavior.
+Extensibility: New commands can be added easily by extending the Command class.
+Reusability: Commands are decoupled from the UI, making them reusable across different parts of the application.
+Standardized Execution: All commands implement the execute() method, which defines the specific logic for the command.
+Example: CookRecipeCommand
+The CookRecipeCommand class is an example of a command that inherits from the Command class. It represents the action of "cooking" a recipe, which might involve deducting ingredients from inventory or updating the application state.
+
+Explanation of CookRecipeCommand
+Constructor: Accepts the name of the recipe to be cooked as a parameter.
+execute() Method:
+Calls the RecipeManager.cookRecipe() method to perform the cooking operation.
+Returns a CommandResult with a success or failure message, depending on the outcome.
+Summary
+The commands package provides a structured way to define and execute operations in the application. By inheriting from the Command class, each command ensures consistency and adheres to the application's design principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
 
 ### Model Component
 ![Model UML diagram](diagrams/model.png)
