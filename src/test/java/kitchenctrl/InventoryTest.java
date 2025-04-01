@@ -22,4 +22,3 @@ public class InventoryTest {
         assertFalse(testIngredient.getQuantity() >= 0, "Quantity should not be negative");
     }
 }
-

@@ -80,4 +80,38 @@ class RecipeBookTest {
         assertTrue(result.getFeedbackToUser().contains("1. Pasta"));
         assertTrue(result.getFeedbackToUser().contains("2. Pizza"));
     }
+    @Test
+    void findItem_singleMatch() {
+        recipeBook.addItem(new Recipe("Tomato Soup"));
+        recipeBook.addItem(new Recipe("Pasta Carbonara"));
+        CommandResult result = recipeBook.findItem("Carbonara");
+        assertNotNull(result);
+        assertTrue(result.getFeedbackToUser().contains("Pasta Carbonara"));
+    }
+
+    @Test
+    void findItem_multipleMatches() {
+        recipeBook.addItem(new Recipe("Pasta Carbonara"));
+        recipeBook.addItem(new Recipe("Pasta Bolognese"));
+        CommandResult result = recipeBook.findItem("Pasta");
+        assertNotNull(result);
+        assertTrue(result.getFeedbackToUser().contains("Pasta Carbonara"));
+        assertTrue(result.getFeedbackToUser().contains("Pasta Bolognese"));
+    }
+
+    @Test
+    void findItem_noMatch() {
+        recipeBook.addItem(new Recipe("Pizza"));
+        CommandResult result = recipeBook.findItem("Burger");
+        assertNotNull(result);
+        assertEquals("No recipes found containing: Burger", result.getFeedbackToUser());
+    }
+
+    @Test
+    void findItem_emptyQuery() {
+        recipeBook.addItem(new Recipe("Burger"));
+        CommandResult result = recipeBook.findItem("");
+        assertNotNull(result);
+        assertEquals("Please provide a keyword to search.", result.getFeedbackToUser());
+    }
 }

@@ -1,15 +1,16 @@
 package ui.inputparser;
 
-import commands.AddCommand;
-import commands.BackCommand;
-import commands.ByeCommand;
+import commands.FindCommand;
 import commands.Command;
-import commands.CookRecipeCommand;
-import commands.DeleteCommand;
+import commands.ByeCommand;
 import commands.EditRecipeCommand;
-import commands.GoToCommand;
-import commands.ListCommand;
+import commands.AddCommand;
+import commands.DeleteCommand;
 import commands.UpdateCommand;
+import commands.ListCommand;
+import commands.BackCommand;
+import commands.GoToCommand;
+import commands.CookRecipeCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -74,6 +75,7 @@ public class Parser {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
         case "list" -> prepareList();
+        case "find" -> new FindCommand(args);
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
@@ -93,6 +95,7 @@ public class Parser {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
         case "list" -> prepareList();
+        case "find" -> new FindCommand(args);
         case "back" -> prepareBack();
         case "bye" -> new ByeCommand();
         case "cook" -> prepareCook(args);
@@ -115,6 +118,7 @@ public class Parser {
         case "update" -> prepareUpdate(args); // Update quantity of an ingredient
         case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
         case "list" -> prepareList();           // List all ingredients in the recipe
+        case "find" -> new FindCommand(args);
         case "back" -> prepareBack();                 // Go back to recipe book
         case "bye" -> new ByeCommand();               // Exit program
         default -> throw new IllegalArgumentException("Unknown command in recipe screen.");

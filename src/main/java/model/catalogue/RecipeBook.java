@@ -4,6 +4,7 @@ import commands.CommandResult;
 import ui.inputparser.InputParser;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -27,13 +28,13 @@ public class RecipeBook extends Catalogue<Recipe> {
      * @throws IllegalArgumentException if the recipe name is null or empty.
      */
     private String getRecipeNameLowercase(Recipe recipe) {
-        String name = recipe.getRecipeName();
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Recipe does not exist in system");
+        if (recipe == null || recipe.getRecipeName() == null || recipe.getRecipeName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Recipe name cannot be null or empty.");
         }
-        return name.toLowerCase();
+        return recipe.getRecipeName().trim().toLowerCase();
     }
 
+    @Override
     public String getCatalogueContent() {
         if (items.isEmpty()) {
             return "";
@@ -42,7 +43,7 @@ public class RecipeBook extends Catalogue<Recipe> {
         for (Recipe recipe : items) {
             content.append(recipe.toString()).append("\n");
         }
-        return content.toString();
+        return content.toString().trim();
     }
 
     /**
@@ -70,12 +71,15 @@ public class RecipeBook extends Catalogue<Recipe> {
      */
     @Override
     public Recipe getItemByName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return null;
+        }
         for (Recipe item : items) {
-            if (item.getRecipeName().equalsIgnoreCase(name)) {
+            if (item.getRecipeName().equalsIgnoreCase(name.trim())) {
                 return item;
             }
         }
-        return null; // Not found
+        return null;
     }
 
     /**
@@ -97,6 +101,10 @@ public class RecipeBook extends Catalogue<Recipe> {
      */
     @Override
     public CommandResult addItem(Recipe recipe) {
+        if (recipe == null) {
+            return new CommandResult("Cannot add a null recipe.");
+        }
+
         ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
         if (similarRecipe.isEmpty()) {
             addRecipe(recipe);
@@ -108,6 +116,7 @@ public class RecipeBook extends Catalogue<Recipe> {
             addRecipe(recipe);
             return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
         }
+
         return new CommandResult("Operation canceled.");
     }
 
@@ -117,6 +126,9 @@ public class RecipeBook extends Catalogue<Recipe> {
      * @param recipe The recipe to be added.
      */
     private void addRecipe(Recipe recipe) {
+        if (recipe == null) {
+            throw new IllegalArgumentException("Cannot add null recipe.");
+        }
         items.add(recipe);
     }
 
@@ -128,20 +140,26 @@ public class RecipeBook extends Catalogue<Recipe> {
      */
     @Override
     public CommandResult deleteItem(Recipe recipe) {
+        if (recipe == null) {
+            return new CommandResult("Cannot delete a null recipe.");
+        }
+
         ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
+        String recipeName = (recipe.getRecipeName() == null) ? "[unknown]" : recipe.getRecipeName();
+
         if (similarRecipe.isEmpty()) {
-            return new CommandResult(recipe.getRecipeName() + " does not exist in the recipe book.");
+            return new CommandResult(recipeName + " does not exist in the recipe book.");
         }
 
         if (similarRecipe.size() == SINGLE_MATCH && isExactMatchFound(similarRecipe.get(FIRST_ITEM_INDEX), recipe)) {
             removeRecipe(recipe);
-            return new CommandResult(recipe.getRecipeName() + " removed from recipe book.");
+            return new CommandResult(recipeName + " removed from recipe book.");
         }
 
         int choice = InputParser.getUserChoiceForDeleteRecipe(similarRecipe, recipe);
         if (choice > 0 && choice <= similarRecipe.size()) {
             removeRecipe(similarRecipe.get(choice - 1));
-            return new CommandResult(recipe.getRecipeName() + " removed from recipe book.");
+            return new CommandResult(recipeName + " removed from recipe book.");
         }
         return new CommandResult("Operation canceled.");
     }
@@ -152,6 +170,9 @@ public class RecipeBook extends Catalogue<Recipe> {
      * @param recipe The recipe to be removed.
      */
     private void removeRecipe(Recipe recipe) {
+        if (recipe == null) {
+            throw new IllegalArgumentException("Cannot remove null recipe.");
+        }
         items.remove(recipe);
     }
 
@@ -163,8 +184,15 @@ public class RecipeBook extends Catalogue<Recipe> {
      * @return A CommandResult indicating success or failure.
      */
     public CommandResult editItem(Recipe oldRecipe, Recipe newRecipe) {
-        if (items.contains(newRecipe)) {
-            return new CommandResult("A recipe with the name " + newRecipe.getRecipeName() + " already exists.");
+        if (oldRecipe == null || newRecipe == null) {
+            return new CommandResult("Cannot edit a null recipe.");
+        }
+
+        for (Recipe existing : items) {
+            if (existing.getRecipeName().equalsIgnoreCase(newRecipe.getRecipeName())
+                    && !Objects.equals(existing, oldRecipe)) {
+                return new CommandResult("A recipe with the name " + newRecipe.getRecipeName() + " already exists.");
+            }
         }
 
         int index = items.indexOf(oldRecipe);
@@ -172,6 +200,7 @@ public class RecipeBook extends Catalogue<Recipe> {
             items.set(index, newRecipe);
             return new CommandResult(oldRecipe.getRecipeName() + " updated to " + newRecipe.getRecipeName());
         }
+
         return new CommandResult("Recipe not found.");
     }
 
@@ -187,8 +216,37 @@ public class RecipeBook extends Catalogue<Recipe> {
         }
         StringBuilder result = new StringBuilder("Recipe Book:\n");
         for (int i = 0; i < items.size(); i++) {
-            result.append(i + 1).append(". ").append(items.get(i).getRecipeName()).append("\n");
+            String name = items.get(i).getRecipeName();
+            result.append(i + 1).append(". ").append(name == null ? "[Unnamed Recipe]" : name).append("\n");
         }
+        return new CommandResult(result.toString().trim());
+    }
+
+    /**
+     * Finds recipes whose names contain the given query (case-insensitive).
+     *
+     * @param query The search keyword or partial name of the recipe.
+     * @return A CommandResult listing the matching recipes.
+     */
+    public CommandResult findItem(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return new CommandResult("Please provide a keyword to search.");
+        }
+
+        String lowerQuery = query.trim().toLowerCase();
+        ArrayList<Recipe> matching = items.stream()
+                .filter(r -> r.getRecipeName() != null && r.getRecipeName().toLowerCase().contains(lowerQuery))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (matching.isEmpty()) {
+            return new CommandResult("No recipes found containing: " + query);
+        }
+
+        StringBuilder result = new StringBuilder("Found recipes:\n");
+        for (int i = 0; i < matching.size(); i++) {
+            result.append(i + 1).append(". ").append(matching.get(i).getRecipeName()).append("\n");
+        }
+
         return new CommandResult(result.toString().trim());
     }
 

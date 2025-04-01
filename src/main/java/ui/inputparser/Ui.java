@@ -108,6 +108,7 @@ public class Ui {
         System.out.println("You're now in the INVENTORY screen.");
         System.out.println("Manage what's in your inventory! Available commands:");
         System.out.println("- list -> Show all ingredients in inventory");
+        System.out.println("- find [name] -> Find an ingredient in inventory");
         System.out.println("- add [item] [qty] -> Add ingredients to inventory");
         System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
         System.out.println("- back -> Return to the main screen");
@@ -121,6 +122,7 @@ public class Ui {
         System.out.println("You’re now in the SHOPPING LIST screen.");
         System.out.println("Time to get those groceries! Available commands:");
         System.out.println("- list -> Show all ingredients in shopping list");
+        System.out.println("- find [name] -> Find an ingredient in shopping list");
         System.out.println("- add [item] [qty] -> Add ingredients to shopping list");
         System.out.println("- delete [item] [qty] -> Remove ingredients from shopping list");
         System.out.println("- back -> Return to the main screen");
@@ -134,9 +136,10 @@ public class Ui {
         System.out.println("You're now viewing a specific RECIPE.");
         System.out.println("Manage the ingredients for this recipe. Available commands:");
         System.out.println("- list -> Show all ingredients in the recipe");
+        System.out.println("- find [name] -> Find an ingredient in the recipe");
         System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");
         System.out.println("- update [item] [qty] -> Update the quantity of an existing ingredient");
-        System.out.println("- delete [item] -> Remove an ingredient from the recipe");
+        System.out.println("- delete [item] [qty] -> Remove an ingredient from the recipe");
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
     }
@@ -148,6 +151,7 @@ public class Ui {
         System.out.println("You’re now in the RECIPEBOOK screen.");
         System.out.println("What dish would you like to make today? Available commands:");
         System.out.println("- list -> Show all recipes");
+        System.out.println("- find [name] -> Find a recipe");
         System.out.println("- add [name] -> Add a new recipe");
         System.out.println("- delete [name] -> Delete a recipe");
         System.out.println("- edit [name] -> edit a recipe");

@@ -88,6 +88,7 @@ class UiTest {
 
         assertTrue(output.contains("You're now in the INVENTORY screen."));
         assertTrue(output.contains("- list -> Show all ingredients in inventory"));
+        assertTrue(output.contains("- find [name] -> Find an ingredient in inventory"));
         assertTrue(output.contains("- add [item] [qty] -> Add ingredients to inventory"));
         assertTrue(output.contains("- delete [item] [qty] -> Remove ingredients from inventory"));
         assertTrue(output.contains("- back -> Return to the main screen"));
@@ -101,6 +102,7 @@ class UiTest {
 
         assertTrue(output.contains("You’re now in the SHOPPING LIST screen."));
         assertTrue(output.contains("- list -> Show all ingredients in shopping list"));
+        assertTrue(output.contains("- find [name] -> Find an ingredient in shopping list"));
         assertTrue(output.contains("- add [item] [qty] -> Add ingredients to shopping list"));
         assertTrue(output.contains("- delete [item] [qty] -> Remove ingredients from shopping list"));
         assertTrue(output.contains("- back -> Return to the main screen"));
@@ -114,9 +116,10 @@ class UiTest {
 
         assertTrue(output.contains("You're now viewing a specific RECIPE."));
         assertTrue(output.contains("- list -> Show all ingredients in the recipe"));
+        assertTrue(output.contains("- find [name] -> Find an ingredient in the recipe"));
         assertTrue(output.contains("- add [item] [qty] -> Add an ingredient to the recipe"));
         assertTrue(output.contains("- update [item] [qty] -> Update the quantity of an existing ingredient"));
-        assertTrue(output.contains("- delete [item] -> Remove an ingredient from the recipe"));
+        assertTrue(output.contains("- delete [item] [qty] -> Remove an ingredient from the recipe"));
         assertTrue(output.contains("- back -> Return to the recipe list"));
         assertTrue(output.contains("- bye -> Exit the program"));
     }
