@@ -1,5 +1,6 @@
 package commands;
 
+import controller.KitchenCTRL;
 import controller.ScreenState;
 
 /**
@@ -19,6 +20,12 @@ public class BackCommand extends Command {
      */
     @Override
     public CommandResult execute() {
+        ScreenState current = KitchenCTRL.getCurrentScreen();
+
+        if (current == ScreenState.RECIPE) {
+            KitchenCTRL.setActiveRecipe(null); // clear context
+            return new CommandResult(ScreenState.RECIPEBOOK);
+        }
         return new CommandResult(ScreenState.WELCOME);
     }
 }

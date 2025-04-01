@@ -1,8 +1,8 @@
 package commands;
 
-import controller.ScreenState;
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
 /**
@@ -17,12 +17,8 @@ import model.catalogue.RecipeBook;
 public class ListCommand extends Command {
     /**
      * Constructs a {@code ListCommand} with the specified screen context.
-     *
-     * @param screen The current screen state where this command is invoked.
      */
-    public ListCommand(ScreenState screen) {
-        super(screen);
-    }
+    public ListCommand() {}
 
     /**
      * Executes the list command by retrieving the list of items from the provided catalogue.
@@ -39,7 +35,9 @@ public class ListCommand extends Command {
         assert catalogue != null : "Catalogue must not be null";
         if (catalogue instanceof Inventory inventory) {
             return inventory.listItems();
-        } else if (catalogue instanceof RecipeBook recipe) {
+        } else if (catalogue instanceof RecipeBook recipeBook) {
+            return recipeBook.listItems();
+        } else if (catalogue instanceof Recipe recipe){
             return recipe.listItems();
         } else {
             return new CommandResult("Unsupported catalogue for AddCommand.", null);

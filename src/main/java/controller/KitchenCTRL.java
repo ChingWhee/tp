@@ -1,12 +1,13 @@
 package controller;
 
-import commands.GoToCommand;
 import commands.BackCommand;
 import commands.ByeCommand;
 import commands.Command;
 import commands.CommandResult;
-
+import commands.EditRecipeCommand;
+import commands.GoToCommand;
 import model.catalogue.Catalogue;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 import model.catalogue.Inventory;
 
@@ -29,8 +30,32 @@ public class KitchenCTRL {
     // Catalogue storing recipes
     private static RecipeBook recipeBook;
 
+    private static ScreenState currentScreen = ScreenState.WELCOME;
+    
+    private static Recipe activeRecipe;
+
     private Ui ui;
     private Parser parser;
+
+    public static ScreenState getCurrentScreen() {
+        return currentScreen;
+    }
+
+    public static void setActiveRecipe(Recipe recipe) {
+        activeRecipe = recipe;
+    }
+
+    public Recipe getActiveRecipe() {
+        return activeRecipe;
+    }
+
+    public static Recipe requireActiveRecipe() {
+        Recipe r = activeRecipe;
+        if (r == null) {
+            throw new IllegalStateException("No recipe is currently selected.");
+        }
+        return r;
+    }
 
     /**
      * Main entry-point for the KitchenCTRL application.
@@ -72,7 +97,7 @@ public class KitchenCTRL {
         try {
             // Initialization
             this.ui = new Ui();
-            parser = new Parser();
+            this.parser = new Parser();
             initializeCatalogues();
             ui.showInitMessage();
         } catch (Exception e) {
@@ -89,7 +114,6 @@ public class KitchenCTRL {
      * - Handles screen transitions and exit condition
      */
     private void runCommandLoopUntilExitCommand() {
-        ScreenState currentScreen = ScreenState.WELCOME;
         Command command;
 
         do {
@@ -101,7 +125,7 @@ public class KitchenCTRL {
 
             // Parse input into a Command
             try {
-                command = parser.parseCommand(currentScreen, userCommandText);
+                command = parser.parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 continue;
@@ -114,7 +138,8 @@ public class KitchenCTRL {
 
             CommandResult result;
             // Switch screen if required by result
-            if (command instanceof BackCommand || command instanceof GoToCommand) {
+            if (command instanceof BackCommand || command instanceof GoToCommand ||
+                    command instanceof EditRecipeCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
                 ui.showDivider();
@@ -127,7 +152,7 @@ public class KitchenCTRL {
             // Execute the command and get result
             result = (catalogue == null)
                     ? command.execute() // e.g., welcome screen or global commands
-                    : command.execute(catalogue); // inventory/shopping/recipe screens
+                    : command.execute(catalogue); // inventory/shopping/active recipe
 
             // Display result to the user
             ui.showResultToUser(result);
@@ -152,7 +177,8 @@ public class KitchenCTRL {
     private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
         case INVENTORY -> inventory;
-        case RECIPE -> recipeBook;
+        case RECIPEBOOK -> recipeBook;
+        case RECIPE -> activeRecipe;
         default -> null; // For WELCOME, or throw if needed
         };
     }
@@ -171,5 +197,4 @@ public class KitchenCTRL {
         catalogues.add(recipeBook);
         return catalogues;
     }
-
 }
