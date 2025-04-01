@@ -1,7 +1,11 @@
 package controller;
 
-import commands.*;
-
+import commands.BackCommand;
+import commands.ByeCommand;
+import commands.Command;
+import commands.CommandResult;
+import commands.EditRecipeCommand;
+import commands.GoToCommand;
 import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
@@ -26,15 +30,16 @@ public class KitchenCTRL {
     // Catalogue storing recipes
     private static RecipeBook recipeBook;
 
+    private static ScreenState currentScreen = ScreenState.WELCOME;
+    
+    private static Recipe activeRecipe;
+
     private Ui ui;
     private Parser parser;
-    private static ScreenState currentScreen = ScreenState.WELCOME;
 
     public static ScreenState getCurrentScreen() {
         return currentScreen;
     }
-
-    private static Recipe activeRecipe;
 
     public static void setActiveRecipe(Recipe recipe) {
         activeRecipe = recipe;
@@ -46,10 +51,11 @@ public class KitchenCTRL {
 
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
-        if (r == null) throw new IllegalStateException("No recipe is currently selected.");
+        if (r == null) {
+            throw new IllegalStateException("No recipe is currently selected.");
+        }
         return r;
     }
-
 
     /**
      * Main entry-point for the KitchenCTRL application.
@@ -91,7 +97,7 @@ public class KitchenCTRL {
         try {
             // Initialization
             this.ui = new Ui();
-            parser = new Parser();
+            this.parser = new Parser();
             initializeCatalogues();
             ui.showInitMessage();
         } catch (Exception e) {

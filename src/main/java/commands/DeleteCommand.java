@@ -8,7 +8,7 @@ import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
 import static controller.KitchenCTRL.requireActiveRecipe;
-import static controller.ScreenState.*;
+import static controller.ScreenState.RECIPEBOOK;
 
 /**
  * Represents a command to delete an item (ingredient or recipe) from the appropriate catalogue
@@ -58,29 +58,29 @@ public class DeleteCommand extends Command {
         assert catalogue != null : "Catalogue must not be null";
 
         return switch (KitchenCTRL.getCurrentScreen()) {
-            case INVENTORY -> {
-                if (catalogue instanceof Inventory inventory) {
-                    Ingredient ingredient = new Ingredient(name, quantity);
-                    yield inventory.deleteItem(ingredient);
-                }
-                yield new CommandResult("Invalid catalogue for inventory operation.", null);
+        case INVENTORY -> {
+            if (catalogue instanceof Inventory inventory) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield inventory.deleteItem(ingredient);
             }
-            case RECIPEBOOK -> {
-                if (catalogue instanceof RecipeBook recipeBook) {
-                    Recipe recipe = new Recipe(name);
-                    yield recipeBook.deleteItem(recipe);
-                }
-                yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+            yield new CommandResult("Invalid catalogue for inventory operation.", null);
+        }
+        case RECIPEBOOK -> {
+            if (catalogue instanceof RecipeBook recipeBook) {
+                Recipe recipe = new Recipe(name);
+                yield recipeBook.deleteItem(recipe);
             }
-            case RECIPE -> {
-                requireActiveRecipe();
-                if (catalogue instanceof Recipe recipe) {
-                    Ingredient ingredient = new Ingredient(name, quantity);
-                    yield recipe.deleteItem(ingredient);
-                }
-                yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+        }
+        case RECIPE -> {
+            requireActiveRecipe();
+            if (catalogue instanceof Recipe recipe) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield recipe.deleteItem(ingredient);
             }
-            default -> new CommandResult("Unsupported screen state for DeleteCommand.", null);
+            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+        }
+        default -> new CommandResult("Unsupported screen state for DeleteCommand.", null);
         };
     }
 }

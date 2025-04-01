@@ -8,7 +8,7 @@ import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
 import static controller.KitchenCTRL.requireActiveRecipe;
-import static controller.ScreenState.*;
+import static controller.ScreenState.RECIPEBOOK;
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
@@ -40,12 +40,12 @@ public class AddCommand extends Command {
         this.name = name;
         this.quantity = quantity;
     }
+
     public AddCommand(String name) {
         assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
 
-
         this.name = name;
-        this.quantity = 0;//irrelevant for recipebook screen
+        this.quantity = 0; // irrelevant for recipebook screen
     }
 
     /**
@@ -60,29 +60,29 @@ public class AddCommand extends Command {
         assert catalogue != null : "Catalogue must not be null";
 
         return switch (KitchenCTRL.getCurrentScreen()) {
-            case INVENTORY -> {
-                if (catalogue instanceof Inventory inventory) {
-                    Ingredient ingredient = new Ingredient(name, quantity);
-                    yield inventory.addItem(ingredient);
-                }
-                yield new CommandResult("Invalid catalogue for inventory operation.", null);
+        case INVENTORY -> {
+            if (catalogue instanceof Inventory inventory) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield inventory.addItem(ingredient);
             }
-            case RECIPEBOOK -> {
-                if (catalogue instanceof RecipeBook recipeBook) {
-                    Recipe recipe = new Recipe(name);
-                    yield recipeBook.addItem(recipe);
-                }
-                yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+            yield new CommandResult("Invalid catalogue for inventory operation.", null);
+        }
+        case RECIPEBOOK -> {
+            if (catalogue instanceof RecipeBook recipeBook) {
+                Recipe recipe = new Recipe(name);
+                yield recipeBook.addItem(recipe);
             }
-            case RECIPE -> {
-                requireActiveRecipe();
-                if (catalogue instanceof Recipe recipe) {
-                    Ingredient ingredient = new Ingredient(name, quantity);
-                    yield recipe.addItem(ingredient);
-                }
-                yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+        }
+        case RECIPE -> {
+            requireActiveRecipe();
+            if (catalogue instanceof Recipe recipe) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield recipe.addItem(ingredient);
             }
-            default -> new CommandResult("Unsupported screen state for AddCommand.", null);
+            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+        }
+        default -> new CommandResult("Unsupported screen state for AddCommand.", null);
         };
     }
 }
