@@ -1,6 +1,16 @@
 package ui.inputparser;
 
-import commands.*;
+import commands.FindCommand;
+import commands.Command;
+import commands.ByeCommand;
+import commands.EditRecipeCommand;
+import commands.AddCommand;
+import commands.DeleteCommand;
+import commands.UpdateCommand;
+import commands.ListCommand;
+import commands.BackCommand;
+import commands.GoToCommand;
+import commands.CookRecipeCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
