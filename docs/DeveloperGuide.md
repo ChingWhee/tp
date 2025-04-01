@@ -111,18 +111,34 @@ The commands package provides a structured way to define and execute operations 
 
 ### Target user profile
 
-{Describe the target user profile}
+**Target user profile**:
+
+* Individuals who prefer lightweight, distraction-free tools over complex mobile apps
+* Users comfortable with typing commands in a terminal (basic command-line experience)
+* People who want a quick and efficient way to track ingredients, manage recipes, and plan shopping lists
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+KitchenCTRL solves the everyday hassle of keeping track of kitchen ingredients and meal planning.
+It provides a unified, command-line interface to:
+
+1. Track pantry inventory and prevent overbuying or waste
+2. Store and manage recipes easily
+3. Maintain a dynamic shopping list based on actual needs
+
+Unlike traditional mobile or web apps, KitchenCTRL is fast, lightweight, and designed for keyboard-driven users who want 
+maximum functionality without the clutter.
 
 ## User Stories
 
-|Version| As a ... | I want to ... | So that I can ...|
-|--------|----------|---------------|------------------|
-|v1.0|new user|see usage instructions|refer to them when I forget how to use the application|
-|v2.0|user|find a to-do item by name|locate a to-do without having to go through the entire list|
+|Version| As a ...  | I want to ... | So that I can ...                                                |
+|--------|-----------|---------------|------------------------------------------------------------------|
+|v1.0| home cook |manage individual ingredients| easily track their quantities and usage in recipes and inventory |
+|v1.0| home cook |want to associate ingredients with recipes and inventory items| track what ingredients I have and what I need for my recipe      |
+|v1.0| home cook |manage my recipes, inventory, and shopping list by adding, deleting, updating, and viewing items| organize my cooking and shopping efficiently                     |
+|v1.0| user      |enter commands into the system| interact with it and perform necessary actions efficiently       |
+|v1.0| user      |save and retrieve data| have accessible and up-to-date information                       |
+|v2.0| user      |find a to-do item by name| locate a to-do without having to go through the entire list      |
 
 ## Non-Functional Requirements
 
