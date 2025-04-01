@@ -5,6 +5,7 @@ import model.Ingredient;
 import model.catalogue.Catalogue;
 
 import model.catalogue.Inventory;
+import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
 import java.io.IOException;
@@ -13,17 +14,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CatalogueContentManager {
     String directoryName = "data";
     String inventoryFileName = "inventory.txt";
-    String recipeFileName = "recipe_book.txt";
+    String recipeBookFileName = "recipe_book.txt";
+    String shoppingCatalogueFileName = "shopping_catalogue.txt";
 
     Path basePath = Paths.get(directoryName);
     Path inventoryFilePath = basePath.resolve(inventoryFileName);
-    Path recipeFilePath = basePath.resolve(recipeFileName);
+    Path recipeBookFilePath = basePath.resolve(recipeBookFileName);
+    Path shoppingCatalogueFilePath = basePath.resolve(shoppingCatalogueFileName);
 
     public CatalogueContentManager() {
 
@@ -38,7 +44,6 @@ public class CatalogueContentManager {
 
         return loadConsumablesCatalogue(inventoryFilePath, Inventory::new);
     }
-
 
     public <T extends Inventory> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
@@ -64,30 +69,60 @@ public class CatalogueContentManager {
         return ingredientCatalogue;
     }
 
-    // TODO: Define the text format for Recipe.
+    String currentRecipeName = null;
+    List<String> currentIngredients = new ArrayList<>();
+
     public RecipeBook loadRecipeBook() throws IOException {
         checkDirectoryExistence();
-        checkFileExistence(recipeFilePath);
+        checkFileExistence(recipeBookFilePath);
 
-        assert recipeFilePath.toFile().exists();
+        assert recipeBookFilePath.toFile().exists();
 
-        List<String> lines = loadRawCatalogueContent(recipeFilePath);
+        List<String> lines = loadRawCatalogueContent(recipeBookFilePath);
         RecipeBook storageRecipe = new RecipeBook();
 
         if (lines == null || lines.isEmpty()) {
             return storageRecipe;
         }
 
+        String currentRecipeName = null;
+        ArrayList<Ingredient> currentIngredients = new ArrayList<Ingredient>();
+
         for (String line : lines) {
-            String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
-            if (parts.length == 2) {
-                try {
-                    // Some method to parse recipe
-                } catch (NumberFormatException e) {
-                    System.err.println("Skipping invalid entry: " + line);
+            line = line.trim();  // Remove leading and trailing whitespaces
+
+            if (line.isEmpty()) {
+                // Blank line: End of a recipe, so add the current recipe to storage
+                if (currentRecipeName != null) {
+                    storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients));
+                    currentRecipeName = null;
+                    currentIngredients = new ArrayList<>();
+                }
+            } else if (currentRecipeName == null) {
+                // First non-empty line: Recipe name
+                currentRecipeName = line;
+            } else {
+                // Ingredient line: Inline parsing
+                String regex = "^(.*)\\s\\((\\d+)\\)$";  // Match ingredient (quantity) format
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(line);
+
+                if (matcher.matches()) {
+                    String ingredientName = matcher.group(1);  // Ingredient name
+                    int quantity = Integer.parseInt(matcher.group(2));  // Ingredient quantity
+                    currentIngredients.add(new Ingredient(ingredientName, quantity));
+                } else {
+                    // Handle invalid format if necessary
+                    System.out.println("Invalid ingredient format: " + line);
                 }
             }
         }
+
+        // Add the last recipe if the file doesn't end with a blank line
+        if (currentRecipeName != null) {
+            storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients));
+        }
+
         return storageRecipe;
     }
 
@@ -117,7 +152,7 @@ public class CatalogueContentManager {
                 filePath = inventoryFilePath;
                 break;
             case "RecipeBook":
-                filePath = recipeFilePath;
+                filePath = recipeBookFilePath;
                 break;
             default:
             }

@@ -188,9 +188,9 @@ Example:
 
 All data is stored locally in `.txt` files under the `/data/` folder:
 
-- `inventory_catalogue.txt`
+- `inventory.txt`
+- `recipe_book.txt`
 - `shopping_catalogue.txt`
-- `recipe_catalogue.txt`
 
 The data is automatically saved after each command.
 

@@ -31,7 +31,7 @@ public class KitchenCTRL {
     private static RecipeBook recipeBook;
 
     private static ScreenState currentScreen = ScreenState.WELCOME;
-    
+
     private static Recipe activeRecipe;
 
     private Ui ui;
