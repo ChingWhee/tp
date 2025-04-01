@@ -246,6 +246,7 @@ class ParserTest {
 
     @Test
     public void testInvalidScreenState() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVALID);
         assertThrows(IllegalArgumentException.class, () ->
                 parser.parseCommand("add eggs 2"));
     }

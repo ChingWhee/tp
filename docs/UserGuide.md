@@ -60,10 +60,10 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 
 Welcome to KitchenCTRL — your digital kitchen companion!
 What would you like to do today? Available commands:
-- inventory → View and manage your inventory
-- recipe → View and manage your recipes
-- shopping → View and manage your shopping list
-- bye → Exit the program
+- inventory -> View and manage your inventory
+- recipe -> View and manage your recipes
+- shopping -> View and manage your shopping list
+- bye -> Exit the program
 ```
 5. Type the command in the command box and press Enter to execute it. Start typing commands to manage your kitchen!
 
