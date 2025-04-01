@@ -119,7 +119,7 @@ class UiTest {
         assertTrue(output.contains("- find [name] -> Find an ingredient in the recipe"));
         assertTrue(output.contains("- add [item] [qty] -> Add an ingredient to the recipe"));
         assertTrue(output.contains("- update [item] [qty] -> Update the quantity of an existing ingredient"));
-        assertTrue(output.contains("- delete [item] -> Remove an ingredient from the recipe"));
+        assertTrue(output.contains("- delete [item] [qty] -> Remove an ingredient from the recipe"));
         assertTrue(output.contains("- back -> Return to the recipe list"));
         assertTrue(output.contains("- bye -> Exit the program"));
     }

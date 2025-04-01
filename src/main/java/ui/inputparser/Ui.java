@@ -139,7 +139,7 @@ public class Ui {
         System.out.println("- find [name] -> Find an ingredient in the recipe");
         System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");
         System.out.println("- update [item] [qty] -> Update the quantity of an existing ingredient");
-        System.out.println("- delete [item] [qty]-> Remove an ingredient from the recipe");
+        System.out.println("- delete [item] [qty] -> Remove an ingredient from the recipe");
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
     }
