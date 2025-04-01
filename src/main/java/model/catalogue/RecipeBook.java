@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
  */
 public class RecipeBook extends Catalogue<Recipe> {
 
-    private String name = "RecipeBook";
-
     /**
      * Constructs an empty RecipeBook.
      */
@@ -36,6 +34,16 @@ public class RecipeBook extends Catalogue<Recipe> {
         return name.toLowerCase();
     }
 
+    public String getCatalogueContent() {
+        if (items.isEmpty()) {
+            return "";
+        }
+        StringBuilder content = new StringBuilder();
+        for (Recipe recipe : items) {
+            content.append(recipe.toString()).append("\n");
+        }
+        return content.toString();
+    }
 
     /**
      * Searches for recipes with similar names.
@@ -186,6 +194,6 @@ public class RecipeBook extends Catalogue<Recipe> {
 
     @Override
     public String getType() {
-        return "Rec ipeBook";
+        return "RecipeBook";
     }
 }

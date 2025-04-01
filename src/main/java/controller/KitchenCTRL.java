@@ -31,7 +31,7 @@ public class KitchenCTRL {
     private static RecipeBook recipeBook;
 
     private static ScreenState currentScreen = ScreenState.WELCOME;
-    
+
     private static Recipe activeRecipe;
 
     private Ui ui;
@@ -39,6 +39,10 @@ public class KitchenCTRL {
 
     public static ScreenState getCurrentScreen() {
         return currentScreen;
+    }
+
+    public static void setCurrentScreen(ScreenState currentScreen) {
+        KitchenCTRL.currentScreen = currentScreen;
     }
 
     public static void setActiveRecipe(Recipe recipe) {

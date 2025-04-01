@@ -2,6 +2,7 @@ package model.catalogue;
 
 import commands.CommandResult;
 import model.Ingredient;
+import java.util.ArrayList;
 
 public class Recipe extends Catalogue<Ingredient> {
     private String recipeName;
@@ -11,6 +12,13 @@ public class Recipe extends Catalogue<Ingredient> {
 
     public Recipe(String recipeName) {
         this.recipeName = recipeName;
+    }
+
+    public Recipe(String recipeName, ArrayList<Ingredient> ingredients) {
+        this.recipeName = recipeName;
+        for (Ingredient ingredient : ingredients) {
+            items.add(ingredient);
+        }
     }
 
     public String getRecipeName() {
@@ -41,7 +49,7 @@ public class Recipe extends Catalogue<Ingredient> {
             }
         }
 
-        // Ingredient not found — add as new
+        // Ingredient not found - add as new
         items.add(ingredient);
         return new CommandResult(ingredient.getIngredientName() + " added to " + getRecipeName() + ".");
     }
@@ -80,6 +88,16 @@ public class Recipe extends Catalogue<Ingredient> {
     @Override
     public String getType(){
         return "Recipe";
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder content = new StringBuilder();
+        content.append(recipeName).append("\n");
+        for (Ingredient ingredient : items) {
+            content.append(ingredient.toString()).append("\n");
+        }
+        return content.toString();
     }
 }
 

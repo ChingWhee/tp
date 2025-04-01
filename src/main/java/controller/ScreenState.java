@@ -6,5 +6,6 @@ public enum ScreenState {
     SHOPPING,
     RECIPEBOOK,
     RECIPE,
-    EXIT
+    EXIT,
+    INVALID
 }
