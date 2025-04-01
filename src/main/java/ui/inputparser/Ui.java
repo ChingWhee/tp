@@ -78,6 +78,9 @@ public class Ui {
         case SHOPPING:
             showShoppingMessage();
             break;
+        case RECIPEBOOK:
+            showRecipeBookMessage();
+            break;
         case RECIPE:
             showRecipeMessage();
             break;
@@ -125,14 +128,29 @@ public class Ui {
     }
 
     /**
-     * Displays help and commands for the RECIPE screen.
+     * Displays help and commands for managing a specific recipe's ingredients.
      */
     private void showRecipeMessage() {
-        System.out.println("You’re now in the RECIPE screen.");
-        System.out.println("What would you like to make today? Available commands:");
+        System.out.println("You’re now viewing a specific RECIPE.");
+        System.out.println("Manage the ingredients for this recipe. Available commands:");
+        System.out.println("- list → Show all ingredients in the recipe");
+        System.out.println("- add [item] [qty] → Add an ingredient to the recipe");
+        System.out.println("- update [item] [qty] → Update the quantity of an existing ingredient");
+        System.out.println("- delete [item] → Remove an ingredient from the recipe");
+        System.out.println("- back → Return to the recipe list");
+        System.out.println("- bye → Exit the program");
+    }
+
+    /**
+     * Displays help and commands for the RECIPE screen.
+     */
+    private void showRecipeBookMessage() {
+        System.out.println("You’re now in the RECIPEBOOK screen.");
+        System.out.println("What dish would you like to make today? Available commands:");
         System.out.println("- list → Show all recipes");
         System.out.println("- add [name] → Add a new recipe");
         System.out.println("- delete [name] → Delete a recipe");
+        System.out.println("- edit [name] → edit a recipe");
         System.out.println("- back → Return to the main screen");
         System.out.println("- bye → Exit the program");
     }

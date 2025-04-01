@@ -1,7 +1,6 @@
 package model.catalogue;
 
 import commands.CommandResult;
-import model.Recipe;
 import ui.inputparser.InputParser;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,10 +26,16 @@ public class RecipeBook extends Catalogue<Recipe> {
      *
      * @param recipe The recipe whose name is to be retrieved.
      * @return The lowercase name of the recipe.
+     * @throws IllegalArgumentException if the recipe name is null or empty.
      */
     private String getRecipeNameLowercase(Recipe recipe) {
-        return recipe.getRecipeName().toLowerCase();
+        String name = recipe.getRecipeName();
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Recipe does not exist in system");
+        }
+        return name.toLowerCase();
     }
+
 
     /**
      * Searches for recipes with similar names.
@@ -179,7 +184,8 @@ public class RecipeBook extends Catalogue<Recipe> {
         return new CommandResult(result.toString().trim());
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getType() {
+        return "Rec ipeBook";
     }
 }

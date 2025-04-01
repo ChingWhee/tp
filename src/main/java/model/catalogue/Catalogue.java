@@ -69,7 +69,8 @@ public abstract class Catalogue<T> {
             return new CommandResult("No items found.");
         }
 
-        StringBuilder result = new StringBuilder("Inventory List:\n");
+        StringBuilder result = new StringBuilder(
+                "(override me) This catalogue contains the following list of items:\n");
         for (int i = 0; i < items.size(); i++) {
             result.append(i + 1).append(". ").append(items.get(i)).append("\n");
         }
@@ -98,9 +99,7 @@ public abstract class Catalogue<T> {
      *
      * @return The name of the catalogue.
      */
-    public String getName() {
-        return null;
-    }
+    public abstract String getType();
 
     /**
      * Abstract method to be implemented by subclasses to get an item by name.

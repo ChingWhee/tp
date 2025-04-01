@@ -1,11 +1,14 @@
 package commands;
 
-import controller.ScreenState;
+import controller.KitchenCTRL;
 import model.Ingredient;
-import model.Recipe;
+import model.catalogue.Recipe;
 import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
+
+import static controller.KitchenCTRL.requireActiveRecipe;
+import static controller.ScreenState.RECIPEBOOK;
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
@@ -15,6 +18,7 @@ import model.catalogue.RecipeBook;
  * <ul>
  *     <li>Adding {@code Ingredient} to {@code Inventory}</li>
  *     <li>Adding a new {@code Recipe} to {@code RecipeBook}</li>
+ *     <li>Adding {@code Ingredient} to a selected {@code Recipe}</li>
  * </ul>
  */
 public class AddCommand extends Command {
@@ -24,37 +28,61 @@ public class AddCommand extends Command {
     /**
      * Constructs an {@code AddCommand} with the specified screen context, item name, and quantity.
      *
-     * @param screen   The screen state representing the active catalogue (INVENTORY, SHOPPING, or RECIPE).
      * @param name     The name of the ingredient or recipe to add.
      * @param quantity The quantity of the ingredient to add. Ignored for recipes.
-     * @throws AssertionError if {@code name} is null/empty, or {@code quantity} is not positive.
+     * @throws AssertionError if {@code name} is null/empty, or {@code quantity} is not positive (when required).
      */
-    public AddCommand(ScreenState screen, String name, int quantity) {
-        super(screen);
-        assert name != null && !name.trim().isEmpty() : "Ingredient name must not be null or empty";
-        assert quantity > 0 : "Ingredient quantity must be greater than zero";
+    public AddCommand(String name, int quantity) {
+        assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
+
+        assert screen == RECIPEBOOK || quantity > 0 : "Quantity must be greater than zero";
 
         this.name = name;
         this.quantity = quantity;
     }
 
+    public AddCommand(String name) {
+        assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
+
+        this.name = name;
+        this.quantity = 0; // irrelevant for recipebook screen
+    }
+
     /**
-     * Executes the add operation by determining the correct catalogue type based on runtime type checking.
+     * Executes the add operation based on the screen context.
      *
      * @param catalogue The catalogue to add the item to.
-     * @return A {@code CommandResult} indicating success or failure with feedback for the user.
+     * @return A {@code CommandResult} indicating success or failure with user feedback.
      */
+
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
-        if (catalogue instanceof Inventory inventory) {
-            Ingredient newIngredient = new Ingredient(name, quantity);
-            return inventory.addItem(newIngredient);
-        } else if (catalogue instanceof RecipeBook recipeBook) {
-            Recipe newRecipe = new Recipe();
-            return recipeBook.addItem(newRecipe);
-        } else {
-            return new CommandResult("Unsupported catalogue for AddCommand.", null);
+
+        return switch (KitchenCTRL.getCurrentScreen()) {
+        case INVENTORY -> {
+            if (catalogue instanceof Inventory inventory) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield inventory.addItem(ingredient);
+            }
+            yield new CommandResult("Invalid catalogue for inventory operation.", null);
         }
+        case RECIPEBOOK -> {
+            if (catalogue instanceof RecipeBook recipeBook) {
+                Recipe recipe = new Recipe(name);
+                yield recipeBook.addItem(recipe);
+            }
+            yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+        }
+        case RECIPE -> {
+            requireActiveRecipe();
+            if (catalogue instanceof Recipe recipe) {
+                Ingredient ingredient = new Ingredient(name, quantity);
+                yield recipe.addItem(ingredient);
+            }
+            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+        }
+        default -> new CommandResult("Unsupported screen state for AddCommand.", null);
+        };
     }
 }

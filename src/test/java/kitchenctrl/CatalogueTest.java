@@ -3,7 +3,7 @@ package kitchenctrl;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 import model.Ingredient;
-import model.Recipe;
+import model.catalogue.Recipe;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
