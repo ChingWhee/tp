@@ -69,9 +69,6 @@ public class CatalogueContentManager {
         return ingredientCatalogue;
     }
 
-    String currentRecipeName = null;
-    List<String> currentIngredients = new ArrayList<>();
-
     public RecipeBook loadRecipeBook() throws IOException {
         checkDirectoryExistence();
         checkFileExistence(recipeBookFilePath);

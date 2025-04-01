@@ -7,10 +7,10 @@ import commands.DeleteCommand;
 import commands.ListCommand;
 import commands.ByeCommand;
 import commands.GoToCommand;
-
 import commands.CommandResult;
 
 import controller.ScreenState;
+import controller.KitchenCTRL;
 import org.junit.jupiter.api.Test;
 import ui.inputparser.Parser;
 
@@ -69,24 +69,28 @@ class ParserTest {
 
     @Test
     public void testInventoryCommand_valid() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         Command command = parser.parseCommand("add apple 5");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_delete_valid() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         Command command = parser.parseCommand("delete sugar 2");
         assertInstanceOf(DeleteCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_list() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         Command command = parser.parseCommand("list");
         assertInstanceOf(ListCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_back() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         Command command = parser.parseCommand("back");
         assertInstanceOf(BackCommand.class, command);
 
@@ -197,29 +201,33 @@ class ParserTest {
 
     @Test
     public void testRecipeCommand_add_valid() {
+        KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
         Command command = parser.parseCommand("add curry 1");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_delete_valid() {
+        KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
         Command command = parser.parseCommand("delete curry 1");
         assertInstanceOf(DeleteCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_list() {
+        KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
         Command command = parser.parseCommand("list");
         assertInstanceOf(ListCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_back() {
+        KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
         Command command = parser.parseCommand("back");
         assertInstanceOf(BackCommand.class, command);
 
         CommandResult result = command.execute();
-        assertEquals(ScreenState.WELCOME, result.getNewScreen());
+        assertEquals(ScreenState.RECIPEBOOK, result.getNewScreen());
     }
 
     @Test

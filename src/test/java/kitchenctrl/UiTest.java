@@ -109,14 +109,15 @@ class UiTest {
 
     @Test
     public void testShowScreenPromptRecipe() {
-        ui.showScreenPrompt(ScreenState.RECIPEBOOK);
+        ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You’re now in the RECIPE screen."));
-        assertTrue(output.contains("- list → Show all recipes"));
-        assertTrue(output.contains("- add [name] → Add a new recipe"));
-        assertTrue(output.contains("- delete [name] → Delete a recipe"));
-        assertTrue(output.contains("- back → Return to the main screen"));
+        assertTrue(output.contains("You’re now viewing a specific RECIPE."));
+        assertTrue(output.contains("- list → Show all ingredients in the recipe"));
+        assertTrue(output.contains("- add [item] [qty] → Add an ingredient to the recipe"));
+        assertTrue(output.contains("- update [item] [qty] → Update the quantity of an existing ingredient"));
+        assertTrue(output.contains("- delete [item] → Remove an ingredient from the recipe"));
+        assertTrue(output.contains("- back → Return to the recipe list"));
         assertTrue(output.contains("- bye → Exit the program"));
     }
 
