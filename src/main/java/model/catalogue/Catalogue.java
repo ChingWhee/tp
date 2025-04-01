@@ -1,6 +1,7 @@
 package model.catalogue;
 
 import commands.CommandResult;
+import java.util.stream.Collectors;
 
 import java.util.ArrayList;
 
@@ -76,6 +77,53 @@ public abstract class Catalogue<T> {
         }
 
         return new CommandResult(result.toString().trim());
+    }
+
+    /**
+     * Searches for items in the catalogue that match the given query using a custom string extractor.
+     * <p>
+     * This method allows flexible searching by letting the caller specify how to extract the searchable
+     * text from each item (e.g., getName(), getTitle(), toString()).
+     * The search is case-insensitive and matches any item whose extracted string contains the query substring.
+     * </p>
+     *
+     * @param query      The search keyword to look for.
+     * @param extractor  A function that extracts the text to match from each item in the catalogue.
+     * @return A {@link CommandResult} containing either a formatted list of matches or a not-found message.
+     */
+    public CommandResult findItem(String query, java.util.function.Function<T, String> extractor) {
+        if (query == null || query.trim().isEmpty()) {
+            return new CommandResult("Please provide a keyword to search.");
+        }
+
+        String lowerQuery = query.trim().toLowerCase();
+        ArrayList<T> matching = items.stream()
+                .filter(item -> {
+                    String str = extractor.apply(item);
+                    return str != null && str.toLowerCase().contains(lowerQuery);
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        if (matching.isEmpty()) {
+            return new CommandResult("No items found containing: " + query);
+        }
+
+        StringBuilder result = new StringBuilder("Found items:\n");
+        for (int i = 0; i < matching.size(); i++) {
+            result.append(i + 1).append(". ").append(matching.get(i)).append("\n");
+        }
+
+        return new CommandResult(result.toString().trim());
+    }
+
+    /**
+     * Default findItem method to be optionally overridden by subclasses.
+     *
+     * @param query The search keyword.
+     * @return A CommandResult (default implementation just returns unsupported).
+     */
+    public CommandResult findItem(String query) {
+        return new CommandResult("Search is not supported for this catalogue.");
     }
 
     /**

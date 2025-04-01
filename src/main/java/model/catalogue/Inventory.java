@@ -211,6 +211,12 @@ public class Inventory extends Catalogue<Ingredient> {
         return new CommandResult(calculations);
     }
 
+    //find ingredient in inventory
+    @Override
+    public CommandResult findItem(String query) {
+        return super.findItem(query, Ingredient::getIngredientName);
+    }
+
     @Override
     public String getType(){
         return "Inventory";

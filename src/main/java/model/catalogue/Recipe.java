@@ -16,9 +16,7 @@ public class Recipe extends Catalogue<Ingredient> {
 
     public Recipe(String recipeName, ArrayList<Ingredient> ingredients) {
         this.recipeName = recipeName;
-        for (Ingredient ingredient : ingredients) {
-            items.add(ingredient);
-        }
+        items.addAll(ingredients);
     }
 
     public String getRecipeName() {
@@ -58,6 +56,12 @@ public class Recipe extends Catalogue<Ingredient> {
     public CommandResult deleteItem(Ingredient ingredient) {
         items.remove(ingredient);
         return new CommandResult(ingredient.getIngredientName() + " deleted from recipe for " + getRecipeName() + ".");
+    }
+
+    //find ingredients in recipe
+    @Override
+    public CommandResult findItem(String query) {
+        return super.findItem(query, Ingredient::getIngredientName);
     }
 
     //this is to get the name of an ingredient in the recipe by the name of the ingredient

@@ -32,6 +32,6 @@ public class ByeCommand extends Command {
      */
     @Override
     public CommandResult execute() {
-        return new CommandResult("Goodbye! Exiting program...");
+        return new CommandResult("Goodbye! Happy cooking! Exiting program...");
     }
 }
