@@ -75,7 +75,7 @@ class UiTest {
         ui.showScreenPrompt(ScreenState.WELCOME);
         String output = outContent.toString();
 
-        assertTrue(output.contains("Welcome to KitchenCTRL — your digital kitchen companion!"));
+        assertTrue(output.contains("Welcome to KitchenCTRL - your digital kitchen companion!"));
         assertTrue(output.contains("- inventory -> View and manage your inventory"));
         assertTrue(output.contains("- recipe -> View and manage your recipes"));
         assertTrue(output.contains("- bye -> Exit the program"));
@@ -112,7 +112,7 @@ class UiTest {
         ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You’re now viewing a specific RECIPE."));
+        assertTrue(output.contains("You're now viewing a specific RECIPE."));
         assertTrue(output.contains("- list -> Show all ingredients in the recipe"));
         assertTrue(output.contains("- add [item] [qty] -> Add an ingredient to the recipe"));
         assertTrue(output.contains("- update [item] [qty] -> Update the quantity of an existing ingredient"));

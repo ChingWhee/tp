@@ -93,7 +93,7 @@ public class Ui {
      * Displays the welcome message and available commands on the main screen.
      */
     private void showWelcomeMessage() {
-        System.out.println("Welcome to KitchenCTRL — your digital kitchen companion!");
+        System.out.println("Welcome to KitchenCTRL - your digital kitchen companion!");
         System.out.println("What would you like to do today? Available commands:");
         System.out.println("- inventory -> View and manage your inventory");
         System.out.println("- recipe -> View and manage your recipes");
@@ -106,7 +106,7 @@ public class Ui {
      */
     private void showInventoryMessage() {
         System.out.println("You're now in the INVENTORY screen.");
-        System.out.println("Manage what’s in your inventory! Available commands:");
+        System.out.println("Manage what's in your inventory! Available commands:");
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- add [item] [qty] -> Add ingredients to inventory");
         System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
@@ -131,7 +131,7 @@ public class Ui {
      * Displays help and commands for managing a specific recipe's ingredients.
      */
     private void showRecipeMessage() {
-        System.out.println("You’re now viewing a specific RECIPE.");
+        System.out.println("You're now viewing a specific RECIPE.");
         System.out.println("Manage the ingredients for this recipe. Available commands:");
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");

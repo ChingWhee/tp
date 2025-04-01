@@ -49,7 +49,7 @@ public class Recipe extends Catalogue<Ingredient> {
             }
         }
 
-        // Ingredient not found — add as new
+        // Ingredient not found - add as new
         items.add(ingredient);
         return new CommandResult(ingredient.getIngredientName() + " added to " + getRecipeName() + ".");
     }

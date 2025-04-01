@@ -58,7 +58,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
      \|                    `-._.-'   | | | | | |   ( (-(-(-( )
                                      `-' `-' `-'    `-`-`-`-'
 
-Welcome to KitchenCTRL — your digital kitchen companion!
+Welcome to KitchenCTRL - your digital kitchen companion!
 What would you like to do today? Available commands:
 - inventory -> View and manage your inventory
 - recipe -> View and manage your recipes
