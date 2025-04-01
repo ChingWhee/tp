@@ -30,6 +30,7 @@ public class LogicTest {
 
     @Test
     public void insufficientIngredients() {
+        testInventory.removeAllIngredients();
         testInventory.addItem(new Ingredient("Flour", 1000));
         testInventory.addItem(new Ingredient("Eggs", 4));
         testInventory.addItem(new Ingredient("Milk", 250)); // Not enough!
@@ -85,6 +86,7 @@ public class LogicTest {
 
     @Test
     public void cookRecipeTest() {
+        testInventory.removeAllIngredients();
         testInventory.addItem(new Ingredient("Milk", 300));
         testInventory.addItem(new Ingredient("Flour", 1000));
         testInventory.addItem(new Ingredient("Eggs", 5));

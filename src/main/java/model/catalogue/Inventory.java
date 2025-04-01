@@ -177,6 +177,14 @@ public class Inventory extends Catalogue<Ingredient> {
     }
 
     /**
+     * Removes all ingredients from the inventory.
+     */
+    public CommandResult removeAllIngredients() {
+        items.clear();
+        return new CommandResult("All ingredients removed from inventory.");
+    }
+
+    /**
      * Decreases the quantity of an ingredient in the inventory.
      * If the quantity reaches zero, the item is removed.
      *
