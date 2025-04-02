@@ -36,35 +36,35 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 3. Copy the file to the folder you want to use as the _home folder_ for your application.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tp.jar` 
    command to run the application. This is how the application looks like on startup: <br>
-```aiignore
-   .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
-  <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
-   )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
-   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
-   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
-  <___|  <___|  <___|   |\|  | |  | | |  | |      |  |     |  |  |__|
-   }  |   || |   =  |   | |  | |  `-|-'  | |      |  |     |  |  |   L
-   }  |   || |   =  |   | |  | |   /A\   | |      |  |     |  |  |   J
-   }  |   || |   =  |   |/   | |   |H|   | |      |  |     |  |  |    L
-   }  |   || |   =  |        | |   |H|   | |     _|__|_    |  |  |    J
-   }  |   || |   =  |        | |   |H|   | |    | |   |    |  |  | A   L
-   }  |   || |   =  |        | |   \V/   | |    | |   |     \ |  | H   J
-   }  |   FF |   =  |        | |    "    | |    | \   |      ,Y  | H A  L
-   }  |   LL |    = |       _F J_       _F J_   \  `--|       |  | H H  J
-   }  |   LL |     \|     /       \   /       \  `.___|       |  | H H A L
-   }  |   \\ |           J         L |  _   _  |              |  | H H U J
-   }  |    \\|           J         F | | | | | |             /   | U ".-'
-    } |     \|            \       /  | | | | | |    .-.-.-.-/    |_.-'
-     \|                    `-._.-'   | | | | | |   ( (-(-(-( )
-                                     `-' `-' `-'    `-`-`-`-'
-
-Welcome to KitchenCTRL - your digital kitchen companion!
-What would you like to do today? Available commands:
-- inventory -> View and manage your inventory
-- recipe -> View and manage your recipes
-- shopping -> View and manage your shopping list
-- bye -> Exit the program
-```
+    ```aiignore
+       .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
+      <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
+       )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
+       )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
+       )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
+      <___|  <___|  <___|   |\|  | |  | | |  | |      |  |     |  |  |__|
+       }  |   || |   =  |   | |  | |  `-|-'  | |      |  |     |  |  |   L
+       }  |   || |   =  |   | |  | |   /A\   | |      |  |     |  |  |   J
+       }  |   || |   =  |   |/   | |   |H|   | |      |  |     |  |  |    L
+       }  |   || |   =  |        | |   |H|   | |     _|__|_    |  |  |    J
+       }  |   || |   =  |        | |   |H|   | |    | |   |    |  |  | A   L
+       }  |   || |   =  |        | |   \V/   | |    | |   |     \ |  | H   J
+       }  |   FF |   =  |        | |    "    | |    | \   |      ,Y  | H A  L
+       }  |   LL |    = |       _F J_       _F J_   \  `--|       |  | H H  J
+       }  |   LL |     \|     /       \   /       \  `.___|       |  | H H A L
+       }  |   \\ |           J         L |  _   _  |              |  | H H U J
+       }  |    \\|           J         F | | | | | |             /   | U ".-'
+        } |     \|            \       /  | | | | | |    .-.-.-.-/    |_.-'
+         \|                    `-._.-'   | | | | | |   ( (-(-(-( )
+                                         `-' `-' `-'    `-`-`-`-'
+    
+    Welcome to KitchenCTRL - your digital kitchen companion!
+    What would you like to do today? Available commands:
+    - inventory -> View and manage your inventory
+    - recipe -> View and manage your recipes
+    - shopping -> View and manage your shopping list
+    - bye -> Exit the program
+    ```
 5. Type the command in the command box and press Enter to execute it. Start typing commands to manage your kitchen!
 
 ---
@@ -221,7 +221,8 @@ All data is stored locally in `.txt` files under the `/data/` folder:
 - `recipe_book.txt`
 - `shopping_catalogue.txt`
 
-The data is automatically saved after each command.
+[//]: # (The data is automatically saved after each command.)
+The data will be saved only when the program is successfully closed, i.e, "Goodbye, see you soon!" suggests that the save has been done.
 
 ---
 ## Coming soon
