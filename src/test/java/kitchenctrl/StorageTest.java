@@ -36,6 +36,7 @@ public class StorageTest {
                 setRecipeBookFilePath(dataDir.resolve("recipe_book.txt"));
             }
         };
+        System.out.println("Temp dir created at: " + dataDir.toAbsolutePath());
     }
 
     @AfterEach
@@ -68,10 +69,19 @@ public class StorageTest {
     public void testSaveInventoryToFile() throws IOException {
         Inventory inventory = new Inventory();
         inventory.addItem(new Ingredient("Flour", 5));
+        inventory.addItem(new Ingredient("Salt", 100));
+        inventory.addItem(new Ingredient("Butter", 666));
         manager.saveToFile(inventory);
 
         List<String> lines = Files.readAllLines(manager.getInventoryFilePath());
-        assertEquals("Flour (5)", lines.get(0).trim());
+        lines = lines.stream().map(String::trim).filter(line -> !line.isEmpty()).toList();
+        String expectedContent = """
+                Flour (5)
+                Salt (100)
+                Butter (666)
+                """;
+        List<String> expectedLines = List.of(expectedContent.split("\n"));
+        assertEquals(expectedLines, lines);
     }
 
     @Test
@@ -97,5 +107,44 @@ public class StorageTest {
         Recipe recipe = book.getItemByName("Pancakes");
         assertNotNull(recipe);
         assertEquals(2, recipe.getItems().size());
+    }
+
+    @Test
+    public void testLoadRecipeBookWithMultipleRecipe() throws IOException {
+        String content = """
+                Pancakes
+                Flour (2)
+                Eggs (3)
+                Milk (1)
+                Sugar (1)
+                
+                Scrambled Eggs
+                Eggs (4)
+                Butter (1)
+                Salt (1)
+                
+                Grilled Cheese
+                Bread (2)
+                Cheese (2)
+                Butter (1)
+                Spice (1)
+                Sauce (2)
+                """;
+        Files.write(manager.getRecipeBookFilePath(), content.getBytes());
+
+        RecipeBook book = manager.loadRecipeBook();
+        assertEquals(3, book.getItems().size());
+
+        Recipe recipe1 = book.getItemByName("Pancakes");
+        assertNotNull(recipe1);
+        assertEquals(4, recipe1.getItems().size());
+
+        Recipe recipe2 = book.getItemByName("Scrambled Eggs");
+        assertNotNull(recipe2);
+        assertEquals(3, recipe2.getItems().size());
+
+        Recipe recipe3 = book.getItemByName("Grilled Cheese");
+        assertNotNull(recipe3);
+        assertEquals(5, recipe3.getItems().size());
     }
 }

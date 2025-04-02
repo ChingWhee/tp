@@ -100,7 +100,7 @@ class UiTest {
         ui.showScreenPrompt(ScreenState.SHOPPING);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You’re now in the SHOPPING LIST screen."));
+        assertTrue(output.contains("You're now in the SHOPPING LIST screen."));
         assertTrue(output.contains("- list -> Show all ingredients in shopping list"));
         assertTrue(output.contains("- find [name] -> Find an ingredient in shopping list"));
         assertTrue(output.contains("- add [item] [qty] -> Add ingredients to shopping list"));
