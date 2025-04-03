@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StorageTest {
@@ -147,4 +148,43 @@ public class StorageTest {
         assertNotNull(recipe3);
         assertEquals(5, recipe3.getItems().size());
     }
+
+    @Test
+    public void loadInventory_withMalformedQuantity_skipsInvalidLine() throws IOException {
+        String content = "Sugar (ten)\nSalt (50)\n";
+        Files.write(manager.getInventoryFilePath(), content.getBytes());
+
+        Inventory inventory = manager.loadInventory();
+
+        assertEquals(1, inventory.getItems().size());
+        assertNull(inventory.getItemByName("Sugar")); // Malformed entry should be skipped
+        assertNotNull(inventory.getItemByName("Salt"));
+        assertEquals(50, inventory.getItemByName("Salt").getQuantity());
+    }
+
+    @Test
+    public void loadRecipeBook_withInvalidIngredientFormat_skipsLine() throws IOException {
+        String content = """
+            Fried Rice
+            Rice (2)
+            Egg (2
+            Soy Sauce (1)
+
+            """;
+        Files.write(manager.getRecipeBookFilePath(), content.getBytes());
+
+        RecipeBook book = manager.loadRecipeBook();
+
+        assertEquals(1, book.getItems().size());
+        Recipe recipe = book.getItemByName("Fried Rice");
+        assertNotNull(recipe);
+        assertEquals(2, recipe.getItems().size());
+
+        assertNotNull(recipe.getItemByName("Rice"));
+        assertEquals(2, recipe.getItemByName("Rice").getQuantity());
+
+        assertNull(recipe.getItemByName("Egg")); // Invalid line skipped
+        assertNotNull(recipe.getItemByName("Soy Sauce"));
+    }
+
 }
