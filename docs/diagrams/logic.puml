@@ -7,9 +7,14 @@ package "commands" {
     Command <|-- AddCommand
     Command <|-- BackCommand
     Command <|-- ByeCommand
+    Command <|-- CookableRecipesCommand
+    Command <|-- CookRecipeCommand
     Command <|-- DeleteCommand
+    Command <|-- EditRecipeCommand
+    Command <|-- FindCommand
     Command <|-- GoToCommand
     Command <|-- ListCommand
+    Command <|-- UpdateCommand
     CommandResult --> ScreenState
 }
 
