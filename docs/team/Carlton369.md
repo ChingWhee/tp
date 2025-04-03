@@ -56,7 +56,8 @@ Given below are my contributions to the project:
 
 * **Community**:
     * PRs reviewed (with non-trivial review comments): [\#36](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/36),
-    
+      [\#27](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/27),
+      [\#81] (https://github.com/AY2425S2-CS2113-T13-1/tp/pull/81)
 
 * **Tools**:
     * Integrated PlantUML into the project
