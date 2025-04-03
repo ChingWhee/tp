@@ -211,12 +211,23 @@ public class Inventory extends Catalogue<Ingredient> {
         return new CommandResult(calculations);
     }
 
-    //find ingredient in inventory
+    /**
+     * Searches for ingredients in the catalogue whose names contain the given query string (case-insensitive).
+     * Delegates the actual search logic to the base {@code Catalogue} class using a name extractor function.
+     *
+     * @param query The keyword or partial name to search for.
+     * @return A {@code CommandResult} containing matching ingredient names or a message if none found.
+     */
     @Override
     public CommandResult findItem(String query) {
         return super.findItem(query, Ingredient::getIngredientName);
     }
 
+    /**
+     * Returns the type of the catalogue as a string.
+     *
+     * @return A string representing the type of this catalogue, in this case "Inventory".
+     */
     @Override
     public String getType(){
         return "Inventory";

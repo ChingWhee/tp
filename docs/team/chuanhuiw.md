@@ -10,11 +10,13 @@ Given below are my contributions to the project:
 ### Summary of Contributions
 
 * **New Feature**: Implemented the `find` command for Inventory, RecipeBook, and Recipe.
+* [\#68](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/68)
     * *What it does*: Allows users to search for ingredients or recipes by name in their respective catalogues using a keyword.
     * *Justification*: Improves usability by enabling efficient lookup of items without requiring exact names.
     * *Highlights*: Designed a generic `findItem` method in the abstract `Catalogue` class, and overrode it in `Inventory`, `Recipe`, and `RecipeBook` to match their content structures. Also created a `FindCommand` class to generalize the behavior.
 
 * **New Feature**: RecipeBook enhancements with proper error handling and null safety.
+* [\#68](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/68)
     * *What it does*: Strengthened the `addItem`, `deleteItem`, and `editItem` methods in `RecipeBook` with robust checks for null, empty names, and duplicates.
     * *Justification*: Prevents system crashes from malformed user input, improving overall application stability.
     * *Highlights*: Refactored `getRecipeNameLowercase()` to validate name integrity before comparison.

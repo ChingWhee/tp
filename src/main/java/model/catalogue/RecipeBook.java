@@ -34,6 +34,12 @@ public class RecipeBook extends Catalogue<Recipe> {
         return recipe.getRecipeName().trim().toLowerCase();
     }
 
+    /**
+     * Returns a string representation of all recipes in the RecipeBook.
+     * Each recipe is displayed using its {@code toString()} format, separated by new lines.
+     *
+     * @return A formatted string containing all recipes, or an empty string if no recipes exist.
+     */
     @Override
     public String getCatalogueContent() {
         if (items.isEmpty()) {
@@ -250,6 +256,12 @@ public class RecipeBook extends Catalogue<Recipe> {
         return new CommandResult(result.toString().trim());
     }
 
+    /**
+     * Returns the type identifier of this catalogue.
+     * Used to distinguish this catalogue from others (e.g., Inventory, Shopping List).
+     *
+     * @return A string representing the type of this catalogue, which is "RecipeBook".
+     */
     @Override
     public String getType() {
         return "RecipeBook";

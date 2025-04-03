@@ -14,7 +14,6 @@ The design and implementation of KitchenCTRL has been broken down into various s
 - [Commands Component](#commands-component)
 - [Model Component](#model-component)
 - [Storage Component](#storage-component)
-- [Common Classes](#common-classes)
 
 ### Architecture
 A high-level overview of the system is shown in the Architecture Diagram below.
@@ -165,7 +164,7 @@ Each recipe ends with a **blank line**.
 - Automatically called in `KitchenCTRL.initializeCatalogues()`.
 - Automatically saves data when user exits via `ByeCommand`.
 
-```java
+```
 CatalogueContentManager contentManager = new CatalogueContentManager();
 Inventory inventory = contentManager.loadInventory();
 RecipeBook recipeBook = contentManager.loadRecipeBook();
@@ -176,8 +175,6 @@ contentManager.saveToFile(inventory);
 ![Storage UML diagram](diagrams/storage.png)
 
 ---
-
-### Common Classes
 
 ## Product scope
 
