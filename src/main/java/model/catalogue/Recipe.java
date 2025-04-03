@@ -154,6 +154,19 @@ public class Recipe extends Catalogue<Ingredient> {
         }
         return content.toString();
     }
+
+    @Override
+    public CommandResult listItems() {
+        if (items.isEmpty()) {
+            return new CommandResult("No recipes found.");
+        }
+        StringBuilder result = new StringBuilder("This recipe contains the following ingredients:\n");
+        for (int i = 0; i < items.size(); i++) {
+            String name = items.get(i).getIngredientName();
+            result.append(i + 1).append(". ").append(name == null ? "[Unnamed Recipe]" : name).append("\n");
+        }
+        return new CommandResult(result.toString().trim());
+    }
 }
 
 
