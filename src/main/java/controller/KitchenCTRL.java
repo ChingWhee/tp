@@ -49,7 +49,7 @@ public class KitchenCTRL {
         activeRecipe = recipe;
     }
 
-    public Recipe getActiveRecipe() {
+    public static Recipe getActiveRecipe() {
         return activeRecipe;
     }
 
@@ -147,6 +147,7 @@ public class KitchenCTRL {
                     command instanceof EditRecipeCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
+                ui.showResultToUser(result);
                 ui.showDivider();
                 continue;
             }
