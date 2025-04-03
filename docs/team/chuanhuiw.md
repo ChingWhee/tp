@@ -28,7 +28,7 @@ Given below are my contributions to the project:
         * Added usage instructions for the `find` command in the Inventory, RecipeBook, and Recipe screens.
     * Developer Guide:
         * Documented the design, implementation, and PlantUML object diagram for `RecipeBook`.
-        * Wrote JavaDoc for new methods including `findItem`.
+        * Documented new methods including `findItem`.
 
 * **Testing**:
     * Added unit tests for `findItem()` in:
@@ -39,9 +39,9 @@ Given below are my contributions to the project:
 
 * **Community**:
     * PRs reviewed (with suggestions and feedback):
-        * [\#XX](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/XX), [\#YY](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/YY)
+        * [\#50](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/50), [\#35](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/35)
 
 * **Tools**:
     * Integrated test cases with JUnit 5 and followed Checkstyle coding standards.
-    * Helped improve test coverage of `UiTest` for different screen prompts.
+    * Helped improve test coverage of `UiTest`, `InputParserTest` and other unit testing for different screen prompts.
 
