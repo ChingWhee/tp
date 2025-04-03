@@ -20,6 +20,13 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Handles loading and saving operations for various catalogue-related data structures,
+ * such as {@link Inventory}, {@link RecipeBook}, and shopping catalogues.
+ * <p>
+ * This class manages file paths, checks directory/file existence, and provides methods
+ * for serializing/deserializing data from/to plain text files.
+ */
 public class CatalogueContentManager {
     private String directoryName = "data";
     private String inventoryFileName = "inventory.txt";
@@ -35,7 +42,12 @@ public class CatalogueContentManager {
 
     }
 
-    // TODO: Combine similar methods into one method
+    /**
+     * Loads the inventory from the inventory file.
+     *
+     * @return the loaded {@link Inventory} object
+     * @throws IOException if an I/O error occurs while accessing the file
+     */
     public Inventory loadInventory() throws IOException {
         checkDirectoryExistence();
         checkFileExistence(inventoryFilePath);
@@ -45,6 +57,14 @@ public class CatalogueContentManager {
         return loadConsumablesCatalogue(inventoryFilePath, Inventory::new);
     }
 
+    /**
+     * Loads a consumable-type catalogue (like inventory or shopping list) from a specified file.
+     *
+     * @param filePath  the path to the file containing the catalogue data
+     * @param catalogue a supplier for the catalogue type (e.g., {@code Inventory::new})
+     * @param <T>       the type of catalogue extending {@link Inventory}
+     * @return the populated catalogue
+     */
     public <T extends Inventory> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue) {
         List<String> lines = loadRawCatalogueContent(filePath);
         T ingredientCatalogue = catalogue.get();
@@ -69,6 +89,12 @@ public class CatalogueContentManager {
         return ingredientCatalogue;
     }
 
+    /**
+     * Loads the recipe book from the recipe book file.
+     *
+     * @return the loaded {@link RecipeBook}
+     * @throws IOException if an I/O error occurs while accessing the file
+     */
     public RecipeBook loadRecipeBook() throws IOException {
         checkDirectoryExistence();
         checkFileExistence(recipeBookFilePath);
@@ -123,6 +149,12 @@ public class CatalogueContentManager {
         return storageRecipe;
     }
 
+    /**
+     * Reads raw lines from a catalogue file.
+     *
+     * @param filePath the path to the file
+     * @return a list of strings read from the file, or {@code null} if reading fails
+     */
     public List<String> loadRawCatalogueContent(Path filePath) {
         if (filePath == null) {
             System.err.println("Error: File path is null.");
@@ -140,6 +172,12 @@ public class CatalogueContentManager {
         return null;
     }
 
+    /**
+     * Saves a catalogue to its corresponding file.
+     * Supported catalogue types: Inventory, RecipeBook.
+     *
+     * @param catalogue the {@link Catalogue} to save
+     */
     public void saveToFile(Catalogue catalogue) {
         try {
             Path filePath = null;
@@ -167,12 +205,23 @@ public class CatalogueContentManager {
         }
     }
 
+    /**
+     * Ensures that the base directory exists, creating it if necessary.
+     *
+     * @throws IOException if directory creation fails
+     */
     private void checkDirectoryExistence() throws IOException {
         if (!Files.exists(basePath)) {
             Files.createDirectories(basePath);
         }
     }
 
+    /**
+     * Ensures that the specified file exists, creating it if necessary.
+     *
+     * @param filePath the path to the file to check
+     * @throws IOException if file creation fails
+     */
     private void checkFileExistence(Path filePath) throws IOException {
         if (!Files.exists(filePath)) {
             Files.createFile(filePath);
