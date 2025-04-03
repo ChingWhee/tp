@@ -7,11 +7,8 @@ import model.catalogue.RecipeBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 class CookableRecipesTest {
 
@@ -39,9 +36,9 @@ class CookableRecipesTest {
         RecipeBook testBook = new RecipeBook();
         testBook.addItem(recipe1);
 
-        ArrayList<Recipe> cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
-        assertEquals(1, cookableRecipes.size());
-        assertTrue(cookableRecipes.contains(recipe1));
+        RecipeBook cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
+        assertEquals(1, cookableRecipes.getItems().size());
+        assertTrue(cookableRecipes.getItems().contains(recipe1));
     }
 
     @Test
@@ -54,8 +51,8 @@ class CookableRecipesTest {
         RecipeBook testBook = new RecipeBook();
         testBook.addItem(recipe1);
 
-        ArrayList<Recipe> cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
-        assertTrue(cookableRecipes.isEmpty());
+        RecipeBook cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
+        assertTrue(cookableRecipes.getItems().isEmpty());
     }
 
     @Test
@@ -75,9 +72,9 @@ class CookableRecipesTest {
         testBook.addItem(cake);
         testBook.addItem(omelette);
 
-        ArrayList<Recipe> cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
-        assertEquals(1, cookableRecipes.size());
-        assertTrue(cookableRecipes.contains(cake));
+        RecipeBook cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
+        assertEquals(1, cookableRecipes.getItems().size());
+        assertTrue(cookableRecipes.getItems().contains(cake));
     }
 
     @Test
@@ -92,8 +89,8 @@ class CookableRecipesTest {
         RecipeBook testBook = new RecipeBook();
         testBook.addItem(cake);
 
-        ArrayList<Recipe> cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
-        assertTrue(cookableRecipes.isEmpty());
+        RecipeBook cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
+        assertTrue(cookableRecipes.getItems().isEmpty());
     }
 
     @Test
@@ -102,7 +99,7 @@ class CookableRecipesTest {
         inventory.addItem(new Ingredient("Sugar", 1));
         RecipeBook testBook = new RecipeBook();
 
-        ArrayList<Recipe> cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
-        assertTrue(cookableRecipes.isEmpty());
+        RecipeBook cookableRecipes = cookableRecipesCommand.getCookableRecipes(testBook, inventory);
+        assertTrue(cookableRecipes.getItems().isEmpty());
     }
 }

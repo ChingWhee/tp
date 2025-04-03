@@ -39,8 +39,8 @@ public class CookableRecipesCommand extends Command {
      * @param inventory The inventory containing available ingredients.
      * @return A list of {@code Recipe} objects that can be fully cooked.
      */
-    public ArrayList<String> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
-        ArrayList<String> cookableRecipes = new ArrayList<>();
+    public RecipeBook getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
+        RecipeBook cookableRecipes = new RecipeBook();
 
         ArrayList<Recipe> allRecipes = recipeBook.getItems(); // Retrieves all recipes from RecipeBook
         ArrayList<Ingredient> inventoryItems = inventory.getItems(); // Retrieves all ingredients in inventory
@@ -61,7 +61,7 @@ public class CookableRecipesCommand extends Command {
                 }
             }
             if (canCook) {
-                cookableRecipes.add(recipe.getRecipeName());
+                cookableRecipes.addItem(recipe);
             }
         }
 
@@ -103,13 +103,13 @@ public class CookableRecipesCommand extends Command {
             return new CommandResult("RecipeBook is empty, please add some recipes!");
         }
 
-        ArrayList<String> cookableRecipes = getCookableRecipes(recipeBook, inventory);
+        RecipeBook cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
-        if (cookableRecipes.isEmpty()) {
+        if (cookableRecipes.getItems().isEmpty()) {
             String feedback = "No recipes can be cooked with the current inventory. Please get more ingredients!";
             return new CommandResult(feedback);
         }
 
-        return new CommandResult("Cookable recipes: " + cookableRecipes);
+        return new CommandResult("Cookable recipes: " + cookableRecipes.listItems());
     }
 }
