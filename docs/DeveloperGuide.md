@@ -107,8 +107,77 @@ The `RecipeBook` class inherits from `Catalogue<Recipe>` and manages a list of `
 
 ![RecipeBook Class Diagram](diagrams/recipebook.png)
 
+---
+
 ### Storage Component
+
+#### CatalogueContentManager Design
+
+##### Purpose
+
+The `CatalogueContentManager` is a **utility class** responsible for handling file I/O for persistent storage of kitchen catalogues, including:
+
+- Inventory
+- RecipeBook
+- (Future support for ShoppingCatalogue is scaffolded)
+
+It ensures catalogue data is loaded from and saved to local text files.
+
+##### Responsibilities
+
+| Method                          | Description                                                            |
+|---------------------------------|------------------------------------------------------------------------|
+| `loadInventory()`               | Loads inventory data from `inventory.txt` into an `Inventory` object.  |
+| `loadRecipeBook()`              | Loads structured recipes from `recipe_book.txt` into a `RecipeBook`.   |
+| `loadConsumablesCatalogue(...)` | Generic loader for inventory-type catalogues using a `Supplier`.       |
+| `loadRawCatalogueContent(...)`  | Loads raw file lines into a list. Handles basic file existence checks. |
+| `saveToFile(Catalogue)`         | Persists a given catalogue’s content back to its associated file.      |
+| `checkDirectoryExistence()`     | Ensures the `data/` directory exists before read/write operations.     |
+| `checkFileExistence(...)`       | Creates the necessary file if it doesn’t exist.                        |
+
+---
+
+##### File Format
+
+- **Inventory Format**:
+  ```
+  Tomato (6)
+  Onion (4)
+  ```
+
+Each item in the inventory is represented as `name (quantity)`
+
+- **Recipe Format**:
+  ```
+  Tomato Soup
+  Tomato (2)
+  Onion (1)
+
+  Grilled Cheese
+  Bread (3)
+  Cheese (5)
+  ```
+
+Each recipe ends with a **blank line**.
+
+
+
+##### Integration
+
+- Automatically called in `KitchenCTRL.initializeCatalogues()`.
+- Automatically saves data when user exits via `ByeCommand`.
+
+```java
+CatalogueContentManager contentManager = new CatalogueContentManager();
+Inventory inventory = contentManager.loadInventory();
+RecipeBook recipeBook = contentManager.loadRecipeBook();
+
+contentManager.saveToFile(inventory);
+```
+
 ![Storage UML diagram](diagrams/storage.png)
+
+---
 
 ### Common Classes
 

@@ -1,10 +1,14 @@
 @startuml
 package "storage" {
     class CatalogueContentManager {
-        +loadInventoryCatalogue(): InventoryCatalogue
-        +loadShoppingCatalogue(): ShoppingCatalogue
-        +loadRecipeCatalogue(): RecipeCatalogue
-        +saveInventoryCatalogue(String content)
+        +loadInventory() : Inventory
+        +loadRecipeBook() : RecipeBook
+        +loadConsumablesCatalogue(Path, Supplier<T>) : <T extends Inventory> T
+        +loadRawCatalogueContent(Path) : List<String>
+        +saveToFile(Catalogue)
+
+        -checkDirectoryExistence()
+        -checkFileExistence(Path)
     }
 }
 @enduml
