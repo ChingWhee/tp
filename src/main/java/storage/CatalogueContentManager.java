@@ -226,26 +226,56 @@ public class CatalogueContentManager {
         }
     }
 
+    /**
+     * Sets the base directory path where data files are stored.
+     *
+     * @param basePath the base directory path
+     */
     public void setBasePath(Path basePath) {
         this.basePath = basePath;
     }
 
+    /**
+     * Sets the file path for the inventory file.
+     *
+     * @param inventoryFilePath the path to the inventory file
+     */
     public void setInventoryFilePath(Path inventoryFilePath) {
         this.inventoryFilePath = inventoryFilePath;
     }
 
+    /**
+     * Sets the file path for the recipe book file.
+     *
+     * @param recipeBookFilePath the path to the recipe book file
+     */
     public void setRecipeBookFilePath(Path recipeBookFilePath) {
         this.recipeBookFilePath = recipeBookFilePath;
     }
 
+    /**
+     * Returns the base path used for storing data files.
+     *
+     * @return the base path
+     */
     public Path getBasePath() {
         return basePath;
     }
 
+    /**
+     * Returns the file path for the inventory data file.
+     *
+     * @return the inventory file path
+     */
     public Path getInventoryFilePath() {
         return inventoryFilePath;
     }
 
+    /**
+     * Returns the file path for the recipe book data file.
+     *
+     * @return the recipe book file path
+     */
     public Path getRecipeBookFilePath() {
         return recipeBookFilePath;
     }
