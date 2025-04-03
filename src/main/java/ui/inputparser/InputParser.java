@@ -11,13 +11,11 @@ import java.util.Scanner;
  */
 public class InputParser {
     private static Scanner scanner = new Scanner(System.in);
+    InputParser() {}
 
     public static void setScanner(Scanner testScanner) {
         scanner = testScanner;
     }
-
-    InputParser() {}
-
     /**
      * Asks the user what to do when adding an ingredient that has similar items in the inventory.
      *
