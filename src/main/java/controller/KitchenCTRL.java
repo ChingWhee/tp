@@ -24,17 +24,16 @@ import java.util.ArrayList;
  * using a command loop.
  */
 public class KitchenCTRL {
-    // Catalogue storing ingredients in the inventory
+    // Static variables
     private static Inventory inventory;
-
-    // Catalogue storing recipes
     private static RecipeBook recipeBook;
+    private static ScreenState currentScreen = ScreenState.WELCOME;
+    private static Recipe activeRecipe;
+
+    // Instance variables
     private Ui ui;
     private Parser parser;
 
-    private static ScreenState currentScreen = ScreenState.WELCOME;
-
-    private static Recipe activeRecipe;
 
 
     /**
