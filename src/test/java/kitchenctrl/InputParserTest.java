@@ -1,65 +1,73 @@
 package kitchenctrl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-
 import model.Ingredient;
 import model.catalogue.Recipe;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import ui.inputparser.InputParser;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class InputParserTest {
+
+    @AfterEach
+    public void resetScannerToSystemIn() {
+        InputParser.setScanner(new Scanner(System.in));
+    }
 
     @Test
     public void testGetUserChoiceForAddIngredient_validInput() {
+        ByteArrayInputStream input = new ByteArrayInputStream("1\n".getBytes());
+        InputParser.setScanner(new Scanner(input));
+
         ArrayList<Ingredient> similar = new ArrayList<>();
-        similar.add(new Ingredient("Sugar", 2));
-        similar.add(new Ingredient("Brown Sugar", 3));
+        similar.add(new Ingredient("Sugar", 5));
+        Ingredient newIngredient = new Ingredient("Sugar", 3);
 
-        String simulatedInput = "1\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        int choice = InputParser.getUserChoiceForAddIngredient(similar, new Ingredient("Sugar", 1));
-        assertEquals(1, choice);
+        int result = InputParser.getUserChoiceForAddIngredient(similar, newIngredient);
+        assertEquals(1, result);
     }
 
     @Test
     public void testGetUserChoiceForDeleteIngredient_validInput() {
+        ByteArrayInputStream input = new ByteArrayInputStream("1\n".getBytes());
+        InputParser.setScanner(new Scanner(input));
+
         ArrayList<Ingredient> similar = new ArrayList<>();
-        similar.add(new Ingredient("Egg", 1));
-        similar.add(new Ingredient("Egg Whites", 1));
+        similar.add(new Ingredient("Flour", 2));
+        Ingredient toDelete = new Ingredient("Flour", 1);
 
-        String simulatedInput = "2\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        int choice = InputParser.getUserChoiceForDeleteIngredient(similar, new Ingredient("Egg", 1));
-        assertEquals(2, choice);
+        int result = InputParser.getUserChoiceForDeleteIngredient(similar, toDelete);
+        assertEquals(1, result);
     }
 
     @Test
     public void testGetUserChoiceForAddRecipe_cancel() {
+        ByteArrayInputStream input = new ByteArrayInputStream("-1\n".getBytes());
+        InputParser.setScanner(new Scanner(input));
+
         ArrayList<Recipe> similar = new ArrayList<>();
-        similar.add(new Recipe("Fried Rice"));
+        similar.add(new Recipe("Pasta"));
+        Recipe newRecipe = new Recipe("Pasta");
 
-        String simulatedInput = "-1\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        int choice = InputParser.getUserChoiceForAddRecipe(similar, new Recipe("Fried Rice"));
-        assertEquals(-1, choice);
+        int result = InputParser.getUserChoiceForAddRecipe(similar, newRecipe);
+        assertEquals(-1, result);
     }
 
     @Test
-    public void testGetUserChoiceForDeleteRecipe_selectFirst() {
+    public void testGetUserChoiceForDeleteRecipe_cancel() {
+        ByteArrayInputStream input = new ByteArrayInputStream("-1\n".getBytes());
+        InputParser.setScanner(new Scanner(input));
+
         ArrayList<Recipe> similar = new ArrayList<>();
-        similar.add(new Recipe("Nasi Lemak"));
-        similar.add(new Recipe("Nasi Goreng"));
+        similar.add(new Recipe("Soup"));
+        Recipe toDelete = new Recipe("Soup");
 
-        String simulatedInput = "1\n";
-        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
-
-        int choice = InputParser.getUserChoiceForDeleteRecipe(similar, new Recipe("Nasi"));
-        assertEquals(1, choice);
+        int result = InputParser.getUserChoiceForDeleteRecipe(similar, toDelete);
+        assertEquals(-1, result);
     }
 }
