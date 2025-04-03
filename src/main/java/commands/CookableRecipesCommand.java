@@ -39,8 +39,8 @@ public class CookableRecipesCommand extends Command {
      * @param inventory The inventory containing available ingredients.
      * @return A list of {@code Recipe} objects that can be fully cooked.
      */
-    public ArrayList<Recipe> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
-        ArrayList<Recipe> cookableRecipes = new ArrayList<>();
+    public ArrayList<String> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
+        ArrayList<String> cookableRecipes = new ArrayList<>();
 
         ArrayList<Recipe> allRecipes = recipeBook.getItems(); // Retrieves all recipes from RecipeBook
         ArrayList<Ingredient> inventoryItems = inventory.getItems(); // Retrieves all ingredients in inventory
@@ -61,7 +61,7 @@ public class CookableRecipesCommand extends Command {
                 }
             }
             if (canCook) {
-                cookableRecipes.add(recipe);
+                cookableRecipes.add(recipe.getRecipeName());
             }
         }
 
@@ -94,7 +94,8 @@ public class CookableRecipesCommand extends Command {
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        Inventory inventory = KitchenCTRL.getInventory();
+        assert catalogue instanceof Inventory : "Catalogue is not Inventory!";
+        Inventory inventory = (Inventory) catalogue;
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
         if (recipeBook == null) {
@@ -102,7 +103,7 @@ public class CookableRecipesCommand extends Command {
             return new CommandResult("RecipeBook is empty, please add some recipes!");
         }
 
-        ArrayList<Recipe> cookableRecipes = getCookableRecipes(recipeBook, inventory);
+        ArrayList<String> cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
         if (cookableRecipes.isEmpty()) {
             String feedback = "No recipes can be cooked with the current inventory. Please get more ingredients!";
