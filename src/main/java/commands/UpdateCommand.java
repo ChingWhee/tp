@@ -2,7 +2,6 @@ package commands;
 
 import static controller.KitchenCTRL.requireActiveRecipe;
 
-import controller.KitchenCTRL;
 import model.Ingredient;
 import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
@@ -49,10 +48,14 @@ public class UpdateCommand extends Command {
         // Ensure there is an active recipe
         requireActiveRecipe();
 
-        // Update the item in the recipe
-        recipe.updateItem(newIngredient);
+        if (recipe.getItems().contains(newIngredient)) {
+            // Update the item in the recipe
+            recipe.updateItem(newIngredient);
 
-        return new CommandResult(newIngredient.getIngredientName()
-                + " quantity updated in " + recipe.getRecipeName() + ".");
+            return new CommandResult(newIngredient.getIngredientName()
+                    + " quantity updated in " + recipe.getRecipeName() + ".");
+        }
+
+        return new CommandResult("No such ingredient found.");
     }
 }
