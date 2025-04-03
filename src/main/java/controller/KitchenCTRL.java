@@ -132,6 +132,7 @@ public class KitchenCTRL {
                 command = parser.parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
+                ui.showDivider();
                 continue;
             }
 
