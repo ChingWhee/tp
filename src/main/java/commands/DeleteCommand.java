@@ -61,6 +61,9 @@ public class DeleteCommand extends Command {
         case INVENTORY -> {
             if (catalogue instanceof Inventory inventory) {
                 Ingredient ingredient = new Ingredient(name, quantity);
+                if (!catalogue.getItems().contains(ingredient)) {
+                    yield new CommandResult("Ingredient not found in Inventory.", null);
+                }
                 yield inventory.deleteItem(ingredient);
             }
             yield new CommandResult("Invalid catalogue for inventory operation.", null);
@@ -68,6 +71,9 @@ public class DeleteCommand extends Command {
         case RECIPEBOOK -> {
             if (catalogue instanceof RecipeBook recipeBook) {
                 Recipe recipe = new Recipe(name);
+                if (!catalogue.getItems().contains(recipe)) {
+                    yield new CommandResult("Recipe not found in RecipeBook.", null);
+                }
                 yield recipeBook.deleteItem(recipe);
             }
             yield new CommandResult("Invalid catalogue for recipe book operation.", null);
@@ -76,6 +82,9 @@ public class DeleteCommand extends Command {
             requireActiveRecipe();
             if (catalogue instanceof Recipe recipe) {
                 Ingredient ingredient = new Ingredient(name, quantity);
+                if (!catalogue.getItems().contains(ingredient)) {
+                    yield new CommandResult("Ingredient not found in Recipe.", null);
+                }
                 yield recipe.deleteItem(ingredient);
             }
             yield new CommandResult("Invalid catalogue for recipe operation.", null);

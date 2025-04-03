@@ -79,7 +79,7 @@ public class Parser {
         case "find" -> new FindCommand(args);
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
-        case "available" -> new CookableRecipesCommand();
+        case "cookable" -> new CookableRecipesCommand();
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
