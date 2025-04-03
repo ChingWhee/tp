@@ -1,8 +1,22 @@
 @startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
 class Ui {
+    -scanner: Scanner
+    +Ui()
+    +Ui(InputStream inStream)
     +showInitMessage()
+    +showDivider()
     +showScreenPrompt(ScreenState screen)
-    +showResultToUser(CommandResult result)
+    -showWelcomeMessage()
+    -showInventoryMessage()
+    -showRecipeMessage()
+    -showRecipeBookMessage()
+    +showGoodbyeMessage()
     +getUserCommand(): String
+    +showResultToUser(CommandResult result)
 }
+
 @enduml
