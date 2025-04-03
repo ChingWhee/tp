@@ -7,6 +7,9 @@ KitchenCTRL uses the following tools for development:
 2. [Gradle](https://gradle.org/) - Used for build automation
 
 ## Design & implementation
+The design of KitchenCTRL follows a modular and layered architecture to promote separation of 
+concerns and facilitate testing, debugging, and future feature expansion. 
+Each component is responsible for a distinct part of the system's functionality.
 
 The design and implementation of KitchenCTRL has been broken down into various sections
 - [Architecture](#architecture)
@@ -131,6 +134,12 @@ The `CatalogueContentManager` is a **utility class** responsible for handling fi
 
 It ensures catalogue data is loaded from and saved to local text files.
 
+- Files are stored in the data/ directory.
+
+- If a file is missing or empty, defaults are used to prevent app crashes.
+
+- Errors in file I/O are caught and passed back as user-readable messages through the Ui.
+
 ##### Responsibilities
 
 | Method                          | Description                                                            |
@@ -231,8 +240,15 @@ Command Line Interface - Text-based user interface to allow users to interact wi
 
 ## Instructions for manual testing
 
-First, testers can install KitchenCTRL by following these instructions:
+This section guides testers through manual testing of KitchenCTRL features. To begin:
+- Ensure that you have Java 17 or above installed.
+- Download the latest version of KitchenCTRL from [here](https://github.com/AY2425S2-CS2113-T13-1/tp/releases).
+- Open a command terminal, cd into the folder where the JAR file is and use java -jar tp.jar to run KitchenCTRL.
 
-Ensure that you have Java 17 or above installed.
-Down the latest version of KitchenCTRL from [here](https://github.com/AY2425S2-CS2113-T13-1/tp/releases).
-Open a command terminal, cd into the folder where the JAR file is and use java -jar tp.jar to run KitchenCTRL.
+
+### Tips for testers
+Tips for Testers
+- Try adding ingredients/recipes with special characters or numbers.
+- Try deleting or cooking recipes multiple times to check state updates.
+- Inspect the data/ folder to verify contents match expected output.
+- Test screen transitions using screen commands like goto inventory, goto recipebook.
