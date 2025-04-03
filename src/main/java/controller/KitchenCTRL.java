@@ -65,12 +65,18 @@ public class KitchenCTRL {
         activeRecipe = recipe;
     }
 
+
     /**
      * Returns the currently active recipe, or throws an exception if none is selected.
      *
      * @return The active {@code Recipe}.
      * @throws IllegalStateException if no recipe is currently selected.
      */
+    public static Recipe getActiveRecipe() {
+        return activeRecipe;
+    }
+
+
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
         if (r == null) {
@@ -165,6 +171,7 @@ public class KitchenCTRL {
                     command instanceof EditRecipeCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
+                ui.showResultToUser(result);
                 ui.showDivider();
                 continue;
             }

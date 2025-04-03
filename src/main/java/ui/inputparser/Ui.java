@@ -1,7 +1,9 @@
 package ui.inputparser;
 
 import commands.CommandResult;
+import controller.KitchenCTRL;
 import controller.ScreenState;
+import model.catalogue.Recipe;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -116,7 +118,8 @@ public class Ui {
      * Displays help and commands for managing a specific recipe's ingredients.
      */
     private void showRecipeMessage() {
-        System.out.println("You're now viewing a specific RECIPE.");
+        Recipe activeRecipe = KitchenCTRL.getActiveRecipe();
+        System.out.println("You're now viewing a specific RECIPE: " + activeRecipe.getRecipeName());
         System.out.println("Manage the ingredients for this recipe. Available commands:");
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- find [name] -> Find an ingredient in the recipe");

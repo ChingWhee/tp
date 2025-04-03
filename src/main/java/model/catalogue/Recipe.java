@@ -52,24 +52,16 @@ public class Recipe extends Catalogue<Ingredient> {
      * otherwise, adds the ingredient as a new item.
      *
      * @param ingredient The ingredient to update or add.
-     * @return The result of the update operation.
      */
-    public CommandResult updateItem(Ingredient ingredient) {
+    public void updateItem(Ingredient ingredient) {
         for (Ingredient item : items) {
             String itemNameInList = item.getIngredientName();
             String currItemName = ingredient.getIngredientName();
             if (itemNameInList.equalsIgnoreCase(currItemName)) {
                 item.setQuantity(ingredient.getQuantity());
-                return new CommandResult(ingredient.getIngredientName()
-                        + " quantity updated in " + getRecipeName() + ".");
             }
         }
-
-        // Ingredient not found - add as new
-        items.add(ingredient);
-        return new CommandResult(ingredient.getIngredientName() + " added to " + getRecipeName() + ".");
     }
-
     /**
      * Deletes the specified ingredient from the recipe.
      *

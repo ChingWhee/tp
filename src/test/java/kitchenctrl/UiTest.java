@@ -1,7 +1,9 @@
 package kitchenctrl;
 
 import commands.CommandResult;
+import controller.KitchenCTRL;
 import controller.ScreenState;
+import model.catalogue.Recipe;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -114,10 +116,12 @@ class UiTest {
 
     @Test
     public void testShowScreenPromptRecipe() {
+        Recipe activeRecipe = new Recipe("Sandwich");
+        KitchenCTRL.setActiveRecipe(activeRecipe);
         ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();
 
-        assertTrue(output.contains("You're now viewing a specific RECIPE."));
+        assertTrue(output.contains("You're now viewing a specific RECIPE: Sandwich"));
         assertTrue(output.contains("- list -> Show all ingredients in the recipe"));
         assertTrue(output.contains("- find [name] -> Find an ingredient in the recipe"));
         assertTrue(output.contains("- add [item] [qty] -> Add an ingredient to the recipe"));
