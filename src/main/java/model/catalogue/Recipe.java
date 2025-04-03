@@ -1,7 +1,7 @@
 package model.catalogue;
 
 import commands.CommandResult;
-    import model.Ingredient;
+import model.Ingredient;
 import java.util.ArrayList;
 
 public class Recipe extends Catalogue<Ingredient> {
