@@ -96,6 +96,23 @@ class UiTest {
     }
 
     @Test
+    public void testShowScreenPromptRecipeBook() {
+        ui.showScreenPrompt(ScreenState.RECIPEBOOK);
+        String output = outContent.toString();
+
+        assertTrue(output.contains("You're now in the RECIPEBOOK screen."));
+        assertTrue(output.contains("What dish would you like to make today? Available commands:"));
+        assertTrue(output.contains("- list -> Show all recipes"));
+        assertTrue(output.contains("- find [name] -> Find a recipe"));
+        assertTrue(output.contains("- add [name] -> Add a new recipe"));
+        assertTrue(output.contains("- delete [name] -> Delete a recipe"));
+        assertTrue(output.contains("- edit [name] -> edit a recipe"));
+        assertTrue(output.contains("- cook [name] -> Cook a recipe, or find missing ingredients to cook it"));
+        assertTrue(output.contains("- back -> Return to the main screen"));
+        assertTrue(output.contains("- bye -> Exit the program"));
+    }
+
+    @Test
     public void testShowScreenPromptRecipe() {
         ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();
