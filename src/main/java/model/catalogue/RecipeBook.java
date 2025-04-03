@@ -214,7 +214,7 @@ public class RecipeBook extends Catalogue<Recipe> {
         if (items.isEmpty()) {
             return new CommandResult("No recipes found.");
         }
-        StringBuilder result = new StringBuilder("Recipe Book:\n");
+        StringBuilder result = new StringBuilder("Your recipe book contains the following recipes:\n");
         for (int i = 0; i < items.size(); i++) {
             String name = items.get(i).getRecipeName();
             result.append(i + 1).append(". ").append(name == null ? "[Unnamed Recipe]" : name).append("\n");

@@ -71,7 +71,7 @@ public abstract class Catalogue<T> {
         }
 
         StringBuilder result = new StringBuilder(
-                "(override me) This catalogue contains the following list of items:\n");
+                "This catalogue contains the following list of items:\n");
         for (int i = 0; i < items.size(); i++) {
             result.append(i + 1).append(". ").append(items.get(i)).append("\n");
         }
