@@ -96,20 +96,6 @@ class UiTest {
     }
 
     @Test
-    public void testShowScreenPromptShopping() {
-        ui.showScreenPrompt(ScreenState.SHOPPING);
-        String output = outContent.toString();
-
-        assertTrue(output.contains("You're now in the SHOPPING LIST screen."));
-        assertTrue(output.contains("- list -> Show all ingredients in shopping list"));
-        assertTrue(output.contains("- find [name] -> Find an ingredient in shopping list"));
-        assertTrue(output.contains("- add [item] [qty] -> Add ingredients to shopping list"));
-        assertTrue(output.contains("- delete [item] [qty] -> Remove ingredients from shopping list"));
-        assertTrue(output.contains("- back -> Return to the main screen"));
-        assertTrue(output.contains("- bye -> Exit the program"));
-    }
-
-    @Test
     public void testShowScreenPromptRecipe() {
         ui.showScreenPrompt(ScreenState.RECIPE);
         String output = outContent.toString();

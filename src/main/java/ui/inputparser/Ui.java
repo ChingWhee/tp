@@ -65,7 +65,7 @@ public class Ui {
     /**
      * Displays the appropriate screen prompt based on the current screen state.
      *
-     * @param screen The current screen state (WELCOME, INVENTORY, SHOPPING, RECIPE).
+     * @param screen The current screen state (WELCOME, INVENTORY, RECIPE).
      */
     public void showScreenPrompt(ScreenState screen) {
         switch (screen) {
@@ -74,9 +74,6 @@ public class Ui {
             break;
         case INVENTORY:
             showInventoryMessage();
-            break;
-        case SHOPPING:
-            showShoppingMessage();
             break;
         case RECIPEBOOK:
             showRecipeBookMessage();
@@ -97,7 +94,6 @@ public class Ui {
         System.out.println("What would you like to do today? Available commands:");
         System.out.println("- inventory -> View and manage your inventory");
         System.out.println("- recipe -> View and manage your recipes");
-        // System.out.println("- shopping -> View and manage your shopping list");
         System.out.println("- bye -> Exit the program");
     }
 
@@ -112,20 +108,6 @@ public class Ui {
         System.out.println("- add [item] [qty] -> Add ingredients to inventory");
         System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
         System.out.println("- cookable -> Find all cookable recipes");
-        System.out.println("- back -> Return to the main screen");
-        System.out.println("- bye -> Exit the program");
-    }
-
-    /**
-     * Displays help and commands for the SHOPPING screen.
-     */
-    private void showShoppingMessage() {
-        System.out.println("You're now in the SHOPPING LIST screen.");
-        System.out.println("Time to get those groceries! Available commands:");
-        System.out.println("- list -> Show all ingredients in shopping list");
-        System.out.println("- find [name] -> Find an ingredient in shopping list");
-        System.out.println("- add [item] [qty] -> Add ingredients to shopping list");
-        System.out.println("- delete [item] [qty] -> Remove ingredients from shopping list");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
     }

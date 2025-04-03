@@ -7,7 +7,7 @@ import model.catalogue.Catalogue;
  * Represents an abstract command that can be executed.
  */
 public abstract class Command {
-    /** The screen context this command is associated with (e.g., INVENTORY, SHOPPING, RECIPE). */
+    /** The screen context this command is associated with (e.g., INVENTORY, RECIPE). */
     ScreenState screen = null;
 
     /**
@@ -39,7 +39,7 @@ public abstract class Command {
     /**
      * Executes the command using the provided {@code Catalogue}.
      * <p>
-     * Subclasses that manipulate data (e.g., inventory or shopping items) should override this method.
+     * Subclasses that manipulate data (e.g., inventory items) should override this method.
      *
      * @param catalogue The catalogue relevant to the current screen.
      * @return The result of the command execution as a {@code CommandResult}.
