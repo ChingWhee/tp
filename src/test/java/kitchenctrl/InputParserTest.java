@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InputParserTest {
 
+    //test
     private final InputStream originalIn = System.in;
 
     @AfterEach
