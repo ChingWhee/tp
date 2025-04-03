@@ -42,18 +42,17 @@ public class UpdateCommand extends Command {
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        assert catalogue != null : "Catalogue must not be null";
+        assert catalogue instanceof Recipe : "Catalogue must be a Recipe";
+        // Create the new ingredient with the specified name and quantity
+        Ingredient newIngredient = new Ingredient(name, quantity);
+        Recipe recipe = (Recipe) catalogue;
+        // Ensure there is an active recipe
+        requireActiveRecipe();
 
-        return switch (KitchenCTRL.getCurrentScreen()) {
-        case RECIPE -> {
-            requireActiveRecipe();
-            if (catalogue instanceof Recipe recipe) {
-                Ingredient ingredient = new Ingredient(name, quantity);
-                yield recipe.updateItem(ingredient);
-            }
-            yield new CommandResult("Invalid catalogue for recipe operation.", null);
-        }
-        default -> new CommandResult("Unsupported screen state for AddCommand.", null);
-        };
+        // Update the item in the recipe
+        recipe.updateItem(newIngredient);
+
+        return new CommandResult(newIngredient.getIngredientName()
+                + " quantity updated in " + recipe.getRecipeName() + ".");
     }
 }
