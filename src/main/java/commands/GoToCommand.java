@@ -8,7 +8,6 @@ import controller.ScreenState;
  * This is typically used from the welcome screen to navigate to:
  * <ul>
  *     <li>INVENTORY screen</li>
- *     <li>SHOPPING screen</li>
  *     <li>RECIPE screen</li>
  * </ul>
  */
@@ -16,7 +15,7 @@ public class GoToCommand extends Command {
     /**
      * Constructs a {@code GoToCommand} that switches the user to the specified screen.
      *
-     * @param screen The screen to navigate to (e.g. INVENTORY, SHOPPING, RECIPE).
+     * @param screen The screen to navigate to (e.g. INVENTORY, RECIPE).
      */
     public GoToCommand(ScreenState screen) {
         super(screen);

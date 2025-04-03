@@ -156,7 +156,7 @@ public class KitchenCTRL {
             // Execute the command and get result
             result = (catalogue == null)
                     ? command.execute() // e.g., welcome screen or global commands
-                    : command.execute(catalogue); // inventory/shopping/active recipe
+                    : command.execute(catalogue); // inventory/active recipe
 
             // Display result to the user
             ui.showResultToUser(result);

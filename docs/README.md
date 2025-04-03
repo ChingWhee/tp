@@ -1,12 +1,11 @@
 # KitchenCTRL
 
-KitchenCTRL is a Java-based application designed to help users manage their kitchen inventory, recipes, and shopping lists efficiently. The application provides a command-line interface for users to add, delete, and list ingredients and recipes, as well as navigate between different sections of the application.
+KitchenCTRL is a Java-based application designed to help users manage their kitchen inventory and recipes efficiently. The application provides a command-line interface for users to add, delete, and list ingredients and recipes, as well as navigate between different sections of the application.
 
 ## Features
 
 - **Inventory Management**: Add, delete, and list ingredients in your kitchen inventory.
 - **Recipe Management**: Create, delete, and list recipes.
-[//]: # (- **Shopping List**: Maintain a shopping list for ingredients you need to buy.)
 - **Data Persistence**: All data is stored locally in text files and is automatically saved after each command.
 
 ## Useful Links

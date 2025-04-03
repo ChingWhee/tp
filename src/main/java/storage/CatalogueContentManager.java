@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 /**
  * Handles loading and saving operations for various catalogue-related data structures,
- * such as {@link Inventory}, {@link RecipeBook}, and shopping catalogues.
+ * such as {@link Inventory} and {@link RecipeBook}.
  * <p>
  * This class manages file paths, checks directory/file existence, and provides methods
  * for serializing/deserializing data from/to plain text files.
@@ -31,12 +31,10 @@ public class CatalogueContentManager {
     private String directoryName = "data";
     private String inventoryFileName = "inventory.txt";
     private String recipeBookFileName = "recipe_book.txt";
-    private String shoppingCatalogueFileName = "shopping_catalogue.txt";
 
     private Path basePath = Paths.get(directoryName);
     private Path inventoryFilePath = basePath.resolve(inventoryFileName);
     private Path recipeBookFilePath = basePath.resolve(recipeBookFileName);
-    private Path shoppingCatalogueFilePath = basePath.resolve(shoppingCatalogueFileName);
 
     public CatalogueContentManager() {
 
@@ -58,7 +56,7 @@ public class CatalogueContentManager {
     }
 
     /**
-     * Loads a consumable-type catalogue (like inventory or shopping list) from a specified file.
+     * Loads a consumable-type catalogue (like inventory list) from a specified file.
      *
      * @param filePath  the path to the file containing the catalogue data
      * @param catalogue a supplier for the catalogue type (e.g., {@code Inventory::new})

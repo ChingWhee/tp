@@ -31,7 +31,6 @@ package "model" {
         }
 
         class InventoryCatalogue extends IngredientCatalogue
-        class ShoppingCatalogue extends IngredientCatalogue
         class RecipeCatalogue extends Catalogue<Recipe> {
             +searchSimilarRecipe(Recipe recipe): ArrayList<Recipe>
             +addItem(Recipe recipe): CommandResult

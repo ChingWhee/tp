@@ -22,7 +22,7 @@ import model.catalogue.RecipeBook;
  * The {@code Parser} class is responsible for interpreting user input and
  * returning the appropriate {@code Command} object based on the current screen context.
  * It delegates command creation logic depending on whether the user is in the WELCOME,
- * INVENTORY, SHOPPING, or RECIPE screen.
+ * INVENTORY or RECIPEBOOK screen.
  */
 public class Parser {
     /**

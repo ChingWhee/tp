@@ -22,7 +22,7 @@ A high-level overview of the system is shown in the Architecture Diagram below.
 This architecture consists of:
 1. `Ui`, `Main`, `Parser`, `InputParser` and `Command` classes: 
     These classes manage user interaction, parsing input commands, and executing actions.
-2. `Ingredient`, `Recipe`, `InventoryCatalogue`, `ShoppingCatalogue`, and `RecipeCatalogue`: 
+2. `Ingredient`, `Inventory`, `Recipe` and `RecipeBook`: 
     Model objects and collections used to manage the application data.
 3. `Storage` class: Stores data between sessions.
 4. `Exceptions`: Handle error cases 
@@ -36,11 +36,11 @@ The **UI Component** of KitchenCTRL is responsible for handling all input/output
 
 The `Ui.java` class is the core component of the UI, responsible for:
 - Displaying the ASCII logo upon program startup.
-- Showing screen prompts for various states (e.g., WELCOME, INVENTORY, SHOPPING, RECIPE).
+- Showing screen prompts for various states (e.g., WELCOME, INVENTORY, RECIPE).
 - Displaying results of command executions.
 - Reading user commands from the console.
 
-This class provides methods for showing messages, reading user inputs, and displaying results after command execution. The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen (e.g., inventory, shopping list, recipe).
+This class provides methods for showing messages, reading user inputs, and displaying results after command execution. The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen (e.g., inventory, recipe).
 
 #### Key Methods
 
@@ -51,7 +51,6 @@ This class provides methods for showing messages, reading user inputs, and displ
 | `showScreenPrompt`          | Displays the appropriate screen prompt based on the current screen state.  |
 | `showWelcomeMessage`        | Displays the welcome message and commands available on the main screen.    |
 | `showInventoryMessage`      | Displays available commands for managing the inventory.                    |
-| `showShoppingMessage`       | Displays available commands for managing the shopping list.                |
 | `showRecipeMessage`         | Displays available commands for managing recipes.                          |
 | `showGoodbyeMessage`        | Displays a goodbye message when exiting the application.                   |
 | `showInvalidCommandMessage` | Displays an error message when an invalid command is entered.              |
@@ -119,7 +118,6 @@ The `CatalogueContentManager` is a **utility class** responsible for handling fi
 
 - Inventory
 - RecipeBook
-- (Future support for ShoppingCatalogue is scaffolded)
 
 It ensures catalogue data is loaded from and saved to local text files.
 
@@ -196,7 +194,6 @@ It provides a unified, command-line interface to:
 
 1. Track pantry inventory and prevent overbuying or waste
 2. Store and manage recipes easily
-3. Maintain a dynamic shopping list based on actual needs
 
 Unlike traditional mobile or web apps, KitchenCTRL is fast, lightweight, and designed for keyboard-driven users who want 
 maximum functionality without the clutter.

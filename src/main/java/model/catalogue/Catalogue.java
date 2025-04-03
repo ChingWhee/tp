@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * A generic catalogue of items, providing common methods for managing them.
- * This class serves as a base for various catalogues such as inventory, shopping lists, and recipes.
+ * This class serves as a base for various catalogues such as inventory and recipes.
  * Subclasses should implement methods to handle adding and deleting items with custom behavior.
  *
  * @param <T> The type of item stored in the catalogue.

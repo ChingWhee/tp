@@ -9,14 +9,9 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [Interface Overview](#-interface-overview)
 - [Navigation Commands](#-navigation-commands)
   - [Switch to Inventory: `inventory`](#switch-to-inventory-inventory)
-  - [Switch to Shopping: `shopping`](#switch-to-shopping-shopping)
   - [Switch to Recipe: `recipe`](#switch-to-recipe-recipe)
   - [Switch to Main Menu: `back`](#switch-to-main-menu-back)
   - [Exiting the Program: `bye`](#exiting-the-program-bye)
-- [Inventory and Shopping Commands](#-inventory-and-shopping-commands)
-  - [Adding an Ingredient: `add`](#adding-an-ingredient-add)
-  - [Deleting an Ingredient: `delete`](#deleting-an-ingredient-delete)
-  - [Listing Ingredients: `list`](#listing-ingredients-list)
 - [Recipe Commands](#-recipe-commands)
   - [Adding a Recipe: `add`](#adding-a-recipe-add)
   - [Deleting a Recipe: `delete`](#deleting-a-recipe-delete)
@@ -62,7 +57,6 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
     What would you like to do today? Available commands:
     - inventory -> View and manage your inventory
     - recipe -> View and manage your recipes
-    - shopping -> View and manage your shopping list
     - bye -> Exit the program
     ```
 5. Type the command in the command box and press Enter to execute it. Start typing commands to manage your kitchen!
@@ -73,7 +67,6 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 Upon startup, you’ll see a **main menu** with 4 command options:
 
 - `inventory`: Manage your pantry items
-- `shopping`: Track what you need to buy
 - `recipe`: Save and manage recipes
 - `bye`: Exit the program
 
@@ -87,16 +80,12 @@ Each screen has its own set of commands, described below.
 Switch to the inventory screen of the application from the main menu <br>
 Format: `inventory`
 
-### Switch to shopping: `shopping`
-Switch to the shopping list screen of the application from the main menu <br>
-Format: `shopping`
-
 ### Switch to recipe `recipe`
 Switch to the recipe list screen of the application from the main menu <br>
 Format: `recipe`
 
 ### Switch to main menu `back`
-Switch to the main menu from the inventory / shopping / recipe screen <br>
+Switch to the main menu from the INVENTORY / RECIPEBOOK screen <br>
 Format: `back`
 
 ### Exiting the program `bye`
@@ -105,12 +94,12 @@ Format: `bye`
 
 ---
 
-## 📦 Inventory and Shopping Commands
+## 📦 Inventory Commands
 
-Once you're in the `inventory` or `shopping` screen:
+Once you're in the `inventory` screen:
 
 ### Adding an Ingredient: `add`
-Adds a new ingredient to the inventory or shopping list.
+Adds a new ingredient to the inventory.
 
 Format:
 `add [name] [quantity]`
@@ -119,11 +108,11 @@ Format:
 Example of usage:
 
 `add Sugar 2`
-Adds 2 units of sugar to the inventory or shopping list.
+Adds 2 units of sugar to the inventory.
 <br><br>
 
 ### Deleting an Ingredient: `delete`
-Removes an ingredient from the inventory or shopping list.
+Removes an ingredient from the inventory.
 
 Format:
 `delete [name] [quantity]`
@@ -131,7 +120,7 @@ Format:
 Example of usage:
 
 `delete Sugar 1`
-Removes 1 unit of sugar from the inventory or shopping list.
+Removes 1 unit of sugar from the inventory.
 <br><br>
 
 ### Listing Ingredients: `list`
@@ -219,7 +208,6 @@ All data is stored locally in `.txt` files under the `/data/` folder:
 
 - `inventory.txt`
 - `recipe_book.txt`
-- `shopping_catalogue.txt`
 
 [//]: # (The data is automatically saved after each command.)
 The data will be saved only when the program is successfully closed, i.e, "Goodbye, see you soon!" suggests that the save has been done.
@@ -263,19 +251,18 @@ To add a new command:
 
 ## Command Summary
 
-| Command                 | Format                     | Description                                               |
-|-------------------------|----------------------------|-----------------------------------------------------------|
-| **Switch to Inventory** | `inventory`                | Navigate to the inventory screen.                         |
-| **Switch to Shopping**  | `shopping`                 | Navigate to the shopping list screen.                     |
-| **Switch to Recipe**    | `recipe`                   | Navigate to the recipe management screen.                 |
-| **Switch to Main Menu** | `back`                     | Return to the main menu from any sub-screen.              |
-| **Exit the Program**    | `bye`                      | Close the application.                                    |
-| **Add Ingredient**      | `add [name] [quantity]`    | Add an ingredient to the inventory or shopping list.      |
-| **Delete Ingredient**   | `delete [name] [quantity]` | Remove an ingredient from the inventory or shopping list. |
-| **List Ingredients**    | `list`                     | Show all ingredients in the inventory or shopping list.   |
-| **Add Recipe**          | `add [recipe_name]`        | Create a new recipe entry.                                |
-| **Delete Recipe**       | `delete [recipe_name]`     | Remove a recipe from the system.                          |
-| **Find**                | `find [keyword]`           | Search in inventory, recipe book, or recipe.              |
+| Command                 | Format                     | Description                                         |
+|-------------------------|----------------------------|-----------------------------------------------------|
+| **Switch to Inventory** | `inventory`                | Navigate to the inventory screen.                   |
+| **Switch to Recipe**    | `recipe`                   | Navigate to the recipe management screen.           |
+| **Switch to Main Menu** | `back`                     | Return to the main menu from any sub-screen.        |
+| **Exit the Program**    | `bye`                      | Close the application.                              |
+| **Add Ingredient**      | `add [name] [quantity]`    | Add an ingredient to the inventory.                 |
+| **Delete Ingredient**   | `delete [name] [quantity]` | Remove an ingredient from the inventory.            |
+| **List Ingredients**    | `list`                     | Show all ingredients in the inventory.              |
+| **Add Recipe**          | `add [recipe_name]`        | Create a new recipe entry.                          |
+| **Delete Recipe**       | `delete [recipe_name]`     | Remove a recipe from the system.                    |
+| **Find**                | `find [keyword]`           | Search in inventory, recipe book, or recipe.        |
 ---
 
 ## Conclusion
