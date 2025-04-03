@@ -1,19 +1,16 @@
 @startuml
+skinparam classAttributeIconSize 0
+
 package "model" {
     class Ingredient {
         -String ingredientName
         -int quantity
         +getIngredientName(): String
         +getQuantity(): int
+        +setIngredientName(String name)
+        +setQuantity(int quantity)
         +addQuantity(int quantity)
         +subtractQuantity(int quantity)
-    }
-
-    class Recipe {
-        -String recipeName
-        +getRecipeName(): String
-        +addItem(Ingredient ingredient): CommandResult
-        +deleteItem(Ingredient ingredient): CommandResult
     }
 
     package "catalogue" {
@@ -22,20 +19,38 @@ package "model" {
             +addItem(T item): CommandResult
             +deleteItem(T item): CommandResult
             +listItems(): CommandResult
+            +getItems(): ArrayList<T>
+            +updateItem(T oldItem, T newItem)
+            +findItem(String query): CommandResult
+            +findItem(String query, Function<T, String>): CommandResult
+            +getItemByName(String name): T
+            +getCatalogueContent(): String
+            +getType(): String
         }
 
-        class IngredientCatalogue extends Catalogue<Ingredient> {
-            +searchSimilarIngredient(Ingredient ingredient): ArrayList<Ingredient>
-            +addItem(Ingredient ingredient): CommandResult
-            +deleteItem(Ingredient ingredient): CommandResult
+        class Inventory {
+            +searchSimilarIngredient(Ingredient): ArrayList<Ingredient>
+            +removeAllIngredients(): CommandResult
+            +decreaseQuantity(Ingredient, Ingredient): CommandResult
+            +getItemByName(String name): Ingredient
         }
 
-        class InventoryCatalogue extends IngredientCatalogue
-        class RecipeCatalogue extends Catalogue<Recipe> {
-            +searchSimilarRecipe(Recipe recipe): ArrayList<Recipe>
-            +addItem(Recipe recipe): CommandResult
-            +deleteItem(Recipe recipe): CommandResult
+        class Recipe {
+            -String recipeName
+            +getRecipeName(): String
+            +updateItem(Ingredient): CommandResult
+            +getItemByName(String name): Ingredient
         }
+
+        class RecipeBook {
+            +searchSimilarRecipe(Recipe): ArrayList<Recipe>
+            +editItem(Recipe, Recipe): CommandResult
+            +getItemByName(String name): Recipe
+        }
+
+        Catalogue <|-- Inventory
+        Catalogue <|-- Recipe
+        Catalogue <|-- RecipeBook
     }
 }
 @enduml

@@ -110,6 +110,21 @@ The commands package provides a structured way to define and execute operations 
 
 ### Model Component
 ![Model UML diagram](diagrams/model.png)
+The **Model** component stores the application's core data and implements the logic for handling recipes and ingredients.
+
+It contains the following key elements:
+- A generic `Catalogue<T>` class that acts as a base for all data collections.
+- `Inventory`, a catalogue of `Ingredient` objects.
+- `Recipe`, a named list of `Ingredient` objects.
+- `RecipeBook`, a catalogue of `Recipe` objects.
+- `Ingredient`, a simple model representing a name–quantity pair.
+
+The model exposes read-only views of stored data to other components and encapsulates logic for CRUD operations and intelligent user prompts (e.g., handling similar items). It relies on user input parsers (`InputParser`) to resolve ambiguities in add/delete scenarios.
+
+It does not depend on any of the other three components (Logic, UI, or Storage), ensuring clear domain separation.
+
+> ℹ️ **Note:** Recipes and inventory entries are internally handled using dynamic lists within `Catalogue<T>`, avoiding tight coupling and enabling code reuse across domain types.
+
 
 #### RecipeBook Design
 The `RecipeBook` class inherits from `Catalogue<Recipe>` and manages a list of `Recipe` objects. It provides CRUD functionality and uses `CommandResult` to return operation outcomes.
@@ -191,7 +206,7 @@ contentManager.saveToFile(inventory);
 
 ### Target user profile
 
-* Individuals who prefer lightweight, distraction-free tools over complex mobile apps
+* Individuals who prefer lightweight, distraction-free tools over cluttered mobile apps
 * Users comfortable typing commands in a terminal (basic command-line experience)
 * People who want a quick and efficient way to track ingredients and manage recipes.
 
