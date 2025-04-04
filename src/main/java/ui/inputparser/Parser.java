@@ -289,22 +289,22 @@ public class Parser {
      * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
      */
     private Command prepareCook(String args) {
+        String name = args.trim();
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>");
+        }
+
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
         Recipe targetRecipe;
 
-        try {
-            String targetRecipeName = args.trim();
-            targetRecipe = recipeBook.getItemByName(targetRecipeName);
-            if (targetRecipe == null) {
-                throw new IllegalArgumentException("Recipe not found!");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // Log the error (optional)
-            return null; // Handle error gracefully
-        }
+        String targetRecipeName = args.trim();
+        targetRecipe = recipeBook.getItemByName(targetRecipeName);
 
+        if (targetRecipe == null) {
+            throw new IllegalArgumentException("Recipe not found!");
+        }
         return new CookRecipeCommand(targetRecipe);
     }
 }
