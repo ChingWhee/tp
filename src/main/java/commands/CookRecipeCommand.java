@@ -2,8 +2,10 @@ package commands;
 
 import controller.KitchenCTRL;
 import model.Ingredient;
+import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.Inventory;
+import model.catalogue.RecipeBook;
 
 import java.util.ArrayList;
 
@@ -66,7 +68,8 @@ public class CookRecipeCommand extends Command {
      * @return A {@code CommandResult} indicating success gor failure with a list of missing ingredients.
      */
     @Override
-    public CommandResult execute() {
+    public CommandResult execute(Catalogue<?> catalogue) {
+        assert catalogue instanceof RecipeBook: "Current screen not RecipeBook";
 
         Inventory inventory = KitchenCTRL.getInventory();
 
