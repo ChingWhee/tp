@@ -15,6 +15,9 @@ public class ListCommandsCommand extends Command {
         case INVENTORY -> Ui.showInventoryCommands();
         case RECIPE -> Ui.showRecipeCommands();
         case RECIPEBOOK -> Ui.showRecipeBookCommands();
+        default -> {
+            return new CommandResult("Invalid screen", null);
+        }
         }
         return new CommandResult("");
     }
