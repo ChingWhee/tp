@@ -1,17 +1,6 @@
 package ui.inputparser;
 
-import commands.FindCommand;
-import commands.Command;
-import commands.ByeCommand;
-import commands.EditRecipeCommand;
-import commands.AddCommand;
-import commands.DeleteCommand;
-import commands.UpdateCommand;
-import commands.ListCommand;
-import commands.BackCommand;
-import commands.GoToCommand;
-import commands.CookRecipeCommand;
-import commands.CookableRecipesCommand;
+import commands.*;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -59,6 +48,7 @@ public class Parser {
         case "inventory" -> prepareGoto(ScreenState.INVENTORY);
         case "recipe" -> prepareGoto(ScreenState.RECIPEBOOK);
         case "bye" -> prepareBye();
+        case "help" -> new ListCommandsCommand(ScreenState.WELCOME);
         default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
         };
     }
@@ -80,6 +70,7 @@ public class Parser {
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
         case "cookable" -> new CookableRecipesCommand();
+        case "help" -> new ListCommandsCommand(ScreenState.INVENTORY);
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
@@ -102,6 +93,7 @@ public class Parser {
         case "bye" -> new ByeCommand();
         case "cook" -> prepareCook(args);
         case "edit" -> new EditRecipeCommand(args);
+        case "help" -> new ListCommandsCommand(ScreenState.RECIPEBOOK);
         default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }
@@ -121,6 +113,7 @@ public class Parser {
         case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
         case "list" -> prepareList();           // List all ingredients in the recipe
         case "find" -> new FindCommand(args);
+        case "help" -> new ListCommandsCommand(ScreenState.RECIPE);
         case "back" -> prepareBack();                 // Go back to recipe book
         case "bye" -> new ByeCommand();               // Exit program
         default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
