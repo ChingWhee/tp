@@ -150,7 +150,7 @@ public class Recipe extends Catalogue<Ingredient> {
     @Override
     public CommandResult listItems() {
         if (items.isEmpty()) {
-            return new CommandResult("No recipes found.");
+            return new CommandResult("No Ingredients found.");
         }
         StringBuilder result = new StringBuilder("This recipe contains the following ingredients:\n");
         for (int i = 0; i < items.size(); i++) {
