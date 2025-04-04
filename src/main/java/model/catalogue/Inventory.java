@@ -66,42 +66,75 @@ public class Inventory extends Catalogue<Ingredient> {
         return existingIngredientName.equalsIgnoreCase(newIngredientName);
     }
 
-    /**
-     * Adds an ingredient to the inventory. If a similar ingredient exists,
-     * prompts the user to either add as a new item or increase the quantity of an existing one.
-     *
-     * @param ingredient The ingredient to be added.
-     */
     @Override
     public CommandResult addItem(Ingredient ingredient) {
-        // Search for similar ingredients in the inventory
-        ArrayList<Ingredient> similarIngredient = searchSimilarIngredient(ingredient);
+        try {
+            if (ingredient == null) {
+                return new CommandResult("Invalid ingredient: Ingredient is null.");
+            }
 
-        // Case 1: No similar ingredient found, add the new ingredient directly
-        if (similarIngredient.isEmpty()) {
-            return addIngredient(ingredient);
+            String name;
+            int quantity;
+
+            try {
+                name = ingredient.getIngredientName();
+                if (name == null || name.trim().isEmpty()) {
+                    return new CommandResult("Invalid ingredient: name must be non-empty.");
+                }
+            } catch (Exception e) {
+                return new CommandResult("Invalid ingredient: Error accessing ingredient name.");
+            }
+
+            try {
+                quantity = ingredient.getQuantity();
+                if (quantity <= 0) {
+                    return new CommandResult("Invalid ingredient: quantity must be positive.");
+                }
+            } catch (Exception e) {
+                return new CommandResult("Invalid ingredient: Error accessing ingredient quantity.");
+            }
+
+            ArrayList<Ingredient> similarIngredient = searchSimilarIngredient(ingredient);
+
+            if (similarIngredient.isEmpty()) {
+                return addIngredient(ingredient);
+            }
+
+            if (similarIngredient.size() == SINGLE_MATCH) {
+                try {
+                    if (isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
+                        return increaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
+                    }
+                } catch (Exception e) {
+                    return new CommandResult("Error checking for exact match: " + e.getMessage());
+                }
+            }
+
+            int choice;
+            try {
+                choice = InputParser.getUserChoiceForAddIngredient(similarIngredient, ingredient);
+            } catch (Exception e) {
+                return new CommandResult("Error parsing user input: " + e.getMessage());
+            }
+
+            if (choice == 0) {
+                return addIngredient(ingredient);
+            } else if (choice > 0 && choice <= similarIngredient.size()) {
+                try {
+                    return increaseQuantity(similarIngredient.get(choice - 1), ingredient);
+                } catch (Exception e) {
+                    return new CommandResult("Error increasing quantity: " + e.getMessage());
+                }
+            }
+
+            return new CommandResult("Operation canceled.");
+        } catch (Exception e) {
+            return new CommandResult("Unexpected error adding ingredient: " + e.getMessage());
         }
-
-        // Case 2: Only one similar ingredient exists, check if it's an exact match
-        if (similarIngredient.size() == SINGLE_MATCH &&
-                isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
-            return increaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
-        }
-
-        // Case 3: Multiple similar ingredients found, prompt user to choose an action
-        int choice = InputParser.getUserChoiceForAddIngredient(similarIngredient, ingredient);
-
-        if (choice == 0) {
-            // User chose to add the new ingredient as a separate entry
-            return addIngredient(ingredient);
-        } else if (choice > 0 && choice <= similarIngredient.size()) {
-            // User selected an existing ingredient, increase its quantity
-            return increaseQuantity(similarIngredient.get(choice - 1), ingredient);
-        }
-
-        // User provided an invalid input, cancel the operation
-        return new CommandResult("Operation canceled.");
     }
+
+
+
 
     /**
      * Adds a new ingredient to the inventory.
@@ -157,7 +190,7 @@ public class Inventory extends Catalogue<Ingredient> {
         // Case 3: Multiple similar ingredients found, prompt user to choose an action
         int choice = InputParser.getUserChoiceForDeleteIngredient(similarIngredient, ingredient);
 
-        if (choice > 0 && choice <= similarIngredient.size()) {
+        if (choice > 0 && choice < similarIngredient.size()) {
             // User selected an existing ingredient, decrease its quantity
             return decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
         }
@@ -205,7 +238,7 @@ public class Inventory extends Catalogue<Ingredient> {
 
         if (existingIngredient.getQuantity() <= 0) {
             CommandResult removalResult = removeIngredient(existingIngredient);
-            return new CommandResult(calculations + "\n" + removalResult.getFeedbackToUser());
+            return new CommandResult(removalResult.getFeedbackToUser());
         }
 
         return new CommandResult(calculations);

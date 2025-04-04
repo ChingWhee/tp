@@ -148,7 +148,8 @@ public class Parser {
             try {
                 quantity = Integer.parseInt(parts[1].trim());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
+                throw new IllegalArgumentException("Quantity must be a valid integer between 0 and 2,147,483,647!");
+
             }
 
             return new AddCommand(name, quantity);
@@ -184,7 +185,7 @@ public class Parser {
         try {
             newQuantity = Integer.parseInt(parts[1].trim());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("New quantity must be a valid integer!");
+            throw new IllegalArgumentException("Quantity must be a valid integer between 0 and 2,147,483,647!");
         }
 
         return new UpdateCommand(name, newQuantity);
@@ -222,7 +223,7 @@ public class Parser {
             try {
                 quantity = Integer.parseInt(parts[1].trim());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
+                throw new IllegalArgumentException("Quantity must be a valid integer between 0 and 2,147,483,647!");
             }
 
             return new DeleteCommand(name, quantity);
