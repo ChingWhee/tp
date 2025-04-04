@@ -114,12 +114,14 @@ class ParserTest {
 
     @Test
     public void testInventoryCommand_add_invalidFormat() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         assertThrows(IllegalArgumentException.class, () ->
                 parser.parseCommand("add milk"));
     }
 
     @Test
     public void testInventoryCommand_add_invalidQuantity() {
+        KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
         assertThrows(IllegalArgumentException.class, () ->
                 parser.parseCommand("add milk two"));
     }

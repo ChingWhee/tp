@@ -24,34 +24,57 @@ import java.util.ArrayList;
  * using a command loop.
  */
 public class KitchenCTRL {
-    // Catalogue storing ingredients in the inventory
+    // Static variables
     private static Inventory inventory;
-
-    // Catalogue storing recipes
     private static RecipeBook recipeBook;
-
     private static ScreenState currentScreen = ScreenState.WELCOME;
-
     private static Recipe activeRecipe;
 
+    // Instance variables
     private Ui ui;
     private Parser parser;
 
+
+
+    /**
+     * Returns the current screen state of the application.
+     *
+     * @return The currently active {@code ScreenState}.
+     */
     public static ScreenState getCurrentScreen() {
         return currentScreen;
     }
 
+    /**
+     * Sets the current screen state of the application.
+     *
+     * @param currentScreen The {@code ScreenState} to set as the current screen.
+     */
     public static void setCurrentScreen(ScreenState currentScreen) {
         KitchenCTRL.currentScreen = currentScreen;
     }
 
+
+    /**
+     * Sets the currently active recipe in the application context.
+     *
+     * @param recipe The {@code Recipe} to set as active.
+     */
     public static void setActiveRecipe(Recipe recipe) {
         activeRecipe = recipe;
     }
 
-    public Recipe getActiveRecipe() {
+
+    /**
+     * Returns the currently active recipe, or throws an exception if none is selected.
+     *
+     * @return The active {@code Recipe}.
+     * @throws IllegalStateException if no recipe is currently selected.
+     */
+    public static Recipe getActiveRecipe() {
         return activeRecipe;
     }
+
 
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
@@ -147,6 +170,7 @@ public class KitchenCTRL {
                     command instanceof EditRecipeCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
+                ui.showResultToUser(result);
                 ui.showDivider();
                 continue;
             }
@@ -179,7 +203,7 @@ public class KitchenCTRL {
      * @param screen The current screen state.
      * @return The corresponding catalogue, or null if screen has no catalogue (e.g., WELCOME).
      */
-    private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
+    public Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
         case INVENTORY -> inventory;
         case RECIPEBOOK -> recipeBook;

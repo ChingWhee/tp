@@ -32,6 +32,7 @@ public class AddCommand extends Command {
      * @param quantity The quantity of the ingredient to add. Ignored for recipes.
      * @throws AssertionError if {@code name} is null/empty, or {@code quantity} is not positive (when required).
      */
+
     public AddCommand(String name, int quantity) {
         assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
 
@@ -41,6 +42,15 @@ public class AddCommand extends Command {
         this.quantity = quantity;
     }
 
+    /**
+     * Constructs an {@code AddCommand} with the specified item name.
+     * <p>
+     * This constructor is used when adding a recipe, where the quantity is irrelevant.
+     * The quantity is set to 0 by default.
+     *
+     * @param name The name of the recipe to add.
+     * @throws AssertionError if {@code name} is null or empty.
+     */
     public AddCommand(String name) {
         assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
 

@@ -40,6 +40,15 @@ public class DeleteCommand extends Command {
         this.quantity = quantity;
     }
 
+    /**
+     * Constructs a {@code DeleteCommand} with the specified item name.
+     * <p>
+     * This constructor is used when deleting a recipe, where quantity is not applicable.
+     * The quantity is set to 0 by default.
+     *
+     * @param name The name of the recipe to delete.
+     * @throws AssertionError if {@code name} is null or empty.
+     */
     public DeleteCommand(String name) {
         assert name != null && !name.trim().isEmpty() : "Name must not be null or empty";
 
