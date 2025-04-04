@@ -1,26 +1,50 @@
 @startuml
+hide circle
+skinparam classAttributeIconSize 0
+
 package "commands" {
-    class Command {
-        +execute(): CommandResult
-        +execute(Catalogue<?> catalogue): CommandResult
+
+    abstract class "{abstract} \n Command" {
+        + execute(): CommandResult
+        + execute(catalogue: Catalogue<?>): CommandResult
     }
-    Command <|-- AddCommand
-    Command <|-- BackCommand
-    Command <|-- ByeCommand
-    Command <|-- CookableRecipesCommand
-    Command <|-- CookRecipeCommand
-    Command <|-- DeleteCommand
-    Command <|-- EditRecipeCommand
-    Command <|-- FindCommand
-    Command <|-- GoToCommand
-    Command <|-- ListCommand
-    Command <|-- UpdateCommand
+
+    class AddCommand
+    class BackCommand
+    class ByeCommand
+    class CookableRecipesCommand
+    class CookRecipeCommand
+    class DeleteCommand
+    class EditRecipeCommand
+    class FindCommand
+    class GoToCommand
+    class ListCommand
+    class UpdateCommand
+
+    "{abstract} \n Command" <|-- AddCommand
+    "{abstract} \n Command" <|-- BackCommand
+    "{abstract} \n Command" <|-- ByeCommand
+    "{abstract} \n Command" <|-- CookableRecipesCommand
+    "{abstract} \n Command" <|-- CookRecipeCommand
+    "{abstract} \n Command" <|-- DeleteCommand
+    "{abstract} \n Command" <|-- EditRecipeCommand
+    "{abstract} \n Command" <|-- FindCommand
+    "{abstract} \n Command" <|-- GoToCommand
+    "{abstract} \n Command" <|-- ListCommand
+    "{abstract} \n Command" <|-- UpdateCommand
+
+    class CommandResult {
+        + getFeedbackToUser(): String
+    }
+
+    class ScreenState
     CommandResult --> ScreenState
 }
 
 package "ui.inputparser" {
     class Parser {
-        +parseCommand(ScreenState screen, String userInput): Command
+        + parseCommand(screen: ScreenState, userInput: String): Command
     }
 }
+
 @enduml

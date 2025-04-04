@@ -1,33 +1,39 @@
 @startuml
+hide circle
+skinparam classAttributeIconSize 0
+
 package model.catalogue {
-    class Catalogue<T> {
-        - items : ArrayList<T>
-        + getItems() : ArrayList<T>
-        + updateItem(oldItem : T, newItem : T)
-        + listItems() : CommandResult
-        + getCatalogueContent() : String
-        + addItem(item : T) : CommandResult
-        + deleteItem(item : T) : CommandResult
+
+    class "{abstract} \n Catalogue<T>" {
+        - items: ArrayList<T>
+        + getItems(): ArrayList<T>
+        + updateItem(oldItem: T, newItem: T)
+        + listItems(): CommandResult
+        + getCatalogueContent(): String
+        + addItem(item: T): CommandResult
+        + deleteItem(item: T): CommandResult
     }
 
     class RecipeBook {
         + RecipeBook()
-        + addItem(recipe : Recipe) : CommandResult
-        + deleteItem(recipe : Recipe) : CommandResult
-        + editItem(oldRecipe : Recipe, newRecipe : Recipe) : CommandResult
-        + listItems() : CommandResult
-        - addRecipe(recipe : Recipe) : void
-        - removeRecipe(recipe : Recipe) : void
-        - getRecipeNameLowercase(recipe : Recipe) : String
-        - isExactMatchFound(existingRecipe : Recipe, newRecipe : Recipe) : boolean
-        + searchSimilarRecipe(recipe : Recipe) : ArrayList<Recipe>
+        + addItem(recipe: Recipe): CommandResult
+        + deleteItem(recipe: Recipe): CommandResult
+        + editItem(oldRecipe: Recipe, newRecipe: Recipe): CommandResult
+        + listItems(): CommandResult
+        - addRecipe(recipe: Recipe): void
+        - removeRecipe(recipe: Recipe): void
+        - getRecipeNameLowercase(recipe: Recipe): String
+        - isExactMatchFound(existingRecipe: Recipe, newRecipe: Recipe): boolean
+        + searchSimilarRecipe(recipe: Recipe): ArrayList<Recipe>
     }
+
+    "{abstract} \n Catalogue<T>" <|-- RecipeBook
 }
 
 package model {
     class Recipe {
-        - recipeName : String
-        + getRecipeName() : String
+        - recipeName: String
+        + getRecipeName(): String
     }
 
     class Ingredient
@@ -35,20 +41,20 @@ package model {
 
 package commands {
     class CommandResult {
-        - feedbackToUser : String
-        + getFeedbackToUser() : String
+        - feedbackToUser: String
+        + getFeedbackToUser(): String
     }
 }
 
 package ui.inputparser {
     class InputParser {
-        + getUserChoiceForAddRecipe(List<Recipe>, Recipe) : int
-        + getUserChoiceForDeleteRecipe(List<Recipe>, Recipe) : int
+        + getUserChoiceForAddRecipe(recipeList: List<Recipe>, recipe: Recipe): int
+        + getUserChoiceForDeleteRecipe(recipeList: List<Recipe>, recipe: Recipe): int
     }
 }
 
-Catalogue <|-- RecipeBook
 RecipeBook --> Recipe
 RecipeBook --> CommandResult
 RecipeBook --> InputParser
+
 @enduml
