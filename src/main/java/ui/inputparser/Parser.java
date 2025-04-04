@@ -1,17 +1,19 @@
 package ui.inputparser;
 
-import commands.FindCommand;
-import commands.Command;
-import commands.ByeCommand;
-import commands.EditRecipeCommand;
 import commands.AddCommand;
-import commands.DeleteCommand;
-import commands.UpdateCommand;
-import commands.ListCommand;
 import commands.BackCommand;
-import commands.GoToCommand;
+import commands.ByeCommand;
+import commands.Command;
 import commands.CookRecipeCommand;
 import commands.CookableRecipesCommand;
+import commands.DeleteCommand;
+import commands.FindCommand;
+import commands.ListCommand;
+import commands.GoToCommand;
+import commands.EditRecipeCommand;
+import commands.UpdateCommand;
+import commands.ListCommandsCommand;
+
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -59,6 +61,7 @@ public class Parser {
         case "inventory" -> prepareGoto(ScreenState.INVENTORY);
         case "recipe" -> prepareGoto(ScreenState.RECIPEBOOK);
         case "bye" -> prepareBye();
+        case "help" -> new ListCommandsCommand(ScreenState.WELCOME);
         default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
         };
     }
@@ -80,6 +83,7 @@ public class Parser {
         case "back" -> prepareBack();
         case "bye" -> prepareBye();
         case "cookable" -> new CookableRecipesCommand();
+        case "help" -> new ListCommandsCommand(ScreenState.INVENTORY);
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
@@ -102,6 +106,7 @@ public class Parser {
         case "bye" -> new ByeCommand();
         case "cook" -> prepareCook(args);
         case "edit" -> new EditRecipeCommand(args);
+        case "help" -> new ListCommandsCommand(ScreenState.RECIPEBOOK);
         default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }
@@ -121,6 +126,7 @@ public class Parser {
         case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
         case "list" -> prepareList();           // List all ingredients in the recipe
         case "find" -> new FindCommand(args);
+        case "help" -> new ListCommandsCommand(ScreenState.RECIPE);
         case "back" -> prepareBack();                 // Go back to recipe book
         case "bye" -> new ByeCommand();               // Exit program
         default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
@@ -284,22 +290,22 @@ public class Parser {
      * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
      */
     private Command prepareCook(String args) {
+        String name = args.trim();
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>");
+        }
+
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
         Recipe targetRecipe;
 
-        try {
-            String targetRecipeName = args.trim();
-            targetRecipe = recipeBook.getItemByName(targetRecipeName);
-            if (targetRecipe == null) {
-                throw new IllegalArgumentException("Recipe not found!");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // Log the error (optional)
-            return null; // Handle error gracefully
-        }
+        String targetRecipeName = args.trim();
+        targetRecipe = recipeBook.getItemByName(targetRecipeName);
 
+        if (targetRecipe == null) {
+            throw new IllegalArgumentException("Recipe not found!");
+        }
         return new CookRecipeCommand(targetRecipe);
     }
 }

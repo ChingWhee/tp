@@ -24,4 +24,5 @@ What would you like to do today? Available commands:
 - inventory -> View and manage your inventory
 - recipe -> View and manage your recipes
 - bye -> Exit the program
+- help -> View available commands
 Enter command: Goodbye, see you soon!

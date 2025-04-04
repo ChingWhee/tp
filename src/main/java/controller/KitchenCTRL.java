@@ -2,10 +2,12 @@ package controller;
 
 import commands.BackCommand;
 import commands.ByeCommand;
-import commands.Command;
 import commands.CommandResult;
-import commands.EditRecipeCommand;
+import commands.Command;
+import commands.ListCommandsCommand;
 import commands.GoToCommand;
+import commands.EditRecipeCommand;
+
 import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
@@ -127,6 +129,7 @@ public class KitchenCTRL {
             this.parser = new Parser();
             initializeCatalogues();
             ui.showInitMessage();
+            Ui.showWelcomeMessage();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -145,7 +148,7 @@ public class KitchenCTRL {
 
         do {
             // Show prompt based on current screen
-            ui.showScreenPrompt(currentScreen);
+            // ui.showScreenPrompt(currentScreen);
 
             // Read user input
             String userCommandText = ui.getUserCommand();
@@ -167,7 +170,7 @@ public class KitchenCTRL {
             CommandResult result;
             // Switch screen if required by result
             if (command instanceof BackCommand || command instanceof GoToCommand ||
-                    command instanceof EditRecipeCommand) {
+                    command instanceof EditRecipeCommand || command instanceof ListCommandsCommand) {
                 result = command.execute();
                 currentScreen = result.getNewScreen();
                 ui.showResultToUser(result);

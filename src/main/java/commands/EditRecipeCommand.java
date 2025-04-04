@@ -5,6 +5,7 @@ import controller.KitchenCTRL;
 import controller.ScreenState;
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
+import ui.inputparser.Ui;
 
 /**
  * Represents a command to enter a specific recipe for editing.
@@ -41,6 +42,7 @@ public class EditRecipeCommand extends Command {
         }
 
         KitchenCTRL.setActiveRecipe(recipe);
+        Ui.showRecipeMessage();
         return new CommandResult("Now editing recipe: " + recipeName, ScreenState.RECIPE);
     }
 }
