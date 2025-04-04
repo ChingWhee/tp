@@ -8,6 +8,7 @@ import model.catalogue.RecipeBook;
 import model.catalogue.Inventory;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a command to find all recipes that can be cooked with the current inventory.
@@ -39,8 +40,8 @@ public class CookableRecipesCommand extends Command {
      * @param inventory The inventory containing available ingredients.
      * @return A list of {@code Recipe} objects that can be fully cooked.
      */
-    public RecipeBook getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
-        RecipeBook cookableRecipes = new RecipeBook();
+    public ArrayList<Recipe> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
+        ArrayList<Recipe> cookableRecipes = new ArrayList<>();
 
         ArrayList<Recipe> allRecipes = recipeBook.getItems(); // Retrieves all recipes from RecipeBook
         ArrayList<Ingredient> inventoryItems = inventory.getItems(); // Retrieves all ingredients in inventory
@@ -61,7 +62,7 @@ public class CookableRecipesCommand extends Command {
                 }
             }
             if (canCook) {
-                cookableRecipes.addItem(recipe);
+                cookableRecipes.add(recipe);
             }
         }
 
@@ -103,13 +104,17 @@ public class CookableRecipesCommand extends Command {
             return new CommandResult("RecipeBook is empty, please add some recipes!");
         }
 
-        RecipeBook cookableRecipes = getCookableRecipes(recipeBook, inventory);
+        ArrayList<Recipe> cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
-        if (cookableRecipes.getItems().isEmpty()) {
+        if (cookableRecipes.isEmpty()) {
             String feedback = "No recipes can be cooked with the current inventory. Please get more ingredients!";
             return new CommandResult(feedback);
         }
 
-        return new CommandResult("Cookable recipes: " + cookableRecipes.listItems());
+        String recipeNames = cookableRecipes.stream()
+                .map(Recipe::getRecipeName)  // Extract the name of each recipe
+                .collect(Collectors.joining(", "));
+
+        return new CommandResult("Cookable recipes: " + recipeNames);
     }
 }

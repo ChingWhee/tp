@@ -203,7 +203,7 @@ public class KitchenCTRL {
      * @param screen The current screen state.
      * @return The corresponding catalogue, or null if screen has no catalogue (e.g., WELCOME).
      */
-    private Catalogue<?> getCatalogueByScreen(ScreenState screen) {
+    public Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
         case INVENTORY -> inventory;
         case RECIPEBOOK -> recipeBook;

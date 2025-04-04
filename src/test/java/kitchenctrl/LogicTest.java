@@ -4,9 +4,11 @@ import commands.CommandResult;
 import commands.CookRecipeCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
+import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.Inventory;
 import model.Ingredient;
+import model.catalogue.RecipeBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 public class LogicTest {
     private Inventory testInventory;
     private ScreenState testScreen;
+    private Catalogue<?> currentCatalogue;
 
     @BeforeEach
     public void setUp() {
@@ -26,6 +29,8 @@ public class LogicTest {
         mainApp.initializeCatalogues();
         testInventory = KitchenCTRL.getInventory();  // Get inventory from Main class
         testScreen = RECIPEBOOK;
+        KitchenCTRL.setCurrentScreen(testScreen);
+        currentCatalogue = mainApp.getCatalogueByScreen(testScreen);
     }
 
     @Test
@@ -97,7 +102,7 @@ public class LogicTest {
         recipe.addItem(new Ingredient("Eggs", 2));
 
         CookRecipeCommand command = new CookRecipeCommand(recipe);
-        CommandResult result = command.execute(); // Pass the inventory
+        CommandResult result = command.execute(currentCatalogue); // Pass the inventory
 
         assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());
 
