@@ -1,14 +1,18 @@
 @startuml
+hide circle
+skinparam classAttributeIconSize 0
+
 package "storage" {
     class CatalogueContentManager {
-        +loadInventory() : Inventory
-        +loadRecipeBook() : RecipeBook
-        +loadConsumablesCatalogue(Path, Supplier<T>) : <T extends Inventory> T
-        +loadRawCatalogueContent(Path) : List<String>
-        +saveToFile(Catalogue)
+        + loadInventory(): Inventory
+        + loadRecipeBook(): RecipeBook
+        + loadConsumablesCatalogue(path: Path, supplier: Supplier<T>): T
+        + loadRawCatalogueContent(path: Path): List<String>
+        + saveToFile(catalogue: Catalogue)
 
-        -checkDirectoryExistence()
-        -checkFileExistence(Path)
+        - checkDirectoryExistence()
+        - checkFileExistence(path: Path)
     }
 }
+
 @enduml
