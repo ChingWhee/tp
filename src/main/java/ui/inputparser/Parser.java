@@ -150,13 +150,7 @@ public class Parser {
             }
 
             String name = parts[0].trim();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(parts[1].trim());
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
-            }
-
+            int quantity = parseQuantity(parts[1].trim());
             return new AddCommand(name, quantity);
         }
         case RECIPEBOOK -> {
@@ -170,6 +164,20 @@ public class Parser {
         }
         default -> throw new IllegalArgumentException("Unsupported screen for add command.");
         }
+    }
+
+    private static int parseQuantity(String quantityStr) {
+        // Regex allows leading zeros but enforces 1-99999 after parsing
+        if (!quantityStr.matches("^0*[1-9]\\d{0,4}$")) {
+            throw new IllegalArgumentException("Quantity must be an integer (1-99999)!");
+        }
+
+        // Parse and check the actual value
+        int quantity = Integer.parseInt(quantityStr);
+        if (quantity > 99999) { // Handles cases like "000100000" (regex passes but invalid)
+            throw new IllegalArgumentException("Quantity must not exceed 99999!");
+        }
+        return quantity;
     }
 
     /**
@@ -186,13 +194,7 @@ public class Parser {
         }
 
         String name = parts[0].trim();
-        int newQuantity;
-        try {
-            newQuantity = Integer.parseInt(parts[1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("New quantity must be a valid integer!");
-        }
-
+        int newQuantity = parseQuantity(parts[1].trim());
         return new UpdateCommand(name, newQuantity);
     }
 
@@ -224,13 +226,7 @@ public class Parser {
             }
 
             String name = parts[0].trim();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(parts[1].trim());
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
-            }
-
+            int quantity = parseQuantity(parts[1].trim());
             return new DeleteCommand(name, quantity);
         }
 
