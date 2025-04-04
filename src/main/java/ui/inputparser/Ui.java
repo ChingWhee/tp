@@ -69,7 +69,7 @@ public class Ui {
      *
      * @param screen The current screen state (WELCOME, INVENTORY, RECIPE).
      */
-    public void showScreenPrompt(ScreenState screen) {
+    public static void showScreenPrompt(ScreenState screen) {
         switch (screen) {
         case WELCOME:
             showWelcomeMessage();
@@ -91,20 +91,48 @@ public class Ui {
     /**
      * Displays the welcome message and available commands on the main screen.
      */
-    private void showWelcomeMessage() {
+    public static void showWelcomeMessage() {
         System.out.println("Welcome to KitchenCTRL - your digital kitchen companion!");
         System.out.println("What would you like to do today? Available commands:");
-        System.out.println("- inventory -> View and manage your inventory");
-        System.out.println("- recipe -> View and manage your recipes");
-        System.out.println("- bye -> Exit the program");
+        showWelcomeCommands();
     }
 
     /**
      * Displays help and commands for the INVENTORY screen.
      */
-    private void showInventoryMessage() {
+    public static void showInventoryMessage() {
         System.out.println("You're now in the INVENTORY screen.");
         System.out.println("Manage what's in your inventory! Available commands:");
+        showInventoryCommands();
+    }
+
+    /**
+     * Displays help and commands for managing a specific recipe's ingredients.
+     */
+    public static void showRecipeMessage() {
+        Recipe activeRecipe = KitchenCTRL.getActiveRecipe();
+        System.out.println("You're now viewing a specific RECIPE: " + activeRecipe.getRecipeName());
+        System.out.println("Manage the ingredients for this recipe. Available commands:");
+        showRecipeCommands();
+    }
+
+    /**
+     * Displays help and commands for the RECIPE screen.
+     */
+    public static void showRecipeBookMessage() {
+        System.out.println("You're now in the RECIPEBOOK screen.");
+        System.out.println("What dish would you like to make today? Available commands:");
+        showRecipeBookCommands();
+    }
+
+    public static void showWelcomeCommands() {
+        System.out.println("- inventory -> View and manage your inventory");
+        System.out.println("- recipe -> View and manage your recipes");
+        System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
+    }
+
+    public static void showInventoryCommands() {
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- find [name] -> Find an ingredient in inventory");
         System.out.println("- add [item] [qty] -> Add ingredients to inventory");
@@ -112,15 +140,10 @@ public class Ui {
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
     }
 
-    /**
-     * Displays help and commands for managing a specific recipe's ingredients.
-     */
-    private void showRecipeMessage() {
-        Recipe activeRecipe = KitchenCTRL.getActiveRecipe();
-        System.out.println("You're now viewing a specific RECIPE: " + activeRecipe.getRecipeName());
-        System.out.println("Manage the ingredients for this recipe. Available commands:");
+    public static void showRecipeCommands() {
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- find [name] -> Find an ingredient in the recipe");
         System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");
@@ -128,14 +151,10 @@ public class Ui {
         System.out.println("- delete [item] [qty] -> Remove an ingredient from the recipe");
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
     }
 
-    /**
-     * Displays help and commands for the RECIPE screen.
-     */
-    private void showRecipeBookMessage() {
-        System.out.println("You're now in the RECIPEBOOK screen.");
-        System.out.println("What dish would you like to make today? Available commands:");
+    public static void showRecipeBookCommands() {
         System.out.println("- list -> Show all recipes");
         System.out.println("- find [name] -> Find a recipe");
         System.out.println("- add [name] -> Add a new recipe");
@@ -144,6 +163,7 @@ public class Ui {
         System.out.println("- cook [name] -> Cook a recipe, or find missing ingredients to cook it");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
     }
 
     /**

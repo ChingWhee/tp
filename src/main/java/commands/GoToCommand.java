@@ -1,6 +1,7 @@
 package commands;
 
 import controller.ScreenState;
+import ui.inputparser.Ui;
 
 /**
  * Represents a command to switch from the current screen to another target {@link ScreenState}.
@@ -28,6 +29,7 @@ public class GoToCommand extends Command {
      */
     @Override
     public CommandResult execute() {
+        Ui.showScreenPrompt(screen);
         return new CommandResult(this.screen);
     }
 }
