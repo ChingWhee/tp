@@ -8,7 +8,7 @@ import model.catalogue.Catalogue;
 import model.catalogue.Recipe;
 import model.catalogue.Inventory;
 import model.Ingredient;
-import model.catalogue.RecipeBook;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
