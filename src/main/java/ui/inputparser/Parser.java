@@ -11,7 +11,6 @@ import commands.FindCommand;
 import commands.ListCommand;
 import commands.GoToCommand;
 import commands.EditRecipeCommand;
-import commands.UpdateCommand;
 import commands.ListCommandsCommand;
 
 import controller.KitchenCTRL;
@@ -122,7 +121,6 @@ public class Parser {
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
         case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
-        case "update" -> prepareUpdate(args); // Update quantity of an ingredient
         case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
         case "list" -> prepareList();           // List all ingredients in the recipe
         case "find" -> new FindCommand(args);
@@ -181,24 +179,7 @@ public class Parser {
         return quantity;
     }
 
-    /**
-     * Prepares an UpdateCommand to change the quantity of an ingredient in a recipe.
-     *
-     * @param args The arguments for the update command in the format: &lt;name&gt; &lt;newQuantity&gt;
-     * @return An UpdateCommand with the specified ingredient and new quantity.
-     * @throws IllegalArgumentException If arguments are missing or incorrectly formatted.
-     */
-    private Command prepareUpdate(String args) {
-        String[] parts = args.split(" ", 2);
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: update <ingredientName> <newQuantity>");
-        }
 
-        String name = parts[0].trim();
-
-        int newQuantity = parseQuantity(parts[1].trim());
-        return new UpdateCommand(name, newQuantity);
-    }
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.
