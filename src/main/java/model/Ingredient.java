@@ -5,6 +5,12 @@ public class Ingredient {
     private int quantity;
 
     public Ingredient(String ingredientName, int quantity) {
+        if (ingredientName == null || ingredientName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingredient name cannot be null or empty.");
+        }
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be a positive integer.");
+        }
         this.ingredientName = ingredientName;
         this.quantity = quantity;
     }
@@ -33,27 +39,40 @@ public class Ingredient {
         return ingredientName + " (" + quantity + ")";
     }
 
-    public String getIngredientName() {
-        return ingredientName;
-    }
+    public String getIngredientName() { return ingredientName; }
 
     public void setIngredientName(String ingredientName) {
+        if (ingredientName == null || ingredientName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Ingredient name cannot be null or empty.");
+        }
         this.ingredientName = ingredientName;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be positive.");
+        }
+        this.quantity = quantity;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     public void addQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity to add must be positive.");
+        }
         this.quantity += quantity;
     }
 
     public void subtractQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity to subtract must be positive.");
+        }
+        if (this.quantity - quantity < 0) {
+            throw new IllegalArgumentException("Insufficient quantity to subtract.");
+        }
         this.quantity -= quantity;
     }
 }

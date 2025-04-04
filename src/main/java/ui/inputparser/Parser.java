@@ -151,6 +151,7 @@ public class Parser {
 
             String name = parts[0].trim();
             int quantity = parseQuantity(parts[1].trim());
+
             return new AddCommand(name, quantity);
         }
         case RECIPEBOOK -> {
@@ -194,6 +195,7 @@ public class Parser {
         }
 
         String name = parts[0].trim();
+
         int newQuantity = parseQuantity(parts[1].trim());
         return new UpdateCommand(name, newQuantity);
     }
@@ -227,6 +229,7 @@ public class Parser {
 
             String name = parts[0].trim();
             int quantity = parseQuantity(parts[1].trim());
+
             return new DeleteCommand(name, quantity);
         }
 
