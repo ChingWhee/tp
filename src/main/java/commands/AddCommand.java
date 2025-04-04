@@ -70,29 +70,29 @@ public class AddCommand extends Command {
 
         try {
             return switch (KitchenCTRL.getCurrentScreen()) {
-                case INVENTORY -> {
-                    if (catalogue instanceof Inventory inventory) {
-                        Ingredient ingredient = new Ingredient(name, quantity);
-                        yield inventory.addItem(ingredient);
-                    }
-                    yield new CommandResult("Invalid catalogue for inventory operation.", null);
+            case INVENTORY -> {
+                if (catalogue instanceof Inventory inventory) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield inventory.addItem(ingredient);
                 }
-                case RECIPEBOOK -> {
-                    if (catalogue instanceof RecipeBook recipeBook) {
-                        Recipe recipe = new Recipe(name);
-                        yield recipeBook.addItem(recipe);
-                    }
-                    yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+                yield new CommandResult("Invalid catalogue for inventory operation.", null);
+            }
+            case RECIPEBOOK -> {
+                if (catalogue instanceof RecipeBook recipeBook) {
+                    Recipe recipe = new Recipe(name);
+                    yield recipeBook.addItem(recipe);
                 }
-                case RECIPE -> {
-                    requireActiveRecipe();
-                    if (catalogue instanceof Recipe recipe) {
-                        Ingredient ingredient = new Ingredient(name, quantity);
-                        yield recipe.addItem(ingredient);
-                    }
-                    yield new CommandResult("Invalid catalogue for recipe operation.", null);
+                yield new CommandResult("Invalid catalogue for recipe book operation.", null);
+            }
+            case RECIPE -> {
+                requireActiveRecipe();
+                if (catalogue instanceof Recipe recipe) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield recipe.addItem(ingredient);
                 }
-                default -> new CommandResult("Unsupported screen state for AddCommand.", null);
+                yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            }
+            default -> new CommandResult("Unsupported screen state for AddCommand.", null);
             };
         } catch (ClassCastException e) {
             return new CommandResult("Catalogue type mismatch: " + e.getMessage(), null);
