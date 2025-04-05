@@ -136,8 +136,10 @@ public class Ui {
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- find [name] -> Find ingredient(s) in inventory");
         System.out.println("- add [item] [qty] -> Add ingredient(s) to inventory");
-        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from inventory based on qty specified");//for removing used ingredients manually or wrongly named ingredients
-        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");//directly set qty of specified ingredient
+        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from inventory based on qty specified");
+        //for removing used ingredients manually or wrongly named ingredients
+        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");
+        //directly set qty of specified ingredient
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
