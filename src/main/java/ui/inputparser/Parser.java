@@ -66,31 +66,31 @@ public class Parser {
         String args = (parts.length > 1) ? parts[1].trim() : "";
 
         return switch (command) {
-            case "inventory" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`inventory` command should not have extra input.");
-                }
-                yield prepareGoto(ScreenState.INVENTORY);
+        case "inventory" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`inventory` command should not have extra input.");
             }
-            case "recipe" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`recipe` command should not have extra input.");
-                }
-                yield prepareGoto(ScreenState.RECIPEBOOK);
+            yield prepareGoto(ScreenState.INVENTORY);
+        }
+        case "recipe" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`recipe` command should not have extra input.");
             }
-            case "bye" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`bye` command should not have extra input.");
-                }
-                yield prepareBye();
+            yield prepareGoto(ScreenState.RECIPEBOOK);
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
             }
-            case "help" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`help` command should not have extra input.");
-                }
-                yield new ListCommandsCommand(ScreenState.WELCOME);
+            yield prepareBye();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
             }
-            default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
+            yield new ListCommandsCommand(ScreenState.WELCOME);
+        }
+        default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
         };
     }
 
@@ -104,46 +104,40 @@ public class Parser {
      */
     private Command parseInventoryCommand(String command, String args) {
         return switch (command) {
-            case "add" -> prepareAdd(args);
-            case "delete" -> prepareDelete(args);
-            case "find" -> new FindCommand(args);
-
-            case "list" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`list` command should not have extra input.");
-                }
-                yield prepareList();
+        case "add" -> prepareAdd(args);
+        case "delete" -> prepareDelete(args);
+        case "find" -> new FindCommand(args);
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
             }
-
-            case "cookable" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`cookable` command should not have extra input.");
-                }
-                yield new CookableRecipesCommand();
+            yield prepareList();
+        }
+        case "cookable" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`cookable` command should not have extra input.");
             }
-
-            case "help" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`help` command should not have extra input.");
-                }
-                yield new ListCommandsCommand(ScreenState.INVENTORY);
+            yield new CookableRecipesCommand();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
             }
-
-            case "back" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`back` command should not have extra input.");
-                }
-                yield prepareBack();
+            yield new ListCommandsCommand(ScreenState.INVENTORY);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
             }
-
-            case "bye" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`bye` command should not have extra input.");
-                }
-                yield prepareBye();
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
             }
-
-            default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
+            yield prepareBye();
+        }
+        default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
 
@@ -157,41 +151,36 @@ public class Parser {
      */
     private Command parseRecipeBookCommand(String command, String args) {
         return switch (command) {
-            case "add" -> prepareAdd(args);
-            case "delete" -> prepareDelete(args);
-            case "find" -> new FindCommand(args);
-            case "cook" -> prepareCook(args);
-            case "edit" -> new EditRecipeCommand(args);
-
-            case "list" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`list` command should not have extra input.");
-                }
-                yield prepareList();
+        case "add" -> prepareAdd(args);
+        case "delete" -> prepareDelete(args);
+        case "find" -> new FindCommand(args);
+        case "cook" -> prepareCook(args);
+        case "edit" -> new EditRecipeCommand(args);
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
             }
-
-            case "help" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`help` command should not have extra input.");
-                }
-                yield new ListCommandsCommand(ScreenState.RECIPEBOOK);
+            yield prepareList();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
             }
-
-            case "back" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`back` command should not have extra input.");
-                }
-                yield prepareBack();
+            yield new ListCommandsCommand(ScreenState.RECIPEBOOK);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
             }
-
-            case "bye" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`bye` command should not have extra input.");
-                }
-                yield new ByeCommand();
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
             }
-
-            default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
+            yield new ByeCommand();
+        }
+        default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }
 
@@ -205,40 +194,35 @@ public class Parser {
      */
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
-            case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
-            case "edit" -> prepareEdit(args);
-            case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
-            case "find" -> new FindCommand(args);     // Requires args: find <keyword>
-
-            case "list" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`list` command should not have extra input.");
-                }
-                yield prepareList();
+        case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
+        case "edit" -> prepareEdit(args);
+        case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
+        case "find" -> new FindCommand(args);     // Requires args: find <keyword>
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
             }
-
-            case "help" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`help` command should not have extra input.");
-                }
-                yield new ListCommandsCommand(ScreenState.RECIPE);
+            yield prepareList();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
             }
-
-            case "back" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`back` command should not have extra input.");
-                }
-                yield prepareBack();
+            yield new ListCommandsCommand(ScreenState.RECIPE);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
             }
-
-            case "bye" -> {
-                if (!args.isEmpty()) {
-                    throw new IllegalArgumentException("`bye` command should not have extra input.");
-                }
-                yield new ByeCommand();
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
             }
-
-            default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
+            yield new ByeCommand();
+        }
+        default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
         };
     }
 
