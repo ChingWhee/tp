@@ -85,8 +85,8 @@ public class Recipe extends IngredientCatalogue {
             Ingredient ingredient = items.get(i);
             result.append(i + 1).append(". ")
                     .append(ingredient.getQuantity()).append("x ")
-                    .append(ingredient.getIngredientName() == null ? "[Unnamed Ingredient]" : ingredient.getIngredientName())
-                    .append("\n");
+                    .append(ingredient.getIngredientName() == null ? "[Unnamed Ingredient]" : ingredient
+                    .getIngredientName()).append("\n");
         }
         return new CommandResult(result.toString().trim());
     }

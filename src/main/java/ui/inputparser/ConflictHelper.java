@@ -9,9 +9,9 @@ import java.util.Scanner;
 /**
  * Handles user input parsing for selecting items when adding or deleting ingredients in the inventory.
  */
-public class InputParser {
+public class ConflictHelper {
     private static Scanner scanner = new Scanner(System.in);
-    InputParser() {}
+    ConflictHelper() {}
 
     public static void setScanner(Scanner testScanner) {
         scanner = testScanner;

@@ -2,7 +2,7 @@ package model.catalogue;
 
 import commands.CommandResult;
 import model.Ingredient;
-import ui.inputparser.InputParser;
+import ui.inputparser.ConflictHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,13 +96,14 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
                 return addIngredient(ingredient);
             }
 
-            if (similarIngredient.size() == SINGLE_MATCH) {
-                if (isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
-                    return increaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
+            // Check for an exact match first
+            for (Ingredient existingIngredient : similarIngredient) {
+                if (isExactMatchFound(existingIngredient, ingredient)) {
+                    return increaseQuantity(existingIngredient, ingredient);
                 }
             }
 
-            int choice = InputParser.getUserChoiceForAddIngredient(similarIngredient, ingredient);
+            int choice = ConflictHelper.getUserChoiceForAddIngredient(similarIngredient, ingredient);
             if (choice == 0) {
                 return addIngredient(ingredient);
             } else if (choice > 0 && choice <= similarIngredient.size()) {
@@ -161,12 +162,14 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
                     + " does not exist in the " + getCatalogueLabel() + ".");
         }
 
-        if (similarIngredient.size() == SINGLE_MATCH &&
-                isExactMatchFound(similarIngredient.get(FIRST_ITEM_INDEX), ingredient)) {
-            return decreaseQuantity(similarIngredient.get(FIRST_ITEM_INDEX), ingredient);
+        // Check for an exact match first
+        for (Ingredient existingIngredient : similarIngredient) {
+            if (isExactMatchFound(existingIngredient, ingredient)) {
+                return decreaseQuantity(existingIngredient, ingredient);
+            }
         }
 
-        int choice = InputParser.getUserChoiceForDeleteIngredient(similarIngredient, ingredient);
+        int choice = ConflictHelper.getUserChoiceForDeleteIngredient(similarIngredient, ingredient);
 
         if (choice > 0 && choice <= similarIngredient.size()) {
             return decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
