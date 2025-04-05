@@ -1,7 +1,7 @@
 package model.catalogue;
 
 import commands.CommandResult;
-import ui.inputparser.InputParser;
+import ui.inputparser.ConflictHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -117,7 +117,7 @@ public class RecipeBook extends Catalogue<Recipe> {
             return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
         }
 
-        int choice = InputParser.getUserChoiceForAddRecipe(similarRecipe, recipe);
+        int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipe, recipe);
         if (choice == 0) {
             addRecipe(recipe);
             return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
@@ -162,7 +162,7 @@ public class RecipeBook extends Catalogue<Recipe> {
             return new CommandResult(recipeName + " removed from recipe book.");
         }
 
-        int choice = InputParser.getUserChoiceForDeleteRecipe(similarRecipe, recipe);
+        int choice = ConflictHelper.getUserChoiceForDeleteRecipe(similarRecipe, recipe);
         if (choice > 0 && choice <= similarRecipe.size()) {
             removeRecipe(similarRecipe.get(choice - 1));
             return new CommandResult(recipeName + " removed from recipe book.");

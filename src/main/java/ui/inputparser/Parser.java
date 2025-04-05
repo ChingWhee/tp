@@ -7,13 +7,12 @@ import commands.Command;
 import commands.CookRecipeCommand;
 import commands.CookableRecipesCommand;
 import commands.DeleteCommand;
-import commands.FindCommand;
-import commands.ListCommand;
-import commands.GoToCommand;
+import commands.EditIngredientCommand;
 import commands.EditRecipeCommand;
-import commands.UpdateCommand;
+import commands.FindCommand;
+import commands.GoToCommand;
+import commands.ListCommand;
 import commands.ListCommandsCommand;
-
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -259,14 +258,14 @@ public class Parser {
                 throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
             }
 
-            String name = parts[0].trim();
+            String name = parseName(parts[0].trim());
             int quantity = parseQuantity(parts[1].trim());
 
             return new AddCommand(name, quantity);
         }
         case RECIPEBOOK -> {
             // Expecting: add <recipeName>
-            String name = args.trim();
+            String name = parseName(args.trim());
             if (name.isEmpty()) {
                 throw new IllegalArgumentException("Recipe name cannot be empty!");
             }
@@ -291,24 +290,40 @@ public class Parser {
         return quantity;
     }
 
-    /**
-     * Prepares an UpdateCommand to change the quantity of an ingredient in a recipe.
-     *
-     * @param args The arguments for the update command in the format: &lt;name&gt; &lt;newQuantity&gt;
-     * @return An UpdateCommand with the specified ingredient and new quantity.
-     * @throws IllegalArgumentException If arguments are missing or incorrectly formatted.
-     */
-    private Command prepareUpdate(String args) {
-        String[] parts = args.split(" ", 2);
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: update <ingredientName> <newQuantity>");
+    private static String parseName(String nameStr) {
+        // Accepts any visible Unicode characters except backslash and control characters
+        if (!nameStr.matches("^[\\P{Cntrl}&&[^\\\\]]{1,100}$")) {
+            throw new IllegalArgumentException("Name contains invalid or disallowed characters!");
         }
 
-        String name = parts[0].trim();
-
-        int newQuantity = parseQuantity(parts[1].trim());
-        return new UpdateCommand(name, newQuantity);
+        return nameStr;
     }
+
+    private Command prepareEdit(String args) {
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
+
+        switch (KitchenCTRL.getCurrentScreen()) {
+        case INVENTORY, RECIPE -> {
+            // Expected format: edit <name> <newQuantity>
+            String[] parts = args.split(" ", 2);
+            if (parts.length < 2) {
+                throw new IllegalArgumentException("Invalid format! Usage: edit <name> <newQuantity>");
+            }
+
+            String name = parseName(parts[0].trim());
+            int newQuantity = parseQuantity(parts[1].trim());
+
+            return new EditIngredientCommand(name, newQuantity);
+        }
+
+        default -> throw new IllegalArgumentException(
+            "Edit command is not supported in screen: " + currentScreenName);
+        }
+    }
+
+
+
+
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.
@@ -323,7 +338,7 @@ public class Parser {
         switch (KitchenCTRL.getCurrentScreen()) {
         case RECIPEBOOK -> {
             // RECIPEBOOK expects only the recipe name
-            String name = args.trim();
+            String name = parseName(args.trim());
             if (name.isEmpty()) {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
             }
@@ -337,7 +352,7 @@ public class Parser {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
             }
 
-            String name = parts[0].trim();
+            String name = parseName(parts[0].trim());
             int quantity = parseQuantity(parts[1].trim());
 
             return new DeleteCommand(name, quantity);
@@ -398,7 +413,7 @@ public class Parser {
      * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
      */
     private Command prepareCook(String args) {
-        String name = args.trim();
+        String name = parseName(args.trim());
         if (name.isEmpty()) {
             throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>");
         }
@@ -408,7 +423,7 @@ public class Parser {
 
         Recipe targetRecipe;
 
-        String targetRecipeName = args.trim();
+        String targetRecipeName = parseName(args.trim());
         targetRecipe = recipeBook.getItemByName(targetRecipeName);
 
         if (targetRecipe == null) {
