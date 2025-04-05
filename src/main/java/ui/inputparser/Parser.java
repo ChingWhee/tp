@@ -199,7 +199,7 @@ public class Parser {
     /**
      * Parses commands specific to a selected recipe (ingredient management).
      *
-     * @param command The command keyword (add, update, delete, list, back, bye).
+     * @param command The command keyword (add, edit, delete, list, back, bye).
      * @param args    Arguments passed with the command.
      * @return A Command object for the recipe ingredient action.
      * @throws IllegalArgumentException If the command is unknown or malformed.
@@ -207,7 +207,7 @@ public class Parser {
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
             case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
-            case "update" -> prepareUpdate(args);     // Requires args: update <ingredient> <qty>
+            case "edit" -> new EditRecipeCommand(args);
             case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
             case "find" -> new FindCommand(args);     // Requires args: find <keyword>
 
