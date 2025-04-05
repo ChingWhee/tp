@@ -161,8 +161,8 @@ public class Ui {
         System.out.println("- list -> Show all recipes");
         System.out.println("- find [name] -> Find recipe(s) matching search string");
         System.out.println("- add [name] -> Add a new recipe");
-        System.out.println("- delete [name] -> Delete a recipe");
-        System.out.println("- edit [name] -> edit a recipe");
+        System.out.println("- delete [name] -> Delete an existing recipe specified by [name]");
+        System.out.println("- edit [name] -> edit an existing recipe specified by [name]");
         System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
         //user cooks the recipe, prints out list of items required, and system automatically removes
         //to view again, view from recipe tab

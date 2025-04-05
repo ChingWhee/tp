@@ -112,7 +112,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
 
             return new CommandResult("Operation canceled.");
         } catch (Exception e) {
-            return new CommandResult("Unexpected error adding ingredient: " + e.getMessage());
+            return new CommandResult("Error adding ingredient: " + e.getMessage());
         }
     }
 
@@ -293,7 +293,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
 
             return new CommandResult("Operation canceled.");
         } catch (Exception e) {
-            return new CommandResult("Unexpected error editing ingredient: " + e.getMessage());
+            return new CommandResult("Error editing ingredient: " + e.getMessage());
         }
     }
 

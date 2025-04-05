@@ -97,7 +97,7 @@ public class DeleteCommand extends Command {
         } catch (IllegalArgumentException e) {
             return new CommandResult("Invalid argument: " + e.getMessage(), null);
         } catch (Exception e) {
-            return new CommandResult("Unexpected error occurred: " + e.getMessage(), null);
+            return new CommandResult("Error occurred: " + e.getMessage(), null);
         }
     }
 }

@@ -20,6 +20,9 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ui.inputparser.Parser.parseName;
+import static ui.inputparser.Parser.parseQuantity;
+
 /**
  * Handles loading and saving operations for various catalogue-related data structures,
  * such as {@link Inventory} and {@link RecipeBook}.
@@ -28,9 +31,9 @@ import java.util.regex.Pattern;
  * for serializing/deserializing data from/to plain text files.
  */
 public class CatalogueContentManager {
-    private String directoryName = "data";
-    private String inventoryFileName = "inventory.txt";
-    private String recipeBookFileName = "recipe_book.txt";
+    private final String directoryName = "data";
+    private final String inventoryFileName = "inventory.txt";
+    private final String recipeBookFileName = "recipe_book.txt";
 
     private Path basePath = Paths.get(directoryName);
     private Path inventoryFilePath = basePath.resolve(inventoryFileName);
@@ -75,8 +78,8 @@ public class CatalogueContentManager {
             String[] parts = line.split("\\s*\\(\\s*|\\s*\\)\\s*");
             if (parts.length == 2) {
                 try {
-                    String itemName = parts[0].trim();
-                    int quantity = Integer.parseInt(parts[1].trim());
+                    String itemName = parseName(parts[0].trim());
+                    int quantity = parseQuantity(parts[1].trim());
                     Ingredient i = new Ingredient(itemName, quantity);
                     ingredientCatalogue.addItem(i);
                 } catch (NumberFormatException e) {
@@ -124,13 +127,13 @@ public class CatalogueContentManager {
                 currentRecipeName = line;
             } else {
                 // Ingredient line: Inline parsing
-                String regex = "^(.*)\\s\\((\\d+)\\)$";  // Match ingredient (quantity) format
+                String regex = "^(.+?)\\s*\\((\\d+)\\)$";// Match ingredient (quantity) format
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(line);
 
                 if (matcher.matches()) {
-                    String ingredientName = matcher.group(1);  // Ingredient name
-                    int quantity = Integer.parseInt(matcher.group(2));  // Ingredient quantity
+                    String ingredientName = parseName(matcher.group(1));  // Ingredient name
+                    int quantity = parseQuantity(matcher.group(2));  // Ingredient quantity
                     currentIngredients.add(new Ingredient(ingredientName, quantity));
                 } else {
                     // Handle invalid format if necessary

@@ -195,7 +195,7 @@ public class RecipeBook extends Catalogue<Recipe> {
 
             return new CommandResult("Operation canceled.");
         } catch (Exception e) {
-            return new CommandResult("Unexpected error deleting recipe: " + e.getMessage());
+            return new CommandResult("Error deleting recipe: " + e.getMessage());
         }
     }
 

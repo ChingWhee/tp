@@ -55,7 +55,7 @@ public class ConflictHelper {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = parseQuantity(scanner.nextLine().trim());
 
                 // Ensure input is within the valid range
                 if (choice >= -1 && choice <= similarIngredient.size()) {
@@ -64,8 +64,8 @@ public class ConflictHelper {
                     System.out.println("Invalid input. Please enter a number between -1 and "
                             + similarIngredient.size() + ".");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input: " + e.getMessage());
             }
         }
     }
@@ -93,7 +93,7 @@ public class ConflictHelper {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = parseQuantity(scanner.nextLine().trim());
 
                 // Ensure input is within the valid range
                 if ((choice >= 1 && choice <= similarIngredient.size()) || choice == -1) {
@@ -102,8 +102,8 @@ public class ConflictHelper {
                     System.out.println("Invalid input. Please enter -1 or a number between 1 and "
                             + similarIngredient.size() + ".");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input: " + e.getMessage());
             }
         }
     }
@@ -131,7 +131,7 @@ public class ConflictHelper {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = parseQuantity(scanner.nextLine().trim());
 
                 // Ensure input is within the valid range
                 if (choice == -1 || choice == 0) {
@@ -139,8 +139,8 @@ public class ConflictHelper {
                 } else {
                     System.out.println("Invalid input. Please enter 0 or -1.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input: " + e.getMessage());
             }
         }
     }
@@ -166,7 +166,7 @@ public class ConflictHelper {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = parseQuantity(scanner.nextLine().trim());
 
                 // Ensure input is within the valid range
                 if ((choice >= 1 && choice <= similarRecipe.size()) || choice == -1) {
@@ -175,8 +175,8 @@ public class ConflictHelper {
                     System.out.println("Invalid input. Please enter -1 or a number between 1 and "
                             + similarRecipe.size() + ".");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input: " + e.getMessage());
             }
         }
     }
@@ -196,7 +196,7 @@ public class ConflictHelper {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
+                int choice = parseQuantity(scanner.nextLine().trim());
 
                 // Ensure input is within the valid range
                 if ((choice >= 1 && choice <= similarIngredient.size()) || choice == -1) {
@@ -205,10 +205,19 @@ public class ConflictHelper {
                     System.out.println("Invalid input. Please enter -1 or a number between 1 and "
                             + similarIngredient.size() + ".");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input: " + e.getMessage());
             }
+
         }
+    }
+    private static int parseQuantity(String quantityStr) {
+        // Regex only accepts optional negative sign, followed by digits (no plus sign, letters, or whitespace)
+        if (!quantityStr.matches("^-?\\d+$")) {
+            throw new IllegalArgumentException("Quantity must be a valid integer (e.g., 0, -5, 123). " +
+                "No '+', letters, or spaces allowed.");
+        }
+        return Integer.parseInt(quantityStr);
     }
 
 }
