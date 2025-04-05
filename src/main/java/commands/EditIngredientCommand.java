@@ -42,22 +42,22 @@ public class EditIngredientCommand extends Command {
 
         try {
             return switch (KitchenCTRL.getCurrentScreen()) {
-                case INVENTORY -> {
-                    if (catalogue instanceof Inventory inventory) {
-                        Ingredient ingredient = new Ingredient(name, quantity);
-                        yield inventory.editItem(ingredient);
-                    }
-                    yield new CommandResult("Invalid catalogue for inventory edit.", null);
+            case INVENTORY -> {
+                if (catalogue instanceof Inventory inventory) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield inventory.editItem(ingredient);
                 }
-                case RECIPE -> {
-                    requireActiveRecipe();
-                    if (catalogue instanceof Recipe recipe) {
-                        Ingredient ingredient = new Ingredient(name, quantity);
-                        yield recipe.editItem(ingredient);
-                    }
-                    yield new CommandResult("Invalid catalogue for recipe edit.", null);
+                yield new CommandResult("Invalid catalogue for inventory edit.", null);
+            }
+            case RECIPE -> {
+                requireActiveRecipe();
+                if (catalogue instanceof Recipe recipe) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield recipe.editItem(ingredient);
                 }
-                default -> new CommandResult("Editing is only allowed in Inventory or Recipe screens.", null);
+                yield new CommandResult("Invalid catalogue for recipe edit.", null);
+            }
+            default -> new CommandResult("Editing is only allowed in Inventory or Recipe screens.", null);
             };
         } catch (ClassCastException e) {
             return new CommandResult("Catalogue type mismatch: " + e.getMessage(), null);

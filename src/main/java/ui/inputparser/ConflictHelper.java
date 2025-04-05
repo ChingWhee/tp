@@ -18,10 +18,10 @@ public class ConflictHelper {
         ScreenState screen = controller.KitchenCTRL.getCurrentScreen();
 
         return switch (screen) {
-            case INVENTORY -> "inventory";
-            case RECIPEBOOK -> "recipe book";
-            case RECIPE -> "recipe";
-            case WELCOME, EXIT, INVALID -> "application"; // fallback case
+        case INVENTORY -> "inventory";
+        case RECIPEBOOK -> "recipe book";
+        case RECIPE -> "recipe";
+        case WELCOME, EXIT, INVALID -> "application"; // fallback case
         };
     }
 

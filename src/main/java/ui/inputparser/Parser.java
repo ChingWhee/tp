@@ -1,7 +1,18 @@
 package ui.inputparser;
 
-import commands.*;
-
+import commands.AddCommand;
+import commands.BackCommand;
+import commands.ByeCommand;
+import commands.Command;
+import commands.CookRecipeCommand;
+import commands.CookableRecipesCommand;
+import commands.DeleteCommand;
+import commands.EditIngredientCommand;
+import commands.EditRecipeCommand;
+import commands.FindCommand;
+import commands.GoToCommand;
+import commands.ListCommand;
+import commands.ListCommandsCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -183,22 +194,21 @@ public class Parser {
         String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
 
         switch (KitchenCTRL.getCurrentScreen()) {
-            case INVENTORY, RECIPE -> {
-                // Expected format: edit <name> <newQuantity>
-                String[] parts = args.split(" ", 2);
-                if (parts.length < 2) {
-                    throw new IllegalArgumentException("Invalid format! Usage: edit <name> <newQuantity>");
-                }
-
-                String name = parseName(parts[0].trim());
-                int newQuantity = parseQuantity(parts[1].trim());
-
-                return new EditIngredientCommand(name, newQuantity);
+        case INVENTORY, RECIPE -> {
+            // Expected format: edit <name> <newQuantity>
+            String[] parts = args.split(" ", 2);
+            if (parts.length < 2) {
+                throw new IllegalArgumentException("Invalid format! Usage: edit <name> <newQuantity>");
             }
 
-            default -> throw new IllegalArgumentException(
-                    "Edit command is not supported in screen: " + currentScreenName
-            );
+            String name = parseName(parts[0].trim());
+            int newQuantity = parseQuantity(parts[1].trim());
+
+            return new EditIngredientCommand(name, newQuantity);
+        }
+
+        default -> throw new IllegalArgumentException(
+            "Edit command is not supported in screen: " + currentScreenName);
         }
     }
 
