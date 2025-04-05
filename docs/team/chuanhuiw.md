@@ -40,6 +40,7 @@ Given below are my contributions to the project:
 * **Community**:
     * PRs reviewed (with suggestions and feedback):
         * [\#50](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/50), [\#35](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/35)
+        * [\#93](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/93)
 
 * **Tools**:
     * Integrated test cases with JUnit 5 and followed Checkstyle coding standards.
