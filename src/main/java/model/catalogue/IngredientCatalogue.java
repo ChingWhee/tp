@@ -236,4 +236,71 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
     public CommandResult findItem(String query) {
         return super.findItem(query, Ingredient::getIngredientName);
     }
+
+    private CommandResult adjustQuantity(Ingredient existing, int newQuantity) {
+        int currentQuantity = existing.getQuantity();
+
+        if (newQuantity == currentQuantity) {
+            return new CommandResult("No changes made: Quantity is already " + newQuantity + ".");
+        } else if (newQuantity > currentQuantity) {
+            int increaseAmount = newQuantity - currentQuantity;
+            Ingredient deltaIngredient = new Ingredient(existing.getIngredientName(), increaseAmount);
+            return increaseQuantity(existing, deltaIngredient);
+        } else {
+            int decreaseAmount = currentQuantity - newQuantity;
+            Ingredient deltaIngredient = new Ingredient(existing.getIngredientName(), decreaseAmount);
+            return decreaseQuantity(existing, deltaIngredient);
+        }
+    }
+
+
+    public CommandResult editItem(Ingredient ingredient) {
+        try {
+            if (ingredient == null) {
+                return new CommandResult("Invalid ingredient: Ingredient is null.");
+            }
+
+            String name = ingredient.getIngredientName();
+            if (name == null || name.trim().isEmpty()) {
+                return new CommandResult("Invalid ingredient: name must be non-empty.");
+            }
+
+            int newQuantity = ingredient.getQuantity();
+            if (newQuantity < 0) {
+                return new CommandResult("Invalid ingredient: quantity must be zero or more.");
+            }
+
+            ArrayList<Ingredient> similarIngredients = searchSimilarIngredient(ingredient);
+
+            if (similarIngredients.isEmpty()) {
+                return new CommandResult(name + " does not exist in the " + getCatalogueLabel() + ".");
+            }
+
+            // Exact match first
+            for (Ingredient existing : similarIngredients) {
+                if (isExactMatchFound(existing, ingredient)) {
+                    return adjustQuantity(existing, newQuantity);
+                }
+            }
+
+            // Let user choose which one to edit
+            int choice = ConflictHelper.getUserChoiceForEditIngredient(similarIngredients, ingredient);
+
+            if (choice > 0 && choice <= similarIngredients.size()) {
+                Ingredient selected = similarIngredients.get(choice - 1);
+                return adjustQuantity(selected, newQuantity);
+            }
+
+            return new CommandResult("Operation canceled.");
+        } catch (Exception e) {
+            return new CommandResult("Unexpected error editing ingredient: " + e.getMessage());
+        }
+    }
+
+
+
+
+
 }
+
+

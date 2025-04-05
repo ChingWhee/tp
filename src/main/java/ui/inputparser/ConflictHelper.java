@@ -1,5 +1,6 @@
 package ui.inputparser;
 
+import controller.ScreenState;
 import model.Ingredient;
 import model.catalogue.Recipe;
 
@@ -13,9 +14,22 @@ public class ConflictHelper {
     private static Scanner scanner = new Scanner(System.in);
     ConflictHelper() {}
 
+    private static String getContextLabel() {
+        ScreenState screen = controller.KitchenCTRL.getCurrentScreen();
+
+        return switch (screen) {
+            case INVENTORY -> "inventory";
+            case RECIPEBOOK -> "recipe book";
+            case RECIPE -> "recipe";
+            case WELCOME, EXIT, INVALID -> "application"; // fallback case
+        };
+    }
+
+
     public static void setScanner(Scanner testScanner) {
         scanner = testScanner;
     }
+
     /**
      * Asks the user what to do when adding an ingredient that has similar items in the inventory.
      *
@@ -27,7 +41,8 @@ public class ConflictHelper {
      *         - -1 to cancel the action.
      */
     public static int getUserChoiceForAddIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newIngredient) {
-        System.out.println("Similar items found in inventory for: " + newIngredient.getIngredientName());
+        String contextLabel = getContextLabel();
+        System.out.println("Similar items found in " + contextLabel + " for: " + newIngredient.getIngredientName());
 
         // Print the list of similar items with corresponding numbers
         System.out.println("Type '0' to add this as a new item.");
@@ -65,7 +80,8 @@ public class ConflictHelper {
      *         - -1 to cancel the action.
      */
     public static int getUserChoiceForDeleteIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newItem) {
-        System.out.println("Similar items found in inventory for: " + newItem.getIngredientName());
+        String contextLabel = getContextLabel();
+        System.out.println("Similar items found in " + contextLabel + " for: " + newItem.getIngredientName());
 
         // Print the list of similar items with corresponding numbers
         System.out.println("Select an existing item to decrease its quantity:");
@@ -164,4 +180,35 @@ public class ConflictHelper {
             }
         }
     }
+
+
+    public static int getUserChoiceForEditIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newItem) {
+        String contextLabel = getContextLabel();
+        System.out.println("Similar items found in " + contextLabel + " for: " + newItem.getIngredientName());
+
+        // Print the list of similar items with corresponding numbers
+        System.out.println("Select an existing item to update its quantity:");
+        for (int i = 0; i < similarIngredient.size(); i++) {
+            System.out.println("Type '" + (i + 1) + "' to edit: " + similarIngredient.get(i));
+        }
+        System.out.println("Type '-1' to cancel this action.");
+
+        while (true) {
+            System.out.print("Enter your choice: ");
+            try {
+                int choice = Integer.parseInt(scanner.nextLine().trim());
+
+                // Ensure input is within the valid range
+                if ((choice >= 1 && choice <= similarIngredient.size()) || choice == -1) {
+                    return choice;
+                } else {
+                    System.out.println("Invalid input. Please enter -1 or a number between 1 and "
+                            + similarIngredient.size() + ".");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
 }
