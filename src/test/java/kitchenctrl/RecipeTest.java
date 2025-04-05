@@ -8,7 +8,10 @@ import commands.CommandResult;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RecipeTest {
     private Recipe emptyRecipe;
@@ -51,13 +54,13 @@ public class RecipeTest {
     }
 
     @Test
-    public void testAddIngredient_NewItem() {
+    public void testAddIngredientNewItem() {
         CommandResult result = namedRecipe.addItem(ingredient1);
         assertTrue(result.getFeedbackToUser().contains("2x Flour added to recipe"));
     }
 
     @Test
-    public void testListItems_WithIngredients() {
+    public void testListItemsWithIngredients() {
         namedRecipe.addItem(ingredient1);
         namedRecipe.addItem(ingredient2);
 
@@ -85,7 +88,7 @@ public class RecipeTest {
     }
 
     @Test
-    public void testGetItemByName_CaseInsensitive() {
+    public void testGetItemByNameCaseInsensitive    () {
         namedRecipe.addItem(ingredient1);
         Ingredient result = namedRecipe.getItemByName("flOuR");
 

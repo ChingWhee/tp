@@ -8,7 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IngredientCatalogueTest {
 
@@ -40,19 +44,19 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testAddValidIngredient_New() {
+    public void testAddValidIngredientNew() {
         CommandResult result = catalogue.addItem(flour);
         assertEquals("2x Flour added to test.", result.getFeedbackToUser());
     }
 
     @Test
-    public void testAddInvalidIngredient_Null() {
+    public void testAddInvalidIngredientNull() {
         CommandResult result = catalogue.addItem(null);
         assertTrue(result.getFeedbackToUser().contains("Ingredient is null"));
     }
 
     @Test
-    public void testAddInvalidIngredient_EmptyName() {
+    public void testAddInvalidIngredientEmptyName() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             new Ingredient("   ", 1); // Invalid: empty name
         });
@@ -60,7 +64,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testAddInvalidIngredient_NegativeQuantity() {
+    public void testAddInvalidIngredientNegativeQty() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             new Ingredient("Sugar", -5); // Invalid: quantity < 1
         });
@@ -68,7 +72,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testSearchSimilarIngredient_MatchExists() {
+    public void testSearchSimilarIngredientMatch() {
         catalogue.addItem(flour);
         ArrayList<Ingredient> result = catalogue.searchSimilarIngredient(flourCopy);
         assertEquals(1, result.size());
@@ -76,7 +80,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testGetItemByName_CaseInsensitive() {
+    public void testGetItemByNameCaseInsensitive() {
         catalogue.addItem(flour);
         Ingredient result = catalogue.getItemByName("fLoUr");
         assertNotNull(result);
@@ -84,7 +88,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testDeleteIngredient_NotFound() {
+    public void testDeleteIngredientNotFound() {
         Ingredient notExist = new Ingredient("Honey", 1);
         CommandResult result = catalogue.deleteItem(notExist);
         assertTrue(result.getFeedbackToUser().contains("does not exist"));
@@ -104,7 +108,7 @@ public class IngredientCatalogueTest {
 
 
     @Test
-    public void testEditIngredient_InvalidName() {
+    public void testEditIngredientInvalidName() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             new Ingredient("", 1); // Invalid name
         });
@@ -112,7 +116,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testEditIngredient_QuantityNegative() {
+    public void testEditIngredientQuantityNegative() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> {
             new Ingredient("Flour", -2); // Invalid quantity
         });
@@ -120,7 +124,7 @@ public class IngredientCatalogueTest {
     }
 
     @Test
-    public void testEditIngredient_ItemNotFound() {
+    public void testEditIngredientItemNotFound() {
         CommandResult result = catalogue.editItem(new Ingredient("Vanilla", 5));
         assertTrue(result.getFeedbackToUser().contains("does not exist"));
     }
