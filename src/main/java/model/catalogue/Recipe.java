@@ -154,7 +154,7 @@ public class Recipe extends Catalogue<Ingredient> {
         }
         StringBuilder result = new StringBuilder("This recipe contains the following ingredients:\n");
         for (int i = 0; i < items.size(); i++) {
-            String name = items.get(i).getIngredientName();
+            String name = items.get(i).toString();
             result.append(i + 1).append(". ").append(name == null ? "[Unnamed Recipe]" : name).append("\n");
         }
         return new CommandResult(result.toString().trim());

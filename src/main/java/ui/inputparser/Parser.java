@@ -207,7 +207,7 @@ public class Parser {
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
             case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
-            case "edit" -> new EditRecipeCommand(args);
+            case "update" -> prepareUpdate(args);
             case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
             case "find" -> new FindCommand(args);     // Requires args: find <keyword>
 
