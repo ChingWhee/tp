@@ -78,9 +78,6 @@ public class DeleteCommand extends Command {
             case RECIPEBOOK -> {
                 if (catalogue instanceof RecipeBook recipeBook) {
                     Recipe recipe = new Recipe(name);
-                    if (!catalogue.getItems().contains(recipe)) {
-                        yield new CommandResult("Error: Recipe not found in RecipeBook.", null);
-                    }
                     yield recipeBook.deleteItem(recipe);
                 }
                 yield new CommandResult("Error: Invalid catalogue for recipe book operation.", null);

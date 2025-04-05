@@ -106,6 +106,7 @@ public class Parser {
         return switch (command) {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
+        case "edit" -> prepareEdit(args);
         case "find" -> new FindCommand(args);
         case "list" -> {
             if (!args.isEmpty()) {

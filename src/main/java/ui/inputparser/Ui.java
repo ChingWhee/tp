@@ -134,9 +134,10 @@ public class Ui {
 
     public static void showInventoryCommands() {
         System.out.println("- list -> Show all ingredients in inventory");
-        System.out.println("- find [name] -> Find an ingredient in inventory");
-        System.out.println("- add [item] [qty] -> Add ingredients to inventory");
-        System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
+        System.out.println("- find [name] -> Find ingredient(s) in inventory");
+        System.out.println("- add [item] [qty] -> Add ingredient(s) to inventory");
+        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from inventory based on qty specified");//for removing used ingredients manually or wrongly named ingredients
+        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");//directly set qty of specified ingredient
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
@@ -145,10 +146,12 @@ public class Ui {
 
     public static void showRecipeCommands() {
         System.out.println("- list -> Show all ingredients in the recipe");
-        System.out.println("- find [name] -> Find an ingredient in the recipe");
-        System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");
-        System.out.println("- update [item] [qty] -> Update the quantity of an existing ingredient");
-        System.out.println("- delete [item] [qty] -> Remove an ingredient from the recipe");
+        System.out.println("- find [name] -> Find ingredient(s) in the recipe");
+        System.out.println("- add [item] [qty] -> Add ingredient(s) to the recipe");
+        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from recipe based on qty specified");
+        //for removing used ingredients manually or wrongly named ingredients
+        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in recipe");
+        //directly set qty of specified ingredient
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
         System.out.println("- help -> View available commands");
@@ -156,11 +159,13 @@ public class Ui {
 
     public static void showRecipeBookCommands() {
         System.out.println("- list -> Show all recipes");
-        System.out.println("- find [name] -> Find a recipe");
+        System.out.println("- find [name] -> Find recipe(s) matching search string");
         System.out.println("- add [name] -> Add a new recipe");
         System.out.println("- delete [name] -> Delete a recipe");
         System.out.println("- edit [name] -> edit a recipe");
-        System.out.println("- cook [name] -> Cook a recipe, or find missing ingredients to cook it");
+        System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
+        //user cooks the recipe, prints out list of items required, and system automatically removes
+        //to view again, view from recipe tab
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
         System.out.println("- help -> View available commands");
