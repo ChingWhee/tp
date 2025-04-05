@@ -102,11 +102,12 @@ public class RecipeBook extends Catalogue<Recipe> {
     /**
      * Adds a new recipe to the RecipeBook.
      *
-     * @param recipe The recipe to be added.
+     * @param recipe     The recipe to be added.
+     * @param isSilenced skips user input if silenced
      * @return A CommandResult indicating success or failure.
      */
     @Override
-    public CommandResult addItem(Recipe recipe) {
+    public CommandResult addItem(Recipe recipe, boolean isSilenced) {
         try {
             if (recipe == null) {
                 return new CommandResult("Invalid recipe: Recipe is null.");
@@ -128,6 +129,11 @@ public class RecipeBook extends Catalogue<Recipe> {
                 if (isExactMatchFound(existing, recipe)) {
                     return new CommandResult("Recipe with name \"" + existing.getRecipeName() + "\" already exists.");
                 }
+            }
+
+            //Silent mode: skip user interaction, default to adding as new
+            if (isSilenced) {
+                addRecipe(recipe);
             }
 
             int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipes, recipe);

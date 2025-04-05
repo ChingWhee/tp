@@ -36,14 +36,14 @@ public class LogicTest {
     @Test
     public void insufficientIngredients() {
         testInventory.removeAllIngredients();
-        testInventory.addItem(new Ingredient("Flour", 1000));
-        testInventory.addItem(new Ingredient("Eggs", 4));
-        testInventory.addItem(new Ingredient("Milk", 250)); // Not enough!
+        testInventory.addItem(new Ingredient("Flour", 1000), false);
+        testInventory.addItem(new Ingredient("Eggs", 4), false);
+        testInventory.addItem(new Ingredient("Milk", 250), false); // Not enough!
 
         Recipe targetRecipe = new Recipe("Pancakes");
-        targetRecipe.addItem(new Ingredient("Flour", 500));
-        targetRecipe.addItem(new Ingredient("Eggs", 2));
-        targetRecipe.addItem(new Ingredient("Milk", 300));
+        targetRecipe.addItem(new Ingredient("Flour", 500), false);
+        targetRecipe.addItem(new Ingredient("Eggs", 2), false);
+        targetRecipe.addItem(new Ingredient("Milk", 300), false);
 
         CookRecipeCommand command = new CookRecipeCommand(targetRecipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
@@ -55,14 +55,14 @@ public class LogicTest {
 
     @Test
     public void sufficientIngredients() {
-        testInventory.addItem(new Ingredient("Flour", 1000));
-        testInventory.addItem(new Ingredient("Eggs", 4));
-        testInventory.addItem(new Ingredient("Milk", 350));
+        testInventory.addItem(new Ingredient("Flour", 1000), false);
+        testInventory.addItem(new Ingredient("Eggs", 4), false);
+        testInventory.addItem(new Ingredient("Milk", 350), false);
 
         Recipe recipe = new Recipe("Pancakes");
-        recipe.addItem(new Ingredient("Flour", 500));
-        recipe.addItem(new Ingredient("Eggs", 2));
-        recipe.addItem(new Ingredient("Milk", 300));
+        recipe.addItem(new Ingredient("Flour", 500), false);
+        recipe.addItem(new Ingredient("Eggs", 2), false);
+        recipe.addItem(new Ingredient("Milk", 300), false);
 
         CookRecipeCommand command = new CookRecipeCommand(recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
@@ -72,14 +72,14 @@ public class LogicTest {
 
     @Test
     public void ingredientNotInInventory() {
-        testInventory.addItem(new Ingredient("Flour", 1000));
-        testInventory.addItem(new Ingredient("Eggs", 4));
+        testInventory.addItem(new Ingredient("Flour", 1000), false);
+        testInventory.addItem(new Ingredient("Eggs", 4), false);
         // No Milk in inventory
 
         Recipe recipe = new Recipe("Pancakes");
-        recipe.addItem(new Ingredient("Flour", 500));
-        recipe.addItem(new Ingredient("Milk", 300));
-        recipe.addItem(new Ingredient("Eggs", 2));
+        recipe.addItem(new Ingredient("Flour", 500), false);
+        recipe.addItem(new Ingredient("Milk", 300), false);
+        recipe.addItem(new Ingredient("Eggs", 2), false);
 
         CookRecipeCommand command = new CookRecipeCommand(recipe);
         ArrayList<Ingredient> missingIngredients = command.getMissingIngredients(testInventory);
@@ -92,14 +92,14 @@ public class LogicTest {
     @Test
     public void cookRecipeTest() {
         testInventory.removeAllIngredients();
-        testInventory.addItem(new Ingredient("Milk", 300));
-        testInventory.addItem(new Ingredient("Flour", 1000));
-        testInventory.addItem(new Ingredient("Eggs", 5));
+        testInventory.addItem(new Ingredient("Milk", 300), false);
+        testInventory.addItem(new Ingredient("Flour", 1000), false);
+        testInventory.addItem(new Ingredient("Eggs", 5), false);
 
         Recipe recipe = new Recipe("Pancakes");
-        recipe.addItem(new Ingredient("Milk", 200));
-        recipe.addItem(new Ingredient("Flour", 300));
-        recipe.addItem(new Ingredient("Eggs", 2));
+        recipe.addItem(new Ingredient("Milk", 200), false);
+        recipe.addItem(new Ingredient("Flour", 300), false);
+        recipe.addItem(new Ingredient("Eggs", 2), false);
 
         CookRecipeCommand command = new CookRecipeCommand(recipe);
         CommandResult result = command.execute(currentCatalogue); // Pass the inventory

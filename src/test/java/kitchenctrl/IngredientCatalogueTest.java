@@ -45,13 +45,13 @@ public class IngredientCatalogueTest {
 
     @Test
     public void testAddValidIngredientNew() {
-        CommandResult result = catalogue.addItem(flour);
+        CommandResult result = catalogue.addItem(flour, false);
         assertEquals("2x Flour added to test.", result.getFeedbackToUser());
     }
 
     @Test
     public void testAddInvalidIngredientNull() {
-        CommandResult result = catalogue.addItem(null);
+        CommandResult result = catalogue.addItem(null, false);
         assertTrue(result.getFeedbackToUser().contains("Ingredient is null"));
     }
 
@@ -73,7 +73,7 @@ public class IngredientCatalogueTest {
 
     @Test
     public void testSearchSimilarIngredientMatch() {
-        catalogue.addItem(flour);
+        catalogue.addItem(flour, false);
         ArrayList<Ingredient> result = catalogue.searchSimilarIngredient(flourCopy);
         assertEquals(1, result.size());
         assertEquals("Flour", result.get(0).getIngredientName());
@@ -81,7 +81,7 @@ public class IngredientCatalogueTest {
 
     @Test
     public void testGetItemByNameCaseInsensitive() {
-        catalogue.addItem(flour);
+        catalogue.addItem(flour, false);
         Ingredient result = catalogue.getItemByName("fLoUr");
         assertNotNull(result);
         assertEquals("Flour", result.getIngredientName());
@@ -96,8 +96,8 @@ public class IngredientCatalogueTest {
 
     @Test
     public void testRemoveAllIngredients() {
-        catalogue.addItem(new Ingredient("Flour", 1));
-        catalogue.addItem(new Ingredient("Eggs", 2));
+        catalogue.addItem(new Ingredient("Flour", 1), false);
+        catalogue.addItem(new Ingredient("Eggs", 2), false);
 
         CommandResult result = catalogue.removeAllIngredients();
 
@@ -131,8 +131,8 @@ public class IngredientCatalogueTest {
 
     @Test
     public void testFindItemKeywordSearch() {
-        catalogue.addItem(flour);
-        catalogue.addItem(eggs);
+        catalogue.addItem(flour, false);
+        catalogue.addItem(eggs, false);
         CommandResult result = catalogue.findItem("egg");
         assertTrue(result.getFeedbackToUser().toLowerCase().contains("eggs"));
     }

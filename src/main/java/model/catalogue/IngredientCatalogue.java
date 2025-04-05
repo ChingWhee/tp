@@ -71,10 +71,11 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
      * to choose whether to update the quantity of an existing ingredient or add the new one.
      *
      * @param ingredient The ingredient to add.
+     * @param isSilenced skips user input if silenced
      * @return A {@link CommandResult} describing the outcome.
      */
     @Override
-    public CommandResult addItem(Ingredient ingredient) {
+    public CommandResult addItem(Ingredient ingredient, boolean isSilenced) {
         try {
             if (ingredient == null) {
                 return new CommandResult("Invalid ingredient: Ingredient is null.");
@@ -103,6 +104,12 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
                 }
             }
 
+            //Silent mode: skip user interaction, default to adding as new
+            if (isSilenced) {
+                return addIngredient(ingredient);
+            }
+
+            //loud mode
             int choice = ConflictHelper.getUserChoiceForAddIngredient(similarIngredient, ingredient);
             if (choice == 0) {
                 return addIngredient(ingredient);

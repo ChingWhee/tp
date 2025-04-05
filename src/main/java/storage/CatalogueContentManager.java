@@ -81,8 +81,8 @@ public class CatalogueContentManager {
                     String itemName = parseName(parts[0].trim());
                     int quantity = parseQuantity(parts[1].trim());
                     Ingredient i = new Ingredient(itemName, quantity);
-                    ingredientCatalogue.addItem(i);
-                } catch (NumberFormatException e) {
+                    ingredientCatalogue.addItem(i, true);
+                } catch (Exception e) {
                     System.err.println("Skipping invalid entry: " + line);
                 }
             }
@@ -118,7 +118,7 @@ public class CatalogueContentManager {
             if (line.isEmpty()) {
                 // Blank line: End of a recipe, so add the current recipe to storage
                 if (currentRecipeName != null) {
-                    storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients));
+                    storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients), true);
                     currentRecipeName = null;
                     currentIngredients = new ArrayList<>();
                 }
@@ -144,7 +144,7 @@ public class CatalogueContentManager {
 
         // Add the last recipe if the file doesn't end with a blank line
         if (currentRecipeName != null) {
-            storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients));
+            storageRecipe.addItem(new Recipe(currentRecipeName, currentIngredients), true);
         }
 
         return storageRecipe;
