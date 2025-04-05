@@ -55,14 +55,14 @@ public class RecipeTest {
 
     @Test
     public void testAddIngredientNewItem() {
-        CommandResult result = namedRecipe.addItem(ingredient1);
+        CommandResult result = namedRecipe.addItem(ingredient1, false);
         assertTrue(result.getFeedbackToUser().contains("2x Flour added to recipe"));
     }
 
     @Test
     public void testListItemsWithIngredients() {
-        namedRecipe.addItem(ingredient1);
-        namedRecipe.addItem(ingredient2);
+        namedRecipe.addItem(ingredient1, false);
+        namedRecipe.addItem(ingredient2, false);
 
         String result = namedRecipe.listItems().getFeedbackToUser();
         assertTrue(result.contains("1. 2x Flour"));
@@ -71,7 +71,7 @@ public class RecipeTest {
 
     @Test
     public void testToString() {
-        namedRecipe.addItem(ingredient1);
+        namedRecipe.addItem(ingredient1, false);
         String result = namedRecipe.toString();
         assertTrue(result.startsWith("Pancakes"));
         assertTrue(result.contains("Flour"));
@@ -79,7 +79,7 @@ public class RecipeTest {
 
     @Test
     public void testSearchSimilarIngredient() {
-        namedRecipe.addItem(ingredient1);
+        namedRecipe.addItem(ingredient1, false);
         Ingredient search = new Ingredient("flour", 1);
         ArrayList<Ingredient> results = namedRecipe.searchSimilarIngredient(search);
 
@@ -89,7 +89,7 @@ public class RecipeTest {
 
     @Test
     public void testGetItemByNameCaseInsensitive    () {
-        namedRecipe.addItem(ingredient1);
+        namedRecipe.addItem(ingredient1, false);
         Ingredient result = namedRecipe.getItemByName("flOuR");
 
         assertNotNull(result);

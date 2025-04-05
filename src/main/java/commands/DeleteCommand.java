@@ -78,9 +78,6 @@ public class DeleteCommand extends Command {
             case RECIPEBOOK -> {
                 if (catalogue instanceof RecipeBook recipeBook) {
                     Recipe recipe = new Recipe(name);
-                    if (!catalogue.getItems().contains(recipe)) {
-                        yield new CommandResult("Error: Recipe not found in RecipeBook.", null);
-                    }
                     yield recipeBook.deleteItem(recipe);
                 }
                 yield new CommandResult("Error: Invalid catalogue for recipe book operation.", null);
@@ -100,7 +97,7 @@ public class DeleteCommand extends Command {
         } catch (IllegalArgumentException e) {
             return new CommandResult("Invalid argument: " + e.getMessage(), null);
         } catch (Exception e) {
-            return new CommandResult("Unexpected error occurred: " + e.getMessage(), null);
+            return new CommandResult("Error occurred: " + e.getMessage(), null);
         }
     }
 }

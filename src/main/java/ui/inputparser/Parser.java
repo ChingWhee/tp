@@ -106,7 +106,8 @@ public class Parser {
         return switch (command) {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
-        case "find" -> new FindCommand(args);
+        case "edit" -> prepareEdit(args);
+        case "find" -> new FindCommand(parseName(args));
         case "list" -> {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`list` command should not have extra input.");
@@ -153,9 +154,9 @@ public class Parser {
         return switch (command) {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
-        case "find" -> new FindCommand(args);
+        case "find" -> new FindCommand(parseName(args));
         case "cook" -> prepareCook(args);
-        case "edit" -> new EditRecipeCommand(args);
+        case "edit" -> new EditRecipeCommand(parseName(args));
         case "list" -> {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`list` command should not have extra input.");
@@ -197,7 +198,7 @@ public class Parser {
         case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
         case "edit" -> prepareEdit(args);
         case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
-        case "find" -> new FindCommand(args);     // Requires args: find <keyword>
+        case "find" -> new FindCommand(parseName(args));     // Requires args: find <keyword>
         case "list" -> {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`list` command should not have extra input.");
@@ -260,10 +261,10 @@ public class Parser {
         }
     }
 
-    private static int parseQuantity(String quantityStr) {
+    public static int parseQuantity(String quantityStr) {
         // Regex allows leading zeros but enforces 1-99999 after parsing
-        if (!quantityStr.matches("^0*[1-9]\\d{0,4}$")) {
-            throw new IllegalArgumentException("Quantity must be an integer (1-99999)!");
+        if (!quantityStr.matches("^(?!\\+)[0]*[1-9]\\d{0,4}$")) {
+            throw new IllegalArgumentException("Quantity must be a positive integer from 1-99999 (no '+' sign)!");
         }
 
         // Parse and check the actual value
@@ -274,7 +275,7 @@ public class Parser {
         return quantity;
     }
 
-    private static String parseName(String nameStr) {
+    public static String parseName(String nameStr) {
         // Accepts any visible Unicode characters except backslash and control characters
         if (!nameStr.matches("^[\\P{Cntrl}&&[^\\\\]]{1,100}$")) {
             throw new IllegalArgumentException("Name contains invalid or disallowed characters!");

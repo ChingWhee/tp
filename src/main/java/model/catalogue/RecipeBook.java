@@ -102,28 +102,50 @@ public class RecipeBook extends Catalogue<Recipe> {
     /**
      * Adds a new recipe to the RecipeBook.
      *
-     * @param recipe The recipe to be added.
+     * @param recipe     The recipe to be added.
+     * @param isSilenced skips user input if silenced
      * @return A CommandResult indicating success or failure.
      */
     @Override
-    public CommandResult addItem(Recipe recipe) {
-        if (recipe == null) {
-            return new CommandResult("Cannot add a null recipe.");
-        }
+    public CommandResult addItem(Recipe recipe, boolean isSilenced) {
+        try {
+            if (recipe == null) {
+                return new CommandResult("Invalid recipe: Recipe is null.");
+            }
 
-        ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
-        if (similarRecipe.isEmpty()) {
-            addRecipe(recipe);
-            return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
-        }
+            String name = recipe.getRecipeName();
+            if (name == null || name.trim().isEmpty()) {
+                return new CommandResult("Invalid recipe: name must be non-empty.");
+            }
 
-        int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipe, recipe);
-        if (choice == 0) {
-            addRecipe(recipe);
-            return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
-        }
+            ArrayList<Recipe> similarRecipes = searchSimilarRecipe(recipe);
 
-        return new CommandResult("Operation canceled.");
+            if (similarRecipes.isEmpty()) {
+                addRecipe(recipe);
+                return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
+            }
+
+            for (Recipe existing : similarRecipes) {
+                if (isExactMatchFound(existing, recipe)) {
+                    return new CommandResult("Recipe with name \"" + existing.getRecipeName() + "\" already exists.");
+                }
+            }
+
+            //Silent mode: skip user interaction, default to adding as new
+            if (isSilenced) {
+                addRecipe(recipe);
+            }
+
+            int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipes, recipe);
+            if (choice == 0) {
+                addRecipe(recipe);
+                return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
+            }
+
+            return new CommandResult("Operation canceled.");
+        } catch (Exception e) {
+            return new CommandResult("Error adding recipe: " + e.getMessage());
+        }
     }
 
     /**
@@ -146,28 +168,41 @@ public class RecipeBook extends Catalogue<Recipe> {
      */
     @Override
     public CommandResult deleteItem(Recipe recipe) {
-        if (recipe == null) {
-            return new CommandResult("Cannot delete a null recipe.");
-        }
+        try {
+            if (recipe == null) {
+                return new CommandResult("Invalid recipe: Recipe is null.");
+            }
 
-        ArrayList<Recipe> similarRecipe = searchSimilarRecipe(recipe);
-        String recipeName = (recipe.getRecipeName() == null) ? "[unknown]" : recipe.getRecipeName();
+            String name = recipe.getRecipeName();
+            if (name == null || name.trim().isEmpty()) {
+                return new CommandResult("Invalid recipe: name must be non-empty.");
+            }
 
-        if (similarRecipe.isEmpty()) {
-            return new CommandResult(recipeName + " does not exist in the recipe book.");
-        }
+            ArrayList<Recipe> similarRecipes = searchSimilarRecipe(recipe);
 
-        if (similarRecipe.size() == SINGLE_MATCH && isExactMatchFound(similarRecipe.get(FIRST_ITEM_INDEX), recipe)) {
-            removeRecipe(recipe);
-            return new CommandResult(recipeName + " removed from recipe book.");
-        }
+            if (similarRecipes.isEmpty()) {
+                return new CommandResult(name + " does not exist in the recipe book.");
+            }
 
-        int choice = ConflictHelper.getUserChoiceForDeleteRecipe(similarRecipe, recipe);
-        if (choice > 0 && choice <= similarRecipe.size()) {
-            removeRecipe(similarRecipe.get(choice - 1));
-            return new CommandResult(recipeName + " removed from recipe book.");
+            for (Recipe existing : similarRecipes) {
+                if (isExactMatchFound(existing, recipe)) {
+                    String recipeName = existing.getRecipeName().trim();
+                    removeRecipe(existing);
+                    return new CommandResult(recipeName + " removed from recipe book.");
+                }
+            }
+
+            int choice = ConflictHelper.getUserChoiceForDeleteRecipe(similarRecipes, recipe);
+            if (choice > 0 && choice <= similarRecipes.size()) {
+                String recipeName = similarRecipes.get(choice - 1).getRecipeName().trim();
+                removeRecipe(similarRecipes.get(choice - 1));
+                return new CommandResult(recipeName + " removed from recipe book.");
+            }
+
+            return new CommandResult("Operation canceled.");
+        } catch (Exception e) {
+            return new CommandResult("Error deleting recipe: " + e.getMessage());
         }
-        return new CommandResult("Operation canceled.");
     }
 
     /**

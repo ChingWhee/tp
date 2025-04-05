@@ -27,9 +27,10 @@ public abstract class Catalogue<T> {
     /**
      * Adds an item to the catalogue.
      *
-     * @param item The item to be added.
+     * @param item       The item to be added.
+     * @param isSilenced skips user input if silenced
      */
-    public abstract CommandResult addItem(T item);
+    public abstract CommandResult addItem(T item, boolean isSilenced);
 
     /**
      * Deletes an item from the catalogue.

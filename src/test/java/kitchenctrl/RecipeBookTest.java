@@ -23,7 +23,7 @@ class RecipeBookTest {
 
     @Test
     void addItem_newRecipe() {
-        CommandResult result = recipeBook.addItem(recipe1);
+        CommandResult result = recipeBook.addItem(recipe1, false);
         assertNotNull(result);
         assertEquals("Pasta added to recipe book.", result.getFeedbackToUser());
         assertTrue(recipeBook.getItems().contains(recipe1));
@@ -31,7 +31,7 @@ class RecipeBookTest {
 
     @Test
     void deleteItem_existingRecipe() {
-        recipeBook.addItem(recipe1);
+        recipeBook.addItem(recipe1, false);
         CommandResult result = recipeBook.deleteItem(recipe1);
         assertNotNull(result);
         assertEquals("Pasta removed from recipe book.", result.getFeedbackToUser());
@@ -47,7 +47,7 @@ class RecipeBookTest {
 
     @Test
     void editItem_existingRecipe() {
-        recipeBook.addItem(recipe1);
+        recipeBook.addItem(recipe1, false);
         Recipe updatedRecipe = new Recipe("Spaghetti");
         CommandResult result = recipeBook.editItem(recipe1, updatedRecipe);
         assertNotNull(result);
@@ -73,8 +73,8 @@ class RecipeBookTest {
 
     @Test
     void listItems_withRecipes() {
-        recipeBook.addItem(recipe1);
-        recipeBook.addItem(new Recipe("Pizza"));
+        recipeBook.addItem(recipe1, false);
+        recipeBook.addItem(new Recipe("Pizza"), false);
         CommandResult result = recipeBook.listItems();
         assertNotNull(result);
         assertTrue(result.getFeedbackToUser().contains("1. Pasta"));
@@ -82,8 +82,8 @@ class RecipeBookTest {
     }
     @Test
     void findItem_singleMatch() {
-        recipeBook.addItem(new Recipe("Tomato Soup"));
-        recipeBook.addItem(new Recipe("Pasta Carbonara"));
+        recipeBook.addItem(new Recipe("Tomato Soup"), false);
+        recipeBook.addItem(new Recipe("Pasta Carbonara"), false);
         CommandResult result = recipeBook.findItem("Carbonara");
         assertNotNull(result);
         assertTrue(result.getFeedbackToUser().contains("Pasta Carbonara"));
@@ -91,8 +91,8 @@ class RecipeBookTest {
 
     @Test
     void findItem_multipleMatches() {
-        recipeBook.addItem(new Recipe("Pasta Carbonara"));
-        recipeBook.addItem(new Recipe("Pasta Bolognese"));
+        recipeBook.addItem(new Recipe("Pasta Carbonara"), false);
+        recipeBook.addItem(new Recipe("Pasta Bolognese"), false);
         CommandResult result = recipeBook.findItem("Pasta");
         assertNotNull(result);
         assertTrue(result.getFeedbackToUser().contains("Pasta Carbonara"));
@@ -101,7 +101,7 @@ class RecipeBookTest {
 
     @Test
     void findItem_noMatch() {
-        recipeBook.addItem(new Recipe("Pizza"));
+        recipeBook.addItem(new Recipe("Pizza"), false);
         CommandResult result = recipeBook.findItem("Burger");
         assertNotNull(result);
         assertEquals("No recipes found containing: Burger", result.getFeedbackToUser());
@@ -109,7 +109,7 @@ class RecipeBookTest {
 
     @Test
     void findItem_emptyQuery() {
-        recipeBook.addItem(new Recipe("Burger"));
+        recipeBook.addItem(new Recipe("Burger"), false);
         CommandResult result = recipeBook.findItem("");
         assertNotNull(result);
         assertEquals("Please provide a keyword to search.", result.getFeedbackToUser());
