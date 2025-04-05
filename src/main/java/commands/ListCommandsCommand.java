@@ -8,8 +8,11 @@ public class ListCommandsCommand extends Command {
         super(screen);
     }
 
+    @Override
     public CommandResult execute() {
-        assert screen != null;
+        if (screen == null) {
+            return new CommandResult("Error: Empty input detected. Please input 'help' for available commands.", null);
+        }
         switch (screen) {
         case WELCOME -> Ui.showWelcomeCommands();
         case INVENTORY -> Ui.showInventoryCommands();

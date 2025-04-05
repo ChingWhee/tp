@@ -44,6 +44,9 @@ public class KitchenCTRL {
      * @return The currently active {@code ScreenState}.
      */
     public static ScreenState getCurrentScreen() {
+        if (currentScreen == null) {
+            throw new IllegalStateException("Current screen is not set.");
+        }
         return currentScreen;
     }
 
@@ -53,6 +56,9 @@ public class KitchenCTRL {
      * @param currentScreen The {@code ScreenState} to set as the current screen.
      */
     public static void setCurrentScreen(ScreenState currentScreen) {
+        if (currentScreen == null) {
+            throw new IllegalArgumentException("Cannot set screen to null");
+        }
         KitchenCTRL.currentScreen = currentScreen;
     }
 
@@ -153,6 +159,11 @@ public class KitchenCTRL {
             // Read user input
             String userCommandText = ui.getUserCommand();
 
+            if (userCommandText.isEmpty()) {
+                System.out.println("Please enter a command. Type `help` to see available commands.");
+                ui.showDivider();
+                continue;
+            }
             // Parse input into a Command
             try {
                 command = parser.parseCommand(userCommandText);
@@ -172,7 +183,9 @@ public class KitchenCTRL {
             if (command instanceof BackCommand || command instanceof GoToCommand ||
                     command instanceof EditRecipeCommand || command instanceof ListCommandsCommand) {
                 result = command.execute();
-                currentScreen = result.getNewScreen();
+                if (result.getNewScreen() != null) {
+                    currentScreen = result.getNewScreen();
+                }
                 ui.showResultToUser(result);
                 ui.showDivider();
                 continue;
