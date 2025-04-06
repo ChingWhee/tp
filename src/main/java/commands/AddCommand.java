@@ -7,10 +7,11 @@ import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
-import static controller.KitchenCTRL.*;
+import static controller.KitchenCTRL.setCurrentScreen;
+import static controller.KitchenCTRL.requireActiveRecipe;
 import static controller.ScreenState.RECIPE;
 import static controller.ScreenState.RECIPEBOOK;
-import static ui.inputparser.Ui.showScreenPrompt;
+
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
