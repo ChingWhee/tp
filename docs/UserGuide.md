@@ -179,7 +179,7 @@ _Assuming Inventory: Bread (1)_
 
 ---
 
-## 🍳 Recipe Commands
+## 🍳 RecipeBook Commands
 
 In the `recipebook` screen:
 
@@ -259,11 +259,75 @@ returns a success message, and removes `Bread (1)` from Inventory
 
 ---
 
+## 🍳 Recipe Commands
+This screen is only accesible via the `edit` command in RecipeBook <br>
+The following commands are applied to the selected Recipe <br>
+
+### Listing Ingredients: `list`
+Displays all ingredients needed for the Recipe.
+
+Format:
+`list`
+
+### 🔍 Finding an Ingredient: `find`
+Searches for ingredients by name (case-insensitive, partial matches allowed).
+
+**Format:**  
+`find [keyword]`
+
+**Example:**  
+`find sugar`  
+Lists all ingredients containing "sugar", such as:
+```
+Matching items:
+- Sugar (2)
+- Brown Sugar (5)
+```
+
+### Adding an Ingredient: `add`
+Adds a new ingredient to the Recipe.
+
+Format:
+`add [name] [quantity]`
+- If a similar ingredient exists, the system will prompt for confirmation.
+
+Example of usage:
+
+`add Sugar 2`
+Adds 2 units of sugar to the inventory.
+<br><br>
+
+### Deleting an Ingredient: `delete`
+Removes an ingredient from the Recipe.
+
+Format:
+`delete [name] [quantity]`
+
+Example of usage:
+
+`delete Sugar 1`
+Removes 1 unit of sugar from the Recipe.
+<br><br>
+
+### Editing an Ingredient: `edit`
+Removes an ingredient from the Recipe.
+
+Format:
+`edit [name] [quantity]`
+
+Example of usage:
+
+`edit Sugar 10`
+Sets quantity of sugar to 10 in the Recipe.
+<br><br>
+
+---
+
 ## 🔍 Handling Similar Entries
 
 ### Adding or deleting similar ingredients
-When adding or deleting ingredients, KitchenCTRL will check for **similar ingredients** 
-(e.g., `brown sugar` and `white sugar`).  
+When adding or deleting ingredients, KitchenCTRL will check for **similar ingredients** if an exact match is not found
+(e.g., `sugar` and `white_sugar`).  
 You will be prompted to choose whether to:
 
 - Add a new entry
@@ -271,8 +335,25 @@ You will be prompted to choose whether to:
 - Cancel the action
 
 Example:
+`add white_sugar 1` <br>
+`add sugar 1` <br>
+will prompt the user to choose
 
+### Adding or Deleting a Recipe
+
+When you try to add a recipe, KitchenCTRL will check if any similar recipes already exist if an exact match is not found
+If found, you will be prompted to:
+
+- Add the recipe as a new entry
+- Cancel the operation
+
+Similarly, for deletion, you will be prompted to:
+
+- Delete the similar recipe
+- Cancel the operation
+  
 ---
+
 
 ## 💾 Data Storage
 
@@ -285,41 +366,7 @@ All data is stored locally in `.txt` files under the `/data/` folder:
 The data will be saved only when the program is successfully closed, i.e, "Goodbye, see you soon!" suggests that the save has been done.
 
 ---
-## Coming soon
 
-### Adding a Recipe
-
-When you try to add a recipe, KitchenCTRL will check if any similar recipes already exist.
-If found, you will be prompted to:
-
-- Add the recipe as a new entry
-- Cancel the operation
-
-### Deleting a Recipe
-
-When you try to delete an ingredient, KitchenCTRL will check for any similar items.
-If found, you will be prompted to:
-
-- Delete existing recipe
-- Cancel the action
-
----
-
-## Developer Notes
-### Core Components
-- `InputParser`: Handles user input and choice validation.
-- `KitchenCTRL`: Main application logic, including initialization and command execution.
-- `Command`: Base class for commands like `AddIngredientCommand`, `DeleteIngredientCommand`, and `ByeCommand`.
-- `IngredientCatalogue`: Manages the inventory of ingredients.
-- `RecipeCatalogue`: Stores and manages recipes.
-- `CatalogueContentManager`: Handles loading and saving data.
-### Adding New Commands
-To add a new command:
-- Create a new class extending `Command`.
-- Implement the `execute()` method.
-- Register the command in `Parser`.
-
---- 
 
 ## Command Summary
 
