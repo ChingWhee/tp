@@ -10,6 +10,7 @@ import model.catalogue.RecipeBook;
 import static controller.KitchenCTRL.requireActiveRecipe;
 import static controller.ScreenState.RECIPE;
 import static controller.ScreenState.RECIPEBOOK;
+import static ui.inputparser.Ui.showScreenPrompt;
 
 /**
  * Represents a command to add an item (ingredient or recipe) to the appropriate catalogue
@@ -83,7 +84,8 @@ public class AddCommand extends Command {
                     Recipe recipe = new Recipe(name);
                     KitchenCTRL.setActiveRecipe(recipe);
                     recipeBook.addItem(recipe, false);
-                    new GoToCommand(RECIPE).execute();
+                    KitchenCTRL.setCurrentScreen(RECIPE);
+                    showScreenPrompt(RECIPE);
                     yield new CommandResult(recipe.getRecipeName() + " added to RecipeBook, now editing", RECIPE);
                 }
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
