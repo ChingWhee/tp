@@ -6,7 +6,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 ## 📖 Table of Contents
 
 
-- [Quick Start](#Quick-Start)
+- [Quick Start](#-quick-start)
 - [Interface Overview](#interface-overview)
 - [Navigation Commands](#navigation-commands)
   - [Switch to Inventory: `inventory`](#switch-to-inventory-inventory)
