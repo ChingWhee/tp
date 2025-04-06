@@ -1,0 +1,7 @@
+@startuml
+package "ui.inputparser" {
+    class Parser {
+        + parseCommand(screen: ScreenState, userInput: String): Command
+    }
+}
+@enduml

@@ -1,60 +1,89 @@
 @startuml
-hide circle
-skinparam classAttributeIconSize 0
 
 package "model" {
 
     class Ingredient {
-        - ingredientName: String
-        - quantity: int
-        + getIngredientName(): String
-        + getQuantity(): int
-        + setIngredientName(name: String)
-        + setQuantity(quantity: int)
-        + addQuantity(quantity: int)
-        + subtractQuantity(quantity: int)
+        +String ingredientName
+        +int quantity
+        +Ingredient(String ingredientName, int quantity)
+        +int hashCode()
+        +String getIngredientName()
+        +void setIngredientName(String ingredientName)
+        +void setQuantity(int quantity)
+        +int getQuantity()
+        +void addQuantity(int quantity)
+        +void subtractQuantity(int quantity)
     }
 
     package "catalogue" {
 
-        abstract class "{abstract} \n Catalogue<T>" {
-            - items: ArrayList<T>
-            + addItem(item: T): CommandResult
-            + deleteItem(item: T): CommandResult
-            + listItems(): CommandResult
-            + getItems(): ArrayList<T>
-            + updateItem(oldItem: T, newItem: T)
-            + findItem(query: String): CommandResult
-            + findItem(query: String, mapper: Function<T, String>): CommandResult
-            + getItemByName(name: String): T
-            + getCatalogueContent(): String
-            + getType(): String
+        abstract class Catalogue<T> {
+            -ArrayList<T> items
+            +Catalogue()
+            +abstract CommandResult addItem(T item, boolean isSilenced)
+            +abstract CommandResult deleteItem(T item)
+            +void updateItem(T oldItem, T newItem)
+            +ArrayList<T> getItems()
+            +CommandResult listItems()
+            +CommandResult findItem(String query)
+            +String getCatalogueContent()
+            +abstract T getItemByName(String name)
         }
 
-        class Inventory {
-            + searchSimilarIngredient(ingredient: Ingredient): ArrayList<Ingredient>
-            + removeAllIngredients(): CommandResult
-            + decreaseQuantity(from: Ingredient, amount: Ingredient): CommandResult
-            + getItemByName(name: String): Ingredient
+        class IngredientCatalogue extends Catalogue<Ingredient> {
+            +searchSimilarIngredient(ingredient : Ingredient) : ArrayList<Ingredient>
+            +getItemByName(name : String) : Ingredient
+            +isExactMatchFound(existingIngredient : Ingredient, newIngredient : Ingredient) : boolean
+            +addItem(ingredient : Ingredient, isSilenced : boolean) : CommandResult
+            +addIngredient(ingredient : Ingredient) : CommandResult
+            +increaseQuantity(existingIngredient : Ingredient, newIngredient : Ingredient) : CommandResult
+            +deleteItem(ingredient : Ingredient) : CommandResult
+            +removeIngredient(ingredient : Ingredient) : CommandResult
+            +removeAllIngredients() : CommandResult
+            +decreaseQuantity(existingIngredient : Ingredient, newIngredient : Ingredient) : CommandResult
+            +findItem(query : String) : CommandResult
+            +adjustQuantity(existing : Ingredient, newQuantity : int) : CommandResult
+            +editItem(ingredient : Ingredient) : CommandResult
         }
 
-        class Recipe {
-            - recipeName: String
-            + getRecipeName(): String
-            + updateItem(ingredient: Ingredient): CommandResult
-            + getItemByName(name: String): Ingredient
+        class Recipe extends IngredientCatalogue {
+            -String recipeName
+            +Recipe()
+            +Recipe(name : String)
+            +Recipe(name : String, ingredients : ArrayList<Ingredient>)
+            +getRecipeName() : String
+            +listItems() : CommandResult
         }
 
-        class RecipeBook {
-            + searchSimilarRecipe(recipe: Recipe): ArrayList<Recipe>
-            + editItem(oldRecipe: Recipe, newRecipe: Recipe): CommandResult
-            + getItemByName(name: String): Recipe
+        class RecipeBook extends Catalogue<Recipe> {
+            +RecipeBook()
+            +getCatalogueContent() : String
+            +searchSimilarRecipe(recipe : Recipe) : ArrayList<Recipe>
+            +getItemByName(name : String) : Recipe
+            +addItem(recipe : Recipe, isSilenced : boolean) : CommandResult
+            +deleteItem(recipe : Recipe) : CommandResult
+            +editItem(oldRecipe : Recipe, newRecipe : Recipe) : CommandResult
+            +listItems() : CommandResult
+            +findItem(query : String) : CommandResult
+            +getType() : String
+            -getRecipeNameLowercase(recipe : Recipe) : String
+            -isExactMatchFound(existingRecipe : Recipe, newRecipe : Recipe) : boolean
+            -addRecipe(recipe : Recipe) : CommandResult
+            -removeRecipe(recipe : Recipe) : void
         }
 
-        "{abstract} \n Catalogue<T>" <|-- Inventory
-        "{abstract} \n Catalogue<T>" <|-- Recipe
-        "{abstract} \n Catalogue<T>" <|-- RecipeBook
+        class Inventory extends IngredientCatalogue {
+            +getType() : String
+            +listItems() : CommandResult
+            #getCatalogueLabel() : String
+        }
     }
 }
+
+' Relationships
+IngredientCatalogue --> Ingredient : contains
+Inventory --> Ingredient : contains
+Recipe --> Ingredient : contains
+RecipeBook --> Recipe : contains
 
 @enduml

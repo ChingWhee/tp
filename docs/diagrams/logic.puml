@@ -3,7 +3,6 @@ hide circle
 skinparam classAttributeIconSize 0
 
 package "commands" {
-
     abstract class "{abstract} \n Command" {
         + execute(): CommandResult
         + execute(catalogue: Catalogue<?>): CommandResult
@@ -20,18 +19,20 @@ package "commands" {
     class GoToCommand
     class ListCommand
     class UpdateCommand
+    class ListCommandsCommand
 
     "{abstract} \n Command" <|-- AddCommand
-    "{abstract} \n Command" <|-- BackCommand
+    "{abstract} \n Command" <|--- BackCommand
     "{abstract} \n Command" <|-- ByeCommand
-    "{abstract} \n Command" <|-- CookableRecipesCommand
+    "{abstract} \n Command" <|--- CookableRecipesCommand
     "{abstract} \n Command" <|-- CookRecipeCommand
-    "{abstract} \n Command" <|-- DeleteCommand
+    "{abstract} \n Command" <|--- DeleteCommand
     "{abstract} \n Command" <|-- EditRecipeCommand
-    "{abstract} \n Command" <|-- FindCommand
+    "{abstract} \n Command" <|--- FindCommand
     "{abstract} \n Command" <|-- GoToCommand
-    "{abstract} \n Command" <|-- ListCommand
+    "{abstract} \n Command" <|--- ListCommand
     "{abstract} \n Command" <|-- UpdateCommand
+    "{abstract} \n Command" <|--- ListCommandsCommand
 
     class CommandResult {
         + getFeedbackToUser(): String
@@ -41,10 +42,6 @@ package "commands" {
     CommandResult --> ScreenState
 }
 
-package "ui.inputparser" {
-    class Parser {
-        + parseCommand(screen: ScreenState, userInput: String): Command
-    }
-}
+
 
 @enduml
