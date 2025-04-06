@@ -66,39 +66,39 @@ public class DeleteCommand extends Command {
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
 
-        return switch (KitchenCTRL.getCurrentScreen()) {
-        case INVENTORY -> {
-            if (catalogue instanceof Inventory inventory) {
-                Ingredient ingredient = new Ingredient(name, quantity);
-                if (!catalogue.getItems().contains(ingredient)) {
-                    yield new CommandResult("Ingredient not found in Inventory.", null);
+        try {
+            return switch (KitchenCTRL.getCurrentScreen()) {
+            case INVENTORY -> {
+                if (catalogue instanceof Inventory inventory) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield inventory.deleteItem(ingredient);
                 }
-                yield inventory.deleteItem(ingredient);
+                yield new CommandResult("Error: Invalid catalogue for inventory operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for inventory operation.", null);
-        }
-        case RECIPEBOOK -> {
-            if (catalogue instanceof RecipeBook recipeBook) {
-                Recipe recipe = new Recipe(name);
-                if (!catalogue.getItems().contains(recipe)) {
-                    yield new CommandResult("Recipe not found in RecipeBook.", null);
+            case RECIPEBOOK -> {
+                if (catalogue instanceof RecipeBook recipeBook) {
+                    Recipe recipe = new Recipe(name);
+                    yield recipeBook.deleteItem(recipe);
                 }
-                yield recipeBook.deleteItem(recipe);
+                yield new CommandResult("Error: Invalid catalogue for recipe book operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for recipe book operation.", null);
-        }
-        case RECIPE -> {
-            requireActiveRecipe();
-            if (catalogue instanceof Recipe recipe) {
-                Ingredient ingredient = new Ingredient(name, quantity);
-                if (!catalogue.getItems().contains(ingredient)) {
-                    yield new CommandResult("Ingredient not found in Recipe.", null);
+            case RECIPE -> {
+                requireActiveRecipe();
+                if (catalogue instanceof Recipe recipe) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield recipe.deleteItem(ingredient);
                 }
-                yield recipe.deleteItem(ingredient);
+                yield new CommandResult("Error: Invalid catalogue for recipe operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            default -> new CommandResult("Error: Unsupported screen state for DeleteCommand.", null);
+            };
+        } catch (ClassCastException e) {
+            return new CommandResult("Error: Catalogue type mismatch: " + e.getMessage(), null);
+        } catch (IllegalArgumentException e) {
+            return new CommandResult("Invalid argument: " + e.getMessage(), null);
+        } catch (Exception e) {
+            return new CommandResult("Error occurred: " + e.getMessage(), null);
         }
-        default -> new CommandResult("Unsupported screen state for DeleteCommand.", null);
-        };
     }
 }
+

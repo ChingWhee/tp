@@ -64,35 +64,42 @@ public class AddCommand extends Command {
      * @param catalogue The catalogue to add the item to.
      * @return A {@code CommandResult} indicating success or failure with user feedback.
      */
-
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
         assert catalogue != null : "Catalogue must not be null";
 
-        return switch (KitchenCTRL.getCurrentScreen()) {
-        case INVENTORY -> {
-            if (catalogue instanceof Inventory inventory) {
-                Ingredient ingredient = new Ingredient(name, quantity);
-                yield inventory.addItem(ingredient);
+        try {
+            return switch (KitchenCTRL.getCurrentScreen()) {
+            case INVENTORY -> {
+                if (catalogue instanceof Inventory inventory) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield inventory.addItem(ingredient, false);
+                }
+                yield new CommandResult("Invalid catalogue for inventory operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for inventory operation.", null);
-        }
-        case RECIPEBOOK -> {
-            if (catalogue instanceof RecipeBook recipeBook) {
-                Recipe recipe = new Recipe(name);
-                yield recipeBook.addItem(recipe);
+            case RECIPEBOOK -> {
+                if (catalogue instanceof RecipeBook recipeBook) {
+                    Recipe recipe = new Recipe(name);
+                    yield recipeBook.addItem(recipe, false);
+                }
+                yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for recipe book operation.", null);
-        }
-        case RECIPE -> {
-            requireActiveRecipe();
-            if (catalogue instanceof Recipe recipe) {
-                Ingredient ingredient = new Ingredient(name, quantity);
-                yield recipe.addItem(ingredient);
+            case RECIPE -> {
+                requireActiveRecipe();
+                if (catalogue instanceof Recipe recipe) {
+                    Ingredient ingredient = new Ingredient(name, quantity);
+                    yield recipe.addItem(ingredient, false);
+                }
+                yield new CommandResult("Invalid catalogue for recipe operation.", null);
             }
-            yield new CommandResult("Invalid catalogue for recipe operation.", null);
+            default -> new CommandResult("Unsupported screen state for AddCommand.", null);
+            };
+        } catch (ClassCastException e) {
+            return new CommandResult("Catalogue type mismatch: " + e.getMessage(), null);
+        } catch (IllegalArgumentException e) {
+            return new CommandResult("Invalid argument: " + e.getMessage(), null);
+        } catch (Exception e) {
+            return new CommandResult("Error occurred: " + e.getMessage(), null);
         }
-        default -> new CommandResult("Unsupported screen state for AddCommand.", null);
-        };
     }
 }

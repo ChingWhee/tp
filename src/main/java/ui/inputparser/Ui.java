@@ -69,7 +69,7 @@ public class Ui {
      *
      * @param screen The current screen state (WELCOME, INVENTORY, RECIPE).
      */
-    public void showScreenPrompt(ScreenState screen) {
+    public static void showScreenPrompt(ScreenState screen) {
         switch (screen) {
         case WELCOME:
             showWelcomeMessage();
@@ -91,59 +91,86 @@ public class Ui {
     /**
      * Displays the welcome message and available commands on the main screen.
      */
-    private void showWelcomeMessage() {
+    public static void showWelcomeMessage() {
         System.out.println("Welcome to KitchenCTRL - your digital kitchen companion!");
         System.out.println("What would you like to do today? Available commands:");
-        System.out.println("- inventory -> View and manage your inventory");
-        System.out.println("- recipe -> View and manage your recipes");
-        System.out.println("- bye -> Exit the program");
+        showWelcomeCommands();
     }
 
     /**
      * Displays help and commands for the INVENTORY screen.
      */
-    private void showInventoryMessage() {
+    public static void showInventoryMessage() {
         System.out.println("You're now in the INVENTORY screen.");
         System.out.println("Manage what's in your inventory! Available commands:");
-        System.out.println("- list -> Show all ingredients in inventory");
-        System.out.println("- find [name] -> Find an ingredient in inventory");
-        System.out.println("- add [item] [qty] -> Add ingredients to inventory");
-        System.out.println("- delete [item] [qty] -> Remove ingredients from inventory");
-        System.out.println("- cookable -> Find all cookable recipes");
-        System.out.println("- back -> Return to the main screen");
-        System.out.println("- bye -> Exit the program");
+        showInventoryCommands();
     }
 
     /**
      * Displays help and commands for managing a specific recipe's ingredients.
      */
-    private void showRecipeMessage() {
+    public static void showRecipeMessage() {
         Recipe activeRecipe = KitchenCTRL.getActiveRecipe();
         System.out.println("You're now viewing a specific RECIPE: " + activeRecipe.getRecipeName());
         System.out.println("Manage the ingredients for this recipe. Available commands:");
-        System.out.println("- list -> Show all ingredients in the recipe");
-        System.out.println("- find [name] -> Find an ingredient in the recipe");
-        System.out.println("- add [item] [qty] -> Add an ingredient to the recipe");
-        System.out.println("- update [item] [qty] -> Update the quantity of an existing ingredient");
-        System.out.println("- delete [item] [qty] -> Remove an ingredient from the recipe");
-        System.out.println("- back -> Return to the recipe list");
-        System.out.println("- bye -> Exit the program");
+        showRecipeCommands();
     }
 
     /**
      * Displays help and commands for the RECIPE screen.
      */
-    private void showRecipeBookMessage() {
+    public static void showRecipeBookMessage() {
         System.out.println("You're now in the RECIPEBOOK screen.");
         System.out.println("What dish would you like to make today? Available commands:");
-        System.out.println("- list -> Show all recipes");
-        System.out.println("- find [name] -> Find a recipe");
-        System.out.println("- add [name] -> Add a new recipe");
-        System.out.println("- delete [name] -> Delete a recipe");
-        System.out.println("- edit [name] -> edit a recipe");
-        System.out.println("- cook [name] -> Cook a recipe, or find missing ingredients to cook it");
+        showRecipeBookCommands();
+    }
+
+    public static void showWelcomeCommands() {
+        System.out.println("- inventory -> View and manage your inventory");
+        System.out.println("- recipe -> View and manage your recipes");
+        System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
+    }
+
+    public static void showInventoryCommands() {
+        System.out.println("- list -> Show all ingredients in inventory");
+        System.out.println("- find [name] -> Find ingredient(s) in inventory");
+        System.out.println("- add [item] [qty] -> Add ingredient(s) to inventory");
+        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from inventory based on qty specified");
+        //for removing used ingredients manually or wrongly named ingredients
+        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");
+        //directly set qty of specified ingredient
+        System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
+    }
+
+    public static void showRecipeCommands() {
+        System.out.println("- list -> Show all ingredients in the recipe");
+        System.out.println("- find [name] -> Find ingredient(s) in the recipe");
+        System.out.println("- add [item] [qty] -> Add ingredient(s) to the recipe");
+        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from recipe based on qty specified");
+        //for removing used ingredients manually or wrongly named ingredients
+        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in recipe");
+        //directly set qty of specified ingredient
+        System.out.println("- back -> Return to the recipe list");
+        System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
+    }
+
+    public static void showRecipeBookCommands() {
+        System.out.println("- list -> Show all recipes");
+        System.out.println("- find [name] -> Find recipe(s) matching search string");
+        System.out.println("- add [name] -> Add a new recipe");
+        System.out.println("- delete [name] -> Delete an existing recipe specified by [name]");
+        System.out.println("- edit [name] -> edit an existing recipe specified by [name]");
+        System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
+        //user cooks the recipe, prints out list of items required, and system automatically removes
+        //to view again, view from recipe tab
+        System.out.println("- back -> Return to the main screen");
+        System.out.println("- bye -> Exit the program");
+        System.out.println("- help -> View available commands");
     }
 
     /**

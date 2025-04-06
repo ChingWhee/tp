@@ -1,17 +1,18 @@
 package ui.inputparser;
 
-import commands.FindCommand;
-import commands.Command;
-import commands.ByeCommand;
-import commands.EditRecipeCommand;
 import commands.AddCommand;
-import commands.DeleteCommand;
-import commands.UpdateCommand;
-import commands.ListCommand;
 import commands.BackCommand;
-import commands.GoToCommand;
+import commands.ByeCommand;
+import commands.Command;
 import commands.CookRecipeCommand;
 import commands.CookableRecipesCommand;
+import commands.DeleteCommand;
+import commands.EditIngredientCommand;
+import commands.EditRecipeCommand;
+import commands.FindCommand;
+import commands.GoToCommand;
+import commands.ListCommand;
+import commands.ListCommandsCommand;
 import controller.KitchenCTRL;
 import controller.ScreenState;
 
@@ -39,7 +40,7 @@ public class Parser {
         String args = (commands.length > 1) ? commands[1] : "";
 
         return switch (KitchenCTRL.getCurrentScreen()) {
-        case WELCOME -> parseWelcomeCommand(command);
+        case WELCOME -> parseWelcomeCommand(userInput);
         case INVENTORY -> parseInventoryCommand(command, args);
         case RECIPEBOOK -> parseRecipeBookCommand(command, args);
         case RECIPE -> parseRecipeCommand(command, args);
@@ -48,60 +49,138 @@ public class Parser {
     }
 
     /**
-     * Parses commands specific to the welcome screen.
+     * Parses and validates a command in the WELCOME screen.
+     * <p>
+     * This method splits the full input string into the main command and its arguments,
+     * performs validation to ensure no extra input is provided for simple commands,
+     * and returns the appropriate {@link Command} based on the user input.
+     * </p>
      *
-     * @param command The parsed command keyword.
-     * @return A Command object corresponding to the user input.
-     * @throws IllegalArgumentException If the command is unknown.
+     * @param commandLine The full user input entered at the welcome screen.
+     * @return The corresponding {@link Command} object to execute.
+     * @throws IllegalArgumentException If the command is unknown or has unexpected arguments.
      */
-    private Command parseWelcomeCommand(String command) {
+    private Command parseWelcomeCommand(String commandLine) {
+        String[] parts = commandLine.trim().split("\\s+", 2);
+        String command = parts[0];
+        String args = (parts.length > 1) ? parts[1].trim() : "";
+
         return switch (command) {
-        case "inventory" -> prepareGoto(ScreenState.INVENTORY);
-        case "recipe" -> prepareGoto(ScreenState.RECIPEBOOK);
-        case "bye" -> prepareBye();
+        case "inventory" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`inventory` command should not have extra input.");
+            }
+            yield prepareGoto(ScreenState.INVENTORY);
+        }
+        case "recipe" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`recipe` command should not have extra input.");
+            }
+            yield prepareGoto(ScreenState.RECIPEBOOK);
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
+            }
+            yield prepareBye();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
+            }
+            yield new ListCommandsCommand(ScreenState.WELCOME);
+        }
         default -> throw new IllegalArgumentException("Unknown command in welcome screen.");
         };
     }
 
     /**
-     * Parses commands specific to the inventory screen.
+     * Parses commands specific to the inventory screen and validates argument usage.
      *
-     * @param command The command keyword (add, delete, list, back).
-     * @param args Arguments passed with the command.
+     * @param command The command keyword (e.g., "add", "list", "find", etc.).
+     * @param args    The arguments passed with the command, if any.
      * @return A Command object for the inventory action.
-     * @throws IllegalArgumentException If the command is unknown or malformed.
+     * @throws IllegalArgumentException If the command is unknown or has unexpected arguments.
      */
     private Command parseInventoryCommand(String command, String args) {
         return switch (command) {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
-        case "list" -> prepareList();
-        case "find" -> new FindCommand(args);
-        case "back" -> prepareBack();
-        case "bye" -> prepareBye();
-        case "cookable" -> new CookableRecipesCommand();
+        case "edit" -> prepareEdit(args);
+        case "find" -> new FindCommand(parseName(args));
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
+            }
+            yield prepareList();
+        }
+        case "cookable" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`cookable` command should not have extra input.");
+            }
+            yield new CookableRecipesCommand();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
+            }
+            yield new ListCommandsCommand(ScreenState.INVENTORY);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
+            }
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
+            }
+            yield prepareBye();
+        }
         default -> throw new IllegalArgumentException("Unknown command in inventory screen.");
         };
     }
 
     /**
-     * Parses commands specific to the recipe screen.
+     * Parses commands specific to the RECIPEBOOK screen and validates argument usage.
      *
-     * @param command The command keyword (add, delete, list, back).
-     * @param args Arguments passed with the command.
-     * @return A Command object for the recipe action.
-     * @throws IllegalArgumentException If the command is unknown or malformed.
+     * @param command The command keyword (e.g., "add", "delete", "list", etc.).
+     * @param args    The arguments passed with the command, if any.
+     * @return A Command object for the recipe book screen.
+     * @throws IllegalArgumentException If the command is unknown or has unexpected arguments.
      */
     private Command parseRecipeBookCommand(String command, String args) {
         return switch (command) {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
-        case "list" -> prepareList();
-        case "find" -> new FindCommand(args);
-        case "back" -> prepareBack();
-        case "bye" -> new ByeCommand();
+        case "find" -> new FindCommand(parseName(args));
         case "cook" -> prepareCook(args);
-        case "edit" -> new EditRecipeCommand(args);
+        case "edit" -> new EditRecipeCommand(parseName(args));
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
+            }
+            yield prepareList();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
+            }
+            yield new ListCommandsCommand(ScreenState.RECIPEBOOK);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
+            }
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
+            }
+            yield new ByeCommand();
+        }
         default -> throw new IllegalArgumentException("Unknown command in RecipeBook screen.");
         };
     }
@@ -109,20 +188,41 @@ public class Parser {
     /**
      * Parses commands specific to a selected recipe (ingredient management).
      *
-     * @param command The command keyword (add, update, delete, list, back, bye).
-     * @param args Arguments passed with the command.
+     * @param command The command keyword (add, edit, delete, list, back, bye).
+     * @param args    Arguments passed with the command.
      * @return A Command object for the recipe ingredient action.
      * @throws IllegalArgumentException If the command is unknown or malformed.
      */
     private Command parseRecipeCommand(String command, String args) {
         return switch (command) {
-        case "add" -> prepareAdd(args);       // Add an ingredient to the recipe
-        case "update" -> prepareUpdate(args); // Update quantity of an ingredient
-        case "delete" -> prepareDelete(args); // Delete an ingredient from the recipe
-        case "list" -> prepareList();           // List all ingredients in the recipe
-        case "find" -> new FindCommand(args);
-        case "back" -> prepareBack();                 // Go back to recipe book
-        case "bye" -> new ByeCommand();               // Exit program
+        case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
+        case "edit" -> prepareEdit(args);
+        case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
+        case "find" -> new FindCommand(parseName(args));     // Requires args: find <keyword>
+        case "list" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`list` command should not have extra input.");
+            }
+            yield prepareList();
+        }
+        case "help" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`help` command should not have extra input.");
+            }
+            yield new ListCommandsCommand(ScreenState.RECIPE);
+        }
+        case "back" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`back` command should not have extra input.");
+            }
+            yield prepareBack();
+        }
+        case "bye" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`bye` command should not have extra input.");
+            }
+            yield new ByeCommand();
+        }
         default -> throw new IllegalArgumentException("Unknown command in recipe screen.");
         };
     }
@@ -143,19 +243,14 @@ public class Parser {
                 throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
             }
 
-            String name = parts[0].trim();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(parts[1].trim());
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
-            }
+            String name = parseName(parts[0].trim());
+            int quantity = parseQuantity(parts[1].trim());
 
             return new AddCommand(name, quantity);
         }
         case RECIPEBOOK -> {
             // Expecting: add <recipeName>
-            String name = args.trim();
+            String name = parseName(args.trim());
             if (name.isEmpty()) {
                 throw new IllegalArgumentException("Recipe name cannot be empty!");
             }
@@ -166,29 +261,54 @@ public class Parser {
         }
     }
 
-    /**
-     * Prepares an UpdateCommand to change the quantity of an ingredient in a recipe.
-     *
-     * @param args The arguments for the update command in the format: &lt;name&gt; &lt;newQuantity&gt;
-     * @return An UpdateCommand with the specified ingredient and new quantity.
-     * @throws IllegalArgumentException If arguments are missing or incorrectly formatted.
-     */
-    private Command prepareUpdate(String args) {
-        String[] parts = args.split(" ", 2);
-        if (parts.length < 2) {
-            throw new IllegalArgumentException("Invalid format! Usage: update <ingredientName> <newQuantity>");
+    public static int parseQuantity(String quantityStr) {
+        // Regex allows leading zeros but enforces 1-99999 after parsing
+        if (!quantityStr.matches("^(?!\\+)[0]*[1-9]\\d{0,4}$")) {
+            throw new IllegalArgumentException("Quantity must be a positive integer from 1-99999 (no '+' sign)!");
         }
 
-        String name = parts[0].trim();
-        int newQuantity;
-        try {
-            newQuantity = Integer.parseInt(parts[1].trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("New quantity must be a valid integer!");
+        // Parse and check the actual value
+        int quantity = Integer.parseInt(quantityStr);
+        if (quantity > 99999) { // Handles cases like "000100000" (regex passes but invalid)
+            throw new IllegalArgumentException("Quantity must not exceed 99999!");
         }
-
-        return new UpdateCommand(name, newQuantity);
+        return quantity;
     }
+
+    public static String parseName(String nameStr) {
+        // Accepts any visible Unicode characters except backslash and control characters
+        if (!nameStr.matches("^[\\P{Cntrl}&&[^\\\\]]{1,100}$")) {
+            throw new IllegalArgumentException("Name contains invalid or disallowed characters!");
+        }
+
+        return nameStr;
+    }
+
+    private Command prepareEdit(String args) {
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
+
+        switch (KitchenCTRL.getCurrentScreen()) {
+        case INVENTORY, RECIPE -> {
+            // Expected format: edit <name> <newQuantity>
+            String[] parts = args.split(" ", 2);
+            if (parts.length < 2) {
+                throw new IllegalArgumentException("Invalid format! Usage: edit <name> <newQuantity>");
+            }
+
+            String name = parseName(parts[0].trim());
+            int newQuantity = parseQuantity(parts[1].trim());
+
+            return new EditIngredientCommand(name, newQuantity);
+        }
+
+        default -> throw new IllegalArgumentException(
+            "Edit command is not supported in screen: " + currentScreenName);
+        }
+    }
+
+
+
+
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.
@@ -203,7 +323,7 @@ public class Parser {
         switch (KitchenCTRL.getCurrentScreen()) {
         case RECIPEBOOK -> {
             // RECIPEBOOK expects only the recipe name
-            String name = args.trim();
+            String name = parseName(args.trim());
             if (name.isEmpty()) {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
             }
@@ -217,13 +337,8 @@ public class Parser {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
             }
 
-            String name = parts[0].trim();
-            int quantity;
-            try {
-                quantity = Integer.parseInt(parts[1].trim());
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Quantity must be a valid integer!");
-            }
+            String name = parseName(parts[0].trim());
+            int quantity = parseQuantity(parts[1].trim());
 
             return new DeleteCommand(name, quantity);
         }
@@ -283,22 +398,22 @@ public class Parser {
      * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
      */
     private Command prepareCook(String args) {
+        String name = parseName(args.trim());
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>");
+        }
+
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
 
         Recipe targetRecipe;
 
-        try {
-            String targetRecipeName = args.trim();
-            targetRecipe = recipeBook.getItemByName(targetRecipeName);
-            if (targetRecipe == null) {
-                throw new IllegalArgumentException("Recipe not found!");
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // Log the error (optional)
-            return null; // Handle error gracefully
-        }
+        String targetRecipeName = parseName(args.trim());
+        targetRecipe = recipeBook.getItemByName(targetRecipeName);
 
+        if (targetRecipe == null) {
+            throw new IllegalArgumentException("Recipe not found!");
+        }
         return new CookRecipeCommand(targetRecipe);
     }
 }

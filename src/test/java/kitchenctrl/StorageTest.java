@@ -69,9 +69,9 @@ public class StorageTest {
     @Test
     public void testSaveInventoryToFile() throws IOException {
         Inventory inventory = new Inventory();
-        inventory.addItem(new Ingredient("Flour", 5));
-        inventory.addItem(new Ingredient("Salt", 100));
-        inventory.addItem(new Ingredient("Butter", 666));
+        inventory.addItem(new Ingredient("Flour", 5), false);
+        inventory.addItem(new Ingredient("Salt", 100), false);
+        inventory.addItem(new Ingredient("Butter", 666), false);
         manager.saveToFile(inventory);
 
         List<String> lines = Files.readAllLines(manager.getInventoryFilePath());

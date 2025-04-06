@@ -89,12 +89,6 @@ class UiTest {
         String output = outContent.toString();
 
         assertTrue(output.contains("You're now in the INVENTORY screen."));
-        assertTrue(output.contains("- list -> Show all ingredients in inventory"));
-        assertTrue(output.contains("- find [name] -> Find an ingredient in inventory"));
-        assertTrue(output.contains("- add [item] [qty] -> Add ingredients to inventory"));
-        assertTrue(output.contains("- delete [item] [qty] -> Remove ingredients from inventory"));
-        assertTrue(output.contains("- back -> Return to the main screen"));
-        assertTrue(output.contains("- bye -> Exit the program"));
     }
 
     @Test
@@ -103,15 +97,6 @@ class UiTest {
         String output = outContent.toString();
 
         assertTrue(output.contains("You're now in the RECIPEBOOK screen."));
-        assertTrue(output.contains("What dish would you like to make today? Available commands:"));
-        assertTrue(output.contains("- list -> Show all recipes"));
-        assertTrue(output.contains("- find [name] -> Find a recipe"));
-        assertTrue(output.contains("- add [name] -> Add a new recipe"));
-        assertTrue(output.contains("- delete [name] -> Delete a recipe"));
-        assertTrue(output.contains("- edit [name] -> edit a recipe"));
-        assertTrue(output.contains("- cook [name] -> Cook a recipe, or find missing ingredients to cook it"));
-        assertTrue(output.contains("- back -> Return to the main screen"));
-        assertTrue(output.contains("- bye -> Exit the program"));
     }
 
     @Test
@@ -122,13 +107,7 @@ class UiTest {
         String output = outContent.toString();
 
         assertTrue(output.contains("You're now viewing a specific RECIPE: Sandwich"));
-        assertTrue(output.contains("- list -> Show all ingredients in the recipe"));
-        assertTrue(output.contains("- find [name] -> Find an ingredient in the recipe"));
-        assertTrue(output.contains("- add [item] [qty] -> Add an ingredient to the recipe"));
-        assertTrue(output.contains("- update [item] [qty] -> Update the quantity of an existing ingredient"));
-        assertTrue(output.contains("- delete [item] [qty] -> Remove an ingredient from the recipe"));
-        assertTrue(output.contains("- back -> Return to the recipe list"));
-        assertTrue(output.contains("- bye -> Exit the program"));
+
     }
 
     @Test

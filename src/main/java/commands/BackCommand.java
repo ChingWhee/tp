@@ -2,6 +2,7 @@ package commands;
 
 import controller.KitchenCTRL;
 import controller.ScreenState;
+import ui.inputparser.Ui;
 
 /**
  * Represents a command to return to the main (WELCOME) screen from any other screen.
@@ -24,8 +25,10 @@ public class BackCommand extends Command {
 
         if (current == ScreenState.RECIPE) {
             KitchenCTRL.setActiveRecipe(null); // clear context
+            Ui.showRecipeBookMessage();
             return new CommandResult(ScreenState.RECIPEBOOK);
         }
+        Ui.showWelcomeMessage();
         return new CommandResult(ScreenState.WELCOME);
     }
 }
