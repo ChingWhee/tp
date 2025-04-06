@@ -218,10 +218,9 @@ Matching recipes:
 ### Adding a Recipe: `add`
 Creates a new recipe in the system.
 
-### TO BE CHANGED
 Format:
 `add [recipe_name]`
-- The system will prompt for the required ingredients.
+KitchenCTRL will go into the "edit" recipe screen for the newly added recipe
 
 Example Usage:
 `add ChocolateCake`
