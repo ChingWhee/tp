@@ -47,9 +47,20 @@ public class StorageTest {
                 .forEach(File::delete);
     }
 
+    // INVENTORY TESTS
+
     @Test
     public void testLoadEmptyInventory() throws IOException {
         Files.createFile(manager.getInventoryFilePath());
+        Inventory inventory = manager.loadInventory();
+        assertNotNull(inventory);
+        assertTrue(inventory.getItems().isEmpty());
+    }
+
+    @Test
+    public void testLoadInventoryWithWhitespaceOnly() throws IOException {
+        String content = "   \n   \n";
+        Files.write(manager.getInventoryFilePath(), content.getBytes());
         Inventory inventory = manager.loadInventory();
         assertNotNull(inventory);
         assertTrue(inventory.getItems().isEmpty());
@@ -67,7 +78,15 @@ public class StorageTest {
     }
 
     @Test
-    public void testSaveInventoryToFile() throws IOException {
+    public void testSaveEmptyInventory() throws IOException {
+        Inventory inventory = new Inventory();
+        manager.saveToFile(inventory);
+        List<String> lines = Files.readAllLines(manager.getInventoryFilePath()).stream().map(String::trim).filter(line -> !line.isEmpty()).toList();
+        assertTrue(lines.isEmpty());
+    }
+
+    @Test
+    public void testSaveInventoryWithItems() throws IOException {
         Inventory inventory = new Inventory();
         inventory.addItem(new Ingredient("Flour", 5), false);
         inventory.addItem(new Ingredient("Salt", 100), false);
@@ -85,9 +104,35 @@ public class StorageTest {
         assertEquals(expectedLines, lines);
     }
 
+    // INVENTORY ERROR HANDLING TESTS
+
+    @Test
+    public void testLoadInventoryWithMalformedQuantity() throws IOException {
+        String content = "Sugar (ten)\nSalt (50)\n";
+        Files.write(manager.getInventoryFilePath(), content.getBytes());
+
+        Inventory inventory = manager.loadInventory();
+
+        assertEquals(1, inventory.getItems().size());
+        assertNull(inventory.getItemByName("Sugar")); // Malformed entry should be skipped
+        assertNotNull(inventory.getItemByName("Salt"));
+        assertEquals(50, inventory.getItemByName("Salt").getQuantity());
+    }
+
+    // RECIPE BOOK TESTS
+
     @Test
     public void testLoadEmptyRecipeBook() throws IOException {
-        Files.createFile(manager.getInventoryFilePath());
+        Files.createFile(manager.getRecipeBookFilePath());
+        RecipeBook book = manager.loadRecipeBook();
+        assertNotNull(book);
+        assertTrue(book.getItems().isEmpty());
+    }
+
+    @Test
+    public void testLoadRecipeBookWithWhitespaceOnly() throws IOException {
+        String content = "   \n   \n";
+        Files.write(manager.getRecipeBookFilePath(), content.getBytes());
         RecipeBook book = manager.loadRecipeBook();
         assertNotNull(book);
         assertTrue(book.getItems().isEmpty());
@@ -111,7 +156,7 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoadRecipeBookWithMultipleRecipe() throws IOException {
+    public void testLoadRecipeBookWithMultipleRecipes() throws IOException {
         String content = """
                 Pancakes
                 Flour (2)
@@ -149,21 +194,10 @@ public class StorageTest {
         assertEquals(5, recipe3.getItems().size());
     }
 
-    @Test
-    public void loadInventory_withMalformedQuantity_skipsInvalidLine() throws IOException {
-        String content = "Sugar (ten)\nSalt (50)\n";
-        Files.write(manager.getInventoryFilePath(), content.getBytes());
-
-        Inventory inventory = manager.loadInventory();
-
-        assertEquals(1, inventory.getItems().size());
-        assertNull(inventory.getItemByName("Sugar")); // Malformed entry should be skipped
-        assertNotNull(inventory.getItemByName("Salt"));
-        assertEquals(50, inventory.getItemByName("Salt").getQuantity());
-    }
+    // RECIPE BOOK ERROR HANDLING TESTS
 
     @Test
-    public void loadRecipeBook_withInvalidIngredientFormat_skipsLine() throws IOException {
+    public void testLoadRecipeBookWithInvalidIngredientFormat() throws IOException {
         String content = """
             Fried Rice
             Rice (2)
@@ -188,3 +222,4 @@ public class StorageTest {
     }
 
 }
+
