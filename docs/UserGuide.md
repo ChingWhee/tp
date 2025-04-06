@@ -58,6 +58,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
     - inventory -> View and manage your inventory
     - recipe -> View and manage your recipes
     - bye -> Exit the program
+    - help -> View available comands
     ```
 5. Type the command in the command box and press Enter to execute it. Start typing commands to manage your kitchen!
 
@@ -69,6 +70,7 @@ Upon startup, you’ll see a **main menu** with 4 command options:
 - `inventory`: Manage your pantry items
 - `recipe`: Save and manage recipes
 - `bye`: Exit the program
+- 'help': View available commands
 
 Each screen has its own set of commands, described below.
 
@@ -81,11 +83,13 @@ Switch to the inventory screen of the application from the main menu <br>
 Format: `inventory`
 
 ### Switch to recipe `recipe`
-Switch to the recipe list screen of the application from the main menu <br>
+Switch to the recipebook screen of the application from the main menu <br>
 Format: `recipe`
 
-### Switch to main menu `back`
+### Switch to previous screen `back`
 Switch to the main menu from the INVENTORY / RECIPEBOOK screen <br>
+OR <br>
+Switch from a Recipe back to RecipeBook <br>
 Format: `back`
 
 ### Exiting the program `bye`
