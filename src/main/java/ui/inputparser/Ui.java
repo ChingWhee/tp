@@ -95,6 +95,7 @@ public class Ui {
         System.out.println("Welcome to KitchenCTRL - your digital kitchen companion!");
         System.out.println("What would you like to do today? Available commands:");
         showWelcomeCommands();
+        System.out.println();
     }
 
     /**
@@ -104,6 +105,7 @@ public class Ui {
         System.out.println("You're now in the INVENTORY screen.");
         System.out.println("Manage what's in your inventory! Available commands:");
         showInventoryCommands();
+        System.out.println();
     }
 
     /**
@@ -114,6 +116,7 @@ public class Ui {
         System.out.println("You're now viewing a specific RECIPE: " + activeRecipe.getRecipeName());
         System.out.println("Manage the ingredients for this recipe. Available commands:");
         showRecipeCommands();
+        System.out.println();
     }
 
     /**
@@ -123,13 +126,14 @@ public class Ui {
         System.out.println("You're now in the RECIPEBOOK screen.");
         System.out.println("What dish would you like to make today? Available commands:");
         showRecipeBookCommands();
+        System.out.println();
     }
 
     public static void showWelcomeCommands() {
         System.out.println("- inventory -> View and manage your inventory");
         System.out.println("- recipe -> View and manage your recipes");
         System.out.println("- bye -> Exit the program");
-        System.out.println("- help -> View available commands");
+        System.out.print("- help -> View available commands");
     }
 
     public static void showInventoryCommands() {
@@ -143,7 +147,7 @@ public class Ui {
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
-        System.out.println("- help -> View available commands");
+        System.out.print("- help -> View available commands");
     }
 
     public static void showRecipeCommands() {
@@ -156,7 +160,7 @@ public class Ui {
         //directly set qty of specified ingredient
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
-        System.out.println("- help -> View available commands");
+        System.out.print("- help -> View available commands");
     }
 
     public static void showRecipeBookCommands() {
@@ -170,7 +174,7 @@ public class Ui {
         //to view again, view from recipe tab
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
-        System.out.println("- help -> View available commands");
+        System.out.print("- help -> View available commands");
     }
 
     /**
