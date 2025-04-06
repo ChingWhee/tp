@@ -19,6 +19,8 @@ import ui.inputparser.Ui;
 import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
@@ -130,6 +132,7 @@ public class KitchenCTRL {
      */
     private void start() {
         try {
+            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
             // Initialization
             this.ui = new Ui();
             this.parser = new Parser();
