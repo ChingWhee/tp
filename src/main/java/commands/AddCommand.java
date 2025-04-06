@@ -7,7 +7,7 @@ import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
-import static controller.KitchenCTRL.requireActiveRecipe;
+import static controller.KitchenCTRL.*;
 import static controller.ScreenState.RECIPE;
 import static controller.ScreenState.RECIPEBOOK;
 import static ui.inputparser.Ui.showScreenPrompt;
@@ -82,11 +82,9 @@ public class AddCommand extends Command {
             case RECIPEBOOK -> {
                 if (catalogue instanceof RecipeBook recipeBook) {
                     Recipe recipe = new Recipe(name);
-                    KitchenCTRL.setActiveRecipe(recipe);
                     recipeBook.addItem(recipe, false);
-                    KitchenCTRL.setCurrentScreen(RECIPE);
-                    showScreenPrompt(RECIPE);
-                    yield new CommandResult(recipe.getRecipeName() + " added to RecipeBook, now editing", RECIPE);
+                    setCurrentScreen(RECIPE);
+                    yield new EditRecipeCommand(recipe.getRecipeName()).execute();
                 }
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
