@@ -103,7 +103,7 @@ Format: `bye`
 Once you're in the `inventory` screen:
 
 ### Listing Ingredients: `list`
-Displays all ingredients currently stored in the inventory or shopping lisr.
+Displays all ingredients currently stored in the inventory.
 
 Format:
 `list`
@@ -181,11 +181,32 @@ _Assuming Inventory: Bread (1)_
 
 ## 🍳 Recipe Commands
 
-In the `recipe` screen:
+In the `recipebook` screen:
+
+### Listing Ingredients: `list`
+Displays all recipes in the RecipeBook.
+
+Format:
+`list`
+
+### 🔍 Finding a Recipe: `find`
+Searches for recipes with names that contain the keyword.
+
+**Format:**  
+`find [recipe_name]`
+
+**Example:**  
+`find cake`
+```
+Matching recipes:
+- Chocolate Cake
+- Carrot Cake
+```
 
 ### Adding a Recipe: `add`
 Creates a new recipe in the system.
 
+### TO BE CHANGED
 Format:
 `add [recipe_name]`
 - The system will prompt for the required ingredients.
@@ -204,19 +225,37 @@ Example Usage:
 `delete ChocolateCake`
 Deletes the recipe for "ChocolateCake" from the system.
 
-### 🔍 Finding a Recipe: `find`
-Searches for recipes with names that contain the keyword.
+### Editing a Recipe: `edit`
+Removes an ingredient from the inventory.
 
-**Format:**  
-`find [recipe_name]`
+Format:
+`edit [name]`
 
-**Example:**  
-`find cake`
-```
-Matching recipes:
-- Chocolate Cake
-- Carrot Cake
-```
+Example of usage:
+
+`edit Sandwich`
+Changes the current screen from `RecipeBook` to Sandwich's `Recipe` screen.
+<br><br>
+
+### Cooking a Recipe: `cook`
+Cooks a Recipe by removing the active Recipe's needed ingredients from Inventory. <br>
+If there are insufficient ingredients, returns a list of the balance to the user <br>
+
+Format:
+`cook [name]`
+
+Example of usage:
+
+| Ingredients for Toast | Ingredients for Sandwich    | Inventory              | 
+|---------------------- |-----------------------------|------------------------|
+| Bread (1)             | Bread (2)                   | Bread (1)              | 
+|                       | Egg (1)                     | Milk (1)               | 
+
+`cook Sandwich`
+returns `[Bread (1), Egg (1)]`
+
+`cook Toast`
+returns a success message, and removes `Bread (1)` from Inventory
 
 ---
 
