@@ -45,7 +45,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 ## 💡 Quick Start
 
 1. Ensure that you have Java 17 or above installed.
-2. Down the latest version of `KitchenCTRL` from [here](https://github.com/AY2425S2-CS2113-T13-1/tp).
+2. Download the latest version of `KitchenCTRL` from [here](https://github.com/AY2425S2-CS2113-T13-1/tp).
 3. Copy the file to the folder you want to use as the _home folder_ for your application.
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tp.jar` 
    command to run the application. This is how the application looks like on startup: <br>
@@ -167,7 +167,7 @@ Removes 1 unit of sugar from the inventory.
 <br><br>
 
 ### Editing an Ingredient: `edit`
-Removes an ingredient from the inventory.
+Updates the quantity of an ingredient in the inventory.
 
 Format:
 `edit [name] [quantity]`
@@ -210,10 +210,10 @@ Format:
 ### 🔍 Finding a Recipe: `find`
 Searches for recipes with names that contain the keyword.
 
-**Format:**  
+Format:  
 `find [recipe_name]`
 
-**Example:**  
+Example:  
 `find cake`
 ```
 Matching recipes:
@@ -243,7 +243,7 @@ Example Usage:
 Deletes the recipe for "ChocolateCake" from the system.
 
 ### Editing a Recipe: `edit`
-Removes an ingredient from the inventory.
+Changes the current screen to edit the selected Recipe.
 
 Format:
 `edit [name]`
@@ -289,10 +289,10 @@ Format:
 ### 🔍 Finding an Ingredient: `find`
 Searches for ingredients by name (case-insensitive, partial matches allowed).
 
-**Format:**  
+Format:
 `find [keyword]`
 
-**Example:**  
+Example:
 `find sugar`  
 Lists all ingredients containing "sugar", such as:
 ```
@@ -327,7 +327,7 @@ Removes 1 unit of sugar from the Recipe.
 <br><br>
 
 ### Editing an Ingredient: `edit`
-Removes an ingredient from the Recipe.
+Updates the quantity of an Ingredient in the Recipe.
 
 Format:
 `edit [name] [quantity]`
@@ -385,20 +385,33 @@ The data will be saved only when the program is successfully closed, i.e, "Goodb
 ---
 
 
-## Command Summary
+## 📋 Command Summary
 
-| Command                 | Format                     | Description                                         |
-|-------------------------|----------------------------|-----------------------------------------------------|
-| **Switch to Inventory** | `inventory`                | Navigate to the inventory screen.                   |
-| **Switch to Recipe**    | `recipe`                   | Navigate to the recipe management screen.           |
-| **Switch to Main Menu** | `back`                     | Return to the main menu from any sub-screen.        |
-| **Exit the Program**    | `bye`                      | Close the application.                              |
-| **Add Ingredient**      | `add [name] [quantity]`    | Add an ingredient to the inventory.                 |
-| **Delete Ingredient**   | `delete [name] [quantity]` | Remove an ingredient from the inventory.            |
-| **List Ingredients**    | `list`                     | Show all ingredients in the inventory.              |
-| **Add Recipe**          | `add [recipe_name]`        | Create a new recipe entry.                          |
-| **Delete Recipe**       | `delete [recipe_name]`     | Remove a recipe from the system.                    |
-| **Find**                | `find [keyword]`           | Search in inventory, recipe book, or recipe.        |
+| Screen         | Command               | Description                                                                 |
+|----------------|-----------------------|-----------------------------------------------------------------------------|
+| Main Menu      | `inventory`           | Switch to the inventory screen                                              |
+| Main Menu      | `recipe`              | Switch to the recipebook screen                                             |
+| Any            | `back`                | Return to the previous screen                                               |
+| Any            | `bye`                 | Exit the application                                                        |
+| Any            | `help`                | Display available commands                                                  |
+| Inventory      | `list`                | List all ingredients in inventory                                           |
+| Inventory      | `find [keyword]`      | Find ingredients by keyword (partial, case-insensitive)                     |
+| Inventory      | `add [name] [qty]`    | Add a new ingredient to inventory                                           |
+| Inventory      | `delete [name] [qty]` | Delete a specified quantity of an ingredient                                |
+| Inventory      | `edit [name] [qty]`   | Set the quantity of a given ingredient                                      |
+| Inventory      | `cookable`            | List all recipes that can be made with current ingredients                  |
+| RecipeBook     | `list`                | List all recipes                                                            |
+| RecipeBook     | `find [keyword]`      | Find recipes by keyword (partial, case-insensitive)                         |
+| RecipeBook     | `add [recipe_name]`   | Add a new recipe and enter recipe edit mode                                 |
+| RecipeBook     | `delete [recipe_name]`| Delete a recipe from RecipeBook                                             |
+| RecipeBook     | `edit [recipe_name]`  | Edit the specified recipe (enters Recipe screen)                            |
+| RecipeBook     | `cook [recipe_name]`  | Attempt to cook a recipe and deduct ingredients                             |
+| Recipe (edit)  | `list`                | List ingredients for the selected recipe                                    |
+| Recipe (edit)  | `find [keyword]`      | Find ingredients in the recipe by keyword                                   |
+| Recipe (edit)  | `add [name] [qty]`    | Add an ingredient to the recipe                                             |
+| Recipe (edit)  | `delete [name]`       | Remove an ingredient from the recipe                                        |
+| Recipe (edit)  | `edit [name] [qty]`   | Edit the quantity of an ingredient in the recipe                            |
+
 ---
 
 ## Conclusion
