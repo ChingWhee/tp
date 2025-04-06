@@ -36,8 +36,8 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [Handling Similar Entries](#-handling-similar-entries)
   - [Adding or Deleting Similar Ingredients](#adding-or-deleting-similar-ingredients)
   - [Adding or Deleting a Recipe](#adding-or-deleting-a-recipe)
-- [Data Storage](#data-storage)
-- [Command Summary](#command-summary)
+- [Data Storage](#-data-storage)
+- [Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
 ---
