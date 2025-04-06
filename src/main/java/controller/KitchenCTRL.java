@@ -132,7 +132,6 @@ public class KitchenCTRL {
      */
     private void start() {
         try {
-            System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
             // Initialization
             this.ui = new Ui();
             this.parser = new Parser();
