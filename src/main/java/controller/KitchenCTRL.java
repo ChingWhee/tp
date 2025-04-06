@@ -20,6 +20,7 @@ import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
 
+
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
  * It initializes the catalogues, manages user interaction through the UI, and handles command execution

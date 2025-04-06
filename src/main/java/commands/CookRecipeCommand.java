@@ -69,9 +69,15 @@ public class CookRecipeCommand extends Command {
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        assert catalogue instanceof RecipeBook: "Current screen not RecipeBook";
-
+        if (!(catalogue instanceof RecipeBook)) {
+            return new CommandResult("Command only executable in RecipeBook screen!");
+        }
         Inventory inventory = KitchenCTRL.getInventory();
+
+        ArrayList<Ingredient> recipeIngredients = targetRecipe.getItems();
+        if (recipeIngredients.isEmpty()) {
+            return new CommandResult("Recipe does not contain any ingredients!");
+        }
 
         ArrayList<Ingredient> missingIngredients = getMissingIngredients(inventory);
 
@@ -80,8 +86,8 @@ public class CookRecipeCommand extends Command {
         }
 
         ArrayList<Ingredient> inventoryItems = inventory.getItems();
-        ArrayList<Ingredient> recipeIngredients = targetRecipe.getItems();
 
+        //subtracts the item from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
             int index = inventoryItems.indexOf(requiredIngredient);
             Ingredient ingredientInInventory = inventoryItems.get(index);

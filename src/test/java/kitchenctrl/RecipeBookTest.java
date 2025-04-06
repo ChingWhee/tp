@@ -91,8 +91,8 @@ class RecipeBookTest {
 
     @Test
     void findItem_multipleMatches() {
-        recipeBook.addItem(new Recipe("Pasta Carbonara"), false);
-        recipeBook.addItem(new Recipe("Pasta Bolognese"), false);
+        recipeBook.addItem(new Recipe("Pasta Carbonara"), true);
+        recipeBook.addItem(new Recipe("Pasta Bolognese"), true);
         CommandResult result = recipeBook.findItem("Pasta");
         assertNotNull(result);
         assertTrue(result.getFeedbackToUser().contains("Pasta Carbonara"));
