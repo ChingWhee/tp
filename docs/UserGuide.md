@@ -5,20 +5,32 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 
 ## 📖 Table of Contents
 
-- [Quick Start](#-quick-start)
-- [Interface Overview](#-interface-overview)
-- [Navigation Commands](#-navigation-commands)
+
+- [Quick Start](#quick-start)
+- [Interface Overview](#interface-overview)
+- [Navigation Commands](#navigation-commands)
   - [Switch to Inventory: `inventory`](#switch-to-inventory-inventory)
   - [Switch to Recipe: `recipe`](#switch-to-recipe-recipe)
   - [Switch to Main Menu: `back`](#switch-to-main-menu-back)
   - [Exiting the Program: `bye`](#exiting-the-program-bye)
-- [Recipe Commands](#-recipe-commands)
+- [Inventory Commands](#inventory-commands)
+  - [Listing Ingredients: `list`](#listing-ingredients-list)
+  - [Finding an Ingredient: `find`](#finding-an-ingredient-find)
+  - [Adding an Ingredient: `add`](#adding-an-ingredient-add)
+  - [Deleting an Ingredient: `delete`](#deleting-an-ingredient-delete)
+  - [Editing an Ingredient: `edit`](#editing-an-ingredient-edit)
+  - [View Cookable Recipes: `cookable`](#view-cookable-recipes-cookable)
+- [RecipeBook Commands](#recipebook-commands)
+  - [Listing Recipes: `list`](#listing-recipes-list)
+  - [Finding a Recipe: `find`](#finding-a-recipe-find)
   - [Adding a Recipe: `add`](#adding-a-recipe-add)
   - [Deleting a Recipe: `delete`](#deleting-a-recipe-delete)
-- [Handling Similar Entries](#-handling-similar-entries)
-  - [Adding or deleting similar ingredients](#adding-or-deleting-similar-ingredients)
-- [Data Storage](#-data-storage)
-- [Coming Soon](#coming-soon)
+  - [Editing a Recipe: `edit`](#editing-a-recipe-edit)
+  - [Cooking a Recipe: `cook`](#cooking-a-recipe-cook)
+- [Handling Similar Entries](#handling-similar-entries)
+  - [Adding or Deleting Similar Ingredients](#adding-or-deleting-similar-ingredients)
+  - [Adding or Deleting a Recipe](#adding-or-deleting-a-recipe)
+- [Data Storage](#data-storage)
 - [Command Summary](#command-summary)
 - [Conclusion](#conclusion)
 
@@ -58,6 +70,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
     - inventory -> View and manage your inventory
     - recipe -> View and manage your recipes
     - bye -> Exit the program
+    - help -> View available comands
     ```
 5. Type the command in the command box and press Enter to execute it. Start typing commands to manage your kitchen!
 
@@ -69,6 +82,7 @@ Upon startup, you’ll see a **main menu** with 4 command options:
 - `inventory`: Manage your pantry items
 - `recipe`: Save and manage recipes
 - `bye`: Exit the program
+- `help`: View available commands
 
 Each screen has its own set of commands, described below.
 
@@ -81,11 +95,13 @@ Switch to the inventory screen of the application from the main menu <br>
 Format: `inventory`
 
 ### Switch to recipe `recipe`
-Switch to the recipe list screen of the application from the main menu <br>
+Switch to the recipebook screen of the application from the main menu <br>
 Format: `recipe`
 
-### Switch to main menu `back`
+### Switch to previous screen `back`
 Switch to the main menu from the INVENTORY / RECIPEBOOK screen <br>
+OR <br>
+Switch from a Recipe back to RecipeBook <br>
 Format: `back`
 
 ### Exiting the program `bye`
@@ -97,6 +113,27 @@ Format: `bye`
 ## 📦 Inventory Commands
 
 Once you're in the `inventory` screen:
+
+### Listing Ingredients: `list`
+Displays all ingredients currently stored in the inventory.
+
+Format:
+`list`
+
+### 🔍 Finding an Ingredient: `find`
+Searches for ingredients by name (case-insensitive, partial matches allowed).
+
+**Format:**  
+`find [keyword]`
+
+**Example:**  
+`find sugar`  
+Lists all ingredients containing "sugar", such as:
+```
+Matching items:
+- Sugar (2)
+- Brown Sugar (5)
+```
 
 ### Adding an Ingredient: `add`
 Adds a new ingredient to the inventory.
@@ -123,8 +160,123 @@ Example of usage:
 Removes 1 unit of sugar from the inventory.
 <br><br>
 
+### Editing an Ingredient: `edit`
+Removes an ingredient from the inventory.
+
+Format:
+`edit [name] [quantity]`
+
+Example of usage:
+
+`edit Sugar 10`
+Sets quantity of sugar to 10 in the inventory.
+<br><br>
+
+### View Cookable Recipes: `cookable`
+Lists all recipes that can be cooked based off ingredients in inventory.
+
+Format:
+`cookable`
+
+Example of usage:
+
+_Assuming Inventory: Bread (1)_
+
+| Recipe    | Ingredients           | Cookable |
+|-----------|------------------------|----------|
+| Toast     | Bread (1)              | ✅       |
+| Sandwich  | Bread (2), Egg (1)     | ❌       |
+
+`cookable` returns `Toast`
+
+---
+
+## 🍳 RecipeBook Commands
+
+In the `recipebook` screen:
+
 ### Listing Ingredients: `list`
-Displays all ingredients currently stored in the inventory or shopping lisr.
+Displays all recipes in the RecipeBook.
+
+Format:
+`list`
+
+### 🔍 Finding a Recipe: `find`
+Searches for recipes with names that contain the keyword.
+
+**Format:**  
+`find [recipe_name]`
+
+**Example:**  
+`find cake`
+```
+Matching recipes:
+- Chocolate Cake
+- Carrot Cake
+```
+
+### Adding a Recipe: `add`
+Creates a new recipe in the system.
+
+### TO BE CHANGED
+Format:
+`add [recipe_name]`
+- The system will prompt for the required ingredients.
+
+Example Usage:
+`add ChocolateCake`
+<br><br>
+
+### Deleting a Recipe: `delete`
+Removes a recipe from the catalogue.
+
+Format:
+`delete [recipe_name]`
+
+Example Usage:
+`delete ChocolateCake`
+Deletes the recipe for "ChocolateCake" from the system.
+
+### Editing a Recipe: `edit`
+Removes an ingredient from the inventory.
+
+Format:
+`edit [name]`
+
+Example of usage:
+
+`edit Sandwich`
+Changes the current screen from `RecipeBook` to Sandwich's `Recipe` screen.
+<br><br>
+
+### Cooking a Recipe: `cook`
+Cooks a Recipe by removing the active Recipe's needed ingredients from Inventory. <br>
+If there are insufficient ingredients, returns a list of the balance to the user <br>
+
+Format:
+`cook [name]`
+
+Example of usage:
+
+| Ingredients for Toast | Ingredients for Sandwich    | Inventory              | 
+|---------------------- |-----------------------------|------------------------|
+| Bread (1)             | Bread (2)                   | Bread (1)              | 
+|                       | Egg (1)                     | Milk (1)               | 
+
+`cook Sandwich`
+returns `[Bread (1), Egg (1)]`
+
+`cook Toast`
+returns a success message, and removes `Bread (1)` from Inventory
+
+---
+
+## 🍳 Recipe Commands
+This screen is only accesible via the `edit` command in RecipeBook <br>
+The following commands are applied to the selected Recipe <br>
+
+### Listing Ingredients: `list`
+Displays all ingredients needed for the Recipe.
 
 Format:
 `list`
@@ -144,54 +296,50 @@ Matching items:
 - Brown Sugar (5)
 ```
 
----
-
-## 🍳 Recipe Commands
-
-In the `recipe` screen:
-
-### Adding a Recipe: `add`
-Creates a new recipe in the system.
+### Adding an Ingredient: `add`
+Adds a new ingredient to the Recipe.
 
 Format:
-`add [recipe_name]`
-- The system will prompt for the required ingredients.
+`add [name] [quantity]`
+- If a similar ingredient exists, the system will prompt for confirmation.
 
-Example Usage:
-`add ChocolateCake`
+Example of usage:
+
+`add Sugar 2`
+Adds 2 units of sugar to the inventory.
 <br><br>
 
-### Deleting a Recipe: `delete`
-Removes a recipe from the catalogue.
+### Deleting an Ingredient: `delete`
+Removes an ingredient from the Recipe.
 
 Format:
-`delete [recipe_name]`
+`delete [name] [quantity]`
 
-Example Usage:
-`delete ChocolateCake`
-Deletes the recipe for "ChocolateCake" from the system.
+Example of usage:
 
-### 🔍 Finding a Recipe: `find`
-Searches for recipes with names that contain the keyword.
+`delete Sugar 1`
+Removes 1 unit of sugar from the Recipe.
+<br><br>
 
-**Format:**  
-`find [recipe_name]`
+### Editing an Ingredient: `edit`
+Removes an ingredient from the Recipe.
 
-**Example:**  
-`find cake`
-```
-Matching recipes:
-- Chocolate Cake
-- Carrot Cake
-```
+Format:
+`edit [name] [quantity]`
+
+Example of usage:
+
+`edit Sugar 10`
+Sets quantity of sugar to 10 in the Recipe.
+<br><br>
 
 ---
 
 ## 🔍 Handling Similar Entries
 
 ### Adding or deleting similar ingredients
-When adding or deleting ingredients, KitchenCTRL will check for **similar ingredients** 
-(e.g., `brown sugar` and `white sugar`).  
+When adding or deleting ingredients, KitchenCTRL will check for **similar ingredients** if an exact match is not found
+(e.g., `sugar` and `white_sugar`).  
 You will be prompted to choose whether to:
 
 - Add a new entry
@@ -199,8 +347,25 @@ You will be prompted to choose whether to:
 - Cancel the action
 
 Example:
+`add white_sugar 1` <br>
+`add sugar 1` <br>
+will prompt the user to choose
 
+### Adding or Deleting a Recipe
+
+When you try to add a recipe, KitchenCTRL will check if any similar recipes already exist if an exact match is not found
+If found, you will be prompted to:
+
+- Add the recipe as a new entry
+- Cancel the operation
+
+Similarly, for deletion, you will be prompted to:
+
+- Delete the similar recipe
+- Cancel the operation
+  
 ---
+
 
 ## 💾 Data Storage
 
@@ -213,41 +378,7 @@ All data is stored locally in `.txt` files under the `/data/` folder:
 The data will be saved only when the program is successfully closed, i.e, "Goodbye, see you soon!" suggests that the save has been done.
 
 ---
-## Coming soon
 
-### Adding a Recipe
-
-When you try to add a recipe, KitchenCTRL will check if any similar recipes already exist.
-If found, you will be prompted to:
-
-- Add the recipe as a new entry
-- Cancel the operation
-
-### Deleting a Recipe
-
-When you try to delete an ingredient, KitchenCTRL will check for any similar items.
-If found, you will be prompted to:
-
-- Delete existing recipe
-- Cancel the action
-
----
-
-## Developer Notes
-### Core Components
-- `InputParser`: Handles user input and choice validation.
-- `KitchenCTRL`: Main application logic, including initialization and command execution.
-- `Command`: Base class for commands like `AddIngredientCommand`, `DeleteIngredientCommand`, and `ByeCommand`.
-- `IngredientCatalogue`: Manages the inventory of ingredients.
-- `RecipeCatalogue`: Stores and manages recipes.
-- `CatalogueContentManager`: Handles loading and saving data.
-### Adding New Commands
-To add a new command:
-- Create a new class extending `Command`.
-- Implement the `execute()` method.
-- Register the command in `Parser`.
-
---- 
 
 ## Command Summary
 
