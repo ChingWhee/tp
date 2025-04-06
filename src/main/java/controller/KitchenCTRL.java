@@ -19,8 +19,7 @@ import ui.inputparser.Ui;
 import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
+
 
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
