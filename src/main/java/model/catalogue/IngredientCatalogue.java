@@ -29,12 +29,18 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
      * @return A list of similar matching ingredients.
      */
     public ArrayList<Ingredient> searchSimilarIngredient(Ingredient ingredient) {
-        String ingredientName = ingredient.getIngredientName();
-        String[] keywordList = ingredientName.toLowerCase().split(" ");
+        String[] inputKeywords = ingredient.getIngredientName().toLowerCase().split(" ");
+
         return items.stream()
                 .filter(currIngredient -> {
-                    String name = currIngredient.getIngredientName().toLowerCase();
-                    return Arrays.stream(keywordList).allMatch(name::contains);
+                    String[] itemKeywords = currIngredient.getIngredientName().toLowerCase().split(" ");
+
+                    // Check if any input word is in the item, or vice versa
+                    return Arrays.stream(inputKeywords).anyMatch(inputWord ->
+                            Arrays.stream(itemKeywords).anyMatch(itemWord ->
+                                    inputWord.contains(itemWord) || itemWord.contains(inputWord)
+                            )
+                    );
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
