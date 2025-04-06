@@ -70,7 +70,7 @@ Upon startup, you’ll see a **main menu** with 4 command options:
 - `inventory`: Manage your pantry items
 - `recipe`: Save and manage recipes
 - `bye`: Exit the program
-- 'help': View available commands
+- `help`: View available commands
 
 Each screen has its own set of commands, described below.
 
@@ -102,6 +102,27 @@ Format: `bye`
 
 Once you're in the `inventory` screen:
 
+### Listing Ingredients: `list`
+Displays all ingredients currently stored in the inventory or shopping lisr.
+
+Format:
+`list`
+
+### 🔍 Finding an Ingredient: `find`
+Searches for ingredients by name (case-insensitive, partial matches allowed).
+
+**Format:**  
+`find [keyword]`
+
+**Example:**  
+`find sugar`  
+Lists all ingredients containing "sugar", such as:
+```
+Matching items:
+- Sugar (2)
+- Brown Sugar (5)
+```
+
 ### Adding an Ingredient: `add`
 Adds a new ingredient to the inventory.
 
@@ -127,26 +148,34 @@ Example of usage:
 Removes 1 unit of sugar from the inventory.
 <br><br>
 
-### Listing Ingredients: `list`
-Displays all ingredients currently stored in the inventory or shopping lisr.
+### Editing an Ingredient: `edit`
+Removes an ingredient from the inventory.
 
 Format:
-`list`
+`edit [name] [quantity]`
 
-### 🔍 Finding an Ingredient: `find`
-Searches for ingredients by name (case-insensitive, partial matches allowed).
+Example of usage:
 
-**Format:**  
-`find [keyword]`
+`edit Sugar 10`
+Sets quantity of sugar to 10 in the inventory.
+<br><br>
 
-**Example:**  
-`find sugar`  
-Lists all ingredients containing "sugar", such as:
-```
-Matching items:
-- Sugar (2)
-- Brown Sugar (5)
-```
+### View Cookable Recipes: `cookable`
+Lists all recipes that can be cooked based off ingredients in inventory.
+
+Format:
+`cookable`
+
+Example of usage:
+
+_Assuming Inventory: Bread (1)_
+
+| Recipe    | Ingredients           | Cookable |
+|-----------|------------------------|----------|
+| Toast     | Bread (1)              | ✅       |
+| Sandwich  | Bread (2), Egg (1)     | ❌       |
+
+`cookable` returns `Toast`
 
 ---
 
