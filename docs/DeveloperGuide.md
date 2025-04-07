@@ -418,8 +418,8 @@ Priorities: High (must have) - * * *, Medium (nice to have) - * *, Low (unlikely
 
 ## Non-Functional Requirements
 - The system should be able to run on Windows, macOS, and Linux.
-- GiT is able to handle large amounts of data, stored in /data/inventory.txt and /data/recipe_book.txt.
-- GiT should be easy for a new user to grasp, and allow experienced users to use different functionalities quickly.
+- KitchenCTRL is able to handle large amounts of data, stored in /data/inventory.txt and /data/recipe_book.txt.
+- KitchenCTRL should be easy for a new user to grasp, and allow experienced users to use different functionalities quickly.
 - The program should not have offensive output messages.
 
 ## Future Plans
@@ -430,7 +430,10 @@ Priorities: High (must have) - * * *, Medium (nice to have) - * *, Low (unlikely
 2. **Implement Login and Set Up Database**
    - Create user authentication (login/sign-up)
    - Set up a database to persist user-specific data such as recipes, inventory, and shopping list
-
+3. **Find Recipes with Similar Ingredients**
+   - Create new functionality to find Recipes with similar ingredients instead of by Recipe name
+   - Integrate with existing model for ease of integration
+   
 ### Glossary
 
 - **CLI (Command-Line Interface)**  
