@@ -1,5 +1,22 @@
 # Developer Guide
 
+## Table of Contents
+
+- [Acknowledgements](#acknowledgements)
+- [Design & implementation](#design--implementation)
+    - [Architecture](#architecture)
+    - [UI Component](#ui-component)
+    - [Commands Component](#commands-component)
+    - [Model Component](#model-component)
+    - [Storage Component](#storage-component)
+- [Product scope](#product-scope)
+    - [Target user profile](#target-user-profile)
+    - [Value proposition](#value-proposition)
+- [User Stories](#user-stories)
+- [Non-Functional Requirements](#non-functional-requirements)
+- [Glossary](#glossary)
+- [Instructions for manual testing](#instructions-for-manual-testing)
+    - [Tips for testers](#tips-for-testers)
 ## Acknowledgements
 
 KitchenCTRL uses the following tools for development:
@@ -21,13 +38,12 @@ The design and implementation of KitchenCTRL has been broken down into various s
 ### Architecture
 A high-level overview of the system is shown in the Architecture Diagram below.
 
-This architecture consists of:
+The complete architecture consists of:
 1. `Ui`, `Main`, `Parser`, `InputParser` and `Command` classes: 
     These classes manage user interaction, parsing input commands, and executing actions.
 2. `Ingredient`, `Inventory`, `Recipe` and `RecipeBook` classes: 
     Model objects and collections used to manage the application data.
-3. `Storage` class: Stores data between sessions.
-4. `Exceptions`: Handle error cases 
+3. `CatalogueContentManager` class: Stores data between sessions.
 
 ### UI Component
 ![UI UML diagram](diagrams/ui.png)
@@ -86,12 +102,11 @@ It integrates closely with other components such as:
 
 It allows the user to interact with the system in an intuitive way, providing clear instructions and feedback at every step.
 
-
-
 ### Commands Component
 ![Logic UML diagram](diagrams/logic.png)
 
-The commands package is responsible for encapsulating user actions and system operations as individual command classes. Each command represents a specific operation that the application can perform, such as modifying data, navigating between screens, or executing specific tasks.
+The commands package is responsible for encapsulating user actions and system operations as individual command classes. 
+Each command represents a specific operation that the application can perform, such as modifying data, navigating between screens, or executing specific tasks.
 
 All commands in this package inherit from a common parent class, typically named Command. This design ensures consistency and reusability across the application by enforcing a standard structure for all commands.
 
@@ -128,17 +143,76 @@ It does not depend on any of the other three components (Logic, UI, or Storage),
 
 > ℹ️ **Note:** Recipes and inventory entries are internally handled using dynamic lists within `Catalogue<T>`, avoiding tight coupling and enabling code reuse across domain types.
 
+#### **Inventory Class**
 
-#### RecipeBook Design
-The `RecipeBook` class inherits from `Catalogue<Recipe>` and manages a list of `Recipe` objects. It provides CRUD functionality and uses `CommandResult` to return operation outcomes.
+The `Inventory` class is a subclass of the generic `Catalogue<Ingredient>` class. It is used to store all ingredients currently available to the user.
 
+The following are its attributes:
+- `items`  
+  **type:** `ArrayList<Ingredient>`  
+  Stores all ingredients the user currently has.
+
+- `catalogueName`  
+  **type:** `String`  
+  A fixed label used for saving and displaying (e.g., "Inventory").
+
+Key methods implemented in this class include:
+- `addItem(Ingredient ingredient)` – Adds an ingredient to the inventory or updates quantity if it already exists.
+- `deleteItem(String name, int quantity)` – Removes a quantity of an ingredient.
+- `editItem(String name, int newQuantity)` – Updates the amount of a specific ingredient.
+- `getItemByName(String name)` – Retrieves an ingredient by name.
+- `findItem(String keyword)` – Returns a list of ingredients that match a keyword.
+- `contains(String name)` – Returns true if the inventory contains the given ingredient.
+---
+#### **Recipe Class**
+
+The `Recipe` class is used to represent a single recipe. It contains the name of the recipe and its required ingredients (with their quantities). It inherits from `Catalogue<Ingredient>`.
+
+The following are its attributes:
+
+- `recipeName`  
+  **type:** `String`  
+  Stores the name of the recipe.
+
+- `items`  
+  **type:** `ArrayList<Ingredient>`  
+  Represents the list of ingredients needed for the recipe.
+
+Key methods implemented in this class include:
+- `getRecipeName()` – Returns the name of the recipe.
+- `addItem(Ingredient ingredient)` – Adds an ingredient to the recipe.
+- `deleteItem(String name, int quantity)` – Removes a specified quantity of an ingredient from the recipe.
+- `editItem(String name, int newQuantity)` – Updates the quantity of an ingredient.
+- `getItemByName(String name)` – Searches for an ingredient by name.
+- `findItem(String keyword)` – Returns all ingredients that match a search keyword.
+
+---
+#### **RecipeBook Class**
+
+The `RecipeBook` class is a subclass of the generic `Catalogue<Recipe>` class. It is used to store all user-created recipes and supports functionality for adding, deleting, editing, and searching through recipes.
 ![RecipeBook Class Diagram](diagrams/recipebook.png)
+
+The following are its key attributes:
+- `items`  
+  **type:** `ArrayList<Recipe>`  
+  Stores all `Recipe` objects created by the user.
+
+- `catalogueName`  
+  **type:** `String`  
+  A fixed label used for saving and displaying the catalogue (e.g., "RecipeBook").
+
+Key methods implemented in this class include:
+- `addItem(Recipe recipe)` – Adds a new recipe to the list.
+- `deleteItem(String name)` – Deletes a recipe based on name.
+- `getItemByName(String name)` – Retrieves a recipe by name (case-insensitive).
+- `editItem(String name, Recipe updatedRecipe)` – Replaces an existing recipe with a modified one.
+- `findItem(String keyword)` – Returns a filtered list of recipes whose names contain the given keyword.
 
 ---
 
 ### Storage Component
 
-#### CatalogueContentManager Design
+#### CatalogueContentManager CLass
 
 ##### Purpose
 
@@ -192,7 +266,24 @@ Each item in the inventory is represented as `name (quantity)`
 
 Each recipe ends with a **blank line**.
 
+### Program Run Sequence
 
+#### Command handling
+![AddCommand diagram](diagrams/sequencediagram(Add).png)
+User input is first captured by the `Ui.getUserCommand()` method, which is called from the `KitchenCTRL` class (not shown in the sequence diagram). The input string is then passed to the `Parser#parseCommand()` method to identify the command type and generate the appropriate `Command` object.
+Once a `Command` object is created, the system invokes the `execute()` method of that command. The result of the execution is encapsulated in a `CommandResult` object, which the UI uses to print the appropriate response back to the user.
+As shown in the sequence diagram, this process is demonstrated through three main scenarios:
+
+- Navigating to the inventory screen:
+The user types "inventory", which is parsed into a GoToCommand. It is executed by the system, and the UI displays "now in Inventory" to confirm the screen transition.
+
+- Adding an ingredient:
+The user enters "add egg 1", which the parser interprets as an AddCommand. During execution, the Command object interacts with the Model (in this case, Inventory) to add the ingredient "egg" with quantity 1. Once successful, a confirmation message "egg added" is returned and printed to the user.
+
+- Exiting the program:
+When the user types "bye", the parser generates a ByeCommand. This command calls CatalogueContentManager#saveAllCatalogues() internally, which saves the Inventory and RecipeBook to files using saveToFile(). After successful persistence, a "Goodbye" message is returned and shown to the user.
+Each command follows a similar structure of being parsed → executed → result returned → response displayed, which is consistent with the general command handling architecture in KitchenCTRL.
+This sequence diagram serves as a reference for typical command flow and will help illustrate command handling in the Architecture and Logic sections of the Developer Guide.
 
 ##### Integration
 
