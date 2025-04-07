@@ -99,7 +99,7 @@ public class CookableRecipesCommand extends Command {
      * appropriate error messages are returned. Otherwise, the result lists all
      * cookable recipes, each prefixed with a dash on a new line.
      *
-     * @param catalogue The current item catalogue, expected to be an {@code Inventory}.
+     * @param catalogue The current item catalogue, expected to be an {@code Inventory} or  {@code RecipeBook}.
      * @return A {@code CommandResult} listing cookable recipes or a message indicating none can be cooked.
      */
     @Override
