@@ -1,7 +1,6 @@
 package model.catalogue;
 
 import commands.CommandResult;
-import controller.KitchenCTRL;
 import model.Ingredient;
 import ui.inputparser.ConflictHelper;
 
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static controller.ScreenState.RECIPE;
 
 /**
  * Abstract class for catalogues that manage ingredients (e.g., Inventory, Recipe).
@@ -181,9 +179,6 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         // Check for an exact match first
         for (Ingredient existingIngredient : similarIngredient) {
             if (isExactMatchFound(existingIngredient, ingredient)) {
-                if (KitchenCTRL.getCurrentScreen() == RECIPE) {
-                    return removeIngredient(ingredient);
-                }
                 return decreaseQuantity(existingIngredient, ingredient);
             }
         }
@@ -191,9 +186,6 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         int choice = ConflictHelper.getUserChoiceForDeleteIngredient(similarIngredient, ingredient);
 
         if (choice > 0 && choice <= similarIngredient.size()) {
-            if (KitchenCTRL.getCurrentScreen() == RECIPE) {
-                return removeIngredient(similarIngredient.get(choice - 1));
-            }
             return decreaseQuantity(similarIngredient.get(choice - 1), ingredient);
         }
 
