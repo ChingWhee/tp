@@ -1,4 +1,6 @@
 @startuml
+hide circle
+skinparam classAttributeIconSize 0
 
 package "model" {
 
@@ -81,9 +83,9 @@ package "model" {
 }
 
 ' Relationships
-IngredientCatalogue --> Ingredient : contains
-Inventory --> Ingredient : contains
-Recipe --> Ingredient : contains
-RecipeBook --> Recipe : contains
+IngredientCatalogue *-- "0..*" Ingredient
+Inventory *-- "0..*" Ingredient
+Recipe *-- "0..*" Ingredient
+RecipeBook *-- "0..*" Recipe
 
 @enduml
