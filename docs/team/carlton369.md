@@ -63,6 +63,7 @@ Given below are my contributions to the project:
         * Added implementation details of the `Commands` class. [\#59](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/59)
         * Added sequence diagram for an `Add` operation in the `Inventory` screen, and saving to file [\#178](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/178) [\#180](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/180/files)
         * Added UML diagram for the `Model` Package [\#178](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/178) [\#180](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/180/files)
+        * Added User Stories in the DG [\#194](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/194)
 
 * **Community**:
     * PRs reviewed (with non-trivial review comments): 
@@ -70,4 +71,9 @@ Given below are my contributions to the project:
       [\#27](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/27),
       [\#81](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/81)
       [\#184](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/184)
-  
+
+
+* **Tools**:
+    * Integrated PlantUML into the project
+    * Integrated test cases with JUnit 5 and followed Checkstyle coding standards.
+

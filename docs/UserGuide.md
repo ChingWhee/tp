@@ -33,6 +33,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [💾 Data Storage](#-data-storage)
   - [File Format: `inventory.txt`](#-file-format-inventorytxt)
   - [File Format: `recipe_book.txt`](#-file-format-recipe_booktxt)
+- [Handling Large Files or Quantities](#handling-large-files-or-quantities)
 - [📋 Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
@@ -485,6 +486,27 @@ apple (1)
 banana (2)
 ```
 ---
+
+## ⚠️ Handling Large Files or Quantities
+
+To maintain performance and prevent abuse, the system enforces strict upper limits on quantities and data sizes:
+
+### Ingredient Quantity Limits
+- Each `Ingredient` quantity is **capped at 99,999**.
+- If an operation exceeds this cap (e.g., `60,000 + 70,000`), the final quantity will be **set to 99,999** and **any excess will be discarded silently**.
+- Negative or zero quantities are not allowed during additions.
+
+### Catalogue Size Limits
+- `Inventory` and each `Recipe` can contain **a maximum of 100 ingredients**.
+- The `RecipeBook` can hold **up to 100 recipes**.
+- Attempts to add more than the allowed number will be ignored, and the user will be notified if the operation is done via UI.
+
+### Save File Restrictions
+Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, or quantity > 99,999), the following rules apply:
+- **Only the first 100 valid items** in any list will be loaded.
+- Any ingredient or recipe exceeding size or quantity limits will be **ignored entirely** during parsing.
+
+> ⚠️ This ensures that manual tampering or unintended data corruption does not crash the application or create unstable states.
 
 
 ## 📋 Command Summary
