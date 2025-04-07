@@ -115,7 +115,14 @@ public class CatalogueContentManager {
         String currentRecipeName = null;
         ArrayList<Ingredient> currentIngredients = new ArrayList<Ingredient>();
 
+        int count = 0;
+
         for (String line : lines) {
+            if (count >= 101) {
+                System.out.println("Too many ingredients in recipe: " + currentRecipeName + " skipping the rest");
+                break; // Stop after 100 lines
+            }
+
             line = line.trim();  // Remove leading and trailing whitespaces
 
             if (line.isEmpty()) {
@@ -137,8 +144,9 @@ public class CatalogueContentManager {
                 if (matcher.matches()) {
                     String ingredientName = parseName(matcher.group(1));  // Ingredient name
                     int quantity = parseQuantity(matcher.group(2));  // Ingredient quantity
-                    if (quantity > 0) {
+                    if (quantity > 0 && quantity <= 99999) {
                         currentIngredients.add(new Ingredient(ingredientName, quantity));
+                        count += 1;
                     }
                 } else {
                     // Handle invalid format if necessary
