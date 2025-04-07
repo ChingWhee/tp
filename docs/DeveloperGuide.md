@@ -39,11 +39,13 @@ The design and implementation of KitchenCTRL has been broken down into various s
 A high-level overview of the system is shown in the Architecture Diagram below.
 ![Architecture UML diagram](diagrams/architecture.png)
 The complete architecture consists of:
-1. `Ui`, `Main`, `Parser`, and `Command` classes: 
+1. `Ui`, `Parser`, `Command`, `CatalogueContentManager`, `Inventory` and `RecipeBook` classes: 
     These classes manage user interaction, parsing input commands, and executing actions.
 2. `Ingredient`, `Inventory`, `Recipe` and `RecipeBook` classes: 
     Model objects and collections used to manage the application data.
-3. `CatalogueContentManager` class: Stores data between sessions.
+3. `CatalogueContentManager` class: 
+    Handles loading and saving of catalogue data (e.g., inventory and recipes) to persistent storage, 
+    ensuring the application state is maintained across sessions.
 
 ### Commands Component
 ![Logic UML diagram](diagrams/logic.png)

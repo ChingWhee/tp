@@ -1,3 +1,4 @@
+//@@author ChingWhee
 package model.catalogue;
 
 import commands.CommandResult;
@@ -71,6 +72,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
     protected boolean isExactMatchFound(Ingredient existingIngredient, Ingredient newIngredient) {
         return existingIngredient.getIngredientName().equalsIgnoreCase(newIngredient.getIngredientName());
     }
+//@@author
 
     /**
      * Adds an ingredient to the catalogue. If a similar ingredient is found, the user is prompted
@@ -129,6 +131,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         }
     }
 
+    //@@author ChingWhee
     /**
      * Adds a new ingredient to the catalogue without checking for duplicates.
      *
@@ -206,7 +209,6 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         );
     }
 
-
     /**
      * Clears all ingredients from the catalogue.
      *
@@ -216,6 +218,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         items.clear();
         return new CommandResult("All ingredients removed from " + getCatalogueLabel() + ".");
     }
+    //@@author
 
     /**
      * Decreases the quantity of an existing ingredient. If the remaining quantity is zero or less,
@@ -280,7 +283,25 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         }
     }
 
-
+    /**
+     * Edits an ingredient in the current catalogue by updating its quantity.
+     * <p>
+     * This method performs validation on the provided ingredient, searches for similar
+     * ingredients in the catalogue, and attempts to update the matching one. If multiple
+     * similar ingredients are found but none match exactly, the user will be prompted
+     * to choose which one to edit. The ingredient's quantity is then updated accordingly.
+     * </p>
+     *
+     * @param ingredient The {@link Ingredient} to edit, containing the target name and new quantity.
+     * @return A {@link CommandResult} containing a success or error message depending on the outcome.
+     *         Possible outcomes include:
+     *         <ul>
+     *             <li>Success message after updating the quantity.</li>
+     *             <li>Message if no similar ingredient was found.</li>
+     *             <li>Message if input validation fails (e.g., null ingredient, empty name, negative quantity).</li>
+     *             <li>Message if the operation was canceled or an error occurred.</li>
+     *         </ul>
+     */
     public CommandResult editItem(Ingredient ingredient) {
         try {
             if (ingredient == null) {
@@ -323,11 +344,4 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
             return new CommandResult("Error editing ingredient: " + e.getMessage());
         }
     }
-
-
-
-
-
 }
-
-
