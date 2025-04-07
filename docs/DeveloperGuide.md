@@ -5,8 +5,8 @@
 - [Acknowledgements](#acknowledgements)
 - [Design & implementation](#design--implementation)
     - [Architecture](#architecture)
-    - [UI Component](#ui-component)
     - [Commands Component](#commands-component)
+    - [UI Component](#ui-component)
     - [Model Component](#model-component)
     - [Storage Component](#storage-component)
 - [Product scope](#product-scope)
@@ -30,8 +30,8 @@ Each component is responsible for a distinct part of the system's functionality.
 
 The design and implementation of KitchenCTRL has been broken down into various sections
 - [Architecture](#architecture)
-- [UI Component](#ui-component)
 - [Commands Component](#commands-component)
+- [UI Component](#ui-component)
 - [Model Component](#model-component)
 - [Storage Component](#storage-component)
 
@@ -44,63 +44,6 @@ The complete architecture consists of:
 2. `Ingredient`, `Inventory`, `Recipe` and `RecipeBook` classes: 
     Model objects and collections used to manage the application data.
 3. `CatalogueContentManager` class: Stores data between sessions.
-
-### UI Component
-![UI UML diagram](diagrams/ui.png)
-
-The **UI Component** of KitchenCTRL is responsible for handling all input/output interactions with the user. 
-It manages displaying messages, prompts, and results, as well as reading user input. 
-The UI component ensures smooth communication between the user and the application.
-
-#### Overview
-
-The `Ui.java` class is the core component of the UI, responsible for:
-- Displaying the ASCII logo upon program startup.
-- Showing screen prompts for various states (e.g., WELCOME, INVENTORY, RECIPEBOOK, RECIPE).
-- Displaying results of command executions.
-- Reading user commands from the console.
-
-This class provides methods for showing messages, reading user inputs, and displaying results after command execution. 
-The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen (e.g., inventory, recipe).
-
-#### Key Methods
-
-| Method                      | Description                                                                |
-|-----------------------------|----------------------------------------------------------------------------|
-| `showInitMessage`           | Displays the ASCII logo upon startup.                                      |
-| `showDivider`               | Displays a divider line for separating sections in the UI.                 |
-| `showScreenPrompt`          | Displays the appropriate screen prompt based on the current screen state.  |
-| `showWelcomeMessage`        | Displays the welcome message and commands available on the main screen.    |
-| `showInventoryMessage`      | Displays available commands for managing the inventory.                    |
-| `showRecipeMessage`         | Displays available commands for managing recipes.                          |
-| `showRecipeBookMessage`     | Displays available commands for managing the recipe book.                  |
-| `showGoodbyeMessage`        | Displays a goodbye message when exiting the application.                   |
-| `getUserCommand`            | Reads and returns the user's command input.                                |
-| `showResultToUser`          | Displays the result of executing a command.                                |
-
-#### Design Considerations
-
-The `Ui.java` class serves as the intermediary between the user and the system’s internal logic. 
-It maintains flexibility in terms of how input/output is handled, making it easier to change the interface 
-or port it to a different platform if necessary.
-
-Since the application is command-line-based, `Ui.java` directly interacts with the user through the standard console 
-I/O operations. All I/O logic is contained within the UI class, ensuring that the rest of the system is decoupled 
-from the user interface.
-
-Additionally, the class uses a `Scanner` to read user input. If no input is provided, the program exits gracefully to 
-avoid any exceptions. This prevents the system from crashing due to unexpected user actions.
-
-#### Usage in the Application
-
-The `Ui.java` class is crucial in driving the interaction between the user and the system. 
-It integrates closely with other components such as:
-- **Logic Component**: The UI displays feedback messages based on the results of executed commands that are 
-  handled by the Logic component.
-- **ScreenState**: The UI uses the `ScreenState` enum to determine which screen’s prompt should be displayed 
-  (e.g., WELCOME, INVENTORY, RECIPE, RECIPEBOOK).
-
-It allows the user to interact with the system in an intuitive way, providing clear instructions and feedback at every step.
 
 ### Commands Component
 ![Logic UML diagram](diagrams/logic.png)
@@ -125,6 +68,67 @@ Calls the RecipeManager.cookRecipe() method to perform the cooking operation.
 Returns a CommandResult with a success or failure message, depending on the outcome.
 Summary
 The commands package provides a structured way to define and execute operations in the application. By inheriting from the Command class, each command ensures consistency and adheres to the application's design principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
+
+### UI Component
+![UI UML diagram](diagrams/ui.png)
+
+The **UI Component** of KitchenCTRL is responsible for handling all input/output interactions with the user.
+It manages displaying messages, prompts, and results, as well as reading user input.
+The UI component ensures smooth communication between the user and the application.
+
+#### Overview
+
+The `Ui.java` class is the core component of the UI, responsible for:
+- Displaying the ASCII logo at program startup.
+- Showing appropriate prompts and help messages for different screen states 
+  (e.g., WELCOME, INVENTORY, RECIPEBOOK, RECIPE).
+- Displaying results and feedback from command executions.
+
+This class provides methods for showing messages, reading user inputs, and displaying results after command execution.
+The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen (e.g., inventory, recipe).
+
+#### Key Methods
+
+| Method                    | Description                                                                 |
+|---------------------------|-----------------------------------------------------------------------------|
+| `showInitMessage`         | Displays the ASCII KitchenCTRL logo at startup.                             |
+| `showDivider`             | Prints a divider line to separate output sections in the console.           |
+| `showScreenPrompt`        | Displays the full screen prompt and help message for the current screen.    |
+| `showWelcomeMessage`      | Prints the welcome screen message and high-level available actions.         |
+| `showInventoryMessage`    | Displays help and available inventory commands for the INVENTORY screen.    |
+| `showRecipeMessage`       | Displays help and available commands for a specific recipe being edited.    |
+| `showRecipeBookMessage`   | Displays help and available commands for the RECIPEBOOK screen.             |
+| `showWelcomeCommands`     | Prints the list of commands accessible from the welcome screen.             |
+| `showInventoryCommands`   | Prints the list of commands accessible from the inventory screen.           |
+| `showRecipeCommands`      | Prints the list of commands accessible while editing a specific recipe.     |
+| `showRecipeBookCommands`  | Prints the list of commands accessible from the recipe book screen.         |
+| `showGoodbyeMessage`      | Prints a farewell message before the program exits.                         |
+| `getUserCommand`          | Prompts the user and reads their next command from standard input.          |
+| `showResultToUser`        | Prints the feedback message from a `CommandResult` object to the user.      |
+
+#### Design Considerations
+
+The `Ui.java` class serves as the intermediary between the user and the system’s internal logic.
+It maintains flexibility in terms of how input/output is handled, making it easier to change the interface
+or port it to a different platform if necessary.
+
+Since the application is command-line-based, `Ui.java` directly interacts with the user through the standard console
+input/output operations. All input/output logic is contained within the UI class, ensuring that the rest of the system is decoupled
+from the user interface.
+
+Additionally, the class uses a `Scanner` to read user input. If no input is provided, the program exits gracefully to
+avoid any exceptions. This prevents the system from crashing due to unexpected user actions.
+
+#### Usage in the Application
+
+The `Ui.java` class is crucial in driving the interaction between the user and the system.
+It integrates closely with other components such as:
+- **Logic Component**: The UI displays feedback messages based on the results of executed commands that are
+  handled by the Logic component.
+- **ScreenState**: The UI uses the `ScreenState` enum to determine which screen’s prompt should be displayed
+  (e.g., WELCOME, INVENTORY, RECIPE, RECIPEBOOK).
+
+It allows the user to interact with the system in an intuitive way, providing clear instructions and feedback at every step.
 
 ### Model Component
 ![Model UML diagram](diagrams/model.png)

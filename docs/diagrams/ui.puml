@@ -1,22 +1,132 @@
 @startuml
-
 hide circle
+hide empty members
 skinparam classAttributeIconSize 0
 
 class Ui {
-    -scanner: Scanner
     +Ui()
-    +Ui(InputStream inStream)
+    +Ui(inStream : InputStream)
     +showInitMessage()
     +showDivider()
-    +showScreenPrompt(ScreenState screen)
-    -showWelcomeMessage()
-    -showInventoryMessage()
-    -showRecipeMessage()
-    -showRecipeBookMessage()
+    +getUserCommand() : String
+    +showResultToUser(result : CommandResult)
+    +<u>showScreenPrompt(screen : ScreenState)
+    +<u>showWelcomeMessage()
+    +<u>showInventoryMessage()
+    +<u>showRecipeMessage()
+    +<u>showRecipeBookMessage()
+    +<u>showWelcomeCommands()
+    +<u>showInventoryCommands()
+    +<u>showRecipeCommands()
+    +<u>showRecipeBookCommands()
     +showGoodbyeMessage()
-    +getUserCommand(): String
-    +showResultToUser(CommandResult result)
 }
 
+package controller {
+    class KitchenCTRL {
+        - <u>Inventory inventory
+        - <u>RecipeBook recipeBook
+        - <u>Recipe activeRecipe
+        - Parser parser
+
+        + <u>getCurrentScreen() : ScreenState
+        + <u>setCurrentScreen(ScreenState) : void
+        + <u>setActiveRecipe(Recipe) : void
+        + <u>getActiveRecipe() : Recipe
+        + <u>requireActiveRecipe() : Recipe
+        + <u>main(args : String[]) : void
+        + run() : void
+        + initializeCatalogues() : void
+        - start() : void
+        - runCommandLoopUntilExitCommand() : void
+        - exit() : void
+        + getCatalogueByScreen(ScreenState) : Catalogue<?>
+        + <u>getRecipeBook() : RecipeBook
+        + <u>getInventory() : Inventory
+        + <u>getAllCatalogues() : ArrayList<Catalogue<?>>
+    }
+
+enum ScreenState <<enumeration>> {
+    WELCOME
+    INVENTORY
+    RECIPEBOOK
+    RECIPE
+    EXIT
+    INVALID
+}
+}
+
+package commands {
+
+    class "{abstract} \n Command" as Command {
+        screen : ScreenState
+        Command()
+        Command(screen : ScreenState)
+        execute() : CommandResult
+        execute(catalogue : Catalogue<?>) : CommandResult
+    }
+
+    class BackCommand {
+        +BackCommand()
+        +execute() : CommandResult
+    }
+
+    class EditRecipeCommand {
+        - recipeName : String
+        +EditRecipeCommand(args : String)
+        +execute() : CommandResult
+    }
+
+    class GoToCommand {
+        +GoToCommand(screen : ScreenState)
+        +execute() : CommandResult
+    }
+
+    class ListCommandsCommand {
+        +ListCommandsCommand(screen : ScreenState)
+        +execute() : CommandResult
+    }
+
+    class CommandResult {
+        - feedbackToUser : String
+        - newScreen : ScreenState
+
+        + CommandResult(feedbackToUser : String)
+        + CommandResult(newScreen : ScreenState)
+        + CommandResult(feedbackToUser : String, newScreen : ScreenState)
+
+        + getFeedbackToUser() : String
+        + getNewScreen() : ScreenState
+        + isScreenSwitch() : boolean
+    }
+
+    Command <|-- BackCommand
+    Command <|-- EditRecipeCommand
+    Command <|-- GoToCommand
+    Command <|-- ListCommandsCommand
+}
+
+class Recipe {
+    - recipeName : String
+
+    +Recipe()
+    +Recipe(name : String)
+    +Recipe(name : String, ingredients : ArrayList<Ingredient>)
+    +getRecipeName() : String
+    +getType() : String
+    #getCatalogueLabel() : String
+    +listItems() : CommandResult
+    +toString() : String
+}
+
+KitchenCTRL --> Ui
+KitchenCTRL --> controller.ScreenState
+BackCommand ..> Ui
+EditRecipeCommand ..> Ui
+GoToCommand ..> Ui
+ListCommandsCommand ..> Ui
+
+Ui ..> CommandResult
+Ui ..> Recipe
+Ui ..> controller.ScreenState
 @enduml
