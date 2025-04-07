@@ -115,7 +115,8 @@ public class CookableRecipesCommand extends Command {
         ArrayList<Recipe> cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
         if (cookableRecipes.isEmpty()) {
-            return new CommandResult("No recipes can be cooked with the current inventory. Please get more ingredients!");
+            String message = "No recipes can be cooked with the current inventory. Please get more ingredients!";
+            return new CommandResult(message);
         }
 
         // Format recipe names as a bulleted list

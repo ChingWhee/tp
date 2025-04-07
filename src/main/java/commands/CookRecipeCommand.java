@@ -104,7 +104,8 @@ public class CookRecipeCommand extends Command {
         System.out.println("Cooking items...");
         // Deduct ingredients from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
-            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredient.getIngredientName()), requiredIngredient);
+            String requiredIngredientName = requiredIngredient.getIngredientName();
+            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredientName), requiredIngredient);
         }
 
         return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName()
