@@ -348,11 +348,34 @@ maximum functionality without the clutter.
    - Create user authentication (login/sign-up)
    - Set up a database to persist user-specific data such as recipes, inventory, and shopping list
 
-## Glossary
+### Glossary
 
-Java - Object-oriented programming language used to create KitchenCTRL.
-Command Line Interface - Text-based user interface to allow users to interact with KitchenCTRL.
-
+- **CLI (Command-Line Interface)**  
+  Text-based interface where users interact by typing commands
+- **UI (User Interface)**  
+  Handles all user input/output interactions through the console
+- **Parser**  
+  Interprets raw user input and converts it into executable commands
+- **Model**  
+  Contains core data structures (Ingredient, Recipe) and business logic
+- **Storage**  
+  Manages persistent data storage through file I/O operations
+- **Catalogue<T>**  
+  Generic container class for storing Inventory and RecipeBook items
+- **Inventory**  
+  Collection of Ingredient objects with quantities
+- **Recipe**  
+  Named collection of ingredients required for a dish
+- **RecipeBook**  
+  Catalogue containing all user-defined recipes
+- **Ingredient**  
+  Basic unit representing a food item with name and quantity
+- **CRUD (Create, Read, Update, Delete)**  
+  Fundamental data operations supported by all catalogues
+- **Cookable Recipes**  
+  Recipes that can be prepared with current inventory
+- **ScreenState**  
+  Tracks current application context (WELCOME, INVENTORY, RECIPE, RECIPEBOOK)
 
 ## Instructions for manual testing
 

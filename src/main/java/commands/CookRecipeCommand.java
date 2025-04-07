@@ -12,31 +12,34 @@ import java.util.ArrayList;
 /**
  * Represents a command to cook a recipe by consuming ingredients from the inventory.
  *
- * This command checks if all required ingredients are available in sufficient quantity
- * and deducts them from the {@link Inventory}. If ingredients are missing,
- * the recipe cannot be cooked.
+ * This command checks whether all required ingredients for a specified {@link Recipe}
+ * are available in sufficient quantity in the {@link Inventory}. If so, it deducts the
+ * necessary quantities from the inventory. Otherwise, it lists the missing ingredients.g
  */
 public class CookRecipeCommand extends Command {
 
     private final Recipe targetRecipe;
 
     /**
-     * Constructs a {@code CookRecipeCommand} with the specified recipe.
+     * Constructs a {@code CookRecipeCommand} with the specified recipe to cook.
      *
      * @param targetRecipe The recipe to be cooked.
-     * @throws AssertionError if the recipeToCook is null.
+     * @throws AssertionError if {@code targetRecipe} is {@code null}.
      */
     public CookRecipeCommand(Recipe targetRecipe) {
-
         assert targetRecipe != null : "Recipe to cook must not be null";
         this.targetRecipe = targetRecipe;
     }
 
     /**
-     * Retrieves the missing ingredients needed to cook the recipe.
+     * Identifies any missing or insufficient ingredients needed to cook the recipe.
      *
-     * @param inventory The inventory catalogue to check available ingredients.
-     * @return A list of missing ingredients required to cook the recipe.
+     * If an ingredient is missing entirely from the inventory or its available quantity
+     * is less than required, it is included in the returned list. For insufficient quantities,
+     * only the shortage amount is included.
+     *
+     * @param inventory The inventory to check against.
+     * @return A list of {@code Ingredient} objects representing the missing or insufficient ingredients.
      */
     public ArrayList<Ingredient> getMissingIngredients(Inventory inventory) {
         ArrayList<Ingredient> missingIngredients = new ArrayList<>();
@@ -55,26 +58,29 @@ public class CookRecipeCommand extends Command {
                 }
             }
         }
+
         return missingIngredients;
     }
 
     /**
-     * Attempts to cook the recipe by deducting ingredient quantities from the inventory.
+     * Executes the command to cook the selected recipe by consuming ingredients from the inventory.
      *
-     * This method first checks if all required ingredients are available in the inventory.
-     * If any ingredient is missing, it returns a {@code CommandResult} listing the missing ingredients.
-     * Otherwise, it deducts the necessary quantities from the inventory and confirms the recipe has been cooked.
+     * This method verifies whether the command is invoked on a valid screen (either {@code RecipeBook}
+     * or {@code Inventory}). It then checks for missing or insufficient ingredients and, if all are present,
+     * deducts the used ingredients from the inventory.
      *
-     * @return A {@code CommandResult} indicating success gor failure with a list of missing ingredients.
+     * @param catalogue The current screen's catalogue context, expected to be {@code Inventory} or {@code RecipeBook}.
+     * @return A {@code CommandResult} indicating success or failure, including any missing ingredients if applicable.
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        if (!(catalogue instanceof RecipeBook)) {
-            return new CommandResult("Command only executable in RecipeBook screen!");
+        if (!((catalogue instanceof RecipeBook) || (catalogue instanceof Inventory))) {
+            return new CommandResult("Command only executable in RecipeBook or Inventory screen!");
         }
-        Inventory inventory = KitchenCTRL.getInventory();
 
+        Inventory inventory = KitchenCTRL.getInventory();
         ArrayList<Ingredient> recipeIngredients = targetRecipe.getItems();
+
         if (recipeIngredients.isEmpty()) {
             return new CommandResult("Recipe does not contain any ingredients!");
         }
@@ -95,16 +101,14 @@ public class CookRecipeCommand extends Command {
             return new CommandResult(message.toString().trim());
         }
 
-        ArrayList<Ingredient> inventoryItems = inventory.getItems();
-
         System.out.println("Cooking items...");
-        //subtracts the item from inventory
+        // Deduct ingredients from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
-            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredient.getIngredientName()),
-                requiredIngredient);
+            String requiredIngredientName = requiredIngredient.getIngredientName();
+            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredientName), requiredIngredient);
         }
 
         return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName()
-            + ". Ingredients have been deducted from inventory.");
+                + ". Ingredients have been deducted from inventory.");
     }
 }

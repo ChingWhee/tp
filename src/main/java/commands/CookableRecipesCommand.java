@@ -13,54 +13,58 @@ import java.util.stream.Collectors;
 /**
  * Represents a command to find all recipes that can be cooked with the current inventory.
  *
- * <p>This command checks the {@link RecipeBook} and determines which recipes
+ * This command checks the {@link RecipeBook} and determines which recipes
  * have all the required ingredients available in sufficient quantity in the {@link Inventory}.
- * It then returns a list of these cookable recipes.</p>
+ * It returns a formatted list of cookable recipe names.
  */
 public class CookableRecipesCommand extends Command {
 
     private final RecipeBook recipeBook;
 
     /**
-     * Constructs a {@code CookableRecipesCommand} with the given recipe book.
+     * Constructs a {@code CookableRecipesCommand} using the {@code RecipeBook}
+     * retrieved from {@link KitchenCTRL}.
      *
-     * @throws AssertionError if {@code recipeBook} is null.
+     * Assumes the {@code RecipeBook} has already been initialized in {@code KitchenCTRL}.
+     *
+     * @throws AssertionError if {@code KitchenCTRL.getRecipeBook()} returns {@code null}.
      */
     public CookableRecipesCommand() {
         this.recipeBook = KitchenCTRL.getRecipeBook();
     }
 
     /**
-     * Determines which recipes can be cooked with the available ingredients in the inventory.
+     * Determines which recipes from the given {@code RecipeBook} can be cooked
+     * with the available ingredients in the provided {@code Inventory}.
      *
-     * <p>Each recipe in the {@code RecipeBook} is checked against the inventory.
-     * A recipe is considered cookable if all of its required ingredients are present
-     * in the inventory in at least the required quantities.</p>
+     * A recipe is considered cookable if all of its required ingredients are
+     * present in the inventory in sufficient quantities.
      *
+     * @param recipeBook The recipe book containing all available recipes.
      * @param inventory The inventory containing available ingredients.
      * @return A list of {@code Recipe} objects that can be fully cooked.
      */
     public ArrayList<Recipe> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
         ArrayList<Recipe> cookableRecipes = new ArrayList<>();
+        ArrayList<Recipe> allRecipes = recipeBook.getItems();
+        ArrayList<Ingredient> inventoryItems = inventory.getItems();
 
-        ArrayList<Recipe> allRecipes = recipeBook.getItems(); // Retrieves all recipes from RecipeBook
-        ArrayList<Ingredient> inventoryItems = inventory.getItems(); // Retrieves all ingredients in inventory
-
-        //iterate through every recipe in RecipeBook
+        // Check each recipe for ingredient sufficiency
         for (Recipe recipe : allRecipes) {
             boolean canCook = true;
-            //check if all the ingredients of the recipe is there
+
             for (Ingredient requiredIngredient : recipe.getItems()) {
-                String requiredIngredientName = requiredIngredient.getIngredientName();
-                int requiredIngredientQuantity = requiredIngredient.getQuantity();
+                String requiredName = requiredIngredient.getIngredientName();
+                int requiredQty = requiredIngredient.getQuantity();
 
-                Ingredient availableIngredient = findIngredientByName(inventoryItems, requiredIngredientName);
+                Ingredient available = findIngredientByName(inventoryItems, requiredName);
 
-                if (availableIngredient == null || availableIngredient.getQuantity() < requiredIngredientQuantity) {
+                if (available == null || available.getQuantity() < requiredQty) {
                     canCook = false;
                     break;
                 }
             }
+
             if (canCook) {
                 cookableRecipes.add(recipe);
             }
@@ -70,11 +74,13 @@ public class CookableRecipesCommand extends Command {
     }
 
     /**
-     * Finds an ingredient by name within a list of ingredients.
+     * Searches a list of ingredients for one with the specified name.
+     *
+     * Comparison is case-insensitive.
      *
      * @param ingredients The list of ingredients to search.
      * @param name The name of the ingredient to find.
-     * @return The {@code Ingredient} if found, or {@code null} if not found.
+     * @return The matching {@code Ingredient} if found, or {@code null} if not found.
      */
     private Ingredient findIngredientByName(ArrayList<Ingredient> ingredients, String name) {
         for (Ingredient ingredient : ingredients) {
@@ -86,12 +92,15 @@ public class CookableRecipesCommand extends Command {
     }
 
     /**
-     * Executes the command to find all cookable recipes based on the current inventory.
+     * Executes the command to find and list all recipes that can be cooked
+     * using the current inventory.
      *
-     * <p>This method retrieves the inventory and checks for all recipes that can be fully cooked.</p>
+     * If no recipes are cookable or the catalogue is not an {@code Inventory},
+     * appropriate error messages are returned. Otherwise, the result lists all
+     * cookable recipes, each prefixed with a dash on a new line.
      *
-     * @param catalogue The catalogue of available items (not used in this method).
-     * @return A {@code CommandResult} listing all cookable recipes or indicating none are available.
+     * @param catalogue The current item catalogue, expected to be an {@code Inventory}.
+     * @return A {@code CommandResult} listing cookable recipes or a message indicating none can be cooked.
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
@@ -99,24 +108,22 @@ public class CookableRecipesCommand extends Command {
             return new CommandResult("Catalogue is not Inventory!");
         }
 
-        RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
-
         if (recipeBook == null) {
-            // return empty message
             return new CommandResult("RecipeBook is empty, please add some recipes!");
         }
 
         ArrayList<Recipe> cookableRecipes = getCookableRecipes(recipeBook, inventory);
 
         if (cookableRecipes.isEmpty()) {
-            String feedback = "No recipes can be cooked with the current inventory. Please get more ingredients!";
-            return new CommandResult(feedback);
+            String message = "No recipes can be cooked with the current inventory. Please get more ingredients!";
+            return new CommandResult(message);
         }
 
+        // Format recipe names as a bulleted list
         String recipeNames = cookableRecipes.stream()
-                .map(Recipe::getRecipeName)  // Extract the name of each recipe
-                .collect(Collectors.joining(", "));
+                .map(recipe -> "- " + recipe.getRecipeName())
+                .collect(Collectors.joining("\n"));
 
-        return new CommandResult("Cookable recipes: " + recipeNames);
+        return new CommandResult("Cookable recipes:\n" + recipeNames);
     }
 }
