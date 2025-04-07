@@ -36,11 +36,12 @@ activate CatalogueContentManager
 CatalogueContentManager -> CatalogueContentManager
 deactivate CatalogueContentManager
 CatalogueContentManager -> Commands
-deactivate CatalogueContentManager
 
+deactivate CatalogueContentManager
 Commands -> Ui
 
 destroy CatalogueContentManager
+
 deactivate Commands
 Ui -> User
 destroy Commands

@@ -387,30 +387,30 @@ The data will be saved only when the program is successfully closed, i.e, "Goodb
 
 ## 📋 Command Summary
 
-| Screen         | Command               | Description                                                                 |
-|----------------|-----------------------|-----------------------------------------------------------------------------|
-| Main Menu      | `inventory`           | Switch to the inventory screen                                              |
-| Main Menu      | `recipe`              | Switch to the recipebook screen                                             |
-| Any            | `back`                | Return to the previous screen                                               |
-| Any            | `bye`                 | Exit the application                                                        |
-| Any            | `help`                | Display available commands                                                  |
-| Inventory      | `list`                | List all ingredients in inventory                                           |
-| Inventory      | `find [keyword]`      | Find ingredients by keyword (partial, case-insensitive)                     |
-| Inventory      | `add [name] [qty]`    | Add a new ingredient to inventory                                           |
-| Inventory      | `delete [name] [qty]` | Delete a specified quantity of an ingredient                                |
-| Inventory      | `edit [name] [qty]`   | Set the quantity of a given ingredient                                      |
-| Inventory      | `cookable`            | List all recipes that can be made with current ingredients                  |
-| RecipeBook     | `list`                | List all recipes                                                            |
-| RecipeBook     | `find [keyword]`      | Find recipes by keyword (partial, case-insensitive)                         |
-| RecipeBook     | `add [recipe_name]`   | Add a new recipe and enter recipe edit mode                                 |
-| RecipeBook     | `delete [recipe_name]`| Delete a recipe from RecipeBook                                             |
-| RecipeBook     | `edit [recipe_name]`  | Edit the specified recipe (enters Recipe screen)                            |
-| RecipeBook     | `cook [recipe_name]`  | Attempt to cook a recipe and deduct ingredients                             |
-| Recipe (edit)  | `list`                | List ingredients for the selected recipe                                    |
-| Recipe (edit)  | `find [keyword]`      | Find ingredients in the recipe by keyword                                   |
-| Recipe (edit)  | `add [name] [qty]`    | Add an ingredient to the recipe                                             |
-| Recipe (edit)  | `delete [name]`       | Remove an ingredient from the recipe                                        |
-| Recipe (edit)  | `edit [name] [qty]`   | Edit the quantity of an ingredient in the recipe                            |
+| Screen                     | Command               | Description                                                                 |
+|----------------------------|-----------------------|-----------------------------------------------------------------------------|
+| Main Menu                  | `inventory`           | Switch to the inventory screen                                              |
+| Main Menu                  | `recipe`              | Switch to the recipebook screen                                             |
+| Any (except for Main Menu) | `back`                | Return to the previous screen                                               |
+| Any                        | `bye`                 | Exit the application                                                        |
+| Any                        | `help`                | Display available commands                                                  |
+| Inventory                  | `list`                | List all ingredients in inventory                                           |
+| Inventory                  | `find [keyword]`      | Find ingredients by keyword (partial, case-insensitive)                     |
+| Inventory                  | `add [name] [qty]`    | Add a new ingredient to inventory                                           |
+| Inventory                  | `delete [name] [qty]` | Delete a specified quantity of an ingredient                                |
+| Inventory                  | `edit [name] [qty]`   | Set the quantity of a given ingredient                                      |
+| Inventory                  | `cookable`            | List all recipes that can be made with current ingredients                  |
+| RecipeBook                 | `list`                | List all recipes                                                            |
+| RecipeBook                 | `find [keyword]`      | Find recipes by keyword (partial, case-insensitive)                         |
+| RecipeBook                 | `add [recipe_name]`   | Add a new recipe and enter recipe edit mode                                 |
+| RecipeBook                 | `delete [recipe_name]`| Delete a recipe from RecipeBook                                             |
+| RecipeBook                 | `edit [recipe_name]`  | Edit the specified recipe (enters Recipe screen)                            |
+| RecipeBook                 | `cook [recipe_name]`  | Attempt to cook a recipe and deduct ingredients                             |
+| Recipe (edit)              | `list`                | List ingredients for the selected recipe                                    |
+| Recipe (edit)              | `find [keyword]`      | Find ingredients in the recipe by keyword                                   |
+| Recipe (edit)              | `add [name] [qty]`    | Add an ingredient to the recipe                                             |
+| Recipe (edit)              | `delete [name]`       | Remove an ingredient from the recipe                                        |
+| Recipe (edit)              | `edit [name] [qty]`   | Edit the quantity of an ingredient in the recipe                            |
 
 ---
 
