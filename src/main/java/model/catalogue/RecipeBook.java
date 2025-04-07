@@ -59,12 +59,18 @@ public class RecipeBook extends Catalogue<Recipe> {
      * @return A list of recipes with similar names.
      */
     public ArrayList<Recipe> searchSimilarRecipe(Recipe recipe) {
-        String[] keywordList = getRecipeNameLowercase(recipe).split(" ");
+        String[] inputKeywords = getRecipeNameLowercase(recipe).split(" ");
 
         return items.stream()
                 .filter(currRecipe -> {
-                    String name = getRecipeNameLowercase(currRecipe);
-                    return Arrays.stream(keywordList).allMatch(name::contains);
+                    String[] itemKeywords = getRecipeNameLowercase(currRecipe).split(" ");
+
+                    // Match if any word in either name partially overlaps
+                    return Arrays.stream(inputKeywords).anyMatch(inputWord ->
+                            Arrays.stream(itemKeywords).anyMatch(itemWord ->
+                                    inputWord.contains(itemWord) || itemWord.contains(inputWord)
+                            )
+                    );
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
     }
@@ -133,7 +139,7 @@ public class RecipeBook extends Catalogue<Recipe> {
 
             //Silent mode: skip user interaction, default to adding as new
             if (isSilenced) {
-                addRecipe(recipe);
+                return addRecipe(recipe);
             }
 
             int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipes, recipe);
@@ -153,11 +159,12 @@ public class RecipeBook extends Catalogue<Recipe> {
      *
      * @param recipe The recipe to be added.
      */
-    private void addRecipe(Recipe recipe) {
+    private CommandResult addRecipe(Recipe recipe) {
         if (recipe == null) {
             throw new IllegalArgumentException("Cannot add null recipe.");
         }
         items.add(recipe);
+        return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
     }
 
     /**

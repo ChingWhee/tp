@@ -39,7 +39,9 @@ public class Ingredient {
         return ingredientName + " (" + quantity + ")";
     }
 
-    public String getIngredientName() { return ingredientName; }
+    public String getIngredientName() {
+        return ingredientName;
+    }
 
     public void setIngredientName(String ingredientName) {
         if (ingredientName == null || ingredientName.trim().isEmpty()) {
