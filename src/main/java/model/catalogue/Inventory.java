@@ -1,6 +1,7 @@
 package model.catalogue;
 
 import commands.CommandResult;
+import model.Ingredient;
 
 /**
  * Represents an inventory of ingredients.
@@ -37,18 +38,22 @@ public class Inventory extends IngredientCatalogue {
      * If the inventory is empty, returns an appropriate message.
      *
      * @return A {@link CommandResult} containing the list of ingredients
-     *         or a message indicating the inventory is empty.
+     * or a message indicating the inventory is empty.
      */
     @Override
     public CommandResult listItems() {
         if (items.isEmpty()) {
             return new CommandResult("Nothing found in inventory.");
         }
+
         StringBuilder result = new StringBuilder("These are the items in your inventory:\n");
         for (int i = 0; i < items.size(); i++) {
-            String name = items.get(i).toString();
-            result.append(i + 1).append(". ").append(name == null ? "[Unnamed Ingredient]" : name).append("\n");
+            Ingredient ingredient = items.get(i);
+            int qty = ingredient.getQuantity();
+            String name = ingredient.getIngredientName();
+            result.append(i + 1).append(". ").append(qty).append("x ").append(name).append("\n");
         }
+
         return new CommandResult(result.toString().trim());
     }
 }

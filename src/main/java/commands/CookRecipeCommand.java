@@ -94,6 +94,7 @@ public class CookRecipeCommand extends Command {
             ingredientInInventory.subtractQuantity(requiredIngredient.getQuantity());
         }
 
-        return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName());
+        return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName()
+            + ". Ingredients have been deducted from inventory.");
     }
 }
