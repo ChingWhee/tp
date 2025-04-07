@@ -80,8 +80,10 @@ public class CatalogueContentManager {
                 try {
                     String itemName = parseName(parts[0].trim());
                     int quantity = parseQuantity(parts[1].trim());
-                    Ingredient i = new Ingredient(itemName, quantity);
-                    ingredientCatalogue.addItem(i, true);
+                    if (quantity > 0) {
+                        Ingredient i = new Ingredient(itemName, quantity);
+                        ingredientCatalogue.addItem(i, true);
+                    }
                 } catch (Exception e) {
                     System.err.println("Skipping invalid entry: " + line);
                 }
@@ -134,7 +136,9 @@ public class CatalogueContentManager {
                 if (matcher.matches()) {
                     String ingredientName = parseName(matcher.group(1));  // Ingredient name
                     int quantity = parseQuantity(matcher.group(2));  // Ingredient quantity
-                    currentIngredients.add(new Ingredient(ingredientName, quantity));
+                    if (quantity > 0) {
+                        currentIngredients.add(new Ingredient(ingredientName, quantity));
+                    }
                 } else {
                     // Handle invalid format if necessary
                     System.out.println("Invalid ingredient format: " + line);

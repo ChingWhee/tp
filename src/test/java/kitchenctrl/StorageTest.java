@@ -81,7 +81,8 @@ public class StorageTest {
     public void testSaveEmptyInventory() throws IOException {
         Inventory inventory = new Inventory();
         manager.saveToFile(inventory);
-        List<String> lines = Files.readAllLines(manager.getInventoryFilePath()).stream().map(String::trim).filter(line -> !line.isEmpty()).toList();
+        List<String> lines = Files.readAllLines(manager.getInventoryFilePath())
+                .stream().map(String::trim).filter(line -> !line.isEmpty()).toList();
         assertTrue(lines.isEmpty());
     }
 
