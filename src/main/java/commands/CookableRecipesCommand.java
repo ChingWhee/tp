@@ -104,9 +104,11 @@ public class CookableRecipesCommand extends Command {
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        if (!(catalogue instanceof Inventory inventory)) {
+        if (!((catalogue instanceof Inventory) || (catalogue instanceof RecipeBook))) {
             return new CommandResult("Catalogue is not Inventory!");
         }
+
+        Inventory inventory = KitchenCTRL.getInventory();
 
         if (recipeBook == null) {
             return new CommandResult("RecipeBook is empty, please add some recipes!");

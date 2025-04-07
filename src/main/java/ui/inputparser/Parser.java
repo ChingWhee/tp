@@ -157,6 +157,12 @@ public class Parser {
         case "delete" -> prepareDelete(args);
         case "find" -> new FindCommand(parseName(args));
         case "cook" -> prepareCook(args);
+        case "cookable" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`cookable` command should not have extra input.");
+            }
+            yield new CookableRecipesCommand();
+        }
         case "edit" -> new EditRecipeCommand(parseName(args));
         case "list" -> {
             if (!args.isEmpty()) {
