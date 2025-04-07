@@ -3,9 +3,24 @@
 
 autonumber
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+User -> Ui: "inventory"
+Ui -> Commands: execute(INVENTORY)
+Commands -> Ui: CommandResult("now in Inventory")
+Ui -> User: print to user ("now in Inventory")
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+User -> Ui: "add egg 1"
+Ui -> Commands: execute("egg 1")
+Commands -> Model : addIngredient("egg", "1")
+Model -> Commands
+Commands -> Ui
+Ui -> User
+
+User -> Ui: "bye"
+Ui -> Commands: execute()
+Commands -> Storage: saveAllCatalogues
+Storage -> Storage: saveToFile
+Storage -> Commands
+Commands -> Ui
+Ui -> User
+
 @enduml
