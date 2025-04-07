@@ -38,7 +38,7 @@ public class Inventory extends IngredientCatalogue {
      * If the inventory is empty, returns an appropriate message.
      *
      * @return A {@link CommandResult} containing the list of ingredients
-     * or a message indicating the inventory is empty.
+     *     or a message indicating the inventory is empty.
      */
     @Override
     public CommandResult listItems() {
