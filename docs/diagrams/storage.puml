@@ -1,18 +1,63 @@
 @startuml
-hide circle
-skinparam classAttributeIconSize 0
 
-package "storage" {
+package storage {
     class CatalogueContentManager {
-        + loadInventory(): Inventory
-        + loadRecipeBook(): RecipeBook
-        + loadConsumablesCatalogue(path: Path, supplier: Supplier<T>): T
-        + loadRawCatalogueContent(path: Path): List<String>
-        + saveToFile(catalogue: Catalogue)
-
-        - checkDirectoryExistence()
-        - checkFileExistence(path: Path)
+        - String directoryName
+        - String inventoryFileName
+        - String recipeBookFileName
+        - Path basePath
+        - Path inventoryFilePath
+        - Path recipeBookFilePath
+        + CatalogueContentManager()
+        + Inventory loadInventory(): Inventory
+        + <T extends Inventory> T loadConsumablesCatalogue(Path filePath, Supplier<T> catalogue)
+        + RecipeBook loadRecipeBook(): RecipeBook
+        + List<String> loadRawCatalogueContent(Path filePath)
+        + void saveToFile(Catalogue catalogue)
+        - void checkDirectoryExistence(): void
+        - void checkFileExistence(Path filePath): void
+        + void setBasePath(Path basePath): void
+        + void setInventoryFilePath(Path inventoryFilePath): void
+        + void setRecipeBookFilePath(Path recipeBookFilePath): void
+        + Path getBasePath(): Path
+        + Path getInventoryFilePath(): Path
+        + Path getRecipeBookFilePath(): Path
     }
+
+    class Inventory {
+        + addItem(Ingredient ingredient, boolean flag): void
+    }
+
+    class RecipeBook {
+        + addItem(Recipe recipe, boolean flag): void
+    }
+
+    class Ingredient {
+        - String name
+        - int quantity
+        + Ingredient(String name, int quantity)
+    }
+
+    class Recipe {
+        - String recipeName
+        - List<Ingredient> ingredients
+        + Recipe(String recipeName, List<Ingredient> ingredients)
+    }
+
+    class Catalogue {
+        + String getType(): String
+        + String getCatalogueContent(): String
+    }
+
+    CatalogueContentManager --> Inventory : loads
+    CatalogueContentManager --> RecipeBook : loads
+    Inventory --> Ingredient : contains
+    RecipeBook --> Recipe : contains
+    Recipe --> Ingredient : contains
+    Ingredient ..> String : parses
+    Ingredient ..> int : parses
+
+    CatalogueContentManager --> "Parser" : Uses
 }
 
 @enduml
