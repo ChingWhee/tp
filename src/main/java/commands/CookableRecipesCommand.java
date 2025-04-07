@@ -114,9 +114,9 @@ public class CookableRecipesCommand extends Command {
         }
 
         String recipeNames = cookableRecipes.stream()
-                .map(Recipe::getRecipeName)  // Extract the name of each recipe
-                .collect(Collectors.joining(", "));
+                .map(recipe -> "- " + recipe.getRecipeName())
+                .collect(Collectors.joining("\n"));
 
-        return new CommandResult("Cookable recipes: " + recipeNames);
+        return new CommandResult("Cookable recipes:\n" + recipeNames);
     }
 }

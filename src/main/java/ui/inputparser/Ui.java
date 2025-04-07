@@ -145,6 +145,7 @@ public class Ui {
         System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");
         //directly set qty of specified ingredient
         System.out.println("- cookable -> Find all cookable recipes");
+        System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
         System.out.print("- help -> View available commands");

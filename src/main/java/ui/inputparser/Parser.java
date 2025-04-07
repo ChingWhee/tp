@@ -114,6 +114,7 @@ public class Parser {
             }
             yield prepareList();
         }
+        case "cook" -> prepareCook(args);
         case "cookable" -> {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`cookable` command should not have extra input.");
