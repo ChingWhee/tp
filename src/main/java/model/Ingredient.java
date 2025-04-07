@@ -65,6 +65,10 @@ public class Ingredient {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity to add must be positive.");
         }
+        if (this.quantity + quantity > 99999){
+            this.quantity = 99999;
+            return;
+        }
         this.quantity += quantity;
     }
 
