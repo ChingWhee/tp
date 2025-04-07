@@ -153,7 +153,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         existingIngredient.addQuantity(addedQuantity);
 
         if (existingIngredient.getQuantity() == 99999) {
-            return new CommandResult("Max Capacity reached, limited to 99999");
+            return new CommandResult("Max Quantity of Ingredient reached, limited to 99999");
         }
 
         return new CommandResult(
