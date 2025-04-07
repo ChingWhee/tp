@@ -100,7 +100,8 @@ public class CookRecipeCommand extends Command {
         System.out.println("Cooking items...");
         //subtracts the item from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
-            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredient.getIngredientName()), requiredIngredient);
+            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredient.getIngredientName()),
+                requiredIngredient);
         }
 
         return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName()
