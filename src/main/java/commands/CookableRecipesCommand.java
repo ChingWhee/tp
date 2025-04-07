@@ -47,7 +47,6 @@ public class CookableRecipesCommand extends Command {
     public ArrayList<Recipe> getCookableRecipes(RecipeBook recipeBook, Inventory inventory) {
         ArrayList<Recipe> cookableRecipes = new ArrayList<>();
         ArrayList<Recipe> allRecipes = recipeBook.getItems();
-        ArrayList<Ingredient> inventoryItems = inventory.getItems();
 
         // Check each recipe for ingredient sufficiency
         for (Recipe recipe : allRecipes) {
@@ -57,7 +56,7 @@ public class CookableRecipesCommand extends Command {
                 String requiredName = requiredIngredient.getIngredientName();
                 int requiredQty = requiredIngredient.getQuantity();
 
-                Ingredient available = findIngredientByName(inventoryItems, requiredName);
+                Ingredient available = inventory.getItemByName(requiredName);
 
                 if (available == null || available.getQuantity() < requiredQty) {
                     canCook = false;
@@ -74,24 +73,6 @@ public class CookableRecipesCommand extends Command {
     }
 
     /**
-     * Searches a list of ingredients for one with the specified name.
-     *
-     * Comparison is case-insensitive.
-     *
-     * @param ingredients The list of ingredients to search.
-     * @param name The name of the ingredient to find.
-     * @return The matching {@code Ingredient} if found, or {@code null} if not found.
-     */
-    private Ingredient findIngredientByName(ArrayList<Ingredient> ingredients, String name) {
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getIngredientName().equalsIgnoreCase(name)) {
-                return ingredient;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Executes the command to find and list all recipes that can be cooked
      * using the current inventory.
      *
@@ -99,14 +80,16 @@ public class CookableRecipesCommand extends Command {
      * appropriate error messages are returned. Otherwise, the result lists all
      * cookable recipes, each prefixed with a dash on a new line.
      *
-     * @param catalogue The current item catalogue, expected to be an {@code Inventory}.
+     * @param catalogue The current item catalogue, expected to be an {@code Inventory} or  {@code RecipeBook}.
      * @return A {@code CommandResult} listing cookable recipes or a message indicating none can be cooked.
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        if (!(catalogue instanceof Inventory inventory)) {
+        if (!((catalogue instanceof Inventory) || (catalogue instanceof RecipeBook))) {
             return new CommandResult("Catalogue is not Inventory!");
         }
+
+        Inventory inventory = KitchenCTRL.getInventory();
 
         if (recipeBook == null) {
             return new CommandResult("RecipeBook is empty, please add some recipes!");

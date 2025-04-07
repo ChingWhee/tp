@@ -19,6 +19,8 @@ import controller.ScreenState;
 import model.catalogue.Recipe;
 import model.catalogue.RecipeBook;
 
+import static controller.ScreenState.RECIPE;
+
 /**
  * The {@code Parser} class is responsible for interpreting user input and
  * returning the appropriate {@code Command} object based on the current screen context.
@@ -114,7 +116,12 @@ public class Parser {
             }
             yield prepareList();
         }
-        case "cook" -> prepareCook(args);
+        case "cook" -> {
+            if (args.isEmpty()) {
+                throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>.");
+            }
+            yield prepareCook(args);
+        }
         case "cookable" -> {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`cookable` command should not have extra input.");
@@ -156,7 +163,18 @@ public class Parser {
         case "add" -> prepareAdd(args);
         case "delete" -> prepareDelete(args);
         case "find" -> new FindCommand(parseName(args));
-        case "cook" -> prepareCook(args);
+        case "cook" -> {
+            if (args.isEmpty()) {
+                throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>.");
+            }
+            yield prepareCook(args);
+        }
+        case "cookable" -> {
+            if (!args.isEmpty()) {
+                throw new IllegalArgumentException("`cookable` command should not have extra input.");
+            }
+            yield new CookableRecipesCommand();
+        }
         case "edit" -> new EditRecipeCommand(parseName(args));
         case "list" -> {
             if (!args.isEmpty()) {
@@ -198,6 +216,12 @@ public class Parser {
         return switch (command) {
         case "add" -> prepareAdd(args);           // Requires args: add <ingredient> <qty>
         case "edit" -> prepareEdit(args);
+        case "cook" -> {
+            if (!args.trim().isEmpty()) {
+                throw new IllegalArgumentException("`cook` command in Recipe should not have extra input.");
+            }
+            yield prepareCook(args);
+        }
         case "delete" -> prepareDelete(args);     // Requires args: delete <ingredient> <qty>
         case "find" -> new FindCommand(parseName(args));     // Requires args: find <keyword>
         case "list" -> {
@@ -210,7 +234,7 @@ public class Parser {
             if (!args.isEmpty()) {
                 throw new IllegalArgumentException("`help` command should not have extra input.");
             }
-            yield new ListCommandsCommand(ScreenState.RECIPE);
+            yield new ListCommandsCommand(RECIPE);
         }
         case "back" -> {
             if (!args.isEmpty()) {
@@ -391,21 +415,19 @@ public class Parser {
      * it returns a {@code CookRecipeCommand} to execute the cooking process. If the recipe is not found,
      * it logs an error message and returns {@code null}.</p>
      *
-     * @param args The name of the recipe to be cooked. Expected to be a trimmed string.
+     * @param targetRecipeName The name of the recipe to be cooked. Expected to be a trimmed string.
      * @return A {@code CookRecipeCommand} if the recipe is found, or {@code null} if the recipe does not exist.
      */
-    private Command prepareCook(String args) {
-        String name = parseName(args.trim());
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException("Invalid format! Usage: cook <recipeName>");
-        }
+    private Command prepareCook(String targetRecipeName) {
+
+        Recipe targetRecipe;
+        if (KitchenCTRL.getCurrentScreen() == RECIPE){
+            targetRecipe = KitchenCTRL.getActiveRecipe();
+            return new CookRecipeCommand(targetRecipe);
+        };
 
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
-
-        Recipe targetRecipe;
-
-        String targetRecipeName = parseName(args.trim());
         targetRecipe = recipeBook.getItemByName(targetRecipeName);
 
         if (targetRecipe == null) {
