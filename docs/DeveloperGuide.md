@@ -398,16 +398,23 @@ maximum functionality without the clutter.
 ## User Stories
 Priorities: High (must have) - * * *, Medium (nice to have) - * *, Low (unlikely to have) - *
 
-| Priority | As a ...  | I want to ...                                                                   | So that I can ...                                                |
-|----------|-----------|---------------------------------------------------------------------------------|------------------------------------------------------------------|
-| ***      | home cook | manage individual ingredients                                                   | easily track their quantities and usage in recipes and inventory |
-| ***      | home cook | want to associate ingredients with recipes and inventory items                  | track what ingredients I have and what I need for my recipe      |
-| ***      | home cook | manage my inventory by adding, deleting, and viewing items                      | organize my cooking efficiently                                  |
-| **       | user      | enter commands into the system                                                  | interact with it and perform necessary actions efficiently       |
-| **       | user      | save and retrieve data                                                          | have accessible and up-to-date information                       |
-| ***      | home cook | manage my recipes by adding, deleting, modifying and viewing ingredients needed | organize my recipes efficiently                                  |
-| **       | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes | organize my book of recipes efficiently                          |
-
+| Priority | As a ...  | I want to ...                                                                                    | So that I can ...                                                |
+|----------|-----------|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
+| ***      | home cook | manage individual ingredients                                                                    | easily track their quantities and usage in recipes and inventory |
+| ***      | home cook | want to associate ingredients with recipes and inventory                                         | track what ingredients I have and what I need for my recipe      |
+| ***      | home cook | manage my inventory by adding, deleting, and viewing items                                       | organize my cooking efficiently                                  |
+| ***      | home cook | manage my recipes by adding, deleting, modifying and viewing ingredients needed                  | organize my recipes efficiently, and keep them up to date        |
+| ***      | home cook | see a list of what ingredients are missing/not enough when I want to make a recipe               | replenish missing ingredients                                    |
+| ***      | home cook | check if I have sufficient ingredients before cooking a recipe                                   | avoid starting to cook without everything I need                 |
+| **       | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes in my RecipeBook | organize my book of recipes efficiently                          |
+| **       | home cook | view cookable recipes based on my inventory                                                      | know what recipes I can make with the ingredients I have         |
+| **       | home cook | handle similar ingredients or recipes                                                            | efficiently manage variations of ingredients or recipes          |
+| **       | home cook | automatically delete ingredients from inventory after cooking                                    | easily keep inventory up to date after cooking                   |
+| **       | home cook | view similar recipes                                                                             | prevent overlap in recipe names                                  |
+| *        | user      | save and retrieve data                                                                           | ensure my work is saved properly                                 |
+| *        | home cook | receive alerts when I enter incorrect input types (e.g., text instead of numbers)                | correct mistakes and avoid errors                                |
+| *        | home cook | receive a warning when I enter an unusually large number for quantity or price                   | avoid input errors                                               |
+| *        | home cook | Search for existing recipe in the recipe book 	                                                  | Easily find the recipe that I currently have                     |
 
 ## Non-Functional Requirements
 - The system should be able to run on Windows, macOS, and Linux.
