@@ -20,29 +20,36 @@ import storage.CatalogueContentManager;
 
 import java.util.ArrayList;
 
-
 /**
  * The {@code KitchenCTRL} class serves as the main controller for the kitchen management application.
  * It initializes the catalogues, manages user interaction through the UI, and handles command execution
  * using a command loop.
  */
 public class KitchenCTRL {
-    // Static variables
+
+    /** The application's inventory catalogue. */
     private static Inventory inventory;
+
+    /** The application's recipe book catalogue. */
     private static RecipeBook recipeBook;
+
+    /** The current screen being displayed in the application. */
     private static ScreenState currentScreen = ScreenState.WELCOME;
+
+    /** The currently selected active recipe. */
     private static Recipe activeRecipe;
 
-    // Instance variables
+    /** The user interface object for handling input/output. */
     private Ui ui;
+
+    /** The parser for interpreting user commands. */
     private Parser parser;
-
-
 
     /**
      * Returns the current screen state of the application.
      *
      * @return The currently active {@code ScreenState}.
+     * @throws IllegalStateException if the current screen is not set.
      */
     public static ScreenState getCurrentScreen() {
         if (currentScreen == null) {
@@ -55,6 +62,7 @@ public class KitchenCTRL {
      * Sets the current screen state of the application.
      *
      * @param currentScreen The {@code ScreenState} to set as the current screen.
+     * @throws IllegalArgumentException if {@code currentScreen} is null.
      */
     public static void setCurrentScreen(ScreenState currentScreen) {
         if (currentScreen == null) {
@@ -62,7 +70,6 @@ public class KitchenCTRL {
         }
         KitchenCTRL.currentScreen = currentScreen;
     }
-
 
     /**
      * Sets the currently active recipe in the application context.
@@ -73,18 +80,21 @@ public class KitchenCTRL {
         activeRecipe = recipe;
     }
 
-
     /**
-     * Returns the currently active recipe, or throws an exception if none is selected.
+     * Returns the currently active recipe.
      *
-     * @return The active {@code Recipe}.
-     * @throws IllegalStateException if no recipe is currently selected.
+     * @return The active {@code Recipe}, or null if none is selected.
      */
     public static Recipe getActiveRecipe() {
         return activeRecipe;
     }
 
-
+    /**
+     * Ensures an active recipe is selected before proceeding.
+     *
+     * @return The currently active {@code Recipe}.
+     * @throws IllegalStateException if no recipe is selected.
+     */
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
         if (r == null) {
@@ -94,7 +104,7 @@ public class KitchenCTRL {
     }
 
     /**
-     * Main entry-point for the KitchenCTRL application.
+     * Main entry point for the KitchenCTRL application.
      *
      * @param args Command-line arguments passed during application startup (not used).
      */
@@ -103,8 +113,8 @@ public class KitchenCTRL {
     }
 
     /**
-     * Runs the kitchen management program, initializing components and processing commands
-     * until the user exits.
+     * Starts the kitchen management program. Initializes components, enters the main loop,
+     * and performs cleanup on exit.
      */
     public void run() {
         start();
@@ -112,7 +122,12 @@ public class KitchenCTRL {
         exit();
     }
 
-    //for test cases
+    /**
+     * Initializes the catalogues from persistent storage.
+     * Useful for test cases.
+     *
+     * @throws RuntimeException if loading the catalogues fails.
+     */
     public void initializeCatalogues() {
         try {
             CatalogueContentManager contentManager = new CatalogueContentManager();
@@ -124,14 +139,12 @@ public class KitchenCTRL {
     }
 
     /**
-     * Initializes the application components such as UI, catalogues, and data manager.
-     * Loads data from persistent storage into respective catalogues.
+     * Initializes UI, parser, and catalogues. Loads data from persistent storage.
      *
-     * @throws RuntimeException if there is an error during initialization or loading data.
+     * @throws RuntimeException if any initialization fails.
      */
     private void start() {
         try {
-            // Initialization
             this.ui = new Ui();
             this.parser = new Parser();
             initializeCatalogues();
@@ -143,21 +156,17 @@ public class KitchenCTRL {
     }
 
     /**
-     * The main loop that:
-     * - Displays the appropriate prompt
-     * - Reads and parses user commands
-     * - Executes commands against the correct catalogue
-     * - Displays results
-     * - Handles screen transitions and exit condition
+     * Main command-processing loop that:
+     * - Displays prompts
+     * - Reads and parses user input
+     * - Executes commands
+     * - Updates screen and displays results
+     * Loops until the ByeCommand is issued.
      */
     private void runCommandLoopUntilExitCommand() {
         Command command;
 
         do {
-            // Show prompt based on current screen
-            // ui.showScreenPrompt(currentScreen);
-
-            // Read user input
             String userCommandText = ui.getUserCommand();
 
             if (userCommandText.isEmpty()) {
@@ -165,7 +174,7 @@ public class KitchenCTRL {
                 ui.showDivider();
                 continue;
             }
-            // Parse input into a Command
+
             try {
                 command = parser.parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
@@ -174,13 +183,11 @@ public class KitchenCTRL {
                 continue;
             }
 
-            // Exit if it's a ByeCommand
             if (command instanceof ByeCommand) {
                 break;
             }
 
             CommandResult result;
-            // Switch screen if required by result
             if (command instanceof BackCommand || command instanceof GoToCommand ||
                     command instanceof EditRecipeCommand || command instanceof ListCommandsCommand) {
                 result = command.execute();
@@ -192,22 +199,19 @@ public class KitchenCTRL {
                 continue;
             }
 
-            // Get the relevant catalogue for the current screen
             Catalogue<?> catalogue = getCatalogueByScreen(currentScreen);
 
-            // Execute the command and get result
             result = (catalogue == null)
-                    ? command.execute() // e.g., welcome screen or global commands
-                    : command.execute(catalogue); // inventory/active recipe
+                    ? command.execute()
+                    : command.execute(catalogue);
 
-            // Display result to the user
             ui.showResultToUser(result);
             ui.showDivider();
         } while (true);
     }
 
     /**
-     * Cleans up and performs any final actions required before the program terminates.
+     * Performs any necessary cleanup and displays exit message before terminating the application.
      */
     private void exit() {
         ui.showGoodbyeMessage();
@@ -215,28 +219,43 @@ public class KitchenCTRL {
     }
 
     /**
-     * Returns the appropriate catalogue based on the current screen.
+     * Retrieves the appropriate catalogue object based on the given screen.
      *
-     * @param screen The current screen state.
-     * @return The corresponding catalogue, or null if screen has no catalogue (e.g., WELCOME).
+     * @param screen The current {@code ScreenState}.
+     * @return The corresponding catalogue, or null if no catalogue applies to the screen.
      */
     public Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
-        case INVENTORY -> inventory;
-        case RECIPEBOOK -> recipeBook;
-        case RECIPE -> activeRecipe;
-        default -> null; // For WELCOME, or throw if needed
+            case INVENTORY -> inventory;
+            case RECIPEBOOK -> recipeBook;
+            case RECIPE -> activeRecipe;
+            default -> null;
         };
     }
 
+    /**
+     * Returns the application-wide recipe book.
+     *
+     * @return The {@code RecipeBook}.
+     */
     public static RecipeBook getRecipeBook() {
         return recipeBook;
     }
 
+    /**
+     * Returns the application-wide inventory.
+     *
+     * @return The {@code Inventory}.
+     */
     public static Inventory getInventory() {
         return inventory;
     }
 
+    /**
+     * Returns a list of all catalogues in the application.
+     *
+     * @return A list containing both inventory and recipe book.
+     */
     public static ArrayList<Catalogue<?>> getAllCatalogues() {
         ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
         catalogues.add(inventory);
