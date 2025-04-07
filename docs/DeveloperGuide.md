@@ -269,7 +269,7 @@ Each recipe ends with a **blank line**.
 ### Program Run Sequence
 
 #### Command handling
-![AddCommand diagram](diagrams/sequencediagram(Add).png)
+![AddCommand diagram](diagrams/architecture.png)
 User input is first captured by the `Ui.getUserCommand()` method, which is called from the `KitchenCTRL` class (not shown in the sequence diagram). The input string is then passed to the `Parser#parseCommand()` method to identify the command type and generate the appropriate `Command` object.
 Once a `Command` object is created, the system invokes the `execute()` method of that command. The result of the execution is encapsulated in a `CommandResult` object, which the UI uses to print the appropriate response back to the user.
 As shown in the sequence diagram, this process is demonstrated through three main scenarios:
