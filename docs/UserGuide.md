@@ -33,7 +33,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [💾 Data Storage](#-data-storage)
   - [File Format: `inventory.txt`](#-file-format-inventorytxt)
   - [File Format: `recipe_book.txt`](#-file-format-recipe_booktxt)
-- [Handling Large Files or Quantities](#handling-large-files-or-quantities)
+- [⚠️ Handling Large Files or Quantities](##-handling-large-files-or-quantities)
 - [📋 Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
