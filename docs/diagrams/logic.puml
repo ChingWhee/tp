@@ -1,47 +1,116 @@
 @startuml
 hide circle
+hide empty members
 skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam linetype ortho
 
-package "commands" {
-    abstract class "{abstract} \n Command" {
-        + execute(): CommandResult
-        + execute(catalogue: Catalogue<?>): CommandResult
+package commands {
+    class "{abstract} \n Command" as Command {
+        + screen : ScreenState
+        + Command()
+        + Command(ScreenState)
+        + execute() : CommandResult
+        + execute(Catalogue<?>) : CommandResult
     }
 
-    class AddCommand
-    class BackCommand
-    class ByeCommand
-    class CookableRecipesCommand
-    class CookRecipeCommand
-    class DeleteCommand
-    class EditRecipeCommand
-    class FindCommand
-    class GoToCommand
-    class ListCommand
-    class UpdateCommand
-    class ListCommandsCommand
+    class AddCommand {
+        - name : String
+        - quantity : int
+        + AddCommand(String, int)
+        + AddCommand(String)
+        + execute(Catalogue<?>) : CommandResult
+    }
 
-    "{abstract} \n Command" <|-- AddCommand
-    "{abstract} \n Command" <|--- BackCommand
-    "{abstract} \n Command" <|-- ByeCommand
-    "{abstract} \n Command" <|--- CookableRecipesCommand
-    "{abstract} \n Command" <|-- CookRecipeCommand
-    "{abstract} \n Command" <|--- DeleteCommand
-    "{abstract} \n Command" <|-- EditRecipeCommand
-    "{abstract} \n Command" <|--- FindCommand
-    "{abstract} \n Command" <|-- GoToCommand
-    "{abstract} \n Command" <|--- ListCommand
-    "{abstract} \n Command" <|-- UpdateCommand
-    "{abstract} \n Command" <|--- ListCommandsCommand
+    class BackCommand {
+        + BackCommand()
+        + execute() : CommandResult
+    }
+
+    class ByeCommand {
+        + ByeCommand()
+        + execute() : CommandResult
+    }
 
     class CommandResult {
-        + getFeedbackToUser(): String
+        - feedbackToUser : String
+        - newScreen : ScreenState
+        + CommandResult(String)
+        + CommandResult(ScreenState)
+        + CommandResult(String, ScreenState)
+        + getFeedbackToUser() : String
+        + getNewScreen() : ScreenState
+        + isScreenSwitch() : boolean
     }
 
-    class ScreenState
-    CommandResult --> ScreenState
+    class CookableRecipesCommand {
+        - recipeBook : RecipeBook
+        + CookableRecipesCommand()
+        + getCookableRecipes(RecipeBook, Inventory) : ArrayList<Recipe>
+        - findIngredientByName(ArrayList<Ingredient>, String) : Ingredient
+        + execute(Catalogue<?>) : CommandResult
+    }
+
+    class CookRecipeCommand {
+        - targetRecipe : Recipe
+        + CookRecipeCommand(Recipe)
+        + getMissingIngredients(Inventory) : ArrayList<Ingredient>
+        + execute(Catalogue<?> catalogue) : CommandResult
+    }
+
+    class DeleteCommand {
+        - name : String
+        - quantity : int
+        + DeleteCommand(String, int)
+        + DeleteCommand(String)
+        + execute(Catalogue<?> catalogue) : CommandResult
+    }
+
+    class EditIngredientCommand {
+        - name : String
+        - quantity : int
+        + EditIngredientCommand(String, int)
+        + execute(Catalogue<?> catalogue) : CommandResult
+    }
+
+    class EditRecipeCommand {
+        - recipeName : String
+        + EditRecipeCommand(String)
+        + execute() : CommandResult
+    }
+
+    class FindCommand {
+        - keyword : String
+        + FindCommand(String)
+        + execute(Catalogue<?> catalogue) : CommandResult
+    }
+
+    class GoToCommand {
+        + GoToCommand(ScreenState)
+        + execute() : CommandResult
+    }
+
+    class ListCommand {
+        + execute(Catalogue<?> catalogue) : CommandResult
+    }
+
+    class ListCommandsCommand {
+        + ListCommandsCommand(ScreenState)
+        + execute() : CommandResult
+    }
 }
 
-
-
+Command <|-- AddCommand
+Command <|--- BackCommand
+Command <|---- ByeCommand
+Command <|---- CookableRecipesCommand
+Command <|----- CookRecipeCommand
+Command <|----- DeleteCommand
+Command <|----- EditIngredientCommand
+Command <|----- EditRecipeCommand
+Command <|---- FindCommand
+Command <|---- GoToCommand
+Command <|--- ListCommand
+Command <|-- ListCommandsCommand
+CommandResult <.. Command
 @enduml

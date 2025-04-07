@@ -48,26 +48,46 @@ The complete architecture consists of:
 ### Commands Component
 ![Logic UML diagram](diagrams/logic.png)
 
-The commands package is responsible for encapsulating user actions and system operations as individual command classes. 
-Each command represents a specific operation that the application can perform, such as modifying data, navigating between screens, or executing specific tasks.
+The `commands` package encapsulates all user-triggered operations in the application. Each class in this package 
+represents a specific action the user can perform, such as editing data, navigating between screens, or executing 
+logic (e.g., cooking a recipe).
 
-All commands in this package inherit from a common parent class, typically named Command. This design ensures consistency and reusability across the application by enforcing a standard structure for all commands.
+All commands inherit from a common abstract superclass, `Command`, which defines a consistent interface through the 
+`execute()` methods. This design promotes uniformity, extensibility, and separation of concerns within the application.
 
-Key Features of the commands Package
-Encapsulation: Each command encapsulates a single operation or behavior.
-Extensibility: New commands can be added easily by extending the Command class.
-Reusability: Commands are decoupled from the UI, making them reusable across different parts of the application.
-Standardized Execution: All commands implement the execute() method, which defines the specific logic for the command.
-Example: CookRecipeCommand
-The CookRecipeCommand class is an example of a command that inherits from the Command class. It represents the action of "cooking" a recipe, which might involve deducting ingredients from inventory or updating the application state.
+#### Overview
 
-Explanation of CookRecipeCommand
-Constructor: Accepts the name of the recipe to be cooked as a parameter.
-execute() Method:
-Calls the RecipeManager.cookRecipe() method to perform the cooking operation.
-Returns a CommandResult with a success or failure message, depending on the outcome.
-Summary
-The commands package provides a structured way to define and execute operations in the application. By inheriting from the Command class, each command ensures consistency and adheres to the application's design principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
+Each command class:
+- Encapsulates a **single user action or system behavior**.
+- Implements one or both variants of the `execute()` method:
+  - `execute()` – for screen-related or global commands.
+  - `execute(Catalogue<?> catalogue)` – for commands that operate on data structures like inventory or recipe books.
+- Returns a `CommandResult`, which carries output feedback and optionally a screen transition (`ScreenState`).
+
+#### Key Features
+- Encapsulation: Each command encapsulates a single operation or behavior.
+- Extensibility: New commands can be added easily by extending the Command class.
+- Reusability: Commands are decoupled from the UI, making them reusable across different parts of the application.
+- Standardized Execution: All commands implement the execute() method, which defines the specific logic for the command.
+
+#### Example: `CookRecipeCommand`
+
+The `CookRecipeCommand` represents the action of cooking a selected recipe, which involves inventory updates 
+and missing ingredient checks.
+
+**Constructor**:
+- Accepts the name of the recipe to cook.
+
+**`execute(Catalogue<?> catalogue)` Method**:
+- Retrieves the inventory and recipe.
+- Checks if all ingredients are available.
+- If so, deducts them from the inventory.
+- Returns a `CommandResult` with a success message, or a failure message listing missing ingredients.
+
+#### Summary
+The commands package provides a structured way to define and execute operations in the application. 
+By inheriting from the Command class, each command ensures consistency and adheres to the application's design 
+principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
 
 ### UI Component
 ![UI UML diagram](diagrams/ui.png)
@@ -85,7 +105,8 @@ The `Ui.java` class is the core component of the UI, responsible for:
 - Displaying results and feedback from command executions.
 
 This class provides methods for showing messages, reading user inputs, and displaying results after command execution.
-The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen (e.g., inventory, recipe).
+The `showScreenPrompt` method is a key method that displays the relevant help messages for each screen 
+(e.g., inventory, recipe).
 
 #### Key Methods
 
