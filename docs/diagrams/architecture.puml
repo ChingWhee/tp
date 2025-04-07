@@ -29,18 +29,19 @@ User -> Ui: "bye"
 activate Ui
 Ui -> Commands: execute()
 activate Commands
-Commands -> Storage: saveAllCatalogues
-activate Storage
-Storage -> Storage: saveToFile
-activate Storage
-Storage -> Storage
-deactivate Storage
-Storage -> Commands
-deactivate Storage
+Commands -> CatalogueContentManager: saveAllCatalogues
+activate CatalogueContentManager
+CatalogueContentManager -> CatalogueContentManager: saveToFile
+activate CatalogueContentManager
+CatalogueContentManager -> CatalogueContentManager
+deactivate CatalogueContentManager
+CatalogueContentManager -> Commands
 
+deactivate CatalogueContentManager
 Commands -> Ui
 
-destroy Storage
+destroy CatalogueContentManager
+
 deactivate Commands
 Ui -> User
 destroy Commands
