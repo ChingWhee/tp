@@ -139,10 +139,10 @@ public class Ui {
     public static void showInventoryCommands() {
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- find [name] -> Find ingredient(s) in inventory");
-        System.out.println("- add [item] [qty] -> Add ingredient(s) to inventory");
-        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from inventory based on qty specified");
+        System.out.println("- add [qty] [item] -> Add ingredient(s) to inventory");
+        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from inventory based on qty specified");
         //for removing used ingredients manually or wrongly named ingredients
-        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in inventory");
+        System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in inventory");
         //directly set qty of specified ingredient
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
@@ -154,10 +154,10 @@ public class Ui {
     public static void showRecipeCommands() {
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- find [name] -> Find ingredient(s) in the recipe");
-        System.out.println("- add [item] [qty] -> Add ingredient(s) to the recipe");
-        System.out.println("- delete [item] [qty] -> Remove ingredient(s) from recipe based on qty specified");
+        System.out.println("- add [qty] [item] -> Add ingredient(s) to the recipe");
+        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from recipe based on qty specified");
         //for removing used ingredients manually or wrongly named ingredients
-        System.out.println("- edit [item] [qty] -> Set qty of specified ingredient in recipe");
+        System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in recipe");
         //directly set qty of specified ingredient
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
