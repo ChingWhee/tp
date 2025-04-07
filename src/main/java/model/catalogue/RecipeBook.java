@@ -133,15 +133,22 @@ public class RecipeBook extends Catalogue<Recipe> {
 
             for (Recipe existing : similarRecipes) {
                 if (isExactMatchFound(existing, recipe)) {
-                    return new CommandResult("Recipe with name \"" + existing.getRecipeName() + "\" already exists.");
+                    // Console warning if not silenced and similar recipe found
+                    if (!isSilenced) {
+                        System.out.println("Warning: A similar recipe already exists.");
+                        System.out.println("Automatically switching to editing mode.");
+                    }
+                    return new CommandResult("Recipe with name \"" +
+                        existing.getRecipeName() + "\" already exists.");
                 }
             }
 
-            //Silent mode: skip user interaction, default to adding as new
+            // Silent mode: skip user input and add directly
             if (isSilenced) {
                 return addRecipe(recipe);
             }
 
+            //  User chooses how to resolve conflict
             int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipes, recipe);
             if (choice == 0) {
                 addRecipe(recipe);

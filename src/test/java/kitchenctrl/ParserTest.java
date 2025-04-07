@@ -72,14 +72,14 @@ class ParserTest {
     @Test
     public void testInventoryCommand_valid() {
         KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
-        Command command = parser.parseCommand("add apple 5");
+        Command command = parser.parseCommand("add 5 apple");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testInventoryCommand_delete_valid() {
         KitchenCTRL.setCurrentScreen(ScreenState.INVENTORY);
-        Command command = parser.parseCommand("delete sugar 2");
+        Command command = parser.parseCommand("delete 2 sugar");
         assertInstanceOf(DeleteCommand.class, command);
     }
 
@@ -143,14 +143,14 @@ class ParserTest {
     @Test
     public void testRecipeCommand_add_valid() {
         KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
-        Command command = parser.parseCommand("add curry 1");
+        Command command = parser.parseCommand("add 1 curry");
         assertInstanceOf(AddCommand.class, command);
     }
 
     @Test
     public void testRecipeCommand_delete_valid() {
         KitchenCTRL.setCurrentScreen(ScreenState.RECIPE);
-        Command command = parser.parseCommand("delete curry 1");
+        Command command = parser.parseCommand("delete 1 curry");
         assertInstanceOf(DeleteCommand.class, command);
     }
 

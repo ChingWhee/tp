@@ -104,7 +104,9 @@ public class LogicTest {
         CookRecipeCommand command = new CookRecipeCommand(recipe);
         CommandResult result = command.execute(currentCatalogue); // Pass the inventory
 
-        assertEquals("Recipe successfully cooked: Pancakes", result.getFeedbackToUser());
+        assertEquals("Recipe successfully cooked: Pancakes. " +
+            "Ingredients have been deducted from inventory.", result.getFeedbackToUser());
+
 
         assertEquals(100, testInventory.getItemByName("Milk").getQuantity());
         assertEquals(700, testInventory.getItemByName("Flour").getQuantity());

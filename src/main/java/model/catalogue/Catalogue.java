@@ -1,6 +1,8 @@
 package model.catalogue;
 
 import commands.CommandResult;
+import model.Ingredient;
+
 import java.util.stream.Collectors;
 
 import java.util.ArrayList;
@@ -109,8 +111,19 @@ public abstract class Catalogue<T> {
 
         StringBuilder result = new StringBuilder("Found items:\n");
         for (int i = 0; i < matching.size(); i++) {
-            result.append(i + 1).append(". ").append(matching.get(i)).append("\n");
+            T item = matching.get(i);
+            result.append(i + 1).append(". ");
+
+            if (item instanceof Ingredient ingredient) {
+                result.append(ingredient.getQuantity()).append("x ").append(ingredient.getIngredientName());
+            } else {
+                // fallback to extractor or toString
+                result.append(extractor.apply(item));
+            }
+
+            result.append("\n");
         }
+
 
         return new CommandResult(result.toString().trim());
     }
