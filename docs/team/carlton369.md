@@ -52,7 +52,8 @@ Given below are my contributions to the project:
         * Added documentation for the handling similar entries command [\#47](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/47)
     * Developer Guide:
         * Added implementation details of the `Commands` class. [\#59](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/59)
-
+        * Added sequence diagram for an `Add` operation in the `Inventory` screen, and saving to file [\#178](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/178) [\#180](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/180/files)
+        * Added UML diagram for the `Model` Package [\#178](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/178) [\#180](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/180/files)
 
 * **Community**:
     * PRs reviewed (with non-trivial review comments): [\#36](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/36),

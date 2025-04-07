@@ -221,10 +221,10 @@ public class KitchenCTRL {
      */
     public Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
-            case INVENTORY -> inventory;
-            case RECIPEBOOK -> recipeBook;
-            case RECIPE -> activeRecipe;
-            default -> null;
+        case INVENTORY -> inventory;
+        case RECIPEBOOK -> recipeBook;
+        case RECIPE -> activeRecipe;
+        default -> null;
         };
     }
 
