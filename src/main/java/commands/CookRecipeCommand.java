@@ -95,8 +95,6 @@ public class CookRecipeCommand extends Command {
             return new CommandResult(message.toString().trim());
         }
 
-        ArrayList<Ingredient> inventoryItems = inventory.getItems();
-
         System.out.println("Cooking items...");
         //subtracts the item from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
