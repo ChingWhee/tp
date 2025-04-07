@@ -504,8 +504,7 @@ To maintain performance and prevent abuse, the system enforces strict upper limi
 ### Save File Restrictions
 Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, or quantity > 99,999), the following rules apply:
 - **Only the first 100 valid items** in any list will be loaded.
-- Any ingredient or recipe exceeding size limits will be **ignored entirely** during parsing.
-- Any ingredient with a quantity of over 99999 will be set to 99999 instead.
+- Any ingredient or recipe exceeding size or quantity limits will be **ignored entirely** during parsing.
 
 > ⚠️ This ensures that manual tampering or unintended data corruption does not crash the application or create unstable states.
 
