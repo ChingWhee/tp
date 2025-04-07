@@ -82,16 +82,26 @@ public class CookRecipeCommand extends Command {
         ArrayList<Ingredient> missingIngredients = getMissingIngredients(inventory);
 
         if (!missingIngredients.isEmpty()) {
-            return new CommandResult("Missing ingredients: " + missingIngredients);
+            StringBuilder message = new StringBuilder("Missing ingredients:\n");
+            for (int i = 0; i < missingIngredients.size(); i++) {
+                Ingredient ingredient = missingIngredients.get(i);
+                message.append(i + 1)
+                        .append(". ")
+                        .append(ingredient.getQuantity())
+                        .append("x ")
+                        .append(ingredient.getIngredientName())
+                        .append("\n");
+            }
+            return new CommandResult(message.toString().trim());
         }
 
         ArrayList<Ingredient> inventoryItems = inventory.getItems();
 
+        System.out.println("Cooking items...");
         //subtracts the item from inventory
         for (Ingredient requiredIngredient : recipeIngredients) {
-            int index = inventoryItems.indexOf(requiredIngredient);
-            Ingredient ingredientInInventory = inventoryItems.get(index);
-            ingredientInInventory.subtractQuantity(requiredIngredient.getQuantity());
+            inventory.decreaseQuantity(inventory.getItemByName(requiredIngredient.getIngredientName()),
+                requiredIngredient);
         }
 
         return new CommandResult("Recipe successfully cooked: " + targetRecipe.getRecipeName()
