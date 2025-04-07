@@ -329,17 +329,9 @@ public class Parser {
             }
             return new DeleteCommand(name); // uses the recipe-only constructor
         }
-        case RECIPE -> {
-            // RECIPE expects only the ingredient name
-            String name = parseName(args.trim());
-            if (name.isEmpty()) {
-                throw new IllegalArgumentException("Invalid format! Usage: delete <ingredientName>");
-            }
-            return new DeleteCommand(name); // uses the recipe-only constructor
-        }
 
-        case INVENTORY -> {
-            // INVENTORY expect: delete <name> <quantity>
+        case INVENTORY, RECIPE -> {
+            // INVENTORY and RECIPE expect: delete <name> <quantity>
             String[] parts = args.split(" ", 2);
             if (parts.length < 2) {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");

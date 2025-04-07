@@ -4,23 +4,50 @@
 autonumber
 
 User -> Ui: "inventory"
+activate Ui
 Ui -> Commands: execute(INVENTORY)
+activate Commands
 Commands -> Ui: CommandResult("now in Inventory")
+deactivate Commands
 Ui -> User: print to user ("now in Inventory")
+deactivate Ui
 
 User -> Ui: "add egg 1"
+activate Ui
 Ui -> Commands: execute("egg 1")
+activate Commands
 Commands -> Model : addIngredient("egg", "1")
+activate Model
 Model -> Commands
+deactivate Model
 Commands -> Ui
+deactivate Commands
 Ui -> User
+deactivate Ui
 
 User -> Ui: "bye"
+activate Ui
 Ui -> Commands: execute()
+activate Commands
 Commands -> Storage: saveAllCatalogues
+activate Storage
 Storage -> Storage: saveToFile
+activate Storage
+Storage -> Storage
+deactivate Storage
 Storage -> Commands
+deactivate Storage
+
 Commands -> Ui
+
+destroy Storage
+deactivate Commands
 Ui -> User
+destroy Commands
+deactivate Ui
+
+destroy Ui
+
+
 
 @enduml
