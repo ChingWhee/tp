@@ -16,7 +16,7 @@
 - [Non-Functional Requirements](#non-functional-requirements)
 - [Glossary](#glossary)
 - [Instructions for manual testing](#instructions-for-manual-testing)
-    - [Tips for testers](#tips-for-testers)
+
 ## Acknowledgements
 
 KitchenCTRL uses the following tools for development:
@@ -37,9 +37,9 @@ The design and implementation of KitchenCTRL has been broken down into various s
 
 ### Architecture
 A high-level overview of the system is shown in the Architecture Diagram below.
-
+![Architecture UML diagram](diagrams/architecture.png)
 The complete architecture consists of:
-1. `Ui`, `Main`, `Parser`, `InputParser` and `Command` classes: 
+1. `Ui`, `Main`, `Parser`, and `Command` classes: 
     These classes manage user interaction, parsing input commands, and executing actions.
 2. `Ingredient`, `Inventory`, `Recipe` and `RecipeBook` classes: 
     Model objects and collections used to manage the application data.
@@ -269,7 +269,7 @@ Each recipe ends with a **blank line**.
 ### Program Run Sequence
 
 #### Command handling
-![AddCommand diagram](diagrams/architecture.png)
+![AddCommand diagram](diagrams/sequencediagram(Add).png)
 User input is first captured by the `Ui.getUserCommand()` method, which is called from the `KitchenCTRL` class (not shown in the sequence diagram). The input string is then passed to the `Parser#parseCommand()` method to identify the command type and generate the appropriate `Command` object.
 Once a `Command` object is created, the system invokes the `execute()` method of that command. The result of the execution is encapsulated in a `CommandResult` object, which the UI uses to print the appropriate response back to the user.
 As shown in the sequence diagram, this process is demonstrated through three main scenarios:
@@ -285,7 +285,7 @@ When the user types "bye", the parser generates a ByeCommand. This command calls
 Each command follows a similar structure of being parsed → executed → result returned → response displayed, which is consistent with the general command handling architecture in KitchenCTRL.
 This sequence diagram serves as a reference for typical command flow and will help illustrate command handling in the Architecture and Logic sections of the Developer Guide.
 
-##### Integration
+#### Integration
 
 - Automatically called in `KitchenCTRL.initializeCatalogues()`.
 - Automatically saves data when user exits via `ByeCommand`.
@@ -334,9 +334,19 @@ maximum functionality without the clutter.
 | v2.0    | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes | organize my book of recipes efficiently                          |
 
 ## Non-Functional Requirements
+- The system should be able to run on Windows, macOS, and Linux.
+- GiT is able to handle large amounts of data, stored in /data/inventory.txt and /data/recipe_book.txt.
+- GiT should be easy for a new user to grasp, and allow experienced users to use different functionalities quickly.
+- The program should not have offensive output messages.
 
-GiT is able to handle large amounts of data, stored in /data/inventory.txt and /data/recipe_book.txt.
-GiT should be easy for a new user to grasp, and allow experienced users to use different functionalities quickly.
+## Future Plans
+
+1. **Implement Shopping List**
+   - Define the structure and functionality of the shopping list module
+   - Integrate it with existing inventory and recipe features
+2. **Implement Login and Set Up Database**
+   - Create user authentication (login/sign-up)
+   - Set up a database to persist user-specific data such as recipes, inventory, and shopping list
 
 ## Glossary
 
@@ -351,10 +361,140 @@ This section guides testers through manual testing of KitchenCTRL features. To b
 - Download the latest version of KitchenCTRL from [here](https://github.com/AY2425S2-CS2113-T13-1/tp/releases).
 - Open a command terminal, cd into the folder where the JAR file is and use java -jar tp.jar to run KitchenCTRL.
 
+## Appendix: Instructions for Manual Testing
 
-### Tips for testers
-Tips for Testers
-- Try adding ingredients/recipes with special characters or numbers.
-- Try deleting or cooking recipes multiple times to check state updates.
-- Inspect the data/ folder to verify contents match expected output.
-- Test screen transitions using screen commands like goto inventory, goto recipebook.
+### Starting the Application
+
+**Test case:** Start the program with `java -jar KitchenCTRL.jar`  
+**Expected:** User is shown the welcome prompt and available commands.
+
+---
+
+### Navigating Between Screens
+
+**Test case:** `inventory`  
+**Expected:** User is taken to the Inventory screen. Message displays available inventory commands.
+
+**Test case:** `recipe`  
+**Expected:** User is taken to the RecipeBook screen. Message displays available recipe commands.
+
+**Test case:** `back`  
+**Expected:** User is taken back to the Welcome screen.
+
+**Test case:** `bye`  
+**Expected:** Program saves data and exits gracefully.
+
+---
+
+### Adding Items
+
+**Test case:** `add 5 tomato` in INVENTORY  
+**Expected:** Adds 5 tomatoes to inventory. Confirmation message is shown.
+
+**Test case:** `add Pancakes` in RECIPEBOOK  
+**Expected:** Adds a new recipe called Pancakes. Confirmation message is shown.
+
+**Test case:** `add 2 milk` in RECIPE (for selected recipe)  
+**Expected:** Adds 2 units of milk to the current recipe. Confirmation message is shown.
+
+---
+
+### Deleting Items
+
+**Test case:** `delete 3 tomato` in INVENTORY  
+**Expected:** Reduces quantity of tomato by 3. Confirmation shown.
+
+**Test case:** `delete Pancakes` in RECIPEBOOK  
+**Expected:** Removes the Pancakes recipe. Confirmation message is shown.
+
+**Test case:** `delete 2 milk` in RECIPE  
+**Expected:** Reduces milk in recipe by 2. Confirmation message is shown.
+
+---
+
+### Editing Items
+
+**Test case:** `edit 10 tomato` in INVENTORY  
+**Expected:** Tomato quantity is updated to 10. Confirmation shown.
+
+**Test case:** `edit 3 milk` in RECIPE  
+**Expected:** Updates quantity of milk to 3 in current recipe. Confirmation shown.
+
+**Test case:** `edit Spaghetti` in RECIPEBOOK  
+**Expected:** Enters selected recipe name if available.
+
+---
+
+### Finding Items
+
+**Test case:** `find tomato` in INVENTORY  
+**Expected:** Lists all inventory items with names matching "tomato".
+
+**Test case:** `find soup` in RECIPEBOOK  
+**Expected:** Lists recipes with names containing "soup".
+
+**Test case:** `find milk` in RECIPE  
+**Expected:** Lists matching ingredients in current recipe.
+
+**Test case:** `find `  
+**Expected:** Error message is shown due to empty query.
+
+---
+
+### Listing Items
+
+**Test case:** `list` in INVENTORY  
+**Expected:** Lists all inventory items with quantities.
+
+**Test case:** `list` in RECIPEBOOK  
+**Expected:** Lists all recipes saved.
+
+**Test case:** `list` in RECIPE  
+**Expected:** Lists ingredients in the current recipe.
+
+---
+
+### Cooking Recipes
+
+**Prerequisites:** Ensure you have a recipe and sufficient ingredients in inventory.
+
+**Test case:** `cook Pancakes`  
+**Expected:** Reduces inventory items used in the recipe Pancakes. Confirmation is shown.
+
+**Test case:** `cook Nonexistent`  
+**Expected:** Error message stating recipe not found.
+
+---
+
+### Cookable Recipes
+
+**Test case:** `cookable` in INVENTORY  
+**Expected:** Lists all recipes that can be cooked with current inventory.
+
+---
+
+### Help Commands
+
+**Test case:** `help` in any screen  
+**Expected:** Displays relevant command options based on the current screen (e.g., inventory, recipe).
+
+---
+
+### Handling Invalid Inputs
+
+**Test case:** `add` (missing arguments)  
+**Expected:** Error indicating incorrect usage.
+
+**Test case:** `delete banana -2`  
+**Expected:** Error message for invalid quantity.
+
+**Test case:** `cook` (no recipe name)  
+**Expected:** Error message about missing arguments.
+
+---
+
+### Exiting
+
+**Test case:** `bye`  
+**Expected:** Saves all data (inventory and recipe book) and displays a goodbye message before exiting.
+

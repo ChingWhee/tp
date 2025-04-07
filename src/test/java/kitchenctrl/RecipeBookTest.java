@@ -114,4 +114,53 @@ class RecipeBookTest {
         assertNotNull(result);
         assertEquals("Please provide a keyword to search.", result.getFeedbackToUser());
     }
+
+    @Test
+    void addItem_duplicateRecipe_silentMode() {
+        recipeBook.addItem(new Recipe("Pasta"), true);
+        CommandResult result = recipeBook.addItem(new Recipe("Pasta"), true);
+        assertEquals("Recipe with name \"Pasta\" already exists.", result.getFeedbackToUser());
+    }
+
+    @Test
+    void addItem_nullName() {
+        Recipe invalidRecipe = new Recipe(null);
+        CommandResult result = recipeBook.addItem(invalidRecipe, true);
+        assertEquals("Invalid recipe: name must be non-empty.", result.getFeedbackToUser());
+    }
+
+    @Test
+    void addItem_nullRecipe() {
+        CommandResult result = recipeBook.addItem(null, true);
+        assertEquals("Invalid recipe: Recipe is null.", result.getFeedbackToUser());
+    }
+
+    @Test
+    void getItemByName_withWhitespace() {
+        recipeBook.addItem(new Recipe("Fried Rice"), false);
+        Recipe result = recipeBook.getItemByName("  Fried Rice  ");
+        assertNotNull(result);
+        assertEquals("Fried Rice", result.getRecipeName());
+    }
+
+    @Test
+    void getCatalogueContent_returnsFormattedString() {
+        recipeBook.addItem(new Recipe("Noodles"), false);
+        recipeBook.addItem(new Recipe("Fried Rice"), false);
+        String content = recipeBook.getCatalogueContent();
+        assertTrue(content.contains("Noodles"));
+        assertTrue(content.contains("Fried Rice"));
+    }
+
+    @Test
+    void getType_returnsCorrectType() {
+        assertEquals("RecipeBook", recipeBook.getType());
+    }
+
+    @Test
+    void searchSimilarRecipe_partialMatch() {
+        recipeBook.addItem(new Recipe("Choco Cake"), false);
+        Recipe target = new Recipe("Chocolate");
+        assertFalse(recipeBook.searchSimilarRecipe(target).isEmpty());
+    }
 }
