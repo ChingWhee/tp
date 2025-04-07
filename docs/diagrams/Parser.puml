@@ -1,4 +1,7 @@
 @startuml
+hide circle
+skinparam classAttributeIconSize 0
+
 package "ui.inputparser" {
     class Parser {
         + parseCommand(screen: ScreenState, userInput: String): Command
