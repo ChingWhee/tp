@@ -16,12 +16,19 @@ public class Ui {
     // Scanner to read user input from console
     private static Scanner scanner;
 
-    // Production constructor
+    /**
+     * Default constructor for production use.
+     * Initializes the scanner with System.in.
+     */
     public Ui() {
         this(System.in);
     }
 
-    // Testable constructor
+    /**
+     * Constructor used for testing, allowing a custom InputStream.
+     *
+     * @param inStream The InputStream to read user input from.
+     */
     public Ui(InputStream inStream) {
         scanner = new Scanner(inStream);
     }
@@ -67,7 +74,7 @@ public class Ui {
     /**
      * Displays the appropriate screen prompt based on the current screen state.
      *
-     * @param screen The current screen state (WELCOME, INVENTORY, RECIPE).
+     * @param screen The current screen state (WELCOME, INVENTORY, RECIPEBOOK, RECIPE).
      */
     public static void showScreenPrompt(ScreenState screen) {
         switch (screen) {
@@ -120,7 +127,7 @@ public class Ui {
     }
 
     /**
-     * Displays help and commands for the RECIPE screen.
+     * Displays help and commands for the RECIPEBOOK screen.
      */
     public static void showRecipeBookMessage() {
         System.out.println("You're now in the RECIPEBOOK screen.");
@@ -129,6 +136,9 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays a list of available commands on the WELCOME screen.
+     */
     public static void showWelcomeCommands() {
         System.out.println("- inventory -> View and manage your inventory");
         System.out.println("- recipe -> View and manage your recipes");
@@ -136,14 +146,15 @@ public class Ui {
         System.out.print("- help -> View available commands");
     }
 
+    /**
+     * Displays a list of available commands on the INVENTORY screen.
+     */
     public static void showInventoryCommands() {
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- find [name] -> Find ingredient(s) in inventory");
         System.out.println("- add [qty] [item] -> Add ingredient(s) to inventory");
         System.out.println("- delete [qty] [item] -> Remove ingredient(s) from inventory based on qty specified");
-        //for removing used ingredients manually or wrongly named ingredients
         System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in inventory");
-        //directly set qty of specified ingredient
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
         System.out.println("- back -> Return to the main screen");
@@ -151,28 +162,32 @@ public class Ui {
         System.out.print("- help -> View available commands");
     }
 
+    /**
+     * Displays a list of available commands on a specific RECIPE screen.
+     */
     public static void showRecipeCommands() {
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- find [name] -> Find ingredient(s) in the recipe");
         System.out.println("- add [qty] [item] -> Add ingredient(s) to the recipe");
         System.out.println("- delete [qty] [item] -> Remove ingredient(s) from recipe based on qty specified");
-        //for removing used ingredients manually or wrongly named ingredients
         System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in recipe");
-        //directly set qty of specified ingredient
+        System.out.println("- cook -> Cooks the current recipe, or display missing ingredients required to cook it");
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
         System.out.print("- help -> View available commands");
     }
 
+    /**
+     * Displays a list of available commands on the RECIPEBOOK screen.
+     */
     public static void showRecipeBookCommands() {
         System.out.println("- list -> Show all recipes");
         System.out.println("- find [name] -> Find recipe(s) matching search string");
         System.out.println("- add [name] -> Add a new recipe");
         System.out.println("- delete [name] -> Delete an existing recipe specified by [name]");
-        System.out.println("- edit [name] -> edit an existing recipe specified by [name]");
+        System.out.println("- edit [name] -> Edit an existing recipe specified by [name]");
         System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
-        //user cooks the recipe, prints out list of items required, and system automatically removes
-        //to view again, view from recipe tab
+        System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
         System.out.print("- help -> View available commands");
@@ -187,20 +202,22 @@ public class Ui {
 
     /**
      * Reads the user input command from the console.
-     * @return the raw command string entered by the user.
+     *
+     * @return the raw command string entered by the user, or an empty string if no input is detected.
      */
     public String getUserCommand() {
         System.out.print("Enter command: ");
         System.out.flush();
-        if (!scanner.hasNextLine()) { // Prevents NoSuchElementException
+        if (!scanner.hasNextLine()) {
             System.out.println("No input detected. Exiting...");
-            return "";  // Return empty string instead of blocking
+            return "";
         }
         return scanner.nextLine().trim();
     }
 
     /**
      * Displays the result of executing a command.
+     *
      * @param result The CommandResult containing feedback for the user.
      */
     public void showResultToUser(CommandResult result) {
