@@ -127,8 +127,10 @@ Summary
 The commands package provides a structured way to define and execute operations in the application. By inheriting from the Command class, each command ensures consistency and adheres to the application's design principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
 
 ### Model Component
-![Model UML diagram](diagrams/model.png)
+
 The **Model** component stores the application's core data and implements the logic for handling recipes and ingredients.
+
+## Overview
 
 It contains the following key elements:
 - A generic `Catalogue<T>` class that acts as a base for all data collections.
@@ -136,78 +138,123 @@ It contains the following key elements:
 - `Recipe`, a named list of `Ingredient` objects.
 - `RecipeBook`, a catalogue of `Recipe` objects.
 - `Ingredient`, a simple model representing a name–quantity pair.
+- `IngredientCatalogue`, an abstract class extending `Catalogue<Ingredient>` that handles shared ingredient logic for both `Inventory` and `Recipe`.
 
-The model exposes read-only views of stored data to other components and encapsulates logic for CRUD operations and intelligent user prompts (e.g., handling similar items). It relies on user input parsers (`InputParser`) to resolve ambiguities in add/delete scenarios.
+The model exposes read-only views of stored data to other components and encapsulates logic for CRUD operations and intelligent user prompts (e.g., handling similar items).<br>
+It relies on user input parsers (`InputParser`) to resolve ambiguities in add/delete scenarios.
 
-It does not depend on any of the other three components (Logic, UI, or Storage), ensuring clear domain separation.
+It does **not** depend on any of the other three components (Logic, UI, or Storage), ensuring clear domain separation.
 
 > ℹ️ **Note:** Recipes and inventory entries are internally handled using dynamic lists within `Catalogue<T>`, avoiding tight coupling and enabling code reuse across domain types.
 
-#### **Inventory Class**
-
-The `Inventory` class is a subclass of the generic `Catalogue<Ingredient>` class. It is used to store all ingredients currently available to the user.
-
-The following are its attributes:
-- `items`  
-  **type:** `ArrayList<Ingredient>`  
-  Stores all ingredients the user currently has.
-
-- `catalogueName`  
-  **type:** `String`  
-  A fixed label used for saving and displaying (e.g., "Inventory").
-
-Key methods implemented in this class include:
-- `addItem(Ingredient ingredient)` – Adds an ingredient to the inventory or updates quantity if it already exists.
-- `deleteItem(String name, int quantity)` – Removes a quantity of an ingredient.
-- `editItem(String name, int newQuantity)` – Updates the amount of a specific ingredient.
-- `getItemByName(String name)` – Retrieves an ingredient by name.
-- `findItem(String keyword)` – Returns a list of ingredients that match a keyword.
-- `contains(String name)` – Returns true if the inventory contains the given ingredient.
 ---
-#### **Recipe Class**
 
-The `Recipe` class is used to represent a single recipe. It contains the name of the recipe and its required ingredients (with their quantities). It inherits from `Catalogue<Ingredient>`.
+## Ingredient Class
 
-The following are its attributes:
+The `Ingredient` class represents a single item with a name and a quantity. It is the fundamental data type used in both the `Inventory` and `Recipe` classes.
 
-- `recipeName`  
-  **type:** `String`  
-  Stores the name of the recipe.
+**Attributes:**
 
-- `items`  
-  **type:** `ArrayList<Ingredient>`  
-  Represents the list of ingredients needed for the recipe.
+- `ingredientName`: `String`  
+  The name of the ingredient (e.g., `"Flour"`, `"Sugar"`).
 
-Key methods implemented in this class include:
-- `getRecipeName()` – Returns the name of the recipe.
-- `addItem(Ingredient ingredient)` – Adds an ingredient to the recipe.
-- `deleteItem(String name, int quantity)` – Removes a specified quantity of an ingredient from the recipe.
-- `editItem(String name, int newQuantity)` – Updates the quantity of an ingredient.
-- `getItemByName(String name)` – Searches for an ingredient by name.
-- `findItem(String keyword)` – Returns all ingredients that match a search keyword.
+- `quantity`: `int`  
+  The amount of the ingredient (non-negative, capped at 99999).
+
+**Key Methods:**
+- `getIngredientName()` – Returns the name of the ingredient.
+- `getQuantity()` – Returns the current quantity.
+- `addQuantity(int amount)` – Increases quantity, max 99999.
+- `subtractQuantity(int amount)` – Decreases quantity, never goes below 0.
+- `equals(Object o)` – Compares ingredients by name (case-insensitive).
+- `hashCode()` – Hash function consistent with `equals()`.
+- `toString()` – Returns format like `"3x Sugar"`.
 
 ---
-#### **RecipeBook Class**
 
-The `RecipeBook` class is a subclass of the generic `Catalogue<Recipe>` class. It is used to store all user-created recipes and supports functionality for adding, deleting, editing, and searching through recipes.
+## IngredientCatalogue Class
+
+The `IngredientCatalogue` is an **abstract generic class** that extends `Catalogue<Ingredient>`. It provides shared functionality for any collection that manages ingredients, such as `Inventory` and `Recipe`.
+
+This class encapsulates logic for adding, editing, deleting, and searching ingredients, while also providing intelligent behavior like conflict resolution and quantity adjustment. It acts as the backbone for ingredient management across the application.
+
+### Key Responsibilities
+- Validate ingredient input before adding or editing.
+- Match ingredients using fuzzy keyword-based search.
+- Handle user prompts during ambiguous operations.
+- Manage all ingredient quantity changes (increase, decrease, full removal).
+
+### Attributes
+- `items`  
+  **type:** `ArrayList<Ingredient>`  
+  Inherited from `Catalogue<Ingredient>`, used to store all ingredient entries.
+
+### Key Methods
+
+| Method | Description |
+|--------|-------------|
+| `addItem(Ingredient ingredient, boolean isSilenced)` | Adds a new ingredient or increases quantity if a similar one is found. Prompts user if not silenced. |
+| `deleteItem(Ingredient ingredient)` | Removes or reduces quantity of an ingredient. Handles similar name cases with user interaction. |
+| `editItem(Ingredient ingredient)` | Updates the quantity of an existing ingredient. Matches either exactly or via user selection. |
+| `searchSimilarIngredient(Ingredient ingredient)` | Returns a list of ingredients that contain similar words to the input. |
+| `getItemByName(String name)` | Retrieves an ingredient by exact name (case-insensitive). |
+| `findItem(String query)` | Finds all ingredients whose names contain the keyword. |
+| `removeAllIngredients()` | Clears all entries from the catalogue. |
+| `increaseQuantity(...)` / `decreaseQuantity(...)` | Internal methods for adjusting quantities, respecting max/min bounds. |
+| `removeIngredient(Ingredient ingredient)` | Removes an ingredient entirely from the list. |
+
+### Design Highlights
+- **Reusability:** Prevents code duplication in `Inventory` and `Recipe` by providing all shared logic.
+- **User-Friendly Prompts:** Integrates with `ConflictHelper` to guide users through ambiguous add/edit/delete actions.
+- **Flexible Search:** Supports keyword-based similarity rather than relying on exact matches only.
+- **Defensive Programming:** Validates input ingredients for null, empty names, and invalid quantities.
+
+> ℹ️ Used as a superclass for both `Inventory` and `Recipe`, enabling those classes to inherit complete ingredient manipulation functionality with minimal overrides.
+
+---
+
+## Inventory Class
+
+The `Inventory` class is a subclass of `IngredientCatalogue`. It stores all ingredients currently available to the user.
+
+**Attributes:**
+- `items`: `ArrayList<Ingredient>` – All ingredients currently owned.
+- `catalogueName`: `String` – Label for save/display (e.g., `"Inventory"`).
+
+**Inherits Methods from `IngredientCatalogue`:**
+
+
+---
+
+## Recipe Class
+
+The `Recipe` class represents a named list of ingredients required to make something. It also extends `IngredientCatalogue`.
+
+**Attributes:**
+- `recipeName`: `String` – Name of the recipe.
+- `items`: `ArrayList<Ingredient>` – Required ingredients and quantities.
+
+**Inherits Methods from `IngredientCatalogue`:**
+
+---
+
+## RecipeBook Class
+
+The `RecipeBook` is a subclass of `Catalogue<Recipe>`. It stores and manages user-created recipes.
+
 ![RecipeBook Class Diagram](diagrams/recipebook.png)
 
-The following are its key attributes:
-- `items`  
-  **type:** `ArrayList<Recipe>`  
-  Stores all `Recipe` objects created by the user.
+**Attributes:**
+- `items`: `ArrayList<Recipe>` – List of saved recipes.
+- `catalogueName`: `String` – Label for UI and saving (e.g., `"RecipeBook"`).
 
-- `catalogueName`  
-  **type:** `String`  
-  A fixed label used for saving and displaying the catalogue (e.g., "RecipeBook").
-
-Key methods implemented in this class include:
-- `addItem(Recipe recipe)` – Adds a new recipe to the list.
-- `deleteItem(String name)` – Deletes a recipe based on name.
-- `getItemByName(String name)` – Retrieves a recipe by name (case-insensitive).
-- `editItem(String name, Recipe updatedRecipe)` – Replaces an existing recipe with a modified one.
-- `findItem(String keyword)` – Returns a filtered list of recipes whose names contain the given keyword.
-
+**Key Methods:**
+- `addItem(Recipe recipe)`
+- `deleteItem(String name)`
+- `getItemByName(String name)`
+- `searchSimilarRecipe(Recipe recipe)`
+- `editItem(String name, Recipe updatedRecipe)`
+- `findItem(String keyword)`
 ---
 
 ### Storage Component
@@ -322,16 +369,18 @@ Unlike traditional mobile or web apps, KitchenCTRL is fast, lightweight, and des
 maximum functionality without the clutter.
 
 ## User Stories
+Priorities: High (must have) - * * *, Medium (nice to have) - * *, Low (unlikely to have) - *
 
-| Version | As a ...  | I want to ...                                                                   | So that I can ...                                                |
-|---------|-----------|---------------------------------------------------------------------------------|------------------------------------------------------------------|
-| v1.0    | home cook | manage individual ingredients                                                   | easily track their quantities and usage in recipes and inventory |
-| v1.0    | home cook | want to associate ingredients with recipes and inventory items                  | track what ingredients I have and what I need for my recipe      |
-| v1.0    | home cook | manage my inventory by adding, deleting, and viewing items                      | organize my cooking efficiently                                  |
-| v1.0    | user      | enter commands into the system                                                  | interact with it and perform necessary actions efficiently       |
-| v1.0    | user      | save and retrieve data                                                          | have accessible and up-to-date information                       |
-| v2.0    | home cook | manage my recipes by adding, deleting, modifying and viewing ingredients needed | organize my recipes efficiently                                  |
-| v2.0    | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes | organize my book of recipes efficiently                          |
+| Priority | As a ...  | I want to ...                                                                   | So that I can ...                                                |
+|----------|-----------|---------------------------------------------------------------------------------|------------------------------------------------------------------|
+| ***      | home cook | manage individual ingredients                                                   | easily track their quantities and usage in recipes and inventory |
+| ***      | home cook | want to associate ingredients with recipes and inventory items                  | track what ingredients I have and what I need for my recipe      |
+| ***      | home cook | manage my inventory by adding, deleting, and viewing items                      | organize my cooking efficiently                                  |
+| **       | user      | enter commands into the system                                                  | interact with it and perform necessary actions efficiently       |
+| **       | user      | save and retrieve data                                                          | have accessible and up-to-date information                       |
+| ***      | home cook | manage my recipes by adding, deleting, modifying and viewing ingredients needed | organize my recipes efficiently                                  |
+| **       | home cook | manage my book of recipes by adding, deleting, modifying and viewing my recipes | organize my book of recipes efficiently                          |
+
 
 ## Non-Functional Requirements
 - The system should be able to run on Windows, macOS, and Linux.
