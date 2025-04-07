@@ -74,7 +74,7 @@ public class CookRecipeCommand extends Command {
      */
     @Override
     public CommandResult execute(Catalogue<?> catalogue) {
-        if (!((catalogue instanceof RecipeBook) || (catalogue instanceof Inventory))) {
+        if (!((catalogue instanceof RecipeBook) || (catalogue instanceof Inventory) || (catalogue instanceof Recipe))) {
             return new CommandResult("Command only executable in RecipeBook or Inventory screen!");
         }
 

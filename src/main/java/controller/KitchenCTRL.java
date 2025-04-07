@@ -37,12 +37,11 @@ public class KitchenCTRL {
     private Ui ui;
     private Parser parser;
 
-
-
     /**
      * Returns the current screen state of the application.
      *
      * @return The currently active {@code ScreenState}.
+     * @throws IllegalStateException if the current screen is not set.
      */
     public static ScreenState getCurrentScreen() {
         if (currentScreen == null) {
@@ -55,6 +54,7 @@ public class KitchenCTRL {
      * Sets the current screen state of the application.
      *
      * @param currentScreen The {@code ScreenState} to set as the current screen.
+     * @throws IllegalArgumentException if {@code currentScreen} is {@code null}.
      */
     public static void setCurrentScreen(ScreenState currentScreen) {
         if (currentScreen == null) {
@@ -62,7 +62,6 @@ public class KitchenCTRL {
         }
         KitchenCTRL.currentScreen = currentScreen;
     }
-
 
     /**
      * Sets the currently active recipe in the application context.
@@ -72,7 +71,6 @@ public class KitchenCTRL {
     public static void setActiveRecipe(Recipe recipe) {
         activeRecipe = recipe;
     }
-
 
     /**
      * Returns the currently active recipe, or throws an exception if none is selected.
@@ -84,7 +82,12 @@ public class KitchenCTRL {
         return activeRecipe;
     }
 
-
+    /**
+     * Returns the currently active recipe, ensuring one is selected.
+     *
+     * @return The active {@code Recipe}.
+     * @throws IllegalStateException if no recipe is currently selected.
+     */
     public static Recipe requireActiveRecipe() {
         Recipe r = activeRecipe;
         if (r == null) {
@@ -112,7 +115,11 @@ public class KitchenCTRL {
         exit();
     }
 
-    //for test cases
+    /**
+     * Initializes the catalogues for testing or application startup.
+     *
+     * @throws RuntimeException if loading catalogues fails.
+     */
     public void initializeCatalogues() {
         try {
             CatalogueContentManager contentManager = new CatalogueContentManager();
@@ -154,10 +161,6 @@ public class KitchenCTRL {
         Command command;
 
         do {
-            // Show prompt based on current screen
-            // ui.showScreenPrompt(currentScreen);
-
-            // Read user input
             String userCommandText = ui.getUserCommand();
 
             if (userCommandText.isEmpty()) {
@@ -165,7 +168,7 @@ public class KitchenCTRL {
                 ui.showDivider();
                 continue;
             }
-            // Parse input into a Command
+
             try {
                 command = parser.parseCommand(userCommandText);
             } catch (IllegalArgumentException e) {
@@ -174,13 +177,12 @@ public class KitchenCTRL {
                 continue;
             }
 
-            // Exit if it's a ByeCommand
             if (command instanceof ByeCommand) {
                 break;
             }
 
             CommandResult result;
-            // Switch screen if required by result
+
             if (command instanceof BackCommand || command instanceof GoToCommand ||
                     command instanceof EditRecipeCommand || command instanceof ListCommandsCommand) {
                 result = command.execute();
@@ -192,15 +194,12 @@ public class KitchenCTRL {
                 continue;
             }
 
-            // Get the relevant catalogue for the current screen
             Catalogue<?> catalogue = getCatalogueByScreen(currentScreen);
 
-            // Execute the command and get result
             result = (catalogue == null)
-                    ? command.execute() // e.g., welcome screen or global commands
-                    : command.execute(catalogue); // inventory/active recipe
+                    ? command.execute()
+                    : command.execute(catalogue);
 
-            // Display result to the user
             ui.showResultToUser(result);
             ui.showDivider();
         } while (true);
@@ -218,25 +217,40 @@ public class KitchenCTRL {
      * Returns the appropriate catalogue based on the current screen.
      *
      * @param screen The current screen state.
-     * @return The corresponding catalogue, or null if screen has no catalogue (e.g., WELCOME).
+     * @return The corresponding catalogue, or {@code null} if screen has no catalogue.
      */
     public Catalogue<?> getCatalogueByScreen(ScreenState screen) {
         return switch (screen) {
         case INVENTORY -> inventory;
         case RECIPEBOOK -> recipeBook;
         case RECIPE -> activeRecipe;
-        default -> null; // For WELCOME, or throw if needed
+        default -> null;
         };
     }
 
+    /**
+     * Returns the application's recipe book.
+     *
+     * @return The {@code RecipeBook} instance.
+     */
     public static RecipeBook getRecipeBook() {
         return recipeBook;
     }
 
+    /**
+     * Returns the application's inventory.
+     *
+     * @return The {@code Inventory} instance.
+     */
     public static Inventory getInventory() {
         return inventory;
     }
 
+    /**
+     * Returns a list containing all catalogues managed by the application.
+     *
+     * @return An {@code ArrayList} of all catalogues.
+     */
     public static ArrayList<Catalogue<?>> getAllCatalogues() {
         ArrayList<Catalogue<?>> catalogues = new ArrayList<>();
         catalogues.add(inventory);
