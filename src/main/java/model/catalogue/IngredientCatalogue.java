@@ -72,7 +72,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
     protected boolean isExactMatchFound(Ingredient existingIngredient, Ingredient newIngredient) {
         return existingIngredient.getIngredientName().equalsIgnoreCase(newIngredient.getIngredientName());
     }
-//@@author
+    //@@author
 
     /**
      * Adds an ingredient to the catalogue. If a similar ingredient is found, the user is prompted
