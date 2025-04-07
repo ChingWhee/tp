@@ -33,6 +33,7 @@ public class Inventory extends IngredientCatalogue {
         return "inventory";
     }
 
+    //@@author ChingWhee
     /**
      * Lists all ingredients in the inventory in a numbered format.
      * If the inventory is empty, returns an appropriate message.
