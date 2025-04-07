@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-
 /**
  * Abstract class for catalogues that manage ingredients (e.g., Inventory, Recipe).
  */
@@ -150,15 +149,13 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
      * @return A {@link CommandResult} showing the before/after quantity.
      */
     private CommandResult increaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
-        int initialQuantity = existingIngredient.getQuantity();
-        int increaseQuantity = newIngredient.getQuantity();
+        int addedQuantity = newIngredient.getQuantity();
+        existingIngredient.addQuantity(addedQuantity);
 
-        existingIngredient.addQuantity(increaseQuantity);
-
-        return new CommandResult(existingIngredient.getIngredientName() + ": " +
-            "Initial quantity = " + initialQuantity + ", " +
-            "Added = " + increaseQuantity + ", " +
-            "Total = " + existingIngredient.getQuantity());
+        return new CommandResult(
+                addedQuantity + "x " + existingIngredient.getIngredientName() +
+                        " added to " + getCatalogueLabel() + "."
+        );
     }
 
     /**
@@ -172,8 +169,8 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
         ArrayList<Ingredient> similarIngredient = searchSimilarIngredient(ingredient);
 
         if (similarIngredient.isEmpty()) {
-            return new CommandResult(ingredient.getIngredientName()
-                    + " does not exist in the " + getCatalogueLabel() + ".");
+            return new CommandResult("Ingredient does not exist in the "
+                    + getCatalogueLabel() + ".");
         }
 
         // Check for an exact match first
@@ -199,10 +196,16 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
      * @return A {@link CommandResult} confirming the removal.
      */
     private CommandResult removeIngredient(Ingredient ingredient) {
+        int quantity = ingredient.getQuantity(); // store quantity before mutation
+        String name = ingredient.getIngredientName(); // store name just in case too
+
         items.remove(ingredient);
-        return new CommandResult(ingredient.getIngredientName() +
-            " removed from " + getCatalogueLabel() + ".");
+
+        return new CommandResult(
+                quantity + "x " + name + " removed from " + getCatalogueLabel() + "."
+        );
     }
+
 
     /**
      * Clears all ingredients from the catalogue.
@@ -224,21 +227,31 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
      */
     public CommandResult decreaseQuantity(Ingredient existingIngredient, Ingredient newIngredient) {
         int initialQuantity = existingIngredient.getQuantity();
-        int decreaseQuantity = newIngredient.getQuantity();
+        int decreaseAmount = newIngredient.getQuantity();
+        int actualRemoved = Math.min(initialQuantity, decreaseAmount);
 
-        existingIngredient.subtractQuantity(decreaseQuantity);
+        existingIngredient.subtractQuantity(actualRemoved);
+        String name = existingIngredient.getIngredientName();
+        String label = getCatalogueLabel();
 
-        String calculations = existingIngredient.getIngredientName() + ": " +
-                "Initial quantity = " + initialQuantity + ", " +
-                "Subtracted = " + decreaseQuantity + ", " +
-                "Remaining = " + existingIngredient.getQuantity();
+        boolean wasOverDeleted = decreaseAmount > initialQuantity;
+        boolean wasFullyRemoved = existingIngredient.getQuantity() <= 0;
 
-        if (existingIngredient.getQuantity() <= 0) {
-            return removeIngredient(existingIngredient);
+        if (wasFullyRemoved) {
+            items.remove(existingIngredient);
         }
 
-        return new CommandResult(calculations);
+        StringBuilder message = new StringBuilder();
+        message.append(actualRemoved).append("x ").append(name).append(" removed from ").append(label).append(".");
+
+        if (wasOverDeleted) {
+            message.append(" (Warning: You tried to remove more than available; only ").append(initialQuantity)
+                    .append("x ").append(name).append(" was removed.)");
+        }
+
+        return new CommandResult(message.toString());
     }
+
 
     /**
      * Searches for ingredients by a keyword in their name (case-insensitive).
@@ -287,7 +300,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
             ArrayList<Ingredient> similarIngredients = searchSimilarIngredient(ingredient);
 
             if (similarIngredients.isEmpty()) {
-                return new CommandResult(name + " does not exist in the " + getCatalogueLabel() + ".");
+                return new CommandResult("The ingredient does not exist in the " + getCatalogueLabel() + ".");
             }
 
             // Exact match first

@@ -237,14 +237,14 @@ public class Parser {
     private Command prepareAdd(String args) {
         switch (KitchenCTRL.getCurrentScreen()) {
         case INVENTORY, RECIPE -> {
-            // Expecting: add <ingredientName> <quantity>
-            String[] parts = args.split(" ", 2);
+            // Expecting: add <quantity> <uom+name>
+            String[] parts = args.trim().split(" ", 2);
             if (parts.length < 2) {
-                throw new IllegalArgumentException("Invalid format! Usage: add <name> <quantity>");
+                throw new IllegalArgumentException("Invalid format! Usage: add <quantity> <uom+ingredient>");
             }
 
-            String name = parseName(parts[0].trim());
-            int quantity = parseQuantity(parts[1].trim());
+            int quantity = parseQuantity(parts[0].trim());
+            String name = parseName(parts[1].trim());
 
             return new AddCommand(name, quantity);
         }
@@ -255,7 +255,7 @@ public class Parser {
                 throw new IllegalArgumentException("Recipe name cannot be empty!");
             }
 
-            return new AddCommand(name); // Assume constructor for recipe creation uses only name
+            return new AddCommand(name);
         }
         default -> throw new IllegalArgumentException("Unsupported screen for add command.");
         }
@@ -285,69 +285,65 @@ public class Parser {
     }
 
     private Command prepareEdit(String args) {
-        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name();
 
         switch (KitchenCTRL.getCurrentScreen()) {
         case INVENTORY, RECIPE -> {
-            // Expected format: edit <name> <newQuantity>
-            String[] parts = args.split(" ", 2);
+            // Expected format: edit <quantity> <uom+name>
+            String[] parts = args.trim().split(" ", 2);
             if (parts.length < 2) {
-                throw new IllegalArgumentException("Invalid format! Usage: edit <name> <newQuantity>");
+                throw new IllegalArgumentException("Invalid format! Usage: edit <quantity> <uom+ingredient>");
             }
 
-            String name = parseName(parts[0].trim());
-            int newQuantity = parseQuantity(parts[1].trim());
+            int newQuantity = parseQuantity(parts[0].trim());
+            String name = parseName(parts[1].trim());
 
             return new EditIngredientCommand(name, newQuantity);
         }
 
         default -> throw new IllegalArgumentException(
-            "Edit command is not supported in screen: " + currentScreenName);
+                "Edit command is not supported in screen: " + currentScreenName);
         }
     }
-
-
-
-
 
     /**
      * Parses arguments to create a {@code DeleteCommand}.
      *
-     * @param args Input arguments in the format: &lt;name&gt; &lt;quantity&gt;
-     * @return A DeleteCommand with the given name and quantity.
-     * @throws IllegalArgumentException If the input format is invalid or quantity is not a number.
+     * @param args Input arguments.
+     * @return A DeleteCommand with the given name and quantity (if applicable).
+     * @throws IllegalArgumentException If the input format is invalid.
      */
     private Command prepareDelete(String args) {
-        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error msg
+        String currentScreenName = KitchenCTRL.getCurrentScreen().name(); // for error messages
 
         switch (KitchenCTRL.getCurrentScreen()) {
         case RECIPEBOOK -> {
-            // RECIPEBOOK expects only the recipe name
+            // Expects: delete <recipeName>
             String name = parseName(args.trim());
             if (name.isEmpty()) {
                 throw new IllegalArgumentException("Invalid format! Usage: delete <recipeName>");
             }
-            return new DeleteCommand(name); // uses the recipe-only constructor
+            return new DeleteCommand(name); // RecipeBook only requires the name
         }
 
-        case INVENTORY, RECIPE -> {
-            // INVENTORY and RECIPE expect: delete <name> <quantity>
-            String[] parts = args.split(" ", 2);
+        case RECIPE, INVENTORY -> {
+            // Expects: delete <quantity> <uom+ingredient>
+            String[] parts = args.trim().split(" ", 2);
             if (parts.length < 2) {
-                throw new IllegalArgumentException("Invalid format! Usage: delete <name> <quantity>");
+                throw new IllegalArgumentException("Invalid format! Usage: delete <quantity> <uom+ingredient>");
             }
 
-            String name = parseName(parts[0].trim());
-            int quantity = parseQuantity(parts[1].trim());
+            int quantity = parseQuantity(parts[0].trim());
+            String name = parseName(parts[1].trim());
 
             return new DeleteCommand(name, quantity);
         }
 
         default -> throw new IllegalArgumentException(
-                "Delete command is not supported in screen: " + currentScreenName
-        );
+                "Delete command is not supported in screen: " + currentScreenName);
         }
     }
+
 
 
     /**

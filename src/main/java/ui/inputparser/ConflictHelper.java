@@ -42,13 +42,15 @@ public class ConflictHelper {
      */
     public static int getUserChoiceForAddIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newIngredient) {
         String contextLabel = getContextLabel();
-        System.out.println("Similar items found in " + contextLabel + " for: " + newIngredient.getIngredientName());
+        System.out.println("Similar items found in " + contextLabel + ":");
 
         // Print the list of similar items with corresponding numbers
         System.out.println("Type '0' to add this as a new item.");
         System.out.println("Select an existing item to increase its quantity:");
         for (int i = 0; i < similarIngredient.size(); i++) {
-            System.out.println("Type '" + (i + 1) + "' to update: " + similarIngredient.get(i));
+            System.out.println("Type '" + (i + 1) + "' to update: "
+                + similarIngredient.get(i).getQuantity() + "x "
+                + similarIngredient.get(i).getIngredientName());
         }
         System.out.println("Type '-1' to cancel this action.");
 
@@ -81,12 +83,14 @@ public class ConflictHelper {
      */
     public static int getUserChoiceForDeleteIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newItem) {
         String contextLabel = getContextLabel();
-        System.out.println("Similar items found in " + contextLabel + " for: " + newItem.getIngredientName());
+        System.out.println("Similar items found in " + contextLabel + ":");
 
         // Print the list of similar items with corresponding numbers
         System.out.println("Select an existing item to decrease its quantity:");
         for (int i = 0; i < similarIngredient.size(); i++) {
-            System.out.println("Type '" + (i + 1) + "' to update: " + similarIngredient.get(i));
+            System.out.println("Type '" + (i + 1) + "' to update: "
+                + similarIngredient.get(i).getQuantity() + "x "
+                + similarIngredient.get(i).getIngredientName());
         }
         System.out.println("Type '-1' to cancel this action.");
 
@@ -118,7 +122,7 @@ public class ConflictHelper {
      *         - -1: Cancel the operation.
      */
     public static int getUserChoiceForAddRecipe(ArrayList<Recipe> similarRecipe, Recipe newRecipe) {
-        System.out.println("Similar items found in recipe list for: " + newRecipe.getRecipeName());
+        System.out.println("Similar items found in recipe book:");
 
         // Print the list of similar recipes with corresponding numbers
         for (int i = 0; i < similarRecipe.size(); i++) {
@@ -155,7 +159,7 @@ public class ConflictHelper {
      *         - -1: Cancel the operation.
      */
     public static int getUserChoiceForDeleteRecipe(ArrayList<Recipe> similarRecipe, Recipe newRecipe) {
-        System.out.println("Similar items found in recipe list for: " + newRecipe.getRecipeName());
+        System.out.println("Similar items found in recipe book:");
 
         // Print the list of similar recipes with corresponding numbers
         for (int i = 0; i < similarRecipe.size(); i++) {
@@ -184,12 +188,14 @@ public class ConflictHelper {
 
     public static int getUserChoiceForEditIngredient(ArrayList<Ingredient> similarIngredient, Ingredient newItem) {
         String contextLabel = getContextLabel();
-        System.out.println("Similar items found in " + contextLabel + " for: " + newItem.getIngredientName());
+        System.out.println("Similar items found in " + contextLabel + ":");
 
         // Print the list of similar items with corresponding numbers
         System.out.println("Select an existing item to update its quantity:");
         for (int i = 0; i < similarIngredient.size(); i++) {
-            System.out.println("Type '" + (i + 1) + "' to edit: " + similarIngredient.get(i));
+            System.out.println("Type '" + (i + 1) + "' to update: "
+                + similarIngredient.get(i).getQuantity() + "x "
+                + similarIngredient.get(i).getIngredientName());
         }
         System.out.println("Type '-1' to cancel this action.");
 
@@ -214,8 +220,8 @@ public class ConflictHelper {
     private static int parseQuantity(String quantityStr) {
         // Regex only accepts optional negative sign, followed by digits (no plus sign, letters, or whitespace)
         if (!quantityStr.matches("^-?\\d+$")) {
-            throw new IllegalArgumentException("Quantity must be a valid integer (e.g., 0, -5, 123). " +
-                "No '+', letters, or spaces allowed.");
+            throw new IllegalArgumentException("Quantity must be a valid integer within specified range " +
+                "(e.g., 0, -5, 123). " + "No '+', letters, or spaces allowed.");
         }
         return Integer.parseInt(quantityStr);
     }
