@@ -82,6 +82,9 @@ public class AddCommand extends Command {
             }
             case RECIPEBOOK -> {
                 if (catalogue instanceof RecipeBook recipeBook) {
+                    if (recipeBook.getItems().size() >= 100){
+                        yield new CommandResult("RecipeBook is already full!", null);
+                    };
                     Recipe recipe = new Recipe(name);
                     recipeBook.addItem(recipe, false);
                     setCurrentScreen(RECIPE);
@@ -92,6 +95,9 @@ public class AddCommand extends Command {
             case RECIPE -> {
                 requireActiveRecipe();
                 if (catalogue instanceof Recipe recipe) {
+                    if (recipe.getItems().size() >= 100){
+                        yield new CommandResult("Does your Recipe really need so many ingredients?", null);
+                    };
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield recipe.addItem(ingredient, false);
                 }
