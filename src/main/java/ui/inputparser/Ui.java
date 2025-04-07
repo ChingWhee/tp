@@ -9,52 +9,72 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /**
- * The {@code Ui} class handles all user input and output operations.
- * It is responsible for displaying prompts, command menus, and feedback to the user,
- * as well as reading commands entered by the user from the console.
+ * The {@code Ui} class handles all input/output interactions with the user.
+ * It displays screen prompts, help menus, command results, and reads user input.
  */
 public class Ui {
     // Scanner to read user input from console
     private static Scanner scanner;
 
     /**
-     * Constructs a Ui object using the standard system input stream.
+     * Default constructor for production use.
+     * Initializes the scanner with System.in.
      */
     public Ui() {
         this(System.in);
     }
 
     /**
-     * Constructs a Ui object using a specified input stream (used for testing).
+     * Constructor used for testing, allowing a custom InputStream.
      *
-     * @param inStream The input stream to read user input from.
+     * @param inStream The InputStream to read user input from.
      */
     public Ui(InputStream inStream) {
         scanner = new Scanner(inStream);
     }
 
     /**
-     * Displays the ASCII logo upon launching the program.
+     * Displays the ASCII logo upon program launch.
      */
     public void showInitMessage() {
-        final String logo = """ 
-            [ASCII Art Logo Content Here]
-            """;
+        final String logo = """
+                   .-.    .-.    .-.    .-.  .-.  .-"-.  .-.      .--.      .-.  .--.
+                  <   |  <   |  <   |   | |  | |  | | |  | |      |()|     /  |  |  |
+                   )  |   )  |   )  |   | |  | |  | | |  | |      |  |     |  |  |  |
+                   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
+                   )()|   )()|   )()|   |o|  | |  | | |  | |      |  |     |  |  |()|
+                  <___|  <___|  <___|   |\\|  | |  | | |  | |      |  |     |  |  |__|
+                   }  |   || |   =  |   | |  | |  `-|-'  | |      |  |     |  |  |   L
+                   }  |   || |   =  |   | |  | |   /A\\   | |      |  |     |  |  |   J
+                   }  |   || |   =  |   |/   | |   |H|   | |      |  |     |  |  |    L
+                   }  |   || |   =  |        | |   |H|   | |     _|__|_    |  |  |    J
+                   }  |   || |   =  |        | |   |H|   | |    | |   |    |  |  | A   L
+                   }  |   || |   =  |        | |   \\V/   | |    | |   |     \\ |  | H   J
+                   }  |   FF |   =  |        | |    "    | |    | \\   |      ,Y  | H A  L
+                   }  |   LL |    = |       _F J_       _F J_   \\  `--|       |  | H H  J
+                   }  |   LL |     \\|     /       \\   /       \\  `.___|       |  | H H A L
+                   }  |   \\\\ |           J         L |  _   _  |              |  | H H U J
+                   }  |    \\\\|           J         F | | | | | |             /   | U ".-'
+                    } |     \\|            \\       /  | | | | | |    .-.-.-.-/    |_.-'
+                     \\|                    `-._.-'   | | | | | |   ( (-(-(-( )
+                                                     `-' `-' `-'    `-`-`-`-'
+                """;
+
         System.out.println(logo);
         System.out.flush();
     }
 
     /**
-     * Displays a divider line to separate UI sections.
+     * Displays a divider line used to separate sections in the UI.
      */
     public void showDivider() {
         System.out.println("==========================================================");
     }
 
     /**
-     * Displays the appropriate screen prompt and commands based on the current screen state.
+     * Displays the appropriate screen prompt based on the current screen state.
      *
-     * @param screen The current screen state.
+     * @param screen The current screen state (WELCOME, INVENTORY, RECIPEBOOK, RECIPE).
      */
     public static void showScreenPrompt(ScreenState screen) {
         switch (screen) {
@@ -76,7 +96,7 @@ public class Ui {
     }
 
     /**
-     * Displays the welcome message and the list of commands on the main screen.
+     * Displays the welcome message and available commands on the main screen.
      */
     public static void showWelcomeMessage() {
         System.out.println("Welcome to KitchenCTRL - your digital kitchen companion!");
@@ -86,7 +106,7 @@ public class Ui {
     }
 
     /**
-     * Displays help and available commands for the INVENTORY screen.
+     * Displays help and commands for the INVENTORY screen.
      */
     public static void showInventoryMessage() {
         System.out.println("You're now in the INVENTORY screen.");
@@ -96,7 +116,7 @@ public class Ui {
     }
 
     /**
-     * Displays help and available commands for a specific RECIPE screen.
+     * Displays help and commands for managing a specific recipe's ingredients.
      */
     public static void showRecipeMessage() {
         Recipe activeRecipe = KitchenCTRL.getActiveRecipe();
@@ -107,7 +127,7 @@ public class Ui {
     }
 
     /**
-     * Displays help and available commands for the RECIPEBOOK screen.
+     * Displays help and commands for the RECIPEBOOK screen.
      */
     public static void showRecipeBookMessage() {
         System.out.println("You're now in the RECIPEBOOK screen.");
@@ -117,7 +137,7 @@ public class Ui {
     }
 
     /**
-     * Displays the list of available commands on the WELCOME screen.
+     * Displays a list of available commands on the WELCOME screen.
      */
     public static void showWelcomeCommands() {
         System.out.println("- inventory -> View and manage your inventory");
@@ -127,46 +147,46 @@ public class Ui {
     }
 
     /**
-     * Displays the list of available commands on the INVENTORY screen.
+     * Displays a list of available commands on the INVENTORY screen.
      */
     public static void showInventoryCommands() {
         System.out.println("- list -> Show all ingredients in inventory");
         System.out.println("- find [name] -> Find ingredient(s) in inventory");
         System.out.println("- add [qty] [item] -> Add ingredient(s) to inventory");
-        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from inventory");
-        System.out.println("- edit [qty] [item] -> Set quantity of an ingredient");
+        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from inventory based on qty specified");
+        System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in inventory");
         System.out.println("- cookable -> Find all cookable recipes");
-        System.out.println("- cook [name] -> Cook a recipe or show missing ingredients");
+        System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
         System.out.print("- help -> View available commands");
     }
 
     /**
-     * Displays the list of available commands for a specific recipe screen.
+     * Displays a list of available commands on a specific RECIPE screen.
      */
     public static void showRecipeCommands() {
         System.out.println("- list -> Show all ingredients in the recipe");
         System.out.println("- find [name] -> Find ingredient(s) in the recipe");
         System.out.println("- add [qty] [item] -> Add ingredient(s) to the recipe");
-        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from the recipe");
-        System.out.println("- edit [qty] [item] -> Set quantity of an ingredient");
-        System.out.println("- cook -> Cook this recipe or show missing ingredients");
+        System.out.println("- delete [qty] [item] -> Remove ingredient(s) from recipe based on qty specified");
+        System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in recipe");
+        System.out.println("- cook -> Cooks the current recipe, or display missing ingredients required to cook it");
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
         System.out.print("- help -> View available commands");
     }
 
     /**
-     * Displays the list of available commands on the RECIPEBOOK screen.
+     * Displays a list of available commands on the RECIPEBOOK screen.
      */
     public static void showRecipeBookCommands() {
         System.out.println("- list -> Show all recipes");
-        System.out.println("- find [name] -> Find recipe(s) by name");
+        System.out.println("- find [name] -> Find recipe(s) matching search string");
         System.out.println("- add [name] -> Add a new recipe");
-        System.out.println("- delete [name] -> Delete a recipe");
-        System.out.println("- edit [name] -> Edit an existing recipe");
-        System.out.println("- cook [name] -> Cook a recipe or view required ingredients");
+        System.out.println("- delete [name] -> Delete an existing recipe specified by [name]");
+        System.out.println("- edit [name] -> Edit an existing recipe specified by [name]");
+        System.out.println("- cook [name] -> Cook a recipe, or display missing ingredients required to cook it");
         System.out.println("- cookable -> Find all cookable recipes");
         System.out.println("- back -> Return to the main screen");
         System.out.println("- bye -> Exit the program");
@@ -174,17 +194,16 @@ public class Ui {
     }
 
     /**
-     * Displays a goodbye message before exiting the application.
+     * Displays a goodbye message when exiting the application.
      */
     public void showGoodbyeMessage() {
         System.out.println("Goodbye, see you soon!");
     }
 
     /**
-     * Reads and returns the user's command from the console input.
+     * Reads the user input command from the console.
      *
-     * @return The raw command entered by the user, trimmed of whitespace.
-     *         Returns an empty string if no input is detected.
+     * @return the raw command string entered by the user, or an empty string if no input is detected.
      */
     public String getUserCommand() {
         System.out.print("Enter command: ");
@@ -197,9 +216,9 @@ public class Ui {
     }
 
     /**
-     * Displays the result of a command execution to the user.
+     * Displays the result of executing a command.
      *
-     * @param result The CommandResult containing feedback to be displayed.
+     * @param result The CommandResult containing feedback for the user.
      */
     public void showResultToUser(CommandResult result) {
         if (result.getFeedbackToUser() != null) {
