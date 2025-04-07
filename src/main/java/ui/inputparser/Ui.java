@@ -158,6 +158,7 @@ public class Ui {
         System.out.println("- delete [qty] [item] -> Remove ingredient(s) from recipe based on qty specified");
         //for removing used ingredients manually or wrongly named ingredients
         System.out.println("- edit [qty] [item] -> Set qty of specified ingredient in recipe");
+        System.out.println("- cook -> Cooks the current recipe, or display missing ingredients required to cook it");
         //directly set qty of specified ingredient
         System.out.println("- back -> Return to the recipe list");
         System.out.println("- bye -> Exit the program");
