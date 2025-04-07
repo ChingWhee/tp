@@ -75,6 +75,9 @@ public class AddCommand extends Command {
             return switch (KitchenCTRL.getCurrentScreen()) {
             case INVENTORY -> {
                 if (catalogue instanceof Inventory inventory) {
+                    if (inventory.getItems().size() >= 100){
+                        yield new CommandResult("Inventory is already full!", null);
+                    };
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield inventory.addItem(ingredient, false);
                 }
