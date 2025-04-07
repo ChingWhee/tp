@@ -20,6 +20,7 @@ Given below are my contributions to the project:
   + What it does: Consolidates shared ingredient logic for Inventory and Recipe classes.
   + Justification: Promotes code reuse and consistent functionality across catalogues.
   + Highlights: Uses `getCatalogueLabel()` for dynamic context and separates UI (ConflictHelper) from core logic.
+  + Challenges: The refactoring was challenging as it required extensive changes to existing code.
 
 
 + **New Feature**: Ingredient Quantity Adjustment via `editItem()`
@@ -44,6 +45,7 @@ Given below are my contributions to the project:
   + What it does: Adds input validation and error handling across commands and ingredient models.
   + Justification: Prevents runtime errors and ensures consistent, user-friendly feedback.
   + Highlights: Implements regex-based parsing, null/empty checks, and controlled exception reporting.
+  + Challenges: Found multiple re-implementations of the same method, was challenging to unify the code
 
 
 + **Contribution to UG**
