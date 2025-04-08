@@ -303,7 +303,7 @@ public class Parser {
     public static String parseName(String nameStr) {
         // Accepts any visible Unicode characters except backslash and control characters
         if (!nameStr.matches("^[\\P{Cntrl}&&[^\\\\]]{1,100}$")) {
-            throw new IllegalArgumentException("Name contains invalid or disallowed characters!");
+            throw new IllegalArgumentException("Name must have less than 100 characters without invalid inputs!");
         }
 
         return nameStr;
