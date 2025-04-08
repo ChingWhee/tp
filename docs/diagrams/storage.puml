@@ -51,13 +51,18 @@ package storage {
         + String getCatalogueContent(): String
     }
 
+    class IngredientCatalogue {
+    }
+
     CatalogueContentManager --> Inventory : loads
     CatalogueContentManager --> RecipeBook : loads
     Inventory --> Ingredient : contains
     RecipeBook --> Recipe : contains
     Recipe --> Ingredient : contains
-    Ingredient ..> String : parses
-    Ingredient ..> int : parses
+    Inventory --|> IngredientCatalogue
+    RecipeBook --|> Catalogue
+    Recipe --|> Catalogue
+    IngredientCatalogue --|> Catalogue
 
     CatalogueContentManager --> "Parser" : Uses
 }

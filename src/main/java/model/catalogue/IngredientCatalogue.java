@@ -88,7 +88,7 @@ public abstract class IngredientCatalogue extends Catalogue<Ingredient> {
             if (ingredient == null) {
                 return new CommandResult("Invalid ingredient: Ingredient is null.");
             }
-
+            assert ingredient != null : "Ingredient is null.";
             String name = ingredient.getIngredientName();
             if (name == null || name.trim().isEmpty()) {
                 return new CommandResult("Invalid ingredient: name must be non-empty.");
