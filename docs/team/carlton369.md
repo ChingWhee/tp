@@ -16,7 +16,7 @@ Given below are my contributions to the project:
       It enhances usability by providing clear feedback on available cooking options.
     * *Highlights*:  The main challenge was transitioning from using an ArrayList<Recipe> to a RecipeBook for better modularity and integration with existing functionalities.
       I also ensured that the method listItems() correctly formats the output of cookable recipes.
-
+<br>
 
 * **New Feature**: Implemented the CookRecipeCommand to deduct ingredients when cooking a recipe.
   [\#29](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/29), [\#54](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/54)
@@ -28,9 +28,8 @@ Given below are my contributions to the project:
     * *Highlights*: The key challenge was managing the flow of information across multiple classes to ensure correct inventory updates. 
        The command had to correctly retrieve, check, and modify ingredient data across different objects while preventing errors in data consistency. 
        This required careful handling of object references and state updates to avoid unintended side effects.
-
-
-
+<br>
+      
 * **New Feature**: Implemented Ingredient class to manage ingredient data efficiently
   [\#14](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/14), [\#21](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/21)
     * *What it does*: The Ingredient class serves as the foundational data structure for managing ingredient information within the application. 
@@ -40,6 +39,7 @@ Given below are my contributions to the project:
     * *Highlights*: The challenge was designing a flexible yet structured class that could seamlessly interact with other components. 
       Since multiple classes—such as Inventory and Recipe—depend on Ingredient, I had to ensure that its implementation supported key operations like quantity updates while preventing unintended modifications. 
       This class later became a crucial part of the system, streamlining how ingredients were stored, retrieved, and modified.
+<br>
 
 * **New Feature**: Implemented ListCommandsCommand to improve User Experience
    [\#159](https://github.com/AY2425S2-CS2113-T13-1/tp/pull/159)
@@ -48,8 +48,9 @@ Given below are my contributions to the project:
     * *Justification*: Previous implementation of printing every available command after every input from the user clogged up the CLI, making it difficult for the user to deciper the results of their previous command. <br>
        By extracting the command printing, this allows the user to have a much cleaner interface and smooth user experience, while still giving them the option to view them should the user have need to.
     * *Highlights*: Had to keep track of all the available commands in each screen to prevent any commands from being "left out" and not made obvious to the user. <br>
-       Any modifications to the commands in each section had to be reflected in this class accordingly. <br>      
+       Any modifications to the commands in each section had to be reflected in this class accordingly. 
        Additionally, also had to ensure that the user are still able to access the relevant information on request.
+
 
 * **Code contributed**: [RepoSense link](https://nus-cs2113-ay2425s2.github.io/tp-dashboard/?search=Carlton369&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-02-21)
 
