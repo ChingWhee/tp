@@ -7,9 +7,7 @@ import model.catalogue.Catalogue;
 import model.catalogue.Inventory;
 import model.catalogue.RecipeBook;
 
-import static controller.KitchenCTRL.setCurrentScreen;
 import static controller.KitchenCTRL.requireActiveRecipe;
-import static controller.ScreenState.RECIPE;
 import static controller.ScreenState.RECIPEBOOK;
 
 
@@ -77,7 +75,7 @@ public class AddCommand extends Command {
                 if (catalogue instanceof Inventory inventory) {
                     if (inventory.getItems().size() >= 100){
                         yield new CommandResult("Inventory is already full!", null);
-                    };
+                    }
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield inventory.addItem(ingredient, false);
                 }
@@ -87,11 +85,9 @@ public class AddCommand extends Command {
                 if (catalogue instanceof RecipeBook recipeBook) {
                     if (recipeBook.getItems().size() >= 100){
                         yield new CommandResult("RecipeBook is already full!", null);
-                    };
+                    }
                     Recipe recipe = new Recipe(name);
-                    recipeBook.addItem(recipe, false);
-                    setCurrentScreen(RECIPE);
-                    yield new EditRecipeCommand(recipe.getRecipeName()).execute();
+                    yield recipeBook.addItem(recipe, false);
                 }
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
@@ -100,7 +96,7 @@ public class AddCommand extends Command {
                 if (catalogue instanceof Recipe recipe) {
                     if (recipe.getItems().size() >= 100){
                         yield new CommandResult("Does your Recipe really need so many ingredients?", null);
-                    };
+                    }
                     Ingredient ingredient = new Ingredient(name, quantity);
                     yield recipe.addItem(ingredient, false);
                 }

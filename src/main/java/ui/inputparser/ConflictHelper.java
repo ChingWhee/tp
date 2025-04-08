@@ -113,23 +113,34 @@ public class ConflictHelper {
     }
 
     /**
-     * Prompts the user when a recipe being added is similar to existing ones.
+     * Prompts the user to resolve a conflict when adding a new recipe by selecting from a list of similar recipes.
+     * <p>
+     * Options provided to the user:
+     * <ul>
+     *     <li>Type <code>0</code> to add the new recipe as a separate entry.</li>
+     *     <li>Type a number between <code>1</code> and <code>n</code> (where [n] is the number of similar recipes)
+     *         to select an existing recipe for potential reference or editing.</li>
+     *     <li>Type <code>-1</code> to cancel the operation.</li>
+     * </ul>
      *
-     * @param similarRecipe List of recipes with similar names.
-     * @param newRecipe     The recipe the user is trying to add.
-     * @return Integer representing the user's choice:
-     *         - 0: Add as new recipe.
-     *         - -1: Cancel the operation.
+     * @param similarRecipe an {ArrayList} of similar {Recipe} objects that may already exist in the recipe book
+     * @param newRecipe the new {@link Recipe} object the user is attempting to add
+     * @return an integer representing the user's choice:
+     *         <ul>
+     *             <li><code>-1</code>: Cancel the operation</li>
+     *             <li><code>0</code>: Add the recipe as a new entry</li>
+     *             <li><code>1</code> to <code>n</code>: Index (1-based) of a selected existing similar recipe</li>
+     *         </ul>
      */
     public static int getUserChoiceForAddRecipe(ArrayList<Recipe> similarRecipe, Recipe newRecipe) {
         System.out.println("Similar items found in recipe book:");
 
         // Print the list of similar recipes with corresponding numbers
-        for (int i = 0; i < similarRecipe.size(); i++) {
-            System.out.println((i + 1) + ": " + similarRecipe.get(i).getRecipeName());
-        }
-
         System.out.println("Type '0' to add this as a new recipe.");
+        System.out.println("Select an existing recipe to reference or edit:");
+        for (int i = 0; i < similarRecipe.size(); i++) {
+            System.out.println("Type '" + (i + 1) + "' to choose: " + similarRecipe.get(i).getRecipeName());
+        }
         System.out.println("Type '-1' to cancel this action.");
 
         while (true) {
@@ -137,17 +148,19 @@ public class ConflictHelper {
             try {
                 int choice = parseQuantity(scanner.nextLine().trim());
 
-                // Ensure input is within the valid range
-                if (choice == -1 || choice == 0) {
+                // Accept -1 (cancel), 0 (add new), or a valid index
+                if (choice >= -1 && choice <= similarRecipe.size()) {
                     return choice;
                 } else {
-                    System.out.println("Invalid input. Please enter 0 or -1.");
+                    String msg = "Invalid input. Please enter a number between -1 and " + similarRecipe.size() + ".";
+                    System.out.println(msg);
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input: " + e.getMessage());
             }
         }
     }
+
 
     /**
      * Prompts the user to select which similar recipe to delete.

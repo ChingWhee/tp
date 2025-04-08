@@ -397,7 +397,7 @@ If similar ingredients are found, you will be prompted to:
 - **Select an existing match** → Decrease the quantity of the selected ingredient.
 - **Type `-1`** → Cancel the operation.
 
-### Adding, Deleting or Editing similar Recipes (based on substring match)
+### Adding or Deleting similar Recipes (based on substring match)
 
 When you try to add or edit a recipe, KitchenCTRL will check if any similar recipes already exist if an exact match is not found.
 
@@ -405,12 +405,6 @@ When you try to add or edit a recipe, KitchenCTRL will check if any similar reci
 If similar recipe names are found, you will be prompted to:
 
 - **Add as new** → Creates a new recipe and jumps to editing the new recipe.
-- **Select an existing match** → Jumps to editing the selected existing recipe.
-- **Cancel** → Does nothing and returns to the previous state.
-
-#### ✏️ Edit Recipe
-If similar recipe names are found, you will be prompted to:
-
 - **Select an existing match** → Jumps to editing the selected existing recipe.
 - **Cancel** → Does nothing and returns to the previous state.
 
