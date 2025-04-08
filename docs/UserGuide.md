@@ -120,6 +120,16 @@ Each screen has its own set of commands, described below.
 
 ---
 
+### End of Input (Ctrl+Z / Ctrl+C)
+[Available in all Screens]
+- Pressing **Ctrl+Z** or **Ctrl+C** will signal the end of input.
+- The program will exit immediately with the message: `No input detected. Exiting...`
+- This is an alternative to typing the `bye` command to exit the application.
+
+**Format:** _(Ctrl+Z / Ctrl+C during command input)_
+
+---
+
 ### Display Commands: `help`
 [Available in all Screens]
 - Displays a list of supported commands in current screen.
@@ -127,6 +137,7 @@ Each screen has its own set of commands, described below.
 - **Format:** `help`
 
 ---
+
 ## 📦 Inventory & Recipe CRUD Commands
 
 Once you're in the `inventory` or `edit recipe` screen:
