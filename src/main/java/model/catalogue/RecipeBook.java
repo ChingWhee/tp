@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static controller.KitchenCTRL.setActiveRecipe;
 import static controller.KitchenCTRL.setCurrentScreen;
 import static controller.ScreenState.RECIPE;
 

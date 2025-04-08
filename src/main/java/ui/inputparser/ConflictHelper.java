@@ -152,8 +152,8 @@ public class ConflictHelper {
                 if (choice >= -1 && choice <= similarRecipe.size()) {
                     return choice;
                 } else {
-                    String message = "Invalid input. Please enter a number between -1 and " + similarRecipe.size() + ".";
-                    System.out.println(message);
+                    String msg = "Invalid input. Please enter a number between -1 and " + similarRecipe.size() + ".";
+                    System.out.println(msg);
                 }
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input: " + e.getMessage());
