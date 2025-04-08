@@ -14,6 +14,7 @@
     - [Value proposition](#value-proposition)
 - [User Stories](#user-stories)
 - [Non-Functional Requirements](#non-functional-requirements)
+- [Future Plans](#future-plans)
 - [Glossary](#glossary)
 - [Instructions for manual testing](#instructions-for-manual-testing)
 
@@ -473,8 +474,6 @@ This section guides testers through manual testing of KitchenCTRL features. To b
 - Ensure that you have Java 17 or above installed.
 - Download the latest version of KitchenCTRL from [here](https://github.com/AY2425S2-CS2113-T13-1/tp/releases).
 - Open a command terminal, cd into the folder where the JAR file is and use java -jar tp.jar to run KitchenCTRL.
-
-## Appendix: Instructions for Manual Testing
 
 ### Starting the Application
 
