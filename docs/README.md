@@ -25,7 +25,7 @@ KitchenCTRL is a Java-based application designed to help users manage their kitc
 
 1. **Ensure IntelliJ JDK 17 is defined as an SDK**, as described [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).
 2. **Import the project _as a Gradle project_**, as described [here](https://se-education.org/guides/tutorials/intellijImportGradleProject.html).
-3. **Verify the setup**: After importing, locate the `src/main/java/ui/KitchenCTRL.java` file, right-click it, and choose `Run KitchenCTRL.main()`. You should see a welcome message from the application.
+3. **Verify the setup**: After importing, locate the `src/main/java/controller/KitchenCTRL.java` file, right-click it, and choose `Run KitchenCTRL.main()`. You should see a welcome message from the application.
 
 ### Build Automation
 
@@ -34,7 +34,7 @@ This project uses Gradle for build automation and dependency management. Refer t
 ### Testing
 
 - **I/O Redirection Tests**: Navigate to the `text-ui-test` directory and run the `runtest(.bat/.sh)` script.
-- **JUnit Tests**: A skeleton JUnit test is provided in `src/test/java/test/KitchenCTRLTest.java`. Refer to the [JUnit Tutorial](https://se-education.org/guides/tutorials/junit.html) for more information.
+- **JUnit Tests**: JUnit tests are provided in the `src/test/java/kitchenctrl` folder. Refer to the [JUnit Tutorial](https://se-education.org/guides/tutorials/junit.html) for more information.
 
 ### Checkstyle
 

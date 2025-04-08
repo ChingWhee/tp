@@ -38,6 +38,7 @@ The design and implementation of KitchenCTRL has been broken down into various s
 ### Architecture
 A high-level overview of the system is shown in the Architecture Diagram below.
 ![Architecture UML diagram](diagrams/architecture.png)
+
 The complete architecture consists of:
 1. `Ui`, `Parser`, `Command`, `CatalogueContentManager`, `Inventory` and `RecipeBook` classes: 
     These classes manage user interaction, parsing input commands, and executing actions.
@@ -48,7 +49,7 @@ The complete architecture consists of:
     ensuring the application state is maintained across sessions.
 
 ### Commands Component
-![Logic UML diagram](diagrams/logic.png)
+<img src="diagrams/logic.svg" alt="Logic UML diagram" width="100%"/>
 
 The `commands` package encapsulates all user-triggered operations in the application. Each class in this package 
 represents a specific action the user can perform, such as editing data, navigating between screens, or executing 
@@ -92,7 +93,7 @@ By inheriting from the Command class, each command ensures consistency and adher
 principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
 
 ### UI Component
-![UI UML diagram](diagrams/ui.png)
+<img src="diagrams/ui.svg" alt="UI UML diagram" width="100%"/>
 
 The **UI Component** of KitchenCTRL is responsible for handling all input/output interactions with the user.
 It manages displaying messages, prompts, and results, as well as reading user input.
@@ -154,6 +155,7 @@ It integrates closely with other components such as:
 It allows the user to interact with the system in an intuitive way, providing clear instructions and feedback at every step.
 
 ### Model Component
+<img src="diagrams/model.svg" alt="Model UML diagram" width="100%"/>
 
 The **Model** component stores the application's core data and implements the logic for handling recipes and ingredients.
 
@@ -261,7 +263,7 @@ The `Recipe` class represents a named list of ingredients required to make somet
 - `recipeName`: `String` – Name of the recipe.
 - `items`: `ArrayList<Ingredient>` – Required ingredients and quantities.
 
-**Inherits Methods from `IngredientCatalogue`:**
+**Inherits Methods from `IngredientCatalogue`**
 
 ---
 
@@ -269,7 +271,7 @@ The `Recipe` class represents a named list of ingredients required to make somet
 
 The `RecipeBook` is a subclass of `Catalogue<Recipe>`. It stores and manages user-created recipes.
 
-![RecipeBook Class Diagram](diagrams/recipebook.png)
+<img src="diagrams/recipebook.svg" alt="RecipeBook Class Diagram" width="100%"/>
 
 **Attributes:**
 - `items`: `ArrayList<Recipe>` – List of saved recipes.
@@ -282,6 +284,7 @@ The `RecipeBook` is a subclass of `Catalogue<Recipe>`. It stores and manages use
 - `searchSimilarRecipe(Recipe recipe)`
 - `editItem(String name, Recipe updatedRecipe)`
 - `findItem(String keyword)`
+
 ---
 
 ### Storage Component
@@ -343,7 +346,8 @@ Each recipe ends with a **blank line**.
 ### Program Run Sequence
 
 #### Command handling
-![AddCommand diagram](diagrams/sequencediagram(Add).png)
+<img src="diagrams/sequencediagram(Add).svg" alt="AddCommand diagram" width="100%"/>
+
 User input is first captured by the `Ui.getUserCommand()` method, which is called from the `KitchenCTRL` class (not shown in the sequence diagram). The input string is then passed to the `Parser#parseCommand()` method to identify the command type and generate the appropriate `Command` object.
 Once a `Command` object is created, the system invokes the `execute()` method of that command. The result of the execution is encapsulated in a `CommandResult` object, which the UI uses to print the appropriate response back to the user.
 As shown in the sequence diagram, this process is demonstrated through three main scenarios:
@@ -372,7 +376,7 @@ RecipeBook recipeBook = contentManager.loadRecipeBook();
 contentManager.saveToFile(inventory);
 ```
 
-![Storage UML diagram](diagrams/storage.png)
+<img src="diagrams/storage.svg" alt="Storage UML diagram" width="100%"/>
 
 ---
 
@@ -446,7 +450,7 @@ Priorities: High (must have) - * * *, Medium (nice to have) - * *, Low (unlikely
   Contains core data structures (Ingredient, Recipe) and business logic
 - **Storage**  
   Manages persistent data storage through file I/O operations
-- **Catalogue<T>**  
+- **Catalogue**  
   Generic container class for storing Inventory and RecipeBook items
 - **Inventory**  
   Collection of Ingredient objects with quantities

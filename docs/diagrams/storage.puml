@@ -1,6 +1,10 @@
 @startuml
 hide circle
+hide empty members
 skinparam classAttributeIconSize 0
+
+skinparam linetype polyline
+skinparam linetype ortho
 
 package storage {
     class CatalogueContentManager {
@@ -27,28 +31,25 @@ package storage {
     }
 
     class Inventory {
-        + addItem(Ingredient ingredient, boolean flag): void
+
     }
 
     class RecipeBook {
-        + addItem(Recipe recipe, boolean flag): void
+
     }
 
     class Ingredient {
-        - String name
-        - int quantity
-        + Ingredient(String name, int quantity)
+
     }
 
     class Recipe {
-        - String recipeName
-        - List<Ingredient> ingredients
-        + Recipe(String recipeName, List<Ingredient> ingredients)
+
     }
 
-    class Catalogue {
-        + String getType(): String
-        + String getCatalogueContent(): String
+
+    }
+
+    class IngredientCatalogue {
     }
 
     CatalogueContentManager --> Inventory : loads
@@ -56,8 +57,10 @@ package storage {
     Inventory --> Ingredient : contains
     RecipeBook --> Recipe : contains
     Recipe --> Ingredient : contains
-    Ingredient ..> String : parses
-    Ingredient ..> int : parses
+    Inventory ---|> IngredientCatalogue
+    RecipeBook --|> Catalogue
+    Recipe --|> Catalogue
+    IngredientCatalogue --|> Catalogue
 
     CatalogueContentManager --> "Parser" : Uses
 }
