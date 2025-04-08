@@ -124,7 +124,6 @@ Each screen has its own set of commands, described below.
 [Available in all Screens]
 - Pressing **Ctrl+Z** or **Ctrl+C** will signal the end of input.
 - The program will exit immediately with the message: `No input detected. Exiting...`
-- This is an alternative to typing the `bye` command to exit the application.
 
 **Format:** _(Ctrl+Z / Ctrl+C during command input)_
 
