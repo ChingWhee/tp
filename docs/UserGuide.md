@@ -18,7 +18,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
   - [Finding an Ingredient: `find`](#-finding-an-ingredient-find)
   - [Adding an Ingredient: `add`](#-adding-an-ingredient-add)
   - [Deleting an Ingredient: `delete`](#-deleting-an-ingredient-delete)
-  - [Editing an Ingredient: `edit`](#-editing-an-ingredient-edit) 
+  - [Editing an Ingredient: `edit`](#%EF%B8%8F-editing-an-ingredient-edit) 
 - [🍳 RecipeBook Commands](#-recipebook-commands)
   - [Listing Recipes: `list`](#listing-ingredients-list)
   - [Finding a Recipe: `find`](#-finding-a-recipe-find)
@@ -33,7 +33,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [💾 Data Storage](#-data-storage)
   - [File Format: `inventory.txt`](#-file-format-inventorytxt)
   - [File Format: `recipe_book.txt`](#-file-format-recipe_booktxt)
-- [⚠️ Handling Large Files or Quantities](#-handling-large-files-or-quantities)
+- [⚠️ Handling Large Files or Quantities](#%EF%B8%8F-handling-large-files-or-quantities)
 - [📋 Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
