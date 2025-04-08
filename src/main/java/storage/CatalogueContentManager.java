@@ -164,7 +164,7 @@ public class CatalogueContentManager {
     }
 
     /**
-     * Reads raw lines from a catalogue file.
+     * Reads raw lines from a catalogue file line-by-line.
      *
      * @param filePath the path to the file
      * @return a list of strings read from the file, or {@code null} if reading fails
@@ -174,17 +174,29 @@ public class CatalogueContentManager {
             System.err.println("Error: File path is null.");
             return null;
         }
+
+        List<String> lines = new ArrayList<>();
         try {
             checkDirectoryExistence();
 
             if (Files.exists(filePath)) {
-                return Files.readAllLines(filePath);
+                int count = 0;
+                try (var reader = Files.newBufferedReader(filePath)) {
+                    String line;
+                    //100recipes with 100 ingredients each, and 100 ingredients in inventory
+                    while ((line = reader.readLine()) != null && count < 10100) {
+                        lines.add(line);
+                        count += 1;
+                    }
+                }
             }
         } catch (Exception e) {
             System.err.println("Error loading file: " + e.getMessage());
+            return null;
         }
-        return null;
+        return lines;
     }
+
 
     /**
      * Saves a catalogue to its corresponding file.
