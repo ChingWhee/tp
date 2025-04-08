@@ -118,12 +118,12 @@ public class ConflictHelper {
      * Options provided to the user:
      * <ul>
      *     <li>Type <code>0</code> to add the new recipe as a separate entry.</li>
-     *     <li>Type a number between <code>1</code> and <code>n</code> (where <code>n</code> is the number of similar recipes)
+     *     <li>Type a number between <code>1</code> and <code>n</code> (where [n] is the number of similar recipes)
      *         to select an existing recipe for potential reference or editing.</li>
      *     <li>Type <code>-1</code> to cancel the operation.</li>
      * </ul>
      *
-     * @param similarRecipe an {@link ArrayList} of similar {@link Recipe} objects that may already exist in the recipe book
+     * @param similarRecipe an {ArrayList} of similar {Recipe} objects that may already exist in the recipe book
      * @param newRecipe the new {@link Recipe} object the user is attempting to add
      * @return an integer representing the user's choice:
      *         <ul>
@@ -152,8 +152,9 @@ public class ConflictHelper {
                 if (choice >= -1 && choice <= similarRecipe.size()) {
                     return choice;
                 } else {
-                    System.out.println("Invalid input. Please enter a number between -1 and " + similarRecipe.size() + ".");
-                }
+                    String message = "Invalid input. Please enter a number between -1 and " + similarRecipe.size() + ".";
+                    System.out.println(message);
+                }g
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input: " + e.getMessage());
             }
