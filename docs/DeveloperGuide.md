@@ -155,6 +155,7 @@ It integrates closely with other components such as:
 It allows the user to interact with the system in an intuitive way, providing clear instructions and feedback at every step.
 
 ### Model Component
+<img src="diagrams/model.svg" alt="Model UML diagram" width="100%"/>
 
 The **Model** component stores the application's core data and implements the logic for handling recipes and ingredients.
 
