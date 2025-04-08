@@ -33,7 +33,7 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [💾 Data Storage](#-data-storage)
   - [File Format: `inventory.txt`](#-file-format-inventorytxt)
   - [File Format: `recipe_book.txt`](#-file-format-recipe_booktxt)
-- [Handling Large Files or Quantities](#handling-large-files-or-quantities)
+- [⚠️ Handling Large Files or Quantities](##-handling-large-files-or-quantities)
 - [📋 Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
@@ -408,7 +408,7 @@ If similar ingredients are found, you will be prompted to:
 - **Select an existing match** → Decrease the quantity of the selected ingredient.
 - **Type `-1`** → Cancel the operation.
 
-### Adding, Deleting or Editing similar Recipes (based on substring match)
+### Adding or Deleting similar Recipes (based on substring match)
 
 When you try to add or edit a recipe, KitchenCTRL will check if any similar recipes already exist if an exact match is not found.
 
@@ -416,12 +416,6 @@ When you try to add or edit a recipe, KitchenCTRL will check if any similar reci
 If similar recipe names are found, you will be prompted to:
 
 - **Add as new** → Creates a new recipe and jumps to editing the new recipe.
-- **Select an existing match** → Jumps to editing the selected existing recipe.
-- **Cancel** → Does nothing and returns to the previous state.
-
-#### ✏️ Edit Recipe
-If similar recipe names are found, you will be prompted to:
-
 - **Select an existing match** → Jumps to editing the selected existing recipe.
 - **Cancel** → Does nothing and returns to the previous state.
 
@@ -517,6 +511,7 @@ To maintain performance and prevent abuse, the system enforces strict upper limi
 Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, quantity > 99,999), the following rules apply:
 - **Only the first items** that fit in any list will be loaded. (eg. only the first 100 ingredients will be loaded into inventory);+
 - Any ingredient or recipe exceeding size or quantity limits will be **ignored entirely** during parsing.
+- An error message will be shown to the user, before the ASCII art, to inform them of any skipped entries
 
 > ⚠️ This ensures that manual tampering or unintended data corruption does not crash the application or create unstable states.
 

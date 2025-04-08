@@ -424,7 +424,7 @@ public class Parser {
         if (KitchenCTRL.getCurrentScreen() == RECIPE){
             targetRecipe = KitchenCTRL.getActiveRecipe();
             return new CookRecipeCommand(targetRecipe);
-        };
+        }
 
         //expected args format is name of recipe
         RecipeBook recipeBook = KitchenCTRL.getRecipeBook();
