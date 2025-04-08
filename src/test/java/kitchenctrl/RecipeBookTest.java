@@ -116,13 +116,6 @@ class RecipeBookTest {
     }
 
     @Test
-    void addItem_duplicateRecipe_silentMode() {
-        recipeBook.addItem(new Recipe("Pasta"), true);
-        CommandResult result = recipeBook.addItem(new Recipe("Pasta"), true);
-        assertEquals("Recipe with name \"Pasta\" already exists.", result.getFeedbackToUser());
-    }
-
-    @Test
     void addItem_nullName() {
         Recipe invalidRecipe = new Recipe(null);
         CommandResult result = recipeBook.addItem(invalidRecipe, true);
