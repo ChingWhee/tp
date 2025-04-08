@@ -5,13 +5,18 @@ skinparam classAttributeIconSize 0
 package model.catalogue {
 
     class "{abstract} \n Catalogue<T>" {
-        - items: ArrayList<T>
-        + getItems(): ArrayList<T>
-        + updateItem(oldItem: T, newItem: T)
-        + listItems(): CommandResult
-        + getCatalogueContent(): String
-        + addItem(item: T): CommandResult
-        + deleteItem(item: T): CommandResult
+        - items : ArrayList<T>
+        + Catalogue()
+        + getItems() : ArrayList<T>
+        + updateItem(oldItem : T, newItem : T)
+        + listItems() : CommandResult
+        + getCatalogueContent() : String
+        + addItem(item : T, isSilenced : boolean) : CommandResult
+        + deleteItem(item : T) : CommandResult
+        + findItem(query : String, extractor : Function<T, String>) : CommandResult
+        + findItem(query : String) : CommandResult
+        + getType() : String
+        + getItemByName(name : String) : T
     }
 
     class RecipeBook {
@@ -27,16 +32,18 @@ package model.catalogue {
         + searchSimilarRecipe(recipe: Recipe): ArrayList<Recipe>
     }
 
-    "{abstract} \n Catalogue<T>" <|-- RecipeBook
-}
-
-package model {
     class Recipe {
-        - recipeName: String
-        + getRecipeName(): String
+        - recipeName : String
+        + Recipe()
+        + Recipe(name : String)
+        + Recipe(name : String, ingredients : ArrayList<Ingredient>)
+        + getRecipeName() : String
+        + getType() : String
+        + listItems() : CommandResult
+        + toString() : String
     }
 
-    class Ingredient
+    "{abstract} \n Catalogue<T>" <|-- RecipeBook
 }
 
 package commands {
@@ -47,14 +54,22 @@ package commands {
 }
 
 package ui.inputparser {
-    class InputParser {
-        + getUserChoiceForAddRecipe(recipeList: List<Recipe>, recipe: Recipe): int
-        + getUserChoiceForDeleteRecipe(recipeList: List<Recipe>, recipe: Recipe): int
+    class ConflictHelper {
+        - <u>scanner : Scanner
+        - <u>getContextLabel() : String
+        + <u>setScanner(testScanner: Scanner)
+        + <u>getUserChoiceForAddIngredient(similarIngredient: ArrayList<Ingredient>, newIngredient: Ingredient) : int
+        + <u>getUserChoiceForDeleteIngredient(similarIngredient: ArrayList<Ingredient>, newItem: Ingredient) : int
+        + <u>getUserChoiceForEditIngredient(similarIngredient: ArrayList<Ingredient>, newItem: Ingredient) : int
+        + <u>getUserChoiceForAddRecipe(similarRecipe: ArrayList<Recipe>, newRecipe: Recipe) : int
+        + <u>getUserChoiceForDeleteRecipe(similarRecipe: ArrayList<Recipe>, newRecipe: Recipe) : int
+        + <u>getUserChoiceForEditRecipe(similarRecipe: ArrayList<Recipe>, newRecipe: Recipe) : int
+        - <u>parseQuantity(quantityStr: String) : double
     }
 }
 
 RecipeBook --> Recipe
 RecipeBook --> CommandResult
-RecipeBook --> InputParser
+RecipeBook -> ConflictHelper
 
 @enduml
