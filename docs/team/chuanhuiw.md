@@ -36,7 +36,7 @@ Given below are my contributions to the project:
     * User Guide:
         * Added usage instructions for the `find` command in the Inventory, RecipeBook, and Recipe screens.
     * Developer Guide:
-        * Documented the design, implementation, Architecture diagram, and PlantUML object diagram for `RecipeBook`.
+        * Documented the design, implementation, Architecture diagram, and PlantUML diagram for `RecipeBook`.
         * Documented new methods including `findItem`.
 
 * **Testing**:
