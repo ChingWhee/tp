@@ -419,6 +419,7 @@ If similar recipe names are found, you will be prompted to:
 
 - **Delete the similar recipe** → Returns back to RECIPEBOOK screen.
 - **Cancel**→ Does nothing and returns to the previous state.
+
 ---
 
 
