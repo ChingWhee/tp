@@ -29,11 +29,11 @@ Users can add, delete, and list ingredients, as well as manage recipes efficient
 - [🍳 Cooking a Recipe: `cook`](#-cooking-a-recipe-cook)
 - [🔍 Handling Similar Entries](#-handling-similar-entries)
   - [Similar Ingredients](#adding-deleting-or-editing-similar-ingredients-based-on-substring-match)
-  - [Similar Recipes](#adding-deleting-or-editing-similar-recipes-based-on-substring-match)
+  - [Similar Recipes](#adding-or-deleting-similar-recipes-based-on-substring-match)
 - [💾 Data Storage](#-data-storage)
   - [File Format: `inventory.txt`](#-file-format-inventorytxt)
   - [File Format: `recipe_book.txt`](#-file-format-recipe_booktxt)
-- [⚠️ Handling Large Files or Quantities](##-handling-large-files-or-quantities)
+- [⚠️ Handling Large Files or Quantities](#-handling-large-files-or-quantities)
 - [📋 Command Summary](#-command-summary)
 - [Conclusion](#conclusion)
 
