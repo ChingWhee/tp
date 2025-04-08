@@ -210,7 +210,7 @@ public class Ui {
         System.out.flush();
         if (!scanner.hasNextLine()) {
             System.out.println("No input detected. Exiting...");
-            return "";
+            System.exit(0);
         }
         return scanner.nextLine().trim();
     }
