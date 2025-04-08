@@ -49,7 +49,7 @@ The complete architecture consists of:
     ensuring the application state is maintained across sessions.
 
 ### Commands Component
-<img src="diagrams/logic.png" alt="Logic UML diagram" width="100%"/>
+<img src="diagrams/logic.svg" alt="Logic UML diagram" width="100%"/>
 
 The `commands` package encapsulates all user-triggered operations in the application. Each class in this package 
 represents a specific action the user can perform, such as editing data, navigating between screens, or executing 
@@ -93,7 +93,7 @@ By inheriting from the Command class, each command ensures consistency and adher
 principles. The CookRecipeCommand is a concrete example of how commands are implemented to perform specific tasks.
 
 ### UI Component
-<img src="diagrams/ui.png" alt="UI UML diagram" width="100%"/>
+<img src="diagrams/ui.svg" alt="UI UML diagram" width="100%"/>
 
 The **UI Component** of KitchenCTRL is responsible for handling all input/output interactions with the user.
 It manages displaying messages, prompts, and results, as well as reading user input.
@@ -270,7 +270,7 @@ The `Recipe` class represents a named list of ingredients required to make somet
 
 The `RecipeBook` is a subclass of `Catalogue<Recipe>`. It stores and manages user-created recipes.
 
-<img src="diagrams/recipebook.png" alt="RecipeBook Class Diagram" width="100%"/>
+<img src="diagrams/recipebook.svg" alt="RecipeBook Class Diagram" width="100%"/>
 
 **Attributes:**
 - `items`: `ArrayList<Recipe>` – List of saved recipes.
@@ -345,7 +345,7 @@ Each recipe ends with a **blank line**.
 ### Program Run Sequence
 
 #### Command handling
-<img src="diagrams/sequencediagram(Add).png" alt="AddCommand diagram" width="100%"/>
+<img src="diagrams/sequencediagram(Add).svg" alt="AddCommand diagram" width="100%"/>
 
 User input is first captured by the `Ui.getUserCommand()` method, which is called from the `KitchenCTRL` class (not shown in the sequence diagram). The input string is then passed to the `Parser#parseCommand()` method to identify the command type and generate the appropriate `Command` object.
 Once a `Command` object is created, the system invokes the `execute()` method of that command. The result of the execution is encapsulated in a `CommandResult` object, which the UI uses to print the appropriate response back to the user.
@@ -375,7 +375,7 @@ RecipeBook recipeBook = contentManager.loadRecipeBook();
 contentManager.saveToFile(inventory);
 ```
 
-<img src="diagrams/storage.png" alt="Storage UML diagram" width="100%"/>
+<img src="diagrams/storage.svg" alt="Storage UML diagram" width="100%"/>
 
 ---
 
