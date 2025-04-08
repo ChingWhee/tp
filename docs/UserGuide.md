@@ -120,6 +120,16 @@ Each screen has its own set of commands, described below.
 
 ---
 
+### End of Input (Ctrl+Z / Ctrl+C)
+[Available in all Screens]
+- Pressing **Ctrl+Z** or **Ctrl+C** will signal the end of input.
+- The program will exit immediately with the message: `No input detected. Exiting...`
+- This is an alternative to typing the `bye` command to exit the application.
+
+**Format:** _(Ctrl+Z / Ctrl+C during command input)_
+
+---
+
 ### Display Commands: `help`
 [Available in all Screens]
 - Displays a list of supported commands in current screen.
@@ -127,6 +137,7 @@ Each screen has its own set of commands, described below.
 - **Format:** `help`
 
 ---
+
 ## 📦 Inventory & Recipe CRUD Commands
 
 Once you're in the `inventory` or `edit recipe` screen:
@@ -497,8 +508,8 @@ To maintain performance and prevent abuse, the system enforces strict upper limi
 - Attempts to add more than the allowed number will be ignored, and the user will be notified if the operation is done via UI.
 
 ### Save File Restrictions
-Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, or quantity > 99,999), the following rules apply:
-- **Only the first 100 valid items** in any list will be loaded.
+Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, quantity > 99,999), the following rules apply:
+- **Only the first items** that fit in any list will be loaded. (eg. only the first 100 ingredients will be loaded into inventory);+
 - Any ingredient or recipe exceeding size or quantity limits will be **ignored entirely** during parsing.
 - An error message will be shown to the user, before the ASCII art, to inform them of any skipped entries
 
