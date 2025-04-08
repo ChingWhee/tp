@@ -514,8 +514,8 @@ To maintain performance and prevent abuse, the system enforces strict upper limi
 - Attempts to add more than the allowed number will be ignored, and the user will be notified if the operation is done via UI.
 
 ### Save File Restrictions
-Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, or quantity > 99,999), the following rules apply:
-- **Only the first 100 valid items** in any list will be loaded.
+Users are discouraged from manually modifying save files. If corrupted or oversized data is loaded (e.g., ingredients > 100, quantity > 99,999), the following rules apply:
+- **Only the first items** that fit in any list will be loaded. (eg. only the first 100 ingredients will be loaded into inventory);+
 - Any ingredient or recipe exceeding size or quantity limits will be **ignored entirely** during parsing.
 
 > ⚠️ This ensures that manual tampering or unintended data corruption does not crash the application or create unstable states.
