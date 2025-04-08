@@ -1,11 +1,16 @@
 package model.catalogue;
 
 import commands.CommandResult;
+import commands.EditRecipeCommand;
 import ui.inputparser.ConflictHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static controller.KitchenCTRL.setActiveRecipe;
+import static controller.KitchenCTRL.setCurrentScreen;
+import static controller.ScreenState.RECIPE;
 
 /**
  * A RecipeBook that manages a collection of recipes with CRUD operations.
@@ -138,8 +143,8 @@ public class RecipeBook extends Catalogue<Recipe> {
                         System.out.println("Warning: A similar recipe already exists.");
                         System.out.println("Automatically switching to editing mode.");
                     }
-                    return new CommandResult("Recipe with name \"" +
-                        existing.getRecipeName() + "\" already exists.");
+                    setCurrentScreen(RECIPE);
+                    return new EditRecipeCommand(recipe.getRecipeName()).execute();
                 }
             }
 
@@ -152,9 +157,13 @@ public class RecipeBook extends Catalogue<Recipe> {
             int choice = ConflictHelper.getUserChoiceForAddRecipe(similarRecipes, recipe);
             if (choice == 0) {
                 addRecipe(recipe);
-                return new CommandResult(recipe.getRecipeName() + " added to recipe book.");
+                System.out.println(recipe.getRecipeName() + " added to recipe book, now editing");
+                setCurrentScreen(RECIPE);
+                return new EditRecipeCommand(recipe.getRecipeName()).execute();
+            }  else if (choice > 0 && choice <= similarRecipes.size()) {
+                setCurrentScreen(RECIPE);
+                return new EditRecipeCommand(similarRecipes.get(choice - 1).getRecipeName()).execute();
             }
-
             return new CommandResult("Operation canceled.");
         } catch (Exception e) {
             return new CommandResult("Error adding recipe: " + e.getMessage());

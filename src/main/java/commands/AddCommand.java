@@ -89,9 +89,7 @@ public class AddCommand extends Command {
                         yield new CommandResult("RecipeBook is already full!", null);
                     };
                     Recipe recipe = new Recipe(name);
-                    recipeBook.addItem(recipe, false);
-                    setCurrentScreen(RECIPE);
-                    yield new EditRecipeCommand(recipe.getRecipeName()).execute();
+                    yield recipeBook.addItem(recipe, false);
                 }
                 yield new CommandResult("Invalid catalogue for recipe book operation.", null);
             }
